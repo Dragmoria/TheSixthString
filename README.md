@@ -6,6 +6,7 @@
   - [Installatie](#installatie)
   - [Configuratie](#configuratie)
   - [Onderdelen](#onderdelen)
+  - [Git workflow](#git-workflow)
 
 ## Inleiding
 
@@ -49,3 +50,8 @@ Dit project bevat de volgende onderdelen:
 - [Database](./docs/Database/Database.md) // info over de database namespace.
 - [MVCCore](./docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
 - [EnvUtility](./docs/EnvUtility.md) // info over de EnvUtility namespace.
+
+## Git workflow
+
+Dit project maakt gebruik van de volgende git workflow: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow.
+We hebben 1 long term branch genaamd `main`. Deze branch is de branch die live staat. De `main` branch is de enige branch die niet direct aangepast mag worden. Om een nieuwe feature te maken moet er een nieuwe branch gemaakt worden vanaf `main`. Deze branch moet de naam van de feature krijgen. Als de feature klaar is moet er een pull request gemaakt worden van de feature branch naar `main`. Deze pull request moet door een andere developer worden goedgekeurd voordat de feature branch gemerged mag worden met `main`. Als de feature branch is gemerged met `main` kan de feature branch verwijderd worden als dit gewenst is.
