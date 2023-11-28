@@ -1,0 +1,32 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "127.0.0.1",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "LocalMySQL",
+      "database": "simplefinancemanager",
+      "username": "oldUser",
+      "connectionTimeout": 15,
+      "askForPassword": true
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3310,
+      "driver": "MySQL",
+      "name": "DockerMySql",
+      "group": "Docker",
+      "database": "php_docker",
+      "username": "php_docker"
+    }
+  ]
+}
