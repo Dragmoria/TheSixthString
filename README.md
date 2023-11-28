@@ -9,12 +9,12 @@
 
 ## Inleiding
 
-
+Dit project is een webshop voor een fictief bedrijf genaamd The Sixth String. Dit project is gemaakt als opdracht voor de eerste periode van de opleiding HBO-ICT aan Windesheim Zwolle.
 
 ## Requirements
 
 Om deze webshop te kunnen draaien heb je de volgende software nodig:
-- Docker
+- Docker https://docs.docker.com/desktop/install/windows-install/
 
 > **Opmerking:** Hoewel Docker niet strikt noodzakelijk is, maakt het gebruik ervan het proces aanzienlijk eenvoudiger.
 
@@ -25,12 +25,11 @@ Om deze starter kit te gebruiken kun je de volgende stappen volgen. Deze stappen
 1. Downoad de nieuwste release van deze starter kit.
 2. Plaats de bestanden waar je het project wilt hebben.
 3. Pak de bestanden uit.
-4. Open een terminal in de root van het project.
-5. Voer het volgende commando uit: 
-    ```bash
-    bash scripts/CreateNewProject.sh
-    ```
-6. Volg de instructies op het scherm.
+4. Check of je inderdaad docker hebt geïnstalleerd.
+5. Open een terminal in de root van het project.
+6. Voer het volgende commando uit: `docker-compose up -d --build`
+7. Wacht tot de docker containers zijn opgestart.
+8. Open een browser en ga naar `localhost:8080` voor de webshop of `localhost:8081` voor phpmyadmin.
 
 ## Configuratie
 
@@ -44,7 +43,7 @@ Dit project heeft weinig configuratie nodig. De enige configuratie die nodig is,
 
 ## Onderdelen
 
-Deze starter kit bevat de volgende onderdelen:
+Dit project bevat de volgende onderdelen:
 - [Generiek](./docs/Generiek.md) // info over wat al is opgezet in de starter kit.
 - [Docker](./docs/Docker.md) // info over de docker setup.
 - [Database](./docs/Database/Database.md) // info over de database namespace.
