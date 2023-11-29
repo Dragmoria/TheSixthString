@@ -46,11 +46,11 @@ Dit project heeft weinig configuratie nodig. De enige configuratie die nodig is,
 ## Onderdelen
 
 Dit project bevat de volgende onderdelen:
-- [Generiek](./docs/Generiek.md) // info over php en wat globale opzet die al zijn gedaan in het project.
-- [Docker](./docs/Docker.md) // info over de docker setup.
-- [Database](./docs/Database/Database.md) // info over de database namespace.
-- [MVCCore](./docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
-- [EnvUtility](./docs/EnvUtility.md) // info over de EnvUtility namespace.
+- [Generiek](./Docs/Generiek.md) // info over php en wat globale opzet die al zijn gedaan in het project.
+- [Docker](./Docs/Docker.md) // info over de docker setup.
+- [Database](./Docs/Database/Database.md) // info over de database namespace.
+- [MVCCore](./Docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
+- [EnvUtility](./Docs/EnvUtility.md) // info over de EnvUtility namespace.
 
 ## Git workflow
 
