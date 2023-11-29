@@ -1,4 +1,5 @@
 # The Sixth String webshop
+> **Tijdsduur:** 3 minuten
 
 ## Inhoudsopgave
   - [Inhoudsopgave](#inhoudsopgave)
@@ -21,7 +22,7 @@ Om deze webshop te kunnen draaien heb je de volgende software nodig:
 
 ## Installatie
 
-Om deze starter kit te gebruiken kun je de volgende stappen volgen. Deze stappen zullen een nieuw project aanmaken met de starter kit:
+Om deze website te gebruiken kun je de volgende stappen volgen. Deze stappen zullen het project opstarten in docker:
 
 1. Downoad de nieuwste release van deze starter kit.
 2. Plaats de bestanden waar je het project wilt hebben.
@@ -45,7 +46,7 @@ Dit project heeft weinig configuratie nodig. De enige configuratie die nodig is,
 ## Onderdelen
 
 Dit project bevat de volgende onderdelen:
-- [Generiek](./docs/Generiek.md) // info over wat al is opgezet in de starter kit.
+- [Generiek](./docs/Generiek.md) // info over php en wat globale opzet die al zijn gedaan in het project.
 - [Docker](./docs/Docker.md) // info over de docker setup.
 - [Database](./docs/Database/Database.md) // info over de database namespace.
 - [MVCCore](./docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
