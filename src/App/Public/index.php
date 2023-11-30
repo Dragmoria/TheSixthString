@@ -8,7 +8,7 @@ const VIEWS_PATH = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIREC
 // Adds a global constant for the path to the Runtime folder to use when you want to cache something.
 const RUNTIME_PATH = BASE_PATH . 'Runtime' . DIRECTORY_SEPARATOR;
 // Add a global constant for the namespace of the components to use when adding a component to a view.
-const COMPONENT_NAMESPACE = 'HTTP\\Controllers\\Components\\';
+const COMPONENT_NAMESPACE = 'Http\\Controllers\\Components\\';
 
 // Register the autoloader so you don't have to manually require files anymore.
 spl_autoload_register(function ($class) {

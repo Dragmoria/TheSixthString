@@ -21,10 +21,10 @@ function view(string $view, array $data = []): View {
  * @param string $componentName Fully qualified name of the component class to use.
  * @return string Returns the output of the component as a string. Will be the html coming from the component's get method.
  */
-function component(string $componentName): string {
+function component(string $componentName, ?array $data): string {
     $component = new $componentName();
 
-    return $component->get();
+    return $component->get($data);
 }
 
 /**

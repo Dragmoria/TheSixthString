@@ -13,5 +13,5 @@ interface Component {
      *
      * @return string
      */
-    public function get(): string;
+    public function get(?array $data): string;
 }
