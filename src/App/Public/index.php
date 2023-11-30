@@ -22,4 +22,4 @@ require_once BASE_PATH . '/Lib/MVCCore/Functions.php';
 require_once BASE_PATH . '/Helperfunctions.php';
 
 // Require the bootstrap file so we can initialize the application and run it.
-require_once BASE_PATH . 'bootstrap.php';
+require_once BASE_PATH . 'bootstrapper.php';
