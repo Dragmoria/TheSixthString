@@ -2,7 +2,6 @@
 
 namespace Lib\MVCCore;
 
-use Lib\MVCCore\Routers\HTTPStatusCodes;
 use Lib\MVCCore\Routers\Request;
 use Lib\MVCCore\Routers\Responses\Response;
 
@@ -43,18 +42,6 @@ abstract class Controller {
      */
     public function setRequest(Request $request): void {
         $this->currentRequest = $request;
-    }
-    
-    /**
-     * Used to redirect the client to the given url with a specific status code. If no status code is given, it will default to 200.
-     *
-     * @param string $url The url to redirect to.
-     * @param HTTPStatusCode $statusCode The status code to use for the redirect.
-     * @return void
-     */
-    protected function redirect(string $url, HTTPStatusCodes $statusCode = HTTPStatusCodes::OK): void {
-        $currentResponse = new Response();
-        $currentResponse->addHeader('Location', $url)->setStatusCode($statusCode);
     }
 
     /**
