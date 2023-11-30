@@ -184,4 +184,13 @@ class Request {
         }
         return $queryParams;
     }
+
+    /**
+     * Predicate to check if the post object wants json as a response.
+     *
+     * @return boolean
+     */
+    public function wantsJson(): bool {
+        return isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
+    }
 }
