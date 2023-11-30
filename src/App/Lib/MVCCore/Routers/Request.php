@@ -22,9 +22,11 @@ class Request {
     public static function getInstance(): Request {
         if (self::$instance === null) {
             self::$instance = new Request();
-
             
-            self::$instance->postObject = new PostObject();
+            // need to check the method and then create the post object if it is post
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                self::$instance->postObject = new PostObject();
+            }
         }
 
         return self::$instance;
