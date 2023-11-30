@@ -8,4 +8,3 @@
 composer.lock
 /src/App/Runtime/*
 /src/app/.env
-/src/App/Content/Views
