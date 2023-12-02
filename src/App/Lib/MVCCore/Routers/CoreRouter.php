@@ -128,7 +128,8 @@ class CoreRouter implements Router {
                         $middlewareResponse = $middlewareInstance->handle();
                         // if the middleware returns a response we will send it and stop the execution of the route
                         if ($middlewareResponse !== null) {
-                            $middlewareResponse->send();
+                            $this->abort($middlewareResponse);
+                            return;
                         }
                     }
                 }
