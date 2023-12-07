@@ -1,0 +1,1 @@
+<p>This is a boring partial. A partial is usually just some plain html, potentially some js.</p>
