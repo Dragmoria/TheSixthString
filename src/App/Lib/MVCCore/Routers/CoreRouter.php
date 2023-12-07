@@ -141,7 +141,13 @@ class CoreRouter implements Router {
 
                 $controller->setRequest($request);
                 // passes the id to the controller, if the array is emtpy it will still pass it but the controller method doesn't care about it
-                $controller->$controllerMethod(...$matches);
+                $controllerReturn = $controller->$controllerMethod(...$matches);
+
+                // if the controller returns a response we will send it and stop the execution of the route
+                if ($controllerReturn !== null) {
+                    $controllerReturn->send();
+                    return;
+                }
 
                 $response = $controller->getResponse();
                 // if the controller returns a response we will send it and stop the execution of the route
