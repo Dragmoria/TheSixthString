@@ -1,1 +1,1 @@
-<div>404: File not found.</div>
+<div>404: File not found. From its own view</div>

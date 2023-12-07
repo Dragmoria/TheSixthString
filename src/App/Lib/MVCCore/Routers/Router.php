@@ -71,7 +71,7 @@ interface Router {
      * @return void
      */
     public function middleware(string $middlewareName, array $middlewareParameter = null): void;
-
+    
     /**
      * Enables the ability to add a view to be rendered when a specific status code is returned.
      *
