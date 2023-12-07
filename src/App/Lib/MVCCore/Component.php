@@ -9,7 +9,7 @@ namespace Lib\MVCCore;
  */
 interface Component {
      /**
-      * Undocumented function
+      * Returns the component's html.
       *
       * @param array|null $data Data to pass to the component.
       * @return string

@@ -147,4 +147,43 @@ class PostObject {
     public function getPostErrors(): ?array {
         return $_SESSION['flash']['errors'] ?? null;
     }
+
+    /**
+     * Adds a success message to the flash session.
+     *
+     * @param string $key An identifier for the success message.
+     * @param string $message The success message you might want to display to the user.
+     * @return void
+     */
+    public function flashPostSuccess(string $key, string $message): void {
+        $_SESSION['flash']['success'][$key] = $message;
+    }
+
+    /**
+     * Predicate to check if the session flash has any post successes.
+     *
+     * @return boolean 
+     */
+    public function hasPostSuccess(): bool {
+        return isset($_SESSION['flash']['success']);
+    }
+
+    /**
+     * Will return a post success if it exists.
+     *
+     * @param string $key The key of the success to get.
+     * @return string|null
+     */
+    public function getPostSuccess(string $key): ?string {
+        return $_SESSION['flash']['success'][$key] ?? null;
+    }
+
+    /**
+     * Will return all post successes if there are any.
+     *
+     * @return array|null
+     */
+    public function getPostSuccesses(): ?array {
+        return $_SESSION['flash']['success'] ?? null;
+    }
 }
