@@ -14,8 +14,10 @@ class Authenticate implements Middleware {
 
     public function handle(): ?HTTPStatusCodes {
         if (!isset($_SESSION["user"]["role"])) {
-            redirect('/Login');
-            exit;
+            // redirect('/Login');
+            // exit;
+
+            return HTTPStatusCodes::UNAUTHORIZED;
         }
 
         if (!in_array($_SESSION["user"]["role"], $this->acceptedRoles)) {

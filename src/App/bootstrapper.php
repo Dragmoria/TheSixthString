@@ -26,7 +26,8 @@ $container->registerClass(DailyMessageModel::class)->asSingleton();
 $container->registerClass(ProductsModel::class)->asSingleton();
 
 $router = Application::getRouter();
-$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
+$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, view(VIEWS_PATH . '/Errors/404.php')->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
+$router->registerGenericStatusView(view(VIEWS_PATH . '/Errors/SomethingWentWrong.php')->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
 // Add routes below here.
 
 $router->get('/', [HomeController::class, 'index']);
