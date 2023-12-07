@@ -82,4 +82,6 @@ abstract class BaseResponse implements Response {
 
         return $this;
     }
+
+    public abstract function setBody(mixed $body): Response;
 }

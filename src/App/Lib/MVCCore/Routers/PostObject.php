@@ -22,7 +22,7 @@ class PostObject {
     }
 
     /**
-     * Will return the old input data if it exists.
+     * Will return the flashed data if it exists.
      *
      * @return array|null
      */
@@ -58,23 +58,12 @@ class PostObject {
     }
 
     /**
-     * Predicate to check if the post object has a file with the given key.
+     * Predicate to check if the post object has any files.
      *
-     * @param string $key The key to check for.
      * @return boolean
      */
-    public function hasFile(string $key): bool {
-        return isset($_FILES[$key]) && $_FILES[$key]['error'] == 0;
-    }
-
-    /**
-     * Will return a file from a post with the given key if it exists.
-     *
-     * @param string $key The key of the file to get.
-     * @return array|null
-     */
-    public function file(string $key): ?array {
-        return $_FILES[$key] ?? null;
+    public function hasFiles(): bool {
+        return isset($_FILES);
     }
 
     /**
@@ -117,5 +106,45 @@ class PostObject {
      */
     public function isJson(): bool {
         return isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false;
+    }
+
+    /**
+     * Adds an error message to the flash session.
+     *
+     * @param string $key An identifier for the error.
+     * @param string $message The error message you might want to display to the user.
+     * @return void
+     */
+    public function flashPostError(string $key, string $message): void {
+        $_SESSION['flash']['errors'][$key] = $message;
+    }
+
+    /**
+     * Predicate to check if the session flash has any post errors.
+     *
+     * @param string $key The key to check for.
+     * @return boolean
+     */
+    public function hasPostErrors(): bool {
+        return isset($_SESSION['flash']['errors']);
+    }
+
+    /**
+     * Will return a post error if it exists.
+     *
+     * @param string $key The key of the error to get.
+     * @return string|null
+     */
+    public function getPostError(string $key): ?string {
+        return $_SESSION['flash']['errors'][$key] ?? null;
+    }
+
+    /**
+     * Will return all post errors if there are any.
+     *
+     * @return array|null
+     */
+    public function getPostErrors(): ?array {
+        return $_SESSION['flash']['errors'] ?? null;
     }
 }
