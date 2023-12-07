@@ -10,6 +10,10 @@
 ## Inleiding
 Voor de webshop zullen wij een vorm van MVC toepassen. We hebben een "package" gemaakt voor MVC. Deze package heet MVCCore. Deze package is wat functionaliteit gebaseerd op Laravel. De bedoeling is doormiddel van deze package het makkelijker is om MVC toe te passen in de webshop.
 
+Er is een demo beschikbaar. Branch Demonstration.
+
+Voor een quick guide kun je kijken naar de [Quick Guide](./QuickGuide.md).
+
 ## MVC
 
 Het Model-View-Controller (MVC) patroon is een ontwerppatroon dat wordt gebruikt in softwareontwikkeling om de structuur en organisatie van een applicatie te verbeteren. Het helpt ontwikkelaars om de code beter te organiseren en de onderhoudbaarheid te vergroten.
@@ -69,6 +73,10 @@ De package die we hebben bestaat uit een aantal onderdelen. Ik zal deze onderdel
 8. [Controller](#controller)
 9. [Middleware](#middleware)
 10. [View](#view)
+11. [Partial / Component](#partial--component)
+    11.1 [Partial](#partial)
+    11.2 [Component](#component)
+
 
 ### Application
 De application class is het startpunt van de applicatie. Wanneer een request van de client binnenkomt wordt er in bootstrapper.php alles opgezet. Hier hang je services aan de container, voeg je routes toe aan de router en voeg je mogelijk middlewares toe aan de routes. De container en router worden dan allebei aan de Application class gebonden. Hierdoor kun je later op andere plekken in de applicatie de container en router gebruiken.
@@ -932,3 +940,75 @@ Een `Layout` is een html bestand dat de basis van je website bevat. Dit is bijvo
 <?php echo $content ?>
 ```
 De `$content` variabele is de plek waar de view wordt gerenderd. Dit is dus de plek waar de view wordt ingeladen.
+
+### Partial / Component
+Er zijn twee mogelijkheden om blokken HTML los aan te maken en ze in meerdere views te gebruiken. Dit zijn de `Partial` en de `Component`. De `Partial` is een stukje HTML dat je in een view kunt includen. De `Component` is een stukje HTML met zijn eigen mini controller. Die kan dus zelf ook data ophalen.
+
+#### Partial
+Een partial is dus een stukje HTML waar geen php in staat. Javascript en CSS kunnen hier wel in. Dit stukje HTML kun je dan in een view includen. Dit ziet er als volgt uit:
+```php
+<div>
+    <?php include VIEWS_PATH . 'Partials/Boring.partial.php' ?>
+</div>
+```
+Dit is dus hoe je een partial in een view plaats. De partial zelf ziet er dan misschien als volgt uit:
+```php
+<p>This is a boring partial. A partial is usually just some plain html, potentially some js.</p>
+```
+Partials plaats je in de map `src/App/Content/Views/Partials`. Dit is de standaard locatie voor deze bestanden. Een partial is wel altijd een PHP bestand. En volgt de volgende conventie: `Name.partial.php`. Dit is dus de naam van de partial met `.partial.php` erachter. Dit is om aan te geven dat het een partial is. Dit is niet verplicht maar wel handig voor de leesbaarheid.
+
+#### Component
+Een Component is een partial met data. Omdat er data in de HTML moet worden gezet heeft het een kleine controller nodig. Dit is wel een specifieke `Component` controller. De controller van een component extend daarom ook de `Component` class. Dit is een interface die belooft dat er altijd een `get` methode aanwezig is. Deze `get` methode is de methode die de uiteindelijk view teruggeeft. Om een component toe te voegen aan een view moet je eerst de controller van het component aanmaken in de volgende map `src/App/Http/Controller/Components`. Een component controller volgt de volgende conventia: `NameComponent.php`. Dit is dus de naam van de component met `Component.php` erachter. Dit is om aan te geven dat het een component is. Dit is niet verplicht maar wel handig voor de leesbaarheid. Een component controller ziet er als volgt uit:
+```php
+class ProductComponent implements Component {
+    public function get(?array $data): string {
+        return view(VIEWS_PATH . "Components/Product.component.php", [
+            'id' => $data['id'],
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price']
+        ])->render();
+    }
+}
+```
+Dit is een component dat de data uit de view die hem toevoegd meekrijgd. De html van dit component ziet er als volgt uit:
+```php
+<div class="card" style="width: 18rem;" onclick="window.location.href='/Products/<?php echo $id ?>'">
+    <div class="card-body">
+        <h5 class="card-title">product name: <?php echo $name ?></h5>
+        <p class="card-text">product id: <?php echo $id ?></p>
+        <p class="card-text">product description: <?php echo $description ?></p>
+        <p class="card-text">product price: <?php echo $price ?></p>
+    </div>
+</div>
+```
+En moet worden geplaats in de map `src/App/Content/Views/Components`. Dit is de standaard locatie voor deze bestanden. Een component is wel altijd een PHP bestand. En volgt de volgende conventie: `Name.component.php`. Dit is dus de naam van de component met `.component.php` erachter. Dit is om aan te geven dat het een component is. Dit is niet verplicht maar wel handig voor de leesbaarheid. Een component plaats je in een view als volgt:
+```php
+<div>
+    <?php echo component(Http\Controllers\Components\ProductComponent::class, $product) ?>
+</div>
+```
+Omdat de data uit de parent view komt moet je dit meegeven aan de component als parameters. Dit doe je door de data mee te geven als tweede parameter van de component functie. In dit geval was dat `$product`. Dit is een array met de data die de component nodig heeft. Dit moet wel altijd uit key value pairs bestaan. De key is de naam van de variabele die je in de component gebruikt en de value is de waarde van die variabele die je in de component gebruikt.
+
+<br>
+
+De controller van de view geeft dus de data mee aan de view en de view geeft het dan door aan het component. Het component kan ook zelf de data ophalen. Dit ziet er als volgt uit:
+```php
+class ProductComponent implements Component {
+    public function get(?array $data): string {
+        $product = Product::getById($data['id']);
+        return view(VIEWS_PATH . "Components/Product.component.php", [
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price
+        ])->render();
+    }
+}
+```
+Dit is een component dat de data zelf ophaald. Dit is handig als je een component hebt dat altijd dezelfde data ophaald. Dit is bijvoorbeeld een header of een footer. De HTML die hier bij hoort is hetzelfde als de voorgaande. De manier waarop je dit component in de parent view plaats is wel net iets anders omdat je in dit geval geen data mee hoeft te geven. Dit ziet er als volgt uit:
+```php
+<div>
+    <?php echo component(Http\Controllers\Components\ProductComponent::class) ?>
+</div>
+```
