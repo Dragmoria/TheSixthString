@@ -8,10 +8,11 @@ namespace Lib\MVCCore;
  * @package Lib\MVCCore
  */
 interface Component {
-    /**
-     * Will be used to render the component html inside a view.
-     *
-     * @return string
-     */
-    public function get(): string;
+     /**
+      * Undocumented function
+      *
+      * @param array|null $data Data to pass to the component.
+      * @return string
+      */
+    public function get(?array $data): string;
 }
