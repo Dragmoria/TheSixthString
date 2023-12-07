@@ -24,19 +24,20 @@ class HomeController extends Controller {
     public function index(): ?Response {
         $response = new ViewResponse();
 
-        $oldValue = $this->currentRequest->getPostObject()->oldBody()['textfield'] ?? null;
+        $postObject = $this->currentRequest->getPostObject();
+        $oldValue = $postObject->oldBody()['textfield'] ?? null;
 
         $response->setStatusCode(HTTPStatusCodes::OK)
         ->setBody(view(VIEWS_PATH . 'Index.view.php', [
             'messageOfTheDay' => $this->getMessageOfTheDay(),
             'products' => $this->getProducts(),
             'oldValue' => $oldValue,
-            'error' => $_SESSION['error'] ?? null,
-            'success' => $_SESSION['success'] ?? null
+            'error' => $postObject->getPostError('textfield'),
+            'success' => $postObject->getPostSuccess('textfield')
         ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'))
         ->addHeader('Content-Type', 'text/html');
 
-        $this->currentRequest->getPostObject()->flush();
+        $postObject->flush();
         unset($_SESSION['error'], $_SESSION['success']);
 
         return $response;
@@ -44,15 +45,15 @@ class HomeController extends Controller {
 
     public function put(): void {
         unset($_SESSION['error'], $_SESSION['success']);
-        // laten we valideren of de post wel alleen uit nummers bestaat want dat willen we schijnbaar.
-        $request = $this->currentRequest;
-        if (!is_numeric($request->getPostObject()->body()['textfield'])) {
-            $request->getPostObject()->flash();
-            $_SESSION['error'] = 'The textfield can only contain numbers.';
+        $postObject = $this->currentRequest->getPostObject();
+
+        if (!is_numeric($postObject->body()['textfield'])) {
+            $postObject->flash();
+            $postObject->flashPostError('textfield', 'The textfield can only contain numbers.');
             redirect('/');
         }
         else {
-            $_SESSION['success'] = 'The textfield only contained numbers.';
+            $postObject->flashPostSuccess('textfield', 'The textfield only contained numbers.');
 
             // sla de data op in de database of zoiets
 

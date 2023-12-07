@@ -8,6 +8,7 @@ use Lib\EnvUtility\EnvHandler;
 use Http\Controllers\HomeController;
 use Http\Controllers\AdminPanelController;
 use Http\Controllers\LoginController;
+use Http\Controllers\ProductsController;
 use Http\Middlewares\Authenticate;
 use Http\Middlewares\Roles;
 use Models\DailyMessageModel;
@@ -33,6 +34,7 @@ $router->put('/', [HomeController::class, 'put']);
 $router->get('/AdminPanel', [AdminPanelController::class, 'show'])->middleware(Authenticate::class, [Roles::Admin->value]);
 $router->get('/Login', [LoginController::class, 'show']);
 $router->get('/Logout', [LoginController::class, 'logout'])->middleware(Authenticate::class, [Roles::User->value, Roles::Admin->value]);
+$router->get('/Products/{id}', [ProductsController::class, 'show']);
 
 
 // Run the application.
