@@ -2,6 +2,7 @@
 
 namespace Lib\MVCCore;
 
+use Lib\MVCCore\Routers\HTTPStatusCodes;
 use Lib\MVCCore\Routers\Responses\Response;
 
 /**
@@ -13,7 +14,7 @@ interface Middleware {
     /**
      * Method that will be called by the router to handle the request.
      *
-     * @return Response|null Returns a response if the middleware wants to return a response. Returns null if the middleware wants to continue to the next middleware.
+     * @return HTTPStatusCodes|null Returns a HTTPStatusCodes if the middleware wants to return a HTTPStatusCodes. Returns null if the middleware wants to continue to the next middleware.
      */
-    public function handle(): ?Response;
+    public function handle(): ?HTTPStatusCodes;
 }

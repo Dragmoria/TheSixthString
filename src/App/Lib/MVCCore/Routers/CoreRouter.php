@@ -128,7 +128,8 @@ class CoreRouter implements Router {
                         $middlewareResponse = $middlewareInstance->handle();
                         // if the middleware returns a response we will send it and stop the execution of the route
                         if ($middlewareResponse !== null) {
-                            $middlewareResponse->send();
+                            $this->abort($middlewareResponse);
+                            return;
                         }
                     }
                 }
@@ -140,7 +141,13 @@ class CoreRouter implements Router {
 
                 $controller->setRequest($request);
                 // passes the id to the controller, if the array is emtpy it will still pass it but the controller method doesn't care about it
-                $controller->$controllerMethod(...$matches);
+                $controllerReturn = $controller->$controllerMethod(...$matches);
+
+                // if the controller returns a response we will send it and stop the execution of the route
+                if ($controllerReturn !== null) {
+                    $controllerReturn->send();
+                    return;
+                }
 
                 $response = $controller->getResponse();
                 // if the controller returns a response we will send it and stop the execution of the route
@@ -169,16 +176,26 @@ class CoreRouter implements Router {
 
         $this->routes['GET'][$key]['middlewares'][] = ['name' => $middlewareName, 'parameters' => $middlewareParameter];
     }
-
+    
     /**
      * Enables the ability to add a view to be rendered when a specific status code is returned.
      *
      * @param HTTPStatusCodes $statusCode The status code the view should be used for.
-     * @param string $viewName The name of the view to be rendered.
+     * @param View $view The view to be rendered. 
      * @return void
      */
-    public function registerStatusView(HTTPStatusCodes $statusCode, string $viewName): void {
+    public function registerStatusView(HTTPStatusCodes $statusCode, View $viewName): void {
         $this->registeredStatusViews[$statusCode->value] = $viewName;
+    }
+
+    /**
+     * Enables the ability to add a view to be rendered when a status code is returned that does not have a specific view registered.
+     *
+     * @param View $view The view to be rendered.
+     * @return void
+     */
+    public function registerGenericStatusView(View $viewName): void {
+        $this->registeredStatusViews['generic'] = $viewName;
     }
     
     /**
@@ -190,23 +207,30 @@ class CoreRouter implements Router {
     protected function abort(HTTPStatusCodes $statusCode): void {
         // Check if a view is registered for the given status code
         if (!isset($this->registeredStatusViews[$statusCode->value])) {
+            // Check if a generic view is registered
+            if (isset($this->registeredStatusViews['generic'])) {
+                $this->sendStatusView($statusCode, $this->registeredStatusViews['generic']);
+                return;
+            }
+
             // echo a basic string error message and return so it quits this method
             http_response_code($statusCode->value);
             echo "Error: No view registered for status code: " . $statusCode->value;
             return;
         }
+        
+        $this->sendStatusView($statusCode, $this->registeredStatusViews[$statusCode->value]);
+    }
 
+    private function sendStatusView(HTTPStatusCodes $statusCode, View $view): void {
         // Create the response
         $response = new ViewResponse();
 
         // Set the status code
         $response->setStatusCode($statusCode);
 
-        // Set the view to the registered view path
-        $view = new View($this->registeredStatusViews[$statusCode->value]);
-
         // Render the view and set it as the body of the response
-        $response->setBody($view->render());
+        $response->setBody($view);
 
         // Send the response
         $response->send();

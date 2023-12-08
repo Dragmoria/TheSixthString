@@ -2,6 +2,8 @@
 
 namespace Lib\MVCCore\Routers;
 
+use Lib\MVCCore\View;
+
 /**
  * Router interface. All routers must implement this interface.
  * 
@@ -74,8 +76,16 @@ interface Router {
      * Enables the ability to add a view to be rendered when a specific status code is returned.
      *
      * @param HTTPStatusCodes $statusCode The status code the view should be used for.
-     * @param string $viewName The name of the view to be rendered.
+     * @param View $view The view to be rendered. 
      * @return void
      */
-    public function registerStatusView(HTTPStatusCodes $statusCode, string $viewName): void;
+    public function registerStatusView(HTTPStatusCodes $statusCode, View $view): void;
+
+    /**
+     * Enables the ability to add a view to be rendered when a status code is returned that does not have a specific view registered.
+     *
+     * @param View $view The view to be rendered.
+     * @return void
+     */
+    public function registerGenericStatusView(View $view): void;
 }
