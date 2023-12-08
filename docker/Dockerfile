@@ -1,5 +1,7 @@
 FROM php:apache
 
+RUN docker-php-ext-install mysqli
+
 RUN pecl install -o -f xdebug \
     && docker-php-ext-enable xdebug
 
