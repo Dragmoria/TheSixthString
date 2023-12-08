@@ -10,6 +10,8 @@ const RUNTIME_PATH = BASE_PATH . 'Runtime' . DIRECTORY_SEPARATOR;
 // Add a global constant for the namespace of the components to use when adding a component to a view.
 const COMPONENT_NAMESPACE = 'HTTP\\Controllers\\Components\\';
 
+const MAIN_LAYOUT = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'Layouts' . DIRECTORY_SEPARATOR . 'Main.layout.php';
+
 // Register the autoloader so you don't have to manually require files anymore.
 spl_autoload_register(function ($class) {
     $path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
