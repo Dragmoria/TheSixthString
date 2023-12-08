@@ -90,6 +90,70 @@ class HomeController extends Controller {
 ```
 Nu je dit hebt gedaan kun je de pagina bezoeken op `http://localhost:8000/` en zou je jouw naam moeten zien staan.
 
-## Wil je een layout toevoegen aan de view?
+## Wil je een [layout](./MVCCore.md#view) toevoegen aan de view?
+Het is handig om een layout te hebben voor je applicatie. Dit is om ervoor te zorgen dat je gemakkelijk alle pagina's dezelfde header en footer kan geven. Daarnaast zul je de layout gebruiken om externe scripts en css libraries in te laden. Als je dit met de layout doet dan hoef je dit maar een keer te defineren.
+
+Om een layout toe te voegen moet je er eerst een maken. De verschillende layouts plaats je in de map `src/App/Content/Views/Layouts`. De layout moet je een naam geven. Bijvoorbeeld `main.layout.php`. De `.layout` is een namig convention die we gebruiken om aan te geven dat het een layout is. Nu je dit hebt gedaan moet je de layout nog vullen met HTML. Dit doe je bijvoorbeeld zo:
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+    </header>
+
+    <main>
+        <?php echo $content; ?>
+    </main>
+
+    <footer>
+        <p>&copy; 2022 My Website. All rights reserved.</p>
+    </footer>
+    <script src="someScript.js">
+</body>
+</html>
+```
+Het stuk met `<?php echo $content; ?>` is waar de verschillende views worden geladen. Om deze layout te gebruiken bij je home view moet je het volgende toevoegen aan je controller:
+```php
+class HomeController extends Controller {
+    public function index(): ?Response {
+        $response = new ViewResponse();
+        $response->setBody(view(VIEWS_PATH . 'index.view.php', [
+            'name' => 'Jouw naam'
+        ])->withLayout(VIEWS_PATH . 'Layouts/main.layout.php'));
+        return $response;
+    }
+}
+```
+De `withLayout` functie kun je chainen met de view functie. Het verwacht een path naar de layout file. Nu je dit hebt gedaan kun je de pagina bezoeken op `http://localhost:8000/` en zou je jouw naam moeten zien staan.
 
 ## Wil je een component toevoegen aan de view?
+Het is handig bepaalde stukken HTML die je vaker toe gaat voegen in een component te zetten. Dit kun je dan meerdere keren toevoegen in je view of zelfs in verschillende views. Een component kan of zelf de data ophalen of kan de data mee krijgen van de view waar je hem gebruikt.
+
+Om een component te maken moet je een component view toevoegen en een component controller. De component view voeg je toe in de map `src/App/Content/Views/Components` het bestand volgt dezelfde naming convention als een controller maar dan met `nameComponent.php` in plaats van `nameController.php`. Een component controller moet altijd de `Component` interface implementeren. Dit doe je door het volgende te doen:
+```php
+class NameComponent implements Component {
+    public function get(?array $data): string {
+        return view(VIEWS_PATH . 'Components/nameComponent.view.php', [
+            'name' => $data['name']
+        ])->render();
+    }
+}
+```
+De `get` functie geeft de bijbehorende view terug aan de parent view. Je kan kiezen of je data meegeeft vanuit de parent view of niet. Als je dit niet doet dan zal de component controller deze data zelf moeten ophalen.
+
+Als tweede moeten we de view aanmaken die bij dit component hoort. Dit doe je in de map `src/App/Content/Views/Components`. De view moet je een naam geven. Bijvoorbeeld `name.component.php` dit is een namig convention die we gebruiken om aan te geven dat het een component view is. Nu je dit hebt gedaan moet je de view nog vullen met HTML. Dit doe je bijvoorbeeld zo:
+```php
+<p>Deze pagina is gemaakt door: <?php echo $name ?></p>
+```
+Nu je dit hebt gedaan kun je de component gebruiken in je view. Om dit in je home view toe te voegen maak je de volgende aanpassing:
+```php
+<h1>Home</h1>
+<p>Dit is de home pagina</p>
+<p>Deze pagina is gemaakt door: <?php echo $name ?></p>
+<?php echo component(\Http\Controllers\Components\nameComponent::class, "Jarne") ?>
+```
