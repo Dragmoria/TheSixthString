@@ -76,6 +76,7 @@ De package die we hebben bestaat uit een aantal onderdelen. Ik zal deze onderdel
 11. [Partial / Component](#partial--component)
     11.1 [Partial](#partial)
     11.2 [Component](#component)
+12. [Model](#model)
 
 
 ### Application
@@ -1010,5 +1011,109 @@ Dit is een component dat de data zelf ophaald. Dit is handig als je een componen
 ```php
 <div>
     <?php echo component(Http\Controllers\Components\ProductComponent::class) ?>
+</div>
+```
+
+### Model
+Als je data toe voegt aan een view kan dat op meerdere manieren. De snelste manier is om gewoon een array aan data mee te geven zoals dit:
+```php
+class HomeController extends Controller {
+    public function index(): ?Response {
+        $response = new ViewResponse();
+        $response->setBody(view(VIEWS_PATH . "home.php", ["name" => "John Doe"]));
+        return $response;
+    }
+}
+```
+Dit is ok met de hoeveelheid data die je in deze situatie mee wilt geven. Maar stel dat je een product wilt meegegeven waar wat meer data bij komt kijken zoals bij onze producten. Dan is het handig om een model te gebruiken. Een model is een class die de data van een `ding` representeert. Dit is handig als dit `ding` veel data heeft die je hier onder kan scharen. Denk aan het product hier heb je:
+- Id;
+- Name;
+- Subtitle;
+- Description;
+- Active;
+- AmountInStock;
+- DemoAmountInStock;
+- UnitPrice;
+- RecommendedUnitPrice;
+- SKU;
+- BrandId;
+- CategoryId;
+- Media;
+- CreatedOn.
+
+Als je al deze data lost in een array meegeeft aan de view wordt het al snel onoverzichtelijk. Daarnaast is het mogelijk dat je product op meerdere pagina's gaat gebruiken. Dan moet je op meerdere plekken een onoverzichtelijk array meegeven. Om dit overzichtelijk te houden kun je een model gebruiken. Dit ziet er als volgt uit:
+```php
+class ProductModel {
+    int Id;
+    string Name;
+    string Subtitle;
+    string Description;
+    bool Active;
+    int AmountInStock;
+    int DemoAmountInStock;
+    float UnitPrice;
+    float RecommendedUnitPrice;
+    string SKU;
+    int BrandId;
+    int CategoryId;
+    array Media;
+    DateTime CreatedOn;
+}
+```
+Dit kun je dan gemakkelijker naar de view meegeven. Als je dan in het model ook nog een slimme methode aanmaakt om de data direct vanuit de data source door kan geven is het helemaal mooi. Bijvoorbeeld iets als dit:
+```php
+class ProductModel {
+    int Id;
+    string Name;
+    string Subtitle;
+    string Description;
+    bool Active;
+    int AmountInStock;
+    int DemoAmountInStock;
+    float UnitPrice;
+    float RecommendedUnitPrice;
+    string SKU;
+    int BrandId;
+    int CategoryId;
+    array Media;
+    DateTime CreatedOn;
+
+    public function __construct(int $id) {
+        $product = Application::resolve(ProductService::class)->getById($id);
+        $this->Id = $product->id;
+        $this->Name = $product->name;
+        $this->Subtitle = $product->subtitle;
+        $this->Description = $product->description;
+        $this->Active = $product->active;
+        $this->AmountInStock = $product->amountInStock;
+        $this->DemoAmountInStock = $product->demoAmountInStock;
+        $this->UnitPrice = $product->unitPrice;
+        $this->RecommendedUnitPrice = $product->recommendedUnitPrice;
+        $this->SKU = $product->sku;
+        $this->BrandId = $product->brandId;
+        $this->CategoryId = $product->categoryId;
+        $this->Media = $product->media;
+        $this->CreatedOn = $product->createdOn;
+    }
+}
+```
+Nu kun je dit model meegeven aan de view. Dit ziet er als volgt uit:
+```php
+class HomeController extends Controller {
+    public function index(): ?Response {
+        $response = new ViewResponse();
+
+        $product = new ProductModel();
+
+        $response->setBody(view(VIEWS_PATH . "home.php", ["product" => $product]));
+        return $response;
+    }
+}
+```
+In de view kun je nu het volgende doen om de data uit het model te halen:
+```php
+<div>
+    <h1><?php echo $product->Name ?></h1>
+    <p><?php echo $product->Description ?></p>
 </div>
 ```
