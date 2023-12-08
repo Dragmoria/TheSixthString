@@ -18,13 +18,14 @@ function view(string $view, array $data = []): View {
 /**
  * Globally available functio that renders a component. Can be used inside a view to import a component with it's own controller.
  *
- * @param string $componentName Fully qualified name of the component class to use.
- * @return string Returns the output of the component as a string. Will be the html coming from the component's get method.
+ * @param string $componentName
+ * @param array|null $data Data to pass to the component.
+ * @return string
  */
-function component(string $componentName): string {
+function component(string $componentName, ?array $data): string {
     $component = new $componentName();
 
-    return $component->get();
+    return $component->get($data);
 }
 
 /**

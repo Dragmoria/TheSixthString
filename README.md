@@ -51,6 +51,7 @@ Dit project bevat de volgende onderdelen:
 - [Database](./Docs/Database/Database.md) // info over de database namespace.
 - [MVCCore](./Docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
 - [EnvUtility](./Docs/EnvUtility.md) // info over de EnvUtility namespace.
+- [QuickGuide](./Docs/MVCCore/QuickGuide.md) // een quick guide voor het toevoegen van een nieuwe pagina aan de website.
 
 ## Git workflow
 
