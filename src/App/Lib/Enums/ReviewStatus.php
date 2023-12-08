@@ -7,3 +7,6 @@ enum ReviewStatus: int {
     case Accepted = 1;
     case Denied = 2;
 }
+
+//omzetten vanuit data: $suit =  Suit::from($record['suit']);
+// OF: ReviewStatus::ToBeReviewed->value

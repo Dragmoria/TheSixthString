@@ -1,0 +1,2 @@
+insert into product (Name, Subtitle, Description, Active, AmountInStock, DemoAmountInStock, UnitPrice, RecommendedUnitPrice, SKU, CreatedOn)
+VALUES ('Testproduct', 'Dit is een testproduct', 'Lorem ipsum...', 1, 0, 0, 100, 110, 'ABC123', '2023-12-08')

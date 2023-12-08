@@ -17,10 +17,10 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
 $container->registerClass(ReviewService::class)->asSingleton();
 
 $router = Application::getRouter();
-$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
+//$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
 
 // Add routes below here.
-$router->get('/', [HomeController::class, 'index']);
+//$router->get('/', [HomeController::class, 'index']);
 $router->get('/', [ReviewController::class, 'index']);
 
 

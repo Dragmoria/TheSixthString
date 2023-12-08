@@ -12,7 +12,7 @@ class ReviewModel {
         $this->title = "";
         $this->content = "";
         //$this->orderItemId = 0;
-        $this->status = ReviewStatus::ToBeReviewed;
+        $this->status = ReviewStatus::ToBeReviewed->value;
     }
 
     public int $id;

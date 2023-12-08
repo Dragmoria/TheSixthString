@@ -10,25 +10,24 @@ class DatabaseContext {
     private int $_port;
 
     function __construct() {
-        $settings = $this->readFromSettings();
-        if (!isset($settings)) {
-            throw new \Exception("Could not read database settings");
-        }
+//        $this->_servername = getenv('MYSQL_SERVER');
+//        $this->_username = getenv('MYSQL_USER');
+//        $this->_password = getenv('MYSQL_PASSWORD');
+//        $this->_database = getenv('MYSQL_DATABASE');
+//        $this->_port = getenv('MYSQL_PORT');
 
-        $this->_servername = $settings->servername;
-        $this->_username = $settings->username;
-        $this->_password = $settings->password;
-        $this->_database = $settings->database;
-        $this->_port = $settings->port;
+        $this->_servername = 'thesixthstring-db-1';
+        $this->_username = 'root';
+        $this->_password = '';
+        $this->_database = 'thesixthstring';
+        $this->_port = 3306;
     }
 
     public function connect(): \mysqli {
-        $conn = new \mysqli($this->_servername, $this->_username, $this->_password, $this->_database, $this->_port);
-        return $conn;
-    }
-
-    private function readFromSettings(): DatabaseSetting {
-        //TODO: uit settings-file/.env halen?
-        return new DatabaseSetting("localhost", "root", "FgDp96_<w1F4", "test", 3306);
+        try {
+            return new \mysqli($this->_servername, $this->_username, $this->_password, $this->_database, $this->_port);
+        } catch(\Exception $ex) {
+            print('<pre>' . $ex . '</pre>');
+        }
     }
 }

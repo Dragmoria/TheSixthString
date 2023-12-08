@@ -12,12 +12,12 @@ use Lib\Service\ReviewService;
 
 class ReviewController extends Controller {
     public function index(): void {
-        $reviews = Application::resolve(ReviewService::class)->getReviewTest();
+        $review = Application::resolve(ReviewService::class)->getReviewTest();
 
         $response = new ViewResponse();
 
         $response->setStatusCode(HTTPStatusCodes::OK)
-            ->setBody(view(VIEWS_PATH . 'Review.view.php', $reviews)
+            ->setBody(view(VIEWS_PATH . 'Review.view.php', ['review' => $review])
             //    ->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php')
             )
             ->addHeader('Content-Type', 'text/html');
