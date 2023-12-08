@@ -1,5 +1,5 @@
 # Quick Guide
-> **Tijdsduur:** 5 minuten
+> **Leestijd:** 10 minuten
 
 Hier een snelle flow van werkzaamheden die je zult/kunt uitvoeren bij het toevoegen van een nieuwe pagina aan de website.
 
