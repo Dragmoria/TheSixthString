@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace Lib\Database;
 
 class DatabaseContext {
     private string $_servername;

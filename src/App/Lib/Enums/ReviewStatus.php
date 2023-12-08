@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Enums;
+namespace Lib\Enums;
 
 enum ReviewStatus: int {
     case ToBeReviewed = 0;

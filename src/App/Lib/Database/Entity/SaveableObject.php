@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Entity;
+namespace Lib\Database\Entity;
 
 abstract class SaveableObject {
     public int $id;

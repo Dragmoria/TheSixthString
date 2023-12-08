@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Entity;
+namespace Lib\Database\Entity;
 
 use Shared\Enums\Role;
 use Shared\Enums\Gender;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Enums;
+namespace Lib\Enums;
 
 enum Role: int {
     case User = 0;

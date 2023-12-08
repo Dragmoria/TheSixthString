@@ -1,11 +1,19 @@
 <?php
 
-namespace Service;
+namespace Lib\Service;
 
-use Model\ReviewModel;
-use Database\Entity\Review;
+use Models\ReviewModel;
+use Lib\Database\Entity\Review;
 
 class ReviewService extends BaseDatabaseService {
+    public function getReviewTest(): ReviewModel {
+        $result = new ReviewModel();
+        $result->id = 1;
+        $result->rating = 3;
+        $result->title = "Testreview";
+        return $result;
+    }
+
     public function getAllReviewsForProduct(int $productId) {
         $query = "select * from reviews rev inner join orderitems items on items.Id = rev.OrderItemId where items.ProductId = " . $productId;
         $result = $this->db->query($query);
@@ -19,7 +27,6 @@ class ReviewService extends BaseDatabaseService {
 
         return ReviewModel::convertToModel($entity);
     }
-
 
     public function createReview(ReviewModel $input): bool {
         //TODO: check of de ingelogde user een orderitem voor dit product heeft, zo ja: review mag aangemaakt worden met als status ReviewStatus::ToBeReviewed (is default, hoeft niet te worden gezet)

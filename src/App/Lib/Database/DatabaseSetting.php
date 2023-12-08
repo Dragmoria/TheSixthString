@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace Lib\Database;
 
 class DatabaseSetting {
     function __construct($servername, $username, $password, $database, $port) {

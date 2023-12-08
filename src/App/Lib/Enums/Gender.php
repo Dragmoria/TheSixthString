@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Enums;
+namespace Lib\Enums;
 
 enum Gender: int {
     case Unknown = 0;

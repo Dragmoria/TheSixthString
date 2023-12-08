@@ -1,8 +1,8 @@
 <?php
 
-namespace Service;
+namespace Lib\Service;
 
-use Database\DatabaseContext;
+use Lib\Database\DatabaseContext;
 
 class BaseDatabaseService {
     protected \mysqli $db;

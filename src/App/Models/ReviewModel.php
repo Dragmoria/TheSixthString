@@ -1,8 +1,9 @@
 <?php
 
-namespace Model;
+namespace Models;
 
-use Database\Entity\Review;
+use Lib\Database\Entity\Review;
+use Lib\Enums\ReviewStatus;
 
 class ReviewModel {
     function __construct() {
