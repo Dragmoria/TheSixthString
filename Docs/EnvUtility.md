@@ -1,5 +1,5 @@
 # EnvUtility
-> **Tijdsduur:** 2 minuten
+> **Leestijd:** 2 minuten
 
 Path naar deze library: `src/App/EnvUtility/`
 

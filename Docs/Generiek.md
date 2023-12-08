@@ -1,5 +1,5 @@
 # Generiek
-> **Tijdsduur:** 15 minuten
+> **Leestijd:** 20 minuten
 
 ## Inhoudsopgave
   - [Inhoudsopgave](#inhoudsopgave)

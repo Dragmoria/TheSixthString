@@ -1,5 +1,5 @@
 # MVCCore
-> **Tijdsduur:** 30 minuten
+> **Leestijd:** 40 minuten
 
 # Inhoudsopgave
 - [Inhoudsopgave](#inhoudsopgave)
