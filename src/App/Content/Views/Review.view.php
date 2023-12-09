@@ -1,2 +1,8 @@
 <?php
-print($review->status);
+print($review->title);
+?>
+
+<br />
+
+<?php
+print($review->product->name);

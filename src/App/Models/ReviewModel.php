@@ -17,7 +17,7 @@ class ReviewModel {
     public ReviewStatus $status = ReviewStatus::ToBeReviewed;
     public string $createdOn = "";
 
-    public static function convertToModel(?Review $entity, ?Product $product): ?ReviewModel {
+    public static function convertToModel(?Review $entity): ?ReviewModel {
         if ($entity->isEmptyObject()) return null;
 
         $model = new ReviewModel();
@@ -26,7 +26,6 @@ class ReviewModel {
         $model->rating = $entity->rating;
         $model->title = $entity->title;
         $model->content = $entity->content;
-        $model->product = ProductModel::convertToModel($product);
         $model->status = ReviewStatus::from($entity->status);
         $model->createdOn = $entity->createdOn;
 

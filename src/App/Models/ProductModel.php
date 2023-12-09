@@ -7,6 +7,7 @@ use Lib\Database\Entity\Product;
 class ProductModel {
     public function __construct() { }
 
+    public int $id = 0;
     public string $name = "";
     public string $subtitle = "";
     public string $description = "";
@@ -21,7 +22,7 @@ class ProductModel {
     public ?string $media = null;
     public string $createdOn = "";
 
-    public static function convertToModel(?Product $entity/*, ?Brand $brand = null, ?Category $category = null*/): ?ProductModel {
+    public static function convertToModel(?Product $entity): ?ProductModel {
         if($entity->isEmptyObject()) return null;
 
         $model = new ProductModel();
@@ -36,8 +37,6 @@ class ProductModel {
         $model->unitPrice = $entity->unitPrice;
         $model->recommendedUnitPrice = $entity->recommendedUnitPrice;
         $model->sku = $entity->sku;
-//        $model->brand = BrandModel::convertToModel($entity->brand);
-//        $model->category = CategoryModel::convertToModel($entity->category);
         $model->media = $entity->media;
         $model->createdOn = $entity->createdOn;
 

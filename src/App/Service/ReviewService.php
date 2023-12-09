@@ -3,6 +3,7 @@
 namespace Service;
 
 use Lib\Enums\ReviewStatus;
+use Models\ProductModel;
 use Models\ReviewModel;
 use Lib\Database\Entity\Review;
 use Lib\Database\Entity\Product;
@@ -11,14 +12,17 @@ class ReviewService extends BaseDatabaseService {
     public function getReviewTest(): ReviewModel {
         $review = $this->db->query('select * from review limit 1')->fetch_object(Review::class);
         $product = $this->db->query('select prod.* from product prod inner join orderitem items on prod.id = items.productId where items.id = ' . $review->orderItemId . ' limit 1')->fetch_object(Product::class);
-        return ReviewModel::convertToModel($review, $product);
+
+        $reviewModel = ReviewModel::convertToModel($review);
+        $reviewModel->product = ProductModel::convertToModel($product);
+        return $reviewModel;
     }
 
     public function getAllReviewsForProduct(int $productId) {
         $query = "select * from review rev inner join orderitem items on items.Id = rev.orderItemId where items.productId = " . $productId;
-        $result = $this->db->query($query);
+        $result = $this->db->query($query)->fetch_array();
 
-        //TODO: convert to array of entities
+        //TODO: convert to array of models
         //return $result->toArray();
     }
 

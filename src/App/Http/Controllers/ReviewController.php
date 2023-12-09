@@ -16,12 +16,8 @@ class ReviewController extends Controller {
 
         $response = new ViewResponse();
         $response->setStatusCode(HTTPStatusCodes::OK)
-            ->setBody(view(VIEWS_PATH . 'Review.view.php', ['review' => $review])
-            //    ->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php')
-            )
+            ->setBody(view(VIEWS_PATH . 'Review.view.php', ['review' => $review]))
             ->addHeader('Content-Type', 'text/html');
-
-//        $_SESSION["user"] = ['role' => Roles::Admin->value];
 
         $this->setResponse($response);
     }
