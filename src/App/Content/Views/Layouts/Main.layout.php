@@ -13,4 +13,3 @@
 </body>
 </html>
 
-C:\Users\jarno\Source\TheSixthString\src\App\Content\Views\Layouts\Main.layout.php
