@@ -12,11 +12,11 @@ use Service\ReviewService;
 
 class ReviewController extends Controller {
     public function index(): void {
-        $review = Application::resolve(ReviewService::class)->getReviewTest();
+        $reviews = Application::resolve(ReviewService::class)->getAllReviewsForProduct(1);
 
         $response = new ViewResponse();
         $response->setStatusCode(HTTPStatusCodes::OK)
-            ->setBody(view(VIEWS_PATH . 'Review.view.php', ['review' => $review]))
+            ->setBody(view(VIEWS_PATH . 'Review.view.php', ['reviews' => $reviews]))
             ->addHeader('Content-Type', 'text/html');
 
         $this->setResponse($response);

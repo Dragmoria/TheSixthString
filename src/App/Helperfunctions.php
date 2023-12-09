@@ -24,3 +24,20 @@ function dump($value): void {
     var_dump($value);
     echo "</pre>";
 }
+
+function cast($className, array $objectArray) {
+    $object = (object)$objectArray;
+
+    if (!class_exists($className))
+        throw new InvalidArgumentException(sprintf('Inexistant class %s.', $className));
+
+    $new = new $className();
+
+    foreach($object as $property => &$value)
+    {
+        $new->$property = &$value;
+        unset($object->$property);
+    }
+    unset($value);
+    return $new;
+}

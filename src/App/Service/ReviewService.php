@@ -13,17 +13,21 @@ class ReviewService extends BaseDatabaseService {
         $review = $this->db->query('select * from review limit 1')->fetch_object(Review::class);
         $product = $this->db->query('select prod.* from product prod inner join orderitem items on prod.id = items.productId where items.id = ' . $review->orderItemId . ' limit 1')->fetch_object(Product::class);
 
-        $reviewModel = ReviewModel::convertToModel($review);
-        $reviewModel->product = ProductModel::convertToModel($product);
-        return $reviewModel;
+        $model = ReviewModel::convertToModel($review);
+        $model->product = ProductModel::convertToModel($product);
+        return $model;
     }
 
     public function getAllReviewsForProduct(int $productId) {
-        $query = "select * from review rev inner join orderitem items on items.Id = rev.orderItemId where items.productId = " . $productId;
-        $result = $this->db->query($query)->fetch_array();
+        $query = "select rev.* from review rev inner join orderitem items on items.Id = rev.orderItemId where items.productId = " . $productId;
+        $entities = $this->db->query($query)->fetch_all(MYSQLI_ASSOC);
 
-        //TODO: convert to array of models
-        //return $result->toArray();
+        $models = array();
+        foreach($entities as $entity) {
+            array_push($models, ReviewModel::convertToModel(cast(Review::class, $entity)));
+        }
+
+        return $models;
     }
 
     public function createReview(ReviewModel $input): bool {
