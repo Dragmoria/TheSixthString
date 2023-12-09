@@ -1,0 +1,35 @@
+﻿.fixed-width-span {
+    width: 120px; /* Adjust the width as needed */
+}
+
+
+  label {
+    display: block;
+    font:
+      1rem 'Fira Sans',
+      sans-serif;
+  }
+  
+  input,
+  label {
+    margin: 0.4rem 0;
+  }
+
+
+
+  .spacer {
+    height: 5pc;
+}
+
+.white-button {
+    background-color: #fff;
+    border-color: #000000;
+}
+
+.custom-control-input{
+    background-color: #0000ff;
+}
+
+body{
+    background-color: red;
+}

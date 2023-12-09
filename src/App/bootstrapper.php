@@ -1,6 +1,7 @@
 <?php
 
 use Http\Controllers\HomeController;
+use http\controllers\RegisterController;
 use Lib\MVCCore\Containers\Container;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Routers\HTTPStatusCodes;
@@ -15,9 +16,9 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
 });
 
 $router = Application::getRouter();
-$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
+
 // Add routes below here.
-$router->get('/', [HomeController::class, 'index']);
+$router->get('/', [RegisterController::class, 'register']);
 
 // Run the application.
 Application::run();
