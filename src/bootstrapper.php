@@ -1,5 +1,7 @@
 <?php
 
+use Http\Controllers\ControlPanel\AccountsController;
+use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\HomeController;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
@@ -21,11 +23,13 @@ $router = Application::getRouter();
 // Add routes below here.
 $router->get('/', [HomeController::class, 'index']);
 
-$router->get('/AdminPanel', []);
-$router->get('/AdminPanel/', []);
-$router->get('/AdminPanel', []);
-$router->get('/AdminPanel', []);
-$router->get('/AdminPanel', []);
+$router->get('/ControlPanel', [ControlPanelController::class, 'index']);
+$router->get('/ControlPanel/Accounts', [AccountsController::class, 'index']);
+$router->get('/ControlPanel/Statistics', []);
+$router->get('/ControlPanel/ManageContent', []);
+$router->get('/ControlPanel/ManageVouchers', []);
+$router->get('/ControlPanel/ModerateRevies', []);
+$router->get('/ControlPanel/OrderManagement', []);
 
 
 // Run the application.

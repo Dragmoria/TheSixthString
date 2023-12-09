@@ -1,8 +1,0 @@
-Admin panel
-- buttons naar de andere admin pagina's
-
-Team beheer
-- hier moet je beheerder users kunnen aanmaken
-- hier moet je analist users kunen aanmaken
-- hier moet je de voornoemde users kunnen verwijderen
-- Je moet de role van de user kunnen aanpassen
