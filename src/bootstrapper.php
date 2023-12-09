@@ -21,6 +21,12 @@ $router = Application::getRouter();
 // Add routes below here.
 $router->get('/', [HomeController::class, 'index']);
 
+$router->get('/AdminPanel', []);
+$router->get('/AdminPanel/', []);
+$router->get('/AdminPanel', []);
+$router->get('/AdminPanel', []);
+$router->get('/AdminPanel', []);
+
 
 // Run the application.
 Application::run();
