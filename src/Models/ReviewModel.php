@@ -3,7 +3,6 @@
 namespace Models;
 
 use Lib\Database\Entity\Review;
-use Lib\Database\Entity\Product;
 use Lib\Enums\ReviewStatus;
 
 class ReviewModel {

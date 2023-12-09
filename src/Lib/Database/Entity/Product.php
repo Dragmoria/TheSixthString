@@ -2,8 +2,6 @@
 
 namespace Lib\Database\Entity;
 
-use Lib\Database\Entity\SaveableObject;
-
 class Product extends SaveableObject {
     public function __construct() {
         $this->tableName = "product";

@@ -2,11 +2,11 @@
 
 namespace Service;
 
+use Lib\Database\Entity\Product;
+use Lib\Database\Entity\Review;
 use Lib\Enums\ReviewStatus;
 use Models\ProductModel;
 use Models\ReviewModel;
-use Lib\Database\Entity\Review;
-use Lib\Database\Entity\Product;
 
 class ReviewService extends BaseDatabaseService {
     public function getReviewById(int $id): ReviewModel {

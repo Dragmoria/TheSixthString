@@ -1,9 +1,9 @@
 <?php
 
 use Http\Controllers\HomeController;
-use Lib\MVCCore\Containers\Container;
-use Lib\MVCCore\Application;
 use Lib\EnvUtility\EnvHandler;
+use Lib\MVCCore\Application;
+use Lib\MVCCore\Containers\Container;
 use Service\ReviewService;
 
 Application::initialize();

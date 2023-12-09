@@ -2,8 +2,8 @@
 
 namespace Lib\Database;
 
-use Lib\MVCCore\Application;
 use Lib\EnvUtility\EnvHandler;
+use Lib\MVCCore\Application;
 
 class DatabaseContext {
     private string $_servername;
