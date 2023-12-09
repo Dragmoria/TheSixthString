@@ -4,7 +4,7 @@ use Http\Controllers\HomeController;
 use Lib\MVCCore\Containers\Container;
 use Lib\MVCCore\Application;
 use Lib\EnvUtility\EnvHandler;
-use Lib\Service\ReviewService;
+use Service\ReviewService;
 use Http\Controllers\ReviewController;
 
 Application::initialize();
@@ -26,10 +26,3 @@ $router->get('/', [ReviewController::class, 'index']);
 
 // Run the application.
 Application::run();
-
-/* TODO:
-    - nieuwe pagina
-    - route registreren
-    - controller/controllerendpoint?
-    -
- * */

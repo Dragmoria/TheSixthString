@@ -1,2 +1,2 @@
 <?php
-print($review->title);
+print($review->status);

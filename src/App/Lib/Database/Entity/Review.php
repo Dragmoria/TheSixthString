@@ -2,23 +2,14 @@
 
 namespace Lib\Database\Entity;
 
-use Lib\Enums\ReviewStatus;
+class Review extends SaveableObject
+{
+    function __construct() { }
 
-class Review extends SaveableObject {
-    function __construct() {
-        $this->id = 0;
-        $this->rating = 0;
-        $this->title = "";
-        $this->content = "";
-        $this->orderItemId = 0;
-        $this->status = ReviewStatus::ToBeReviewed;
-        $this->createdOn = new \DateTime();
-    }
-
-    public int $rating;
-    public string $title;
-    public string $content;
-    public int $orderItemId;
-    public int $status;
-    public \DateTime $createdOn;
+    public int $rating = 0;
+    public string $title = "";
+    public string $content = "";
+    public int $orderItemId = 0;
+    public int $status = 0; //default is ReviewStatus::ToBeReviewed (= 0)
+    public string $createdOn = "";
 }

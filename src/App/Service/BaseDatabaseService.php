@@ -1,13 +1,13 @@
 <?php
 
-namespace Lib\Service;
+namespace Service;
 
 use Lib\Database\DatabaseContext;
 
 class BaseDatabaseService {
     protected \mysqli $db;
 
-    function __construct(){
+    function __construct() {
         $databaseContext = new DatabaseContext();
         $this->db = $databaseContext->connect();
     }
