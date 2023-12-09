@@ -2,12 +2,7 @@
 body{
     background-color: #2C231E;
 }
-label {
-    display: block;
-    font:
-      1rem 'Fira Sans',
-      sans-serif;
-}
+
       input,button,
   label {
     margin: 0.2rem 0;
@@ -17,23 +12,12 @@ label {
     background-color: #FCB716;
 
   }
-  input[type="text"]{
+
+  .bg-beige-color{
     background-color:#EFE3C4;
     border-color:#EFE3C4
   }
-  input[class="form-control rounded-pill"]{
-    background-color:#EFE3C4;
-    border-color:#EFE3C4
-  }
-  input[type="password"]{
-    background-color:#EFE3C4;
-    border-color:#EFE3C4
-  }
-  select[class="form-select"]{
-    background-color:#EFE3C4;
-    border-color:#EFE3C4
-  }
-  .bg-custom{
+  .bg-card-custom{
     background-color: #1C1713;
   }
   </style>
@@ -48,7 +32,7 @@ label {
 
 
 
-<form class = "ms-auto me-auto mb-5 card p-1 bg-custom" style=width:1200px;>
+<form class = "ms-auto me-auto mb-5 card p-1 bg-card-custom" style=width:1200px;>
 <div class="container">
     <div class="col-auto ms-4 mb-3">
                 <h1 style="color:#EFE3C4">Registratie</h1>
@@ -76,35 +60,35 @@ label {
     <div class="container">
         <div class="row">
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="firstName" placeholder="Voornaam">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="firstName" placeholder="Voornaam">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="middleName" placeholder="Tussenvoegsel">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="middleName" placeholder="Tussenvoegsel">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="lastName" placeholder="Achternaam">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="postcode" placeholder="Postcode">
-            </div>
-            <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="houseNumber" placeholder="Huisnummer">
-            </div>
-            <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="addition" placeholder="Toevoeging">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="lastName" placeholder="Achternaam">
             </div>
         </div>
         <div class="row">
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="street" placeholder="Straat">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="postcode" placeholder="Postcode">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="postalCode" placeholder="Postcode">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="houseNumber" placeholder="Huisnummer">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <select class="form-select" id="country">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="addition" placeholder="Toevoeging">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 ms-4 mb-3">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="street" placeholder="Straat">
+            </div>
+            <div class="col-3 ms-4 mb-3">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="postalCode" placeholder="Postcode">
+            </div>
+            <div class="col-3 ms-4 mb-3">
+                    <select class="form-select bg-beige-color" id="country">
                         <option selected value="1">Nederland</option>
                         <option value="2">België</option>
                         <option value="3">Luxemburg</option>
@@ -113,10 +97,10 @@ label {
         </div>
         <div class="row">
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill" id="phoneNumber" placeholder="Telefoonnummer">
+                    <input type="text" class="form-control rounded-pill bg-beige-color" id="phoneNumber" placeholder="Telefoonnummer">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input class="form-control rounded-pill" type="date" id="birthdate" value=<?echo $date?> min="1900-01-01" max="2050-12-31" />
+                    <input class="form-control rounded-pill bg-beige-color" type="date" id="birthdate" value=<?echo $date?> min="1900-01-01" max="2050-12-31" />
             </div>
         </div>
     </div>
@@ -128,20 +112,20 @@ label {
     <div class="spacer"></div>
     <div class="row">
             <div class="col-3 ms-4 mb-3">
-                    <input type="text" class="form-control rounded-pill form-check-inline" id="firstName" placeholder="Email">
+                    <input type="text" class="form-control rounded-pill form-check-inline bg-beige-color" id="firstName" placeholder="Email">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input type="Password" class="form-control rounded-pill form-check-inline" id="middleName" placeholder="Wachtwoord">
+                    <input type="Password" class="form-control rounded-pill form-check-inline bg-beige-color" id="middleName" placeholder="Wachtwoord">
             </div>
             <div class="col-3 ms-4 mb-3">
-                    <input type="Password" class="form-control rounded-pill form-check-inline" id="middleName" placeholder="Herhalen wachtwoord">
+                    <input type="Password" class="form-control rounded-pill form-check-inline bg-beige-color" id="middleName" placeholder="Herhalen wachtwoord">
             </div>
             <div class="col-auto ms-4 mb-3">
-            <button type="button"  class="btn btn-primary rounded-pill form-check form-check-inline" style=background-color:#FCB716;border-color:#FCB716>Wachtwoord tonen</button>
+            <button type="button"  class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style=background-color:#FCB716;border-color:#FCB716>Wachtwoord tonen</button>
         </div>
         <div class="row">
             <div class="col-auto ms-auto mb-3 me-auto mt-4">
-            <button type="button"  class="btn btn-primary rounded-pill form-check form-check-inline" style=background-color:#FCB716;border-color:#FCB716>Gegevens opslaan</button>
+            <button type="button"  class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style=background-color:#FCB716;border-color:#FCB716>Gegevens opslaan</button>
         </div>
 </div>
 </form>
