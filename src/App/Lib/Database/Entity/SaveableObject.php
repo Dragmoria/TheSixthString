@@ -3,7 +3,8 @@
 namespace Lib\Database\Entity;
 
 abstract class SaveableObject {
-    public int $id;
+    public string $tableName;
+    public int $id = 0;
 
     public function isEmptyObject(): bool {
         foreach((array)$this as $property) {

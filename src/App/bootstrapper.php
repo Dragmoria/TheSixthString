@@ -5,7 +5,6 @@ use Lib\MVCCore\Containers\Container;
 use Lib\MVCCore\Application;
 use Lib\EnvUtility\EnvHandler;
 use Service\ReviewService;
-use Http\Controllers\ReviewController;
 
 Application::initialize();
 
@@ -20,8 +19,7 @@ $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
 
 // Add routes below here.
-//$router->get('/', [HomeController::class, 'index']);
-$router->get('/', [ReviewController::class, 'index']);
+$router->get('/', [HomeController::class, 'index']);
 
 
 // Run the application.

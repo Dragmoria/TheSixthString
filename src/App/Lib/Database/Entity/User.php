@@ -2,33 +2,20 @@
 
 namespace Lib\Database\Entity;
 
-use Shared\Enums\Role;
-use Shared\Enums\Gender;
-
 class User extends SaveableObject {
 
     function __construct() {
-        $this->id = 0;
-        $this->emailaddress = "";
-        $this->passwordHash = "";
-        $this->role = Role::User;
-        $this->firstName = "";
-        $this->insertion = null;
-        $this->lastName = "";
-        $this->dateOfBirth = null;
-        $this->gender = Gender::Unknown;
-        $this->active = false;
-        $this->createdOn = new \DateTime();
+        $this->tableName = "review";
     }
 
-    public string $emailaddress;
-    public string $passwordHash;
-    public Role $role;
-    public string $firstName;
-    public ?string $insertion;
-    public string $lastName;
-    public ?\DateTime $dateOfBirth;
-    public Gender $gender;
-    public bool $active;
-    public \DateTime $createdOn;
+    public string $emailaddress = "";
+    public string $passwordHash = "";
+    public int $role = 0; //default is Role::Customer (= 0)
+    public string $firstName = "";
+    public ?string $insertion = null;
+    public string $lastName = "";
+    public ?\DateTime $dateOfBirth = null;
+    public int $gender = 0; //default is Gender::Unknown (= 0)
+    public bool $active = false;
+    public string $createdOn = "";
 }
