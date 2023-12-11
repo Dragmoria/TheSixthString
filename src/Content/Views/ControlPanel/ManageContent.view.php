@@ -4,7 +4,7 @@
     <section class="py-5 text-center container">
         <div class="row">
             <div>
-                <h1>Moderate reviews</h1>
+                <h1>Manage content</h1>
                 <p>voor <? echo $currentRole ?></p>
             </div>
         </div>
