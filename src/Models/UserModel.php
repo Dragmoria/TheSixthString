@@ -50,14 +50,17 @@ class UserModel
     {
         $entity = new User();
 
+        $entity->id = $this->id;
         $entity->emailAddress = $this->emailAddress;
         $entity->passwordHash = $this->passwordHash;
         $entity->role = $this->role->value;
         $entity->firstName = $this->firstName;
         $entity->insertion = $this->insertion;
         $entity->lastName = $this->lastName;
-        $entity->dateOfBirth = $this->dateOfBirth;
+        $entity->dateOfBirth = $this->dateOfBirth->format('Y-m-d');
         $entity->gender = $this->gender->value;
+        $entity->active = $this->active;
+        $entity->createdOn = $this->createdOn->format('Y-m-d');
 
         return $entity;
     }

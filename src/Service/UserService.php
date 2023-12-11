@@ -8,6 +8,21 @@ use Models\UserModel;
 
 class UserService extends BaseDatabaseService
 {
+    public function getEmployees(): array
+    {
+        $query = 'SELECT * FROM user WHERE role = ? OR role = ? OR role = ?';
+        $params = [Role::Analyst->value, Role::Manager->value, Role::Admin->value];
+
+        $result = $this->executeQuery($query, $params, User::class);
+
+        $models = [];
+        foreach ($result as $entity) {
+            array_push($models, UserModel::convertToModel($entity));
+        }
+
+        return $models;
+    }
+
     public function getUserById(int $id): UserModel
     {
         $user = $this->getById($id);
@@ -55,7 +70,7 @@ class UserService extends BaseDatabaseService
             $input->dateOfBirth->format('Y-m-d'),
             $input->gender->value,
             $input->active,
-            $input->createdOn->format('Y-m-d')
+            $input->createdOn->format('Y-m-d H:i:s')
         ];
 
         $result = $this->executeQuery($query, $params);
@@ -63,9 +78,26 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
-    // public function editUser(UserModel $input): bool
-    // {
-    // }
+    public function updateUser(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `role` = ?, `firstName` = ?, `insertion` = ?, `lastName` = ?, `dateOfBirth` = ?, `gender` = ? WHERE id = ?;";
+
+        $user = $updateUser->convertToEntity();
+
+        $params = [
+            $user->role,
+            $user->firstName,
+            $user->insertion,
+            $user->lastName,
+            $user->dateOfBirth,
+            $user->gender,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result !== false;
+    }
 
     private function getById(int $id): User
     {

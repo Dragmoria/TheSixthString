@@ -7,6 +7,7 @@ use Http\Controllers\ControlPanel\ManageVouchersController;
 use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
+use Http\Controllers\ControlPanel\ControlPanelApiController;
 use Http\Controllers\HomeController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
@@ -39,6 +40,9 @@ $router->get('/ControlPanel/ManageContent', [ManageContentController::class, 'sh
 $router->get('/ControlPanel/ManageVouchers', [ManageVouchersController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ModerateReviews', [ModerateReviewsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/OrderManagement', [OrderManagementController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/Accounts/UsersTableData', [ManageAccountsController::class, 'usersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 
 
 $_SESSION["user"] = ["role" => Role::Admin->value];

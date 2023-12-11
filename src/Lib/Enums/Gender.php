@@ -21,4 +21,18 @@ enum Gender: int
                 return "Unknown";
         }
     }
+
+    public static function fromString(string $from)
+    {
+        switch (strtolower($from)) {
+            case 'unknown':
+                return self::Unknown;
+            case 'female':
+                return self::Female;
+            case 'male':
+                return self::Male;
+            default:
+                throw new \InvalidArgumentException("Invalid gender: $from");
+        }
+    }
 }
