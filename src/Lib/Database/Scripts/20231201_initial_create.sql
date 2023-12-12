@@ -214,15 +214,18 @@ CREATE TABLE thesixthstring.visitedproduct(
 
 create table resetpassword
 (
-    id         int auto_increment
-        primary key,
-    userId     int         not null,
-    link       varchar(32) not null,
-    validUntil datetime    not null,
+    id int auto_increment primary key,
+    userId int not null,
+    link varchar(32) not null,
+    validUntil datetime not null,
     constraint reset_password_link_unique
+        unique (link),
+    constraint resetpassword_pk
         unique (link),
     constraint reset_password_user_id_fk
         foreign key (userId) references user (id)
 );
+
+
 
 #------------------------------------------------------------------------------------------------------------------------------
