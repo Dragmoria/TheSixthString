@@ -9,7 +9,8 @@ use Lib\MVCCore\View;
  * @param array $data Array of data to extract into the view's scope.
  * @return View Returns a view object.
  */
-function view(string $view, array $data = []): View {
+function view(string $view, array $data = []): View
+{
     $viewPath = $view;
 
     return new View($viewPath, $data);
@@ -22,7 +23,8 @@ function view(string $view, array $data = []): View {
  * @param array|null $data Data to pass to the component.
  * @return string
  */
-function component(string $componentName, ?array $data): string {
+function component(string $componentName, ?array $data = []): string
+{
     $component = new $componentName();
 
     return $component->get($data);
@@ -34,7 +36,8 @@ function component(string $componentName, ?array $data): string {
  * @param string $url The url to redirect to.
  * @return void
  */
-function redirect(string $url): void {
+function redirect(string $url): void
+{
     header("Location: $url");
     exit;
 }
