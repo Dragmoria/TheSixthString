@@ -3,7 +3,7 @@
 use Http\Controllers\ControlPanel\ManageAccountsController;
 use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\ControlPanel\ManageContentController;
-use Http\Controllers\ControlPanel\ManageVouchersController;
+use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
@@ -29,6 +29,7 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
 $container->registerClass(ReviewService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
+$container->registerClass(ManageCouponsController::class)->asSingleton();
 
 
 $router = Application::getRouter();
@@ -41,13 +42,14 @@ $router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middlewa
 $router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/ControlPanel/Statistics', [StatisticsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
 $router->get('/ControlPanel/ManageContent', [ManageContentController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
-$router->get('/ControlPanel/ManageVouchers', [ManageVouchersController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ModerateReviews', [ModerateReviewsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/OrderManagement', [OrderManagementController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/Accounts/UsersTableData', [ManageAccountsController::class, 'usersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->get('/ControlPanel/ManageVouchers', [ManageCouponsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/ManageVouchers/GetVouchers', [ManageCouponsController::class, 'getVouchers'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 

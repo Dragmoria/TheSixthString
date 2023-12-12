@@ -13,9 +13,23 @@
             </div>
         </section>
 
-        <div class="px-5">
+        <style>
+            .form-control {
+                margin-right: 10px;
+            }
+
+            .pagination-detail {
+                margin-left: 10px;
+            }
+
+            #addModalButton {
+                margin-left: 10px;
+            }
+        </style>
+
+        <div>
             <div style="min-height: 460px; visibility: hidden" id="tablecontainer">
-                <table id="table" data-toggle="table" data-height="460" data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
+                <table class="table" data-reorderable-rows="true" id="table" data-toggle="table" data-height="460" data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
                     <thead>
                         <tr>
                             <th data-field="id">Id</th>
@@ -34,7 +48,7 @@
                 </table>
             </div>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            <button type="button" id="addModalButton" class="btn px-5 btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                 Staff account toevoegen
             </button>
         </div>
