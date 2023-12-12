@@ -10,8 +10,15 @@ class RegisterController extends Controller{
         $Response->setBody(view(VIEWS_PATH . 'Register.view.php', [] )->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
         return $Response;
     }
-}
 
+public function post(): ?Response{
+    $request = $this->currentRequest;
+    if ($request->hasPostObject()) {
+        //dumpDie($request->getPostObject()->body());
+        redirect('/RegisterSucces');
+    }
+}
+}
 
 
 
