@@ -47,7 +47,7 @@ enum Role: int
             case 'admin':
                 return self::Admin;
             default:
-                throw new \InvalidArgumentException("Invalid gender: $from");
+                throw new \InvalidArgumentException("Invalid role: $from");
         }
     }
 }

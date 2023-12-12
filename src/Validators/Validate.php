@@ -3,6 +3,7 @@
 namespace Validators;
 
 use Lib\Enums\Gender;
+use Lib\Enums\Role;
 
 class Validate
 {
@@ -18,7 +19,7 @@ class Validate
 
     public static function notEmpty(string $value): bool
     {
-        return strlen($value) > 0;
+        return strlen(trim($value)) > 0;
     }
 
     public static function genderString(string $gender)
@@ -38,6 +39,16 @@ class Validate
             new \DateTime($date);
             return true;
         } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public static function roleString(string $role)
+    {
+        try {
+            Role::fromString($role);
+            return true;
+        } catch (\InvalidArgumentException $e) {
             return false;
         }
     }

@@ -80,6 +80,14 @@ class ManageAccountsController extends Controller
 
         $postBody = $this->currentRequest->getPostObject()->body();
 
+        $errors = $this->validateUser($postBody);
+
+        if (count($errors) > 0) {
+            $response = new JsonResponse();
+            $response->setBody($errors);
+            return $response;
+        }
+
         $toUpdateUser->id = $postBody['id'];
         $toUpdateUser->role = Role::fromString($postBody['role']);
         $toUpdateUser->firstName = $postBody['firstName'];
@@ -170,7 +178,7 @@ class ManageAccountsController extends Controller
         return implode($pass); //turn the array into a string
     }
 
-    public function validateNewUser($postBody)
+    public function validateNewUser($postBody): array
     {
         $errors = [];
 
@@ -196,6 +204,37 @@ class ManageAccountsController extends Controller
 
         if (!Validate::dateString($postBody['newDateOfBirth'])) {
             $errors[] = ["field" => "newDateOfBirth", "message" => "Geboortedatum is niet in geldig formaat"];
+        }
+
+        return $errors;
+    }
+
+    public function validateUser($postBody): array
+    {
+        $errors = [];
+
+        if (!Validate::notEmpty($postBody['firstName'])) {
+            $errors[] = ["field" => "firstName", "message" => "Voornaam is leeg"];
+        }
+
+        if (!Validate::notEmpty($postBody['lastName'])) {
+            $errors[] = ["field" => "lastName", "message" => "Achternaam is leeg"];
+        }
+
+        if (!Validate::notEmpty($postBody['dateOfBirth'])) {
+            $errors[] = ["field" => "dateOfBirth", "message" => "Geboortedatum is leeg"];
+        }
+
+        if (!Validate::genderString($postBody['gender'])) {
+            $errors[] = ["field" => "gender", "message" => "Ontvangen geslagd is niet in geldig format"];
+        }
+
+        if (!Validate::dateString($postBody['dateOfBirth'])) {
+            $errors[] = ["field" => "dateOfBirth", "message" => "Geboortedatum is niet in geldig formaat"];
+        }
+
+        if (!Validate::roleString($postBody['role'])) {
+            $errors[] = ["field" => "role", "message" => "Ontvangen rol is niet in geldig format"];
         }
 
         return $errors;
