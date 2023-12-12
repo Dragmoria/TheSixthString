@@ -5,7 +5,7 @@ namespace Lib\Database\Entity;
 class User extends SaveableObject {
 
     function __construct() {
-        $this->tableName = "review";
+        parent::__construct("review");
     }
 
     public string $emailaddress = "";

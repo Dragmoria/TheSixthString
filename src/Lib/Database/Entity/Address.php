@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class Address extends SaveableObject {
     public function __construct() {
-        $this->tableName = "address";
+        parent::__construct("address");
     }
 
     public int $userId = 0;

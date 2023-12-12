@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class Order extends SaveableObject {
     public function __construct() {
-        $this->tableName = "`order`"; //order is a keyword, so it's not recognized without the backticks
+        parent::__construct("`order`"); //order is a keyword, so it's not recognized without the backticks
     }
 
     public int $userId = 0;

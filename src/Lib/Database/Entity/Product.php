@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class Product extends SaveableObject {
     public function __construct() {
-        $this->tableName = "product";
+        parent::__construct("product");
     }
 
     public string $name = "";

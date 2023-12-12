@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class VisitedProduct extends SaveableObject {
     public function __construct() {
-        $this->tableName = "visitedproduct";
+        parent::__construct("visitedproduct");
     }
 
     public int $productId = 0;

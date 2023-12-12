@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class OrderItem extends SaveableObject {
     public function __construct() {
-        $this->tableName = "orderitem";
+        parent::__construct("orderitem");
     }
 
     public int $orderId = 0;

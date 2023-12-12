@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class TryoutSchedule extends SaveableObject {
     public function __construct() {
-        $this->tableName = "tryoutschedule";
+        parent::__construct("tryoutschedule");
     }
 
     public string $date = "";
