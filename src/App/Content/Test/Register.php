@@ -39,7 +39,7 @@
     
     
     
-    <form class = "ms-auto me-auto mb-5 card p-1 bg-card-custom" style=width:1200px; method="GET" action=Register.view.php>
+    <form class = "ms-auto me-auto mb-5 card p-1 bg-card-custom" style=width:1200px; method="POST" action="/Register">
     <div class="container">
         <div class="col-auto mt-4 ms-4 mb-3">
                     <h1 style="color:#EFE3C4">Registratie</h1>
