@@ -30,46 +30,21 @@
         </table>
 
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            Account toevoegen
+            Staff account toevoegen
         </button>
 
         <div class="modal" tabindex="-1" id="addModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">User toevoegen</h5>
+                        <h5 class="modal-title">Staff user toevoegen</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="newRole" class="form-label">Rol:</label>
-                            <div class="input-group">
-                                <select class="form-select" id="newRole" aria-label="NewRole">
-                                    <option value="Analyst">Analyst</option>
-                                    <option value="Manager">Manager</option>
-                                    <option value="Admin">Admin</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
                             <label for="newEmail" class="form-label">Email:</label>
                             <div class="input-group">
                                 <input type="email" class="form-control" id="newEmail" placeholder="Email" aria-label="NewEmail" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="newPassword" class="form-label">Wachtwoord:</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="newPassword" placeholder="Wachtwoord" aria-label="NewPassword" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="newConfirmPassword" class="form-label">Wachtwoord herhalen:</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="newConfirmPassword" placeholder="Wachtwoord herhalen" aria-label="newConfirmPassword" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
@@ -127,7 +102,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">User aanpassen</h5>
+                        <h5 class="modal-title">Staff user aanpassen</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -137,6 +112,7 @@
                             <label for="role" class="form-label">Rol:</label>
                             <div class="input-group">
                                 <select class="form-select" id="role" aria-label="Role">
+                                    <option value="Staff">Staff</option>
                                     <option value="Analyst">Analyst</option>
                                     <option value="Manager">Manager</option>
                                     <option value="Admin">Admin</option>
@@ -189,6 +165,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
                         <button id="saveButton" type="button" class="btn btn-primary">Opslaan</button>
+                        <button id="resetPasswordButton" type="button" class="btn btn-primary">Reset wachtwoord</button>
                     </div>
                 </div>
             </div>
@@ -223,6 +200,25 @@
                 $('#editModal').modal('show');
             });
 
+            $(document).on('click', '#resetPasswordButton', function() {
+                var data = {
+                    _method: 'PATCH',
+                    id: $('#id').val(),
+                };
+
+                $.post('/ControlPanel/Accounts/ResetPassword', data).then(function(response) {
+                    if (response === 'Password reset') {
+                        // Close the modal
+                        $('#editModal').modal('hide');
+
+                        $('#table').bootstrapTable('refresh');
+                    } else {
+                        // Handle error
+                        console.log(response);
+                    }
+                });
+            });
+
             $(document).on('click', '#saveButton', function() {
                 var data = {
                     _method: 'PATCH',
@@ -243,24 +239,39 @@
                         $('#table').bootstrapTable('refresh');
                     } else {
                         // Handle error
-                        console.log(response);
+                        handleInvalidInput(response);
                     }
                 });
             });
+
+            const handleInvalidInput = function(data) {
+                // Handle error
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                if (Array.isArray(data)) {
+                    data.forEach(function(error) {
+                        var input = $('#' + error.field);
+                        input.addClass('is-invalid');
+                        var errorDiv = $('<div>').addClass('invalid-feedback').text(error.message);
+                        input.after(errorDiv);
+                    });
+                } else {
+                    console.log(data);
+                }
+            };
 
 
 
             $(document).on('click', '#saveButtonNew', function() {
                 var data = {
                     _method: 'PUT',
-                    email: $('#newEmail').val(),
-                    role: $('#newRole').val(),
-                    firstName: $('#newFirstName').val(),
-                    insertion: $('#newInsertion').val(),
-                    lastName: $('#newLastName').val(),
-                    dateOfBirth: $('#newDateOfBirth').val(),
-                    gender: $('#newGender').val(),
-                    password: $('#newPassword').val(),
+                    newEmail: $('#newEmail').val(),
+                    newFirstName: $('#newFirstName').val(),
+                    newInsertion: $('#newInsertion').val(),
+                    newLastName: $('#newLastName').val(),
+                    newDateOfBirth: $('#newDateOfBirth').val(),
+                    newGender: $('#newGender').val(),
                 };
 
                 $.post('/ControlPanel/Accounts/AddUser', data).then(function(response) {
@@ -271,7 +282,7 @@
                         $('#table').bootstrapTable('refresh');
                     } else {
                         // Handle error
-                        console.log(response);
+                        handleInvalidInput(response);
                     }
                 });
             });

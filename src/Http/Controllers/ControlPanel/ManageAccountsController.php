@@ -10,8 +10,11 @@ use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Models\ResetpasswordModel;
 use Models\UserModel;
+use Service\ResetpasswordService;
 use Service\UserService;
+use Validators\Validate;
 
 class ManageAccountsController extends Controller
 {
@@ -99,22 +102,102 @@ class ManageAccountsController extends Controller
 
         $postBody = $this->currentRequest->getPostObject()->body();
 
+        $errors = $this->validateNewUser($postBody);
+
+        if (count($errors) > 0) {
+            $response = new JsonResponse();
+            $response->setBody($errors);
+            return $response;
+        }
+
         $newUser = new UserModel();
-        $newUser->role = Role::fromString($postBody['role']);
-        $newUser->emailAddress = $postBody['email'];
-        $newUser->firstName = $postBody['firstName'];
-        $newUser->insertion = $postBody['insertion'];
-        $newUser->lastName = $postBody['lastName'];
-        $newUser->dateOfBirth = new \DateTime($postBody['dateOfBirth']);
-        $newUser->gender = Gender::fromString($postBody['gender']);
+        $newUser->role = Role::Staff;
+        $newUser->emailAddress = $postBody['newEmail'];
+        $newUser->firstName = $postBody['newFirstName'];
+        $newUser->insertion = $postBody['newInsertion'];
+        $newUser->lastName = $postBody['newLastName'];
+        $newUser->dateOfBirth = new \DateTime($postBody['newDateOfBirth']);
+        $newUser->gender = Gender::fromString($postBody['newGender']);
         $newUser->active = false;
         $newUser->createdOn = new \DateTime();
-        $newUser->passwordHash = password_hash($postBody['password'], PASSWORD_DEFAULT);
+        $newUser->passwordHash = password_hash($this->randomString(22), PASSWORD_DEFAULT);
 
-        $userService->createUser($newUser);
+        $createdUser = $userService->createUser($newUser);
+
+        $resetpasswordService = Application::resolve(ResetpasswordService::class);
+
+        $resetpasswordModel = new ResetpasswordModel();
+        $resetpasswordModel->user = $createdUser;
+        $resetpasswordModel->link = $this->randomString(32);
+        $resetpasswordModel->validUntil = new \DateTime('+1 day');
+
+        $resetpasswordService->newResetpassword($resetpasswordModel);
 
         $response = new TextResponse();
         $response->setBody("User created");
         return $response;
+    }
+
+    public function resetPassword(): ?Response
+    {
+        $userService = Application::resolve(UserService::class);
+
+        $user = $userService->getUserById($this->currentRequest->getPostObject()->body()['id']);
+
+        $resetpasswordService = Application::resolve(ResetpasswordService::class);
+
+        $resetpasswordModel = new ResetpasswordModel();
+        $resetpasswordModel->user = $user;
+        $resetpasswordModel->link = $this->randomString(32);
+        $resetpasswordModel->validUntil = new \DateTime('+1 day');
+
+        $resetpasswordService->newResetpassword($resetpasswordModel);
+
+        $response = new TextResponse();
+        $response->setBody("Password reset");
+        return $response;
+    }
+
+    private function randomString(int $charCount): string
+    {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < $charCount; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
+    public function validateNewUser($postBody)
+    {
+        $errors = [];
+
+        if (!Validate::email($postBody['newEmail'])) {
+            $errors[] = ["field" => "newEmail", "message" => "Email is niet geldig"];
+        }
+
+        if (!Validate::notEmpty($postBody['newFirstName'])) {
+            $errors[] = ["field" => "newFirstName", "message" => "Voornaam is leeg"];
+        }
+
+        if (!Validate::notEmpty($postBody['newLastName'])) {
+            $errors[] = ["field" => "newLastName", "message" => "Achternaam is leeg"];
+        }
+
+        if (!Validate::notEmpty($postBody['newDateOfBirth'])) {
+            $errors[] = ["field" => "newDateOfBirth", "message" => "Geboortedatum is leeg"];
+        }
+
+        if (!Validate::genderString($postBody['newGender'])) {
+            $errors[] = ["field" => "newGender", "message" => "Ontvangen geslagd is niet in geldig format"];
+        }
+
+        if (!Validate::dateString($postBody['newDateOfBirth'])) {
+            $errors[] = ["field" => "newDateOfBirth", "message" => "Geboortedatum is niet in geldig formaat"];
+        }
+
+        return $errors;
     }
 }

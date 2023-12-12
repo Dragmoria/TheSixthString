@@ -8,10 +8,10 @@ use Models\UserModel;
 
 class UserService extends BaseDatabaseService
 {
-    public function getEmployees(): array
+    public function getEmployees(): ?array
     {
-        $query = 'SELECT * FROM user WHERE role = ? OR role = ? OR role = ?';
-        $params = [Role::Analyst->value, Role::Manager->value, Role::Admin->value];
+        $query = 'SELECT * FROM user WHERE role = ? OR role = ? OR role = ? OR role = ?';
+        $params = [Role::Analyst->value, Role::Manager->value, Role::Admin->value, Role::Staff->value];
 
         $result = $this->executeQuery($query, $params, User::class);
 
@@ -20,28 +20,31 @@ class UserService extends BaseDatabaseService
             array_push($models, UserModel::convertToModel($entity));
         }
 
+        if (count($models) === 0) return null;
         return $models;
     }
 
-    public function getUserById(int $id): UserModel
+    public function getUserById(int $id): ?UserModel
     {
         $user = $this->getById($id);
 
+        if ($user === null) return null;
         $model = UserModel::convertToModel($user);
 
         return $model;
     }
 
-    public function getUserByEmail(string $email): UserModel
+    public function getUserByEmail(string $email): ?UserModel
     {
         $user = $this->getByEmail($email);
 
+        if ($user === null) return null;
         $model = UserModel::convertToModel($user);
 
         return $model;
     }
 
-    public function getUsersByRole(Role $role): array
+    public function getUsersByRole(Role $role): ?array
     {
         $query = 'SELECT * FROM user WHERE role = ?';
         $params = [$role->value];
@@ -53,10 +56,11 @@ class UserService extends BaseDatabaseService
             array_push($models, UserModel::convertToModel($entity));
         }
 
+        if (count($models) === 0) return null;
         return $models;
     }
 
-    public function createUser(UserModel $input): bool
+    public function createUser(UserModel $input): UserModel
     {
         $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -75,7 +79,9 @@ class UserService extends BaseDatabaseService
 
         $result = $this->executeQuery($query, $params);
 
-        return $result !== false;
+        // return the just created user after getting it from the database
+        $user = $this->getByEmail($input->emailAddress);
+        return UserModel::convertToModel($user);
     }
 
     public function updateUser(UserModel $updateUser): bool
@@ -99,23 +105,26 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
-    private function getById(int $id): User
+    private function getById(int $id): ?User
     {
         $query = 'SELECT * FROM user WHERE id = ? LIMIT 1';
         $params = [$id];
 
         $result = $this->executeQuery($query, $params, User::class);
 
+        if (count($result) === 0) return null;
+        // Assuming the query returns only one user
         return $result[0];
     }
 
-    private function getByEmail(string $email): User
+    private function getByEmail(string $email): ?User
     {
         $query = 'SELECT * FROM user WHERE emailAddress = ? LIMIT 1';
         $params = [$email];
 
         $result = $this->executeQuery($query, $params, User::class);
 
+        if (count($result) === 0) return null;
         // Assuming the query returns only one user
         return $result[0];
     }

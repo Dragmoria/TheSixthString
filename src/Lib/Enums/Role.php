@@ -5,9 +5,10 @@ namespace Lib\Enums;
 enum Role: int
 {
     case Customer = 0;
-    case Analyst = 1;
-    case Manager = 2;
-    case Admin = 3;
+    case Staff = 1;
+    case Analyst = 2;
+    case Manager = 3;
+    case Admin = 4;
 
     public function hasRightsOf(Role $role): bool
     {
@@ -20,10 +21,12 @@ enum Role: int
             case 0:
                 return "Klant";
             case 1:
-                return "Analyst";
+                return "Medewerker";
             case 2:
-                return "Manager";
+                return "Analyst";
             case 3:
+                return "Manager";
+            case 4:
                 return "Admin";
             default:
                 return "Unknown";
@@ -35,6 +38,8 @@ enum Role: int
         switch (strtolower($from)) {
             case 'customer':
                 return self::Customer;
+            case 'staff':
+                return self::Staff;
             case 'analyst':
                 return self::Analyst;
             case 'manager':

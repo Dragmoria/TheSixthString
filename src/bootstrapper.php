@@ -7,17 +7,19 @@ use Http\Controllers\ControlPanel\ManageVouchersController;
 use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
-use Http\Controllers\ControlPanel\ControlPanelApiController;
 use Http\Controllers\HomeController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Service\ResetpasswordService;
 use Service\ReviewService;
 use Service\UserService;
 
 Application::initialize();
+
+date_default_timezone_set('Europe/Amsterdam'); // Replace 'Europe/Amsterdam' with your timezone
 
 $container = Container::getInstance();
 // Register some services here. Supports singleton and transient services.
@@ -26,6 +28,8 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
 });
 $container->registerClass(ReviewService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
+$container->registerClass(ResetpasswordService::class)->asSingleton();
+
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -43,7 +47,7 @@ $router->get('/ControlPanel/OrderManagement', [OrderManagementController::class,
 $router->get('/ControlPanel/Accounts/UsersTableData', [ManageAccountsController::class, 'usersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-
+$router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 
