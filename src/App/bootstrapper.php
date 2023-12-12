@@ -19,7 +19,8 @@ $router = Application::getRouter();
 
 // Add routes below here.
 $router->get('/', [RegisterController::class, 'register']);
-$router->post('/Register',[RegisterController::class,'post']);
+$router->put('/', [RegisterController::class, 'put']);
+$router->post('/Register',[RegisterController::class, 'post']);
 
 
 // Run the application.
