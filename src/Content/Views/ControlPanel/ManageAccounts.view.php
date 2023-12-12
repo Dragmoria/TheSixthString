@@ -1,6 +1,8 @@
 <div class="d-flex flex-grow-1">
     <?php echo component(\Http\Controllers\ControlPanel\SidebarComponent::class); ?>
 
+
+
     <div class="d-flex flex-column flex-grow-1">
         <section class="py-5 text-center container">
             <div class="row">
@@ -11,27 +13,31 @@
             </div>
         </section>
 
-        <table id="table" data-toggle="table" data-height="460" data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
-            <thead>
-                <tr>
-                    <th data-field="id">Id</th>
-                    <th data-field="emailAddress">Email</th>
-                    <th data-field="role">Rol</th>
-                    <th data-field="firstName">Voornaam</th>
-                    <th data-field="insertion">Tussenvoegsel</th>
-                    <th data-field="lastName">Achternaam</th>
-                    <th data-field="dateOfBirth">Geboortedatum</th>
-                    <th data-field="gender">Geslacht</th>
-                    <th data-field="active">Actief</th>
-                    <th data-field="createdOn">Aangemaakt op</th>
-                    <th data-field="edit" data-formatter="editFormatter"></th>
-                </tr>
-            </thead>
-        </table>
+        <div class="px-5">
+            <div style="min-height: 460px; visibility: hidden" id="tablecontainer">
+                <table id="table" data-toggle="table" data-height="460" data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
+                    <thead>
+                        <tr>
+                            <th data-field="id">Id</th>
+                            <th data-field="emailAddress">Email</th>
+                            <th data-field="role">Rol</th>
+                            <th data-field="firstName">Voornaam</th>
+                            <th data-field="insertion">Tussenvoegsel</th>
+                            <th data-field="lastName">Achternaam</th>
+                            <th data-field="dateOfBirth">Geboortedatum</th>
+                            <th data-field="gender">Geslacht</th>
+                            <th data-field="active">Actief</th>
+                            <th data-field="createdOn">Aangemaakt op</th>
+                            <th data-field="edit" data-formatter="editFormatter"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            Staff account toevoegen
-        </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                Staff account toevoegen
+            </button>
+        </div>
 
         <div class="modal" tabindex="-1" id="addModal">
             <div class="modal-dialog">
@@ -170,122 +176,125 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            function fetchUsers(params) {
-                // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
-                var url = '/ControlPanel/Accounts/UsersTableData'
-
-                $.get(url + '?' + $.param(params.data)).then(function(res) {
-                    params.success(res)
-                })
-            }
-
-            function editFormatter(value, row, index) {
-                return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
-            }
-
-            $(document).on('click', '.edit-btn', function() {
-                var index = $(this).data('index');
-                var row = $('#table').bootstrapTable('getData')[index];
-
-                $('#id').val(row.id);
-                $('#role').val(row.role);
-                $('#firstName').val(row.firstName);
-                $('#insertion').val(row.insertion);
-                $('#lastName').val(row.lastName);
-                $('#dateOfBirth').val(row.dateOfBirth);
-                $('#gender').val(row.gender);
-
-                $('#editModal').modal('show');
-            });
-
-            $(document).on('click', '#resetPasswordButton', function() {
-                var data = {
-                    _method: 'PATCH',
-                    id: $('#id').val(),
-                };
-
-                $.post('/ControlPanel/Accounts/ResetPassword', data).then(function(response) {
-                    if (response === 'Password reset') {
-                        // Close the modal
-                        $('#editModal').modal('hide');
-
-                        $('#table').bootstrapTable('refresh');
-                    } else {
-                        // Handle error
-                        console.log(response);
-                    }
-                });
-            });
-
-            $(document).on('click', '#saveButton', function() {
-                var data = {
-                    _method: 'PATCH',
-                    id: $('#id').val(),
-                    role: $('#role').val(),
-                    firstName: $('#firstName').val(),
-                    insertion: $('#insertion').val(),
-                    lastName: $('#lastName').val(),
-                    dateOfBirth: $('#dateOfBirth').val(),
-                    gender: $('#gender').val()
-                };
-
-                $.post('/ControlPanel/Accounts/UpdateUser', data).then(function(response) {
-                    if (response === 'User updated') {
-                        // Close the modal
-                        $('#editModal').modal('hide');
-
-                        $('#table').bootstrapTable('refresh');
-                    } else {
-                        // Handle error
-                        handleInvalidInput(response);
-                    }
-                });
-            });
-
-            const handleInvalidInput = function(data) {
-                // Handle error
-                $('input').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
-
-                if (Array.isArray(data)) {
-                    data.forEach(function(error) {
-                        var input = $('#' + error.field);
-                        input.addClass('is-invalid');
-                        var errorDiv = $('<div>').addClass('invalid-feedback').text(error.message);
-                        input.after(errorDiv);
-                    });
-                } else {
-                    console.log(data);
-                }
-            };
-
-
-
-            $(document).on('click', '#saveButtonNew', function() {
-                var data = {
-                    _method: 'PUT',
-                    newEmail: $('#newEmail').val(),
-                    newFirstName: $('#newFirstName').val(),
-                    newInsertion: $('#newInsertion').val(),
-                    newLastName: $('#newLastName').val(),
-                    newDateOfBirth: $('#newDateOfBirth').val(),
-                    newGender: $('#newGender').val(),
-                };
-
-                $.post('/ControlPanel/Accounts/AddUser', data).then(function(response) {
-                    if (response === 'User added') {
-                        // Close the modal
-                        $('#addModal').modal('hide');
-
-                        $('#table').bootstrapTable('refresh');
-                    } else {
-                        // Handle error
-                        handleInvalidInput(response);
-                    }
-                });
-            });
-        </script>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#tablecontainer').css('visibility', 'visible');
+    });
+
+    function fetchUsers(params) {
+        // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
+        var url = '/ControlPanel/Accounts/UsersTableData'
+
+        $.get(url + '?' + $.param(params.data)).then(function(res) {
+            params.success(res)
+        })
+    }
+
+    function editFormatter(value, row, index) {
+        return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
+    }
+
+    $(document).on('click', '.edit-btn', function() {
+        var index = $(this).data('index');
+        var row = $('#table').bootstrapTable('getData')[index];
+
+        $('#id').val(row.id);
+        $('#role').val(row.role);
+        $('#firstName').val(row.firstName);
+        $('#insertion').val(row.insertion);
+        $('#lastName').val(row.lastName);
+        $('#dateOfBirth').val(row.dateOfBirth);
+        $('#gender').val(row.gender);
+
+        $('#editModal').modal('show');
+    });
+
+    $(document).on('click', '#resetPasswordButton', function() {
+        var data = {
+            _method: 'PATCH',
+            id: $('#id').val(),
+        };
+
+        $.post('/ControlPanel/Accounts/ResetPassword', data).then(function(response) {
+            if (response === 'Password reset') {
+                // Close the modal
+                $('#editModal').modal('hide');
+
+                $('#table').bootstrapTable('refresh');
+            } else {
+                // Handle error
+                console.log(response);
+            }
+        });
+    });
+
+    $(document).on('click', '#saveButton', function() {
+        var data = {
+            _method: 'PATCH',
+            id: $('#id').val(),
+            role: $('#role').val(),
+            firstName: $('#firstName').val(),
+            insertion: $('#insertion').val(),
+            lastName: $('#lastName').val(),
+            dateOfBirth: $('#dateOfBirth').val(),
+            gender: $('#gender').val()
+        };
+
+        $.post('/ControlPanel/Accounts/UpdateUser', data).then(function(response) {
+            if (response === 'User updated') {
+                // Close the modal
+                $('#editModal').modal('hide');
+
+                $('#table').bootstrapTable('refresh');
+            } else {
+                // Handle error
+                handleInvalidInput(response);
+            }
+        });
+    });
+
+    const handleInvalidInput = function(data) {
+        // Handle error
+        $('input').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+
+        if (Array.isArray(data)) {
+            data.forEach(function(error) {
+                var input = $('#' + error.field);
+                input.addClass('is-invalid');
+                var errorDiv = $('<div>').addClass('invalid-feedback').text(error.message);
+                input.after(errorDiv);
+            });
+        } else {
+            console.log(data);
+        }
+    };
+
+
+
+    $(document).on('click', '#saveButtonNew', function() {
+        var data = {
+            _method: 'PUT',
+            newEmail: $('#newEmail').val(),
+            newFirstName: $('#newFirstName').val(),
+            newInsertion: $('#newInsertion').val(),
+            newLastName: $('#newLastName').val(),
+            newDateOfBirth: $('#newDateOfBirth').val(),
+            newGender: $('#newGender').val(),
+        };
+
+        $.post('/ControlPanel/Accounts/AddUser', data).then(function(response) {
+            if (response === 'User added') {
+                // Close the modal
+                $('#addModal').modal('hide');
+
+                $('#table').bootstrapTable('refresh');
+            } else {
+                // Handle error
+                handleInvalidInput(response);
+            }
+        });
+    });
+</script>
