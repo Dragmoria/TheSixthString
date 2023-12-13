@@ -18,3 +18,9 @@ VALUES (1, 1, 100, 1, 0);
 
 insert into review (rating, title, content, orderItemId, status, createdOn)
 VALUES (4, 'Testreview', 'Lorem ipsum...', 1, 0, '2023-12-08');
+
+insert into category (name, description, parentId, active)
+VALUES ('Categorie 1', 'Dit is een hoofdcategorie', null, 1);
+
+insert into category (name, description, parentId, active)
+VALUES ('Subcategorie 1', 'Dit is een subcategorie van hoofdcategorie 1', 1, 1);

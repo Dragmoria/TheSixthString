@@ -4,6 +4,7 @@ use Http\Controllers\HomeController;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Service\CategoryService;
 use Service\ReviewService;
 
 Application::initialize();
@@ -14,6 +15,7 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
     return new EnvHandler(BASE_PATH . '/.env');
 });
 $container->registerClass(ReviewService::class)->asSingleton();
+$container->registerClass(CategoryService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');

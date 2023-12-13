@@ -17,8 +17,8 @@ class ProductModel {
     public float $unitPrice = 0;
     public float $recommendedUnitPrice = 0;
     public string $sku = "";
-//    public ?BrandModel $brand = null;
-//    public ?CategoryModel $category = null;
+    public ?BrandModel $brand = null;
+    public ?CategoryModel $category = null;
     public ?string $media = null;
     public string $createdOn = "";
 
@@ -26,7 +26,6 @@ class ProductModel {
         if($entity->isEmptyObject()) return null;
 
         $model = new ProductModel();
-
         $model->id = $entity->id;
         $model->name = $entity->name;
         $model->subtitle = $entity->subtitle;
