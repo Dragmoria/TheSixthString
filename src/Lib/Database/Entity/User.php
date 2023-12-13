@@ -6,7 +6,7 @@ class User extends SaveableObject
 {
     function __construct()
     {
-        parent::construct("user");
+        parent::__construct("user");
     }
 
     public string $emailAddress = "";
