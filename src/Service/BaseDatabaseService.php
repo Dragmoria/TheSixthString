@@ -59,8 +59,8 @@ class BaseDatabaseService {
 
             // If the query is not a SELECT statement, return the result of the execution
             return $result;
-        } catch(\Exception) {
-            throw;
+        } catch(\Exception $ex) {
+            throw $ex;
         } finally {
             $db->close();
         }
