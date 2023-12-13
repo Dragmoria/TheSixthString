@@ -35,14 +35,14 @@
     $spacer = '<div class="spacer"></div>';
     $fields = array(
         'Voornaam' => 'firstname',
-        'Tussenvoegsel' => 'middlename',
+        'Tussenvoegsel *' => 'middlename',
         'Achternaam' => 'lastname',
         'Postcode' => 'zipcode',
         'Huisnummer' => 'housenumber',
-        'Toevoeging' => 'addition',
+        'Toevoeging *' => 'addition',
         'Straat' => 'street',
         'Plaats' => 'city',
-        'Telefoonnummer' => 'phonenumber',
+        'Telefoonnummer *' => 'phonenumber',
     );
     
     
@@ -61,10 +61,10 @@
                 <div class="spacer"></div>
                 <p style="color:#EFE3C4">Aanhef</p>
                 <div class="form-check-inline">
-                    <?php foreach (['Mevrouw', 'De heer', 'Anders'] as $option): ?>
+                    <?php foreach (['Mevrouw'=> 'female', 'De heer' => 'male', 'Anders' => 'else'] as $label => $name): ?>
                         <div class="col-auto form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?= strtolower($option) ?>" value="<?= strtolower($option) ?>">
-                            <label style="color:#EFE3C4" class="form-check-label" for="<?= strtolower($option) ?>"><?= $option ?></label>
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?= $name ?>" value="<?= strtolower($label) ?>">
+                            <label style="color:#EFE3C4" class="form-check-label" for="<?= $label ?>"><?= $label ?></label>
             </div>
         <?php endforeach; ?>
     </div>
@@ -80,15 +80,21 @@
                 </div>
             <?php endforeach; ?>
         </div>
-        <!-- Additional rows and fields go here -->
     </div>
     <div class="container">
         <!-- Rest of your form code goes here -->
     </div>
     <div class="container">
         <div class="row">
+        <div class="col-3 ms-4 mb-3">
+                        <select class="form-select rounded-pill bg-beige-color" id="country" name="country">
+                            <option selected value="1">Nederland</option>
+                            <option value="2">België</option>
+                            <option value="3">Luxemburg</option>
+                        </select>
+                </div>
             <div class="col-3 ms-4 mb-3">
-                <input type="text" class="form-control rounded-pill bg-beige-color" id="birthdate" name="birthdate" value="<?= $date ?>" min="1900-01-01" max="2050-12-31" />
+                <input type="date" class="form-control rounded-pill bg-beige-color" id="birthdate" name="birthdate"  min="1900-01-01" max="2050-12-31" />
             </div>
         </div>
     </div>
@@ -103,9 +109,9 @@
         </div>
         <div class="spacer"></div>
         <div class="row">
-            <?php foreach (['email', 'wachtwoord', 'herhalen wachtwoord'] as $field): ?>
+            <?php foreach (['email' => 'email', 'wachtwoord' => 'password', 'herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
                 <div class="col-3 ms-4 mb-3">
-                    <input type="<?= $field === 'email' ? 'text' : 'password' ?>" class="form-control rounded-pill form-check-inline bg-beige-color" id="<?= $field ?>" name="<?= $field ?>" placeholder="<?= ucfirst($field) ?>">
+                    <input type="<?= $label === 'email' ? 'text' : 'password' ?>" class="form-control rounded-pill form-check-inline bg-beige-color" id="<?= $name ?>" name="<?= $name ?>" placeholder="<?= $label ?>">
                 </div>
             <?php endforeach; ?>
             <div class="col-auto ms-4 mb-3">
@@ -121,8 +127,8 @@
 </form>
 
 <script>
-var repeatPasswordInput = document.getElementById('herhalen wachtwoord');
-var PasswordInput = document.getElementById('wachtwoord')
+var repeatPasswordInput = document.getElementById('repeatPassword');
+var PasswordInput = document.getElementById('password')
 var showPasswordButton = document.getElementById('showPasswordButton');
 
 

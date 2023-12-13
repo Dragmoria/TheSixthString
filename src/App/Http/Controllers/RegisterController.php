@@ -54,21 +54,24 @@ public function post(): ?Response {
 
     // Loop through each field and retrieve the data
     foreach ($fields as $field) {
-        // Check if the field is set in the POST data
-        if (isset($_POST[$field])) {
+        // Check if the field is set in the POST data and the value is not empty
+        if (isset($_POST[$field]) && !empty($_POST[$field])) {
             // Store the field data in the array
             $formData[$field] = $_POST[$field];
         } else {
-            // If the field is not set, you can set a default value or leave it empty
+            // If the field is not set or is empty, set a default value or leave it empty
             $formData[$field] = '';
-
-            // Set the flag to false if any field is not filled
-            $allFieldsFilled = false;
-
+    
+            // Set the flag to false if any required field is not filled
+            if ($field !== 'middlename' && $field !== 'addition' && $field !== 'herhalen wachtwoord') {
+                $allFieldsFilled = false;
+            }
+    
             // Add the field to the notFilledFields array
             $notFilledFields[] = $field;
         }
     }
+    dumpDie($notFilledFields);
 
     // Check the selected radio button
     if (isset($_POST['inlineRadioOptions'])) {
