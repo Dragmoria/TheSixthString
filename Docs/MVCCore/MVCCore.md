@@ -19,11 +19,11 @@ Voor een quick guide kun je kijken naar de [Quick Guide](./QuickGuide.md).
 Het Model-View-Controller (MVC) patroon is een ontwerppatroon dat wordt gebruikt in softwareontwikkeling om de structuur en organisatie van een applicatie te verbeteren. Het helpt ontwikkelaars om de code beter te organiseren en de onderhoudbaarheid te vergroten.
 
 MVC bestaat uit drie hoofdcomponenten: het Model, de View en de Controller.
-1. **Het Model:** Het Model vertegenwoordigt de gegevens en de logica van de applicatie. Het kan bijvoorbeeld de databasegegevens bevatten en de regels voor gegevensvalidatie definiëren. Het Model is verantwoordelijk voor het ophalen, bijwerken en opslaan van gegevens.
+1. **Het Model:** Het Model vertegenwoordigt de gegevens en de logica van de applicatie. Het kan bijvoorbeeld de databasegegevens bevatten en de regels voor gegevensvalidatie definiëren. Via het Model worden de gegevens (waaronder de gegevens die op het scherm moeten worden getoond), aan de View gegeven.
 
 2. **De View:** De View is verantwoordelijk voor het weergeven van de gebruikersinterface aan de gebruiker. Het kan HTML-pagina's, formulieren, grafieken, enz. bevatten. De View krijgt gegevens van het Model en toont deze aan de gebruiker.
 
-3. **De Controller:** De Controller fungeert als een tussenpersoon tussen het Model en de View. Het ontvangt gebruikersinvoer van de View en verwerkt deze. Het kan bijvoorbeeld gegevens uit het Model ophalen, deze aanpassen en doorgeven aan de View om te worden weergegeven. De Controller bevat de logica van de applicatie en coördineert de interactie tussen het Model en de View.
+3. **De Controller:** De Controller fungeert als een tussenpersoon tussen het Model en de View. Het ontvangt gebruikersinvoer van de View en verwerkt deze. De Controller bevat de logica van de applicatie en coördineert de interactie tussen het Model en de View. De Controller zorgt ervoor dat het Model wordt gevuld met data en dat de View (samen met deze data) wordt getoond aan de gebruiker. De Controller is ook het doorgeefluik naar de Services die alle acties op de database uitvoeren.
 
 Het MVC-patroon bevordert de scheiding van verantwoordelijkheden en maakt het gemakkelijker om wijzigingen aan te brengen in de applicatie. Het maakt het ook mogelijk om verschillende weergaven te maken voor dezelfde gegevens, waardoor de flexibiliteit en herbruikbaarheid van de code wordt vergroot.
 

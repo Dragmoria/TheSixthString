@@ -7,7 +7,7 @@ use Models\CategoryModel;
 
 class CategoryService extends BaseDatabaseService {
     public function getCategories(): array {
-        $queryResult = $this->db->query("select * from category order by parentId")->fetch_all(MYSQLI_ASSOC); //sort by parentId so the categories without a parent come first
+        $queryResult = $this->query("select * from category order by parentId")->fetch_all(MYSQLI_ASSOC); //sort by parentId so the categories without a parent come first
         $models = array();
         foreach($queryResult as $resultItem) {
             $this->addToResult($resultItem, $models);

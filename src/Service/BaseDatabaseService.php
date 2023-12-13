@@ -5,15 +5,20 @@ namespace Service;
 use Lib\Database\DatabaseContext;
 
 class BaseDatabaseService {
-    protected \mysqli $db;
+    private DatabaseContext $_dbContext;
 
     function __construct() {
-        $databaseContext = new DatabaseContext();
-        $this->db = $databaseContext->connect();
+        $this->_dbContext = new DatabaseContext();
     }
 
-    protected function sanitizeInput(string $value): string
-    {
-        return $this->db->real_escape_string($value);
+    public function query(string $query, int $result_mode = MYSQLI_STORE_RESULT): \mysqli_result|bool {
+        $db = $this->_dbContext->connect();
+        try {
+            return $db->query($query, $result_mode);
+        } catch(\Exception) {
+            throw;
+        } finally {
+            $db->close();
+        }
     }
 }
