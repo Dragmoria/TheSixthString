@@ -11,6 +11,7 @@ const RUNTIME_PATH = BASE_PATH . 'Runtime' . DIRECTORY_SEPARATOR;
 const COMPONENT_NAMESPACE = 'HTTP\\Controllers\\Components\\';
 
 const MAIN_LAYOUT = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'Layouts' . DIRECTORY_SEPARATOR . 'Main.layout.php';
+const CONTROLPANEL_LAYOUT = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'Layouts' . DIRECTORY_SEPARATOR . 'ControlPanel.layout.php';
 
 // Register the autoloader so you don't have to manually require files anymore.
 spl_autoload_register(function ($class) {

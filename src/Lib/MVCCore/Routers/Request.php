@@ -8,10 +8,12 @@ namespace Lib\MVCCore\Routers;
  * 
  * @package Lib\MVCCore
  */
-class Request {
+class Request
+{
     private static ?Request $instance = null;
 
-    private function __construct() {
+    private function __construct()
+    {
     }
 
     /**
@@ -19,10 +21,11 @@ class Request {
      *
      * @return Request The request object.
      */
-    public static function getInstance(): Request {
+    public static function getInstance(): Request
+    {
         if (self::$instance === null) {
             self::$instance = new Request();
-            
+
             self::$instance->postObject = new PostObject();
         }
 
@@ -41,7 +44,8 @@ class Request {
      *
      * @return boolean
      */
-    public function hasPostObject(): bool {
+    public function hasPostObject(): bool
+    {
         return isset($this->postObject);
     }
 
@@ -50,7 +54,8 @@ class Request {
      *
      * @return PostObject|null null if the request is not a post request.
      */
-    public function getPostObject(): ?PostObject {
+    public function getPostObject(): ?PostObject
+    {
         return $this->postObject;
     }
 
@@ -59,7 +64,8 @@ class Request {
      * In case of http://localhost:8080/contact?id=3 it will return /contact
      * @return string
      */
-    public function path(): string {
+    public function path(): string
+    {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
@@ -68,7 +74,8 @@ class Request {
      * In case of http://localhost:8080/contact?id=3 it will return http://localhost:8080/contact?id=3
      * @return string
      */
-    public function fullUrl(): string {
+    public function fullUrl(): string
+    {
         return "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     }
 
@@ -77,7 +84,8 @@ class Request {
      * In case of http://localhost:8080/contact?id=3 it will return http://localhost:8080/contact
      * @return string
      */
-    public function url(): string {
+    public function url(): string
+    {
         return "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
@@ -86,7 +94,8 @@ class Request {
      *
      * @return RequestTypes
      */
-    public function method(): RequestTypes {
+    public function method(): RequestTypes
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->postObject->body() !== null) {
                 return RequestTypes::from($this->postObject->body()['_method'] ?? $_SERVER['REQUEST_METHOD']);
@@ -102,9 +111,9 @@ class Request {
      * @param string $key The key to get the value of.
      * @return string|null null if the key does not exist.
      */
-    public function header(string $key): ?string {
+    public function header(string $key): ?string
+    {
         $key = strtoupper($key);
-        $key = "HTTP_" . $key;
 
         return $_SERVER[$key] ?? null;
     }
@@ -115,9 +124,9 @@ class Request {
      * @param string $key
      * @return boolean
      */
-    public function hasHeader(string $key): bool {
+    public function hasHeader(string $key): bool
+    {
         $key = strtoupper($key);
-        $key = "HTTP_" . $key;
 
         return isset($_SERVER[$key]);
     }
@@ -127,7 +136,8 @@ class Request {
      *
      * @return array
      */
-    public function allHeaders(): array {
+    public function allHeaders(): array
+    {
         $headers = [];
 
         foreach ($_SERVER as $key => $value) {
@@ -145,7 +155,8 @@ class Request {
      * @param string $key The key of the cookie to get.
      * @return string|null null if the cookie does not exist.
      */
-    public function cookie(string $key): ?string {
+    public function cookie(string $key): ?string
+    {
         return $_COOKIE[$key] ?? null;
     }
 
@@ -155,7 +166,8 @@ class Request {
      * @param string $key The key of the cookie to check.
      * @return boolean
      */
-    public function hasCookie(string $key): bool {
+    public function hasCookie(string $key): bool
+    {
         return isset($_COOKIE[$key]);
     }
 
@@ -164,7 +176,8 @@ class Request {
      *
      * @return array
      */
-    public function allCookies(): array {
+    public function allCookies(): array
+    {
         return $_COOKIE;
     }
 
@@ -173,7 +186,8 @@ class Request {
      *
      * @return array An associative array of all query params. Empty if there are none.
      */
-    public function urlQueryParams(): array {
+    public function urlQueryParams(): array
+    {
         $queryString = parse_url($this->fullUrl(), PHP_URL_QUERY);
         $queryParams = [];
         if ($queryString !== null) {
@@ -187,7 +201,8 @@ class Request {
      *
      * @return boolean
      */
-    public function wantsJson(): bool {
+    public function wantsJson(): bool
+    {
         return isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Lib\Enums\Role;
+
 /**
  * When called with a parameter it will dumb the value of the parameter in a pre tag and then die.
  *
@@ -40,4 +42,12 @@ function cast($className, array $objectArray) {
     }
     unset($value);
     return $new;
+}
+
+function currentRole(): ?Role {
+    if(isset($_SESSION["user"]["role"])) {
+        return Role::from((int)$_SESSION["user"]["role"]);
+    }
+
+    return null;
 }

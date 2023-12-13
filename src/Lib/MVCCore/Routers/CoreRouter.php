@@ -169,12 +169,13 @@ class CoreRouter implements Router {
      * @param array|null $middlewareParameter The parameter to be passed to the middleware constructor.
      * @return void
      */
-    public function middleware(string $middlewareName, array $middlewareParameter = null): void {
+    public function middleware(string $middlewareName, array $middlewareParameter = null): Router {
         reset($this->routes['GET']);
         end($this->routes['GET']);
         $key = key($this->routes['GET']);
 
         $this->routes['GET'][$key]['middlewares'][] = ['name' => $middlewareName, 'parameters' => $middlewareParameter];
+        return $this;
     }
     
     /**

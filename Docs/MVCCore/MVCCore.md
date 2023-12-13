@@ -857,9 +857,9 @@ Een middleware is een functie die na het request wordt uitgevoerd. Dit kun je ge
 $router = Application::getRouter();
 $router->get("/", [HomeController::class, "index"])->middleware(Authenticate::class, [Roles::Admin->value]);
 ```
-De router zal dan eerst de `Authenticate` middleware uitvoeren en daarna pas de `index` functie van de `HomeController`. De `Authenticate` middleware zal dan eerst kijken of de user is ingelogd en of de user de juiste rol heeft. Als dit niet zo is dan kan de controller verschillende dingen doen. Bijvoorbeeld de user redirecten naar een login pagina. Dit ziet er als volgt uit:
+De router zal dan eerst de `Authenticate` middleware uitvoeren en daarna pas de `index` functie van de `HomeController`. De `Authenticate` middleware zal dan eerst kijken of de user is ingelogd en of de user de juiste rol heeft. Als dit niet zo is dan kan de controller verschillende dingen doen. Bijvoorbeeld de user redirecten naar een login pagina. Elke middleware moet `Middleware` interface implementeren. Dit ziet er als volgt uit:
 ```php
-class Authenticate {
+class Authenticate implements Middleware {
     private array $acceptedRoles;
 
     public function __construct(array $acceptedRoles) {
@@ -883,7 +883,7 @@ class Authenticate {
 ```
 Daarnaast kun je ook kiezen om een `HTTPStatusCodes` terug te geven. Dit is een enum die alle http status codes bevat. Als je een status code teruggeeft zal de router proberen een view te vinden die bij die status code hoort. Als die view niet bestaat zal de router een standaard view laten zien. Dit ziet er als volgt uit:
 ```php
-class Authenticate {
+class Authenticate implements Middleware {
     private array $acceptedRoles;
 
     public function __construct(array $acceptedRoles) {

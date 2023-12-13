@@ -70,7 +70,7 @@ interface Router {
      * @param array|null $middlewareParameter The parameter to be passed to the middleware constructor.
      * @return void
      */
-    public function middleware(string $middlewareName, array $middlewareParameter = null): void;
+    public function middleware(string $middlewareName, array $middlewareParameter = null): Router;
 
     /**
      * Enables the ability to add a view to be rendered when a specific status code is returned.
