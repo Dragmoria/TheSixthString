@@ -2,6 +2,7 @@
 
 use Http\Controllers\HomeController;
 use http\controllers\RegisterController;
+use http\controllers\LoginController;
 use Lib\MVCCore\Containers\Container;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Routers\HTTPStatusCodes;
@@ -18,9 +19,10 @@ $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(functio
 $router = Application::getRouter();
 
 // Add routes below here.
-$router->get('/', [RegisterController::class, 'register']);
+$router->get('/Register', [RegisterController::class, 'register']);
+$router->get('/Login', [LoginController::class, 'loginPage']);
 $router->put('/', [RegisterController::class, 'put']);
-$router->post('/Register',[RegisterController::class, 'post']);
+$router->post('/RegisterSucces',[RegisterController::class, 'post']);
 
 
 // Run the application.

@@ -28,19 +28,16 @@ public function post(): ?Response {
     // List of input fields
     $fields = array(
         'firstname',
-        'middlename',
         'lastname',
         'zipcode',
         'housenumber',
-        'addition',
         'street',
         'city',
         'country',
-        'phonenumber',
         'birthdate',
         'email',
-        'wachtwoord',
-        'herhalen wachtwoord',
+        'password',
+        'repeatPassword',
     );
 
     // Initialize the formData array
