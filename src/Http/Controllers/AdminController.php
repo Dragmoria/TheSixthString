@@ -16,7 +16,7 @@ class AdminController extends Controller
 
         $response->setBody(view(VIEWS_PATH . 'Admin.view.php', [
             'secretData' => $secretData,
-        ]));
+        ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
 
         return $response;
     }

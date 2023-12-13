@@ -35,9 +35,9 @@ class Request
     /**
      * Object containing all the post data if the request is a post request.
      *
-     * @var PostObject|null null if the request is not a post request.
+     * @var PostObject
      */
-    private readonly ?PostObject $postObject;
+    public readonly PostObject $postObject;
 
     /**
      * Predicate to check if the request is a post request and has a post object.

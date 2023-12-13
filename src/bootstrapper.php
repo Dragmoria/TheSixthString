@@ -2,6 +2,8 @@
 
 use Http\Controllers\HomeController;
 use Http\Controllers\AdminController;
+use Http\Middlewares\AuthMiddleware;
+use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
@@ -24,7 +26,16 @@ $router = Application::getRouter();
 
 $router->get('/', [HomeController::class, 'index']);
 
-$router->get('/admin', [AdminController::class, 'index']);
+$router->get('/admin', [AdminController::class, 'index'])->middleware(AuthMiddleware::class, ["role" => Role::Admin]);
+
+
+$router->put('/postExample', [HomeController::class, 'postExample']);
+
+
+
+$_SESSION['user'] = [
+    'role' => Role::Admin
+];
 
 // Run the application.
 Application::run();
