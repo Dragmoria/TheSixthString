@@ -6,7 +6,7 @@ class Resetpassword extends SaveableObject
 {
     public function __construct()
     {
-        $this->tableName = "resetpassword";
+        parent::__construct("resetpassword");
     }
 
     public int $userId = 0;

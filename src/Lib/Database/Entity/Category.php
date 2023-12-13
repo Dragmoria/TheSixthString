@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class Category extends SaveableObject {
     public function __construct() {
-        $this->tableName = "category";
+        parent::__construct("category");
     }
 
     public string $name = "";

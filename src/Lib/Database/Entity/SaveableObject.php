@@ -3,7 +3,11 @@
 namespace Lib\Database\Entity;
 
 abstract class SaveableObject {
-    public string $tableName;
+
+    public function __construct(string $tableName) {
+        $this->tableName = $tableName;
+    }
+    public readonly string $tableName;
     public int $id = 0;
 
     public function isEmptyObject(): bool {

@@ -4,7 +4,7 @@ namespace Lib\Database\Entity;
 
 class Brand extends SaveableObject {
     public function __construct() {
-        $this->tableName = "brand";
+        parent::__construct("brand");
     }
 
     public string $name = "";

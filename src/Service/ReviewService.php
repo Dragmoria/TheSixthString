@@ -11,7 +11,7 @@ use Models\ReviewModel;
 class ReviewService extends BaseDatabaseService {
     public function getReviewById(int $id): ReviewModel {
         $review = $this->getById($id);
-        $product = $this->db->query('select prod.* from product prod inner join orderitem items on prod.id = items.productId where items.id = ' . $review->orderItemId . ' limit 1')->fetch_object(Product::class);
+        $product = $this->query('select prod.* from product prod inner join orderitem items on prod.id = items.productId where items.id = ' . $review->orderItemId . ' limit 1')->fetch_object(Product::class);
 
         $model = ReviewModel::convertToModel($review);
         $model->product = ProductModel::convertToModel($product);
@@ -20,7 +20,7 @@ class ReviewService extends BaseDatabaseService {
 
     public function getAllReviewsForProduct(int $productId) {
         $query = "select rev.* from review rev inner join orderitem items on items.Id = rev.orderItemId where items.productId = " . $productId;
-        $entities = $this->db->query($query)->fetch_all(MYSQLI_ASSOC);
+        $entities = $this->query($query)->fetch_all(MYSQLI_ASSOC);
 
         $models = array();
         foreach($entities as $entity) {
@@ -62,13 +62,13 @@ class ReviewService extends BaseDatabaseService {
     #region common database methods
     private function getById(int $id): Review {
         $query = 'select top 1 * from review where id = ' . $id;
-        $result = $this->db->query($query);
+        $result = $this->query($query);
 
         return $result->fetch_object(Review::class);
     }
 
     private function updateReviewStatus(Review $review): bool {
-        return $this->db->query('update review set status = ' . $review->status . ' where id = ' . $review->id);
+        return $this->query('update review set status = ' . $review->status . ' where id = ' . $review->id);
     }
     #endregion
 }

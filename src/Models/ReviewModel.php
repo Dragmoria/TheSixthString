@@ -6,7 +6,7 @@ use Lib\Database\Entity\Review;
 use Lib\Enums\ReviewStatus;
 
 class ReviewModel {
-    function __construct() { }
+    public function __construct() { }
 
     public int $id = 0;
     public int $rating = 0;
@@ -20,7 +20,6 @@ class ReviewModel {
         if ($entity->isEmptyObject()) return null;
 
         $model = new ReviewModel();
-
         $model->id = $entity->id;
         $model->rating = $entity->rating;
         $model->title = $entity->title;

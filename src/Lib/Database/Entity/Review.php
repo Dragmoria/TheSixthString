@@ -5,7 +5,7 @@ namespace Lib\Database\Entity;
 class Review extends SaveableObject
 {
     function __construct() {
-        $this->tableName = "review";
+        parent::__construct("review");
     }
 
     public int $rating = 0;
