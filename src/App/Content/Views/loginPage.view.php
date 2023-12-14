@@ -18,6 +18,10 @@
        background-color: #1C1713;
       }
 
+      .custom-input-height {
+        height: calc(3.5 * 1em); /* Adjust the multiplier as needed */
+      }
+
       .mt-custom {
         margin-top: 10rem !important;
       }
@@ -30,16 +34,50 @@
       .me-custom{
         padding-left: 25rem !important;
       }
+      .line-hyper{ 
+        content:"";
+        display:block;
+        width: calc(10 * 1.05 * 1em);
+        max-width:100%;
+        border-bottom: 0.1em solid #EFE3C4;
+
+      }
 
 </style>
 
 <div class="container-sm mb-custom mt-custom me-custom ms-custom" >   
     <form class="card p-1 bg-card-custom" style="height: 500px;" method="POST" action="/Account" onsubmit="return validatePasswords()">
         <div class="container ms-3 mt-3">
-        <h1 style="color:#EFE3C4">Sixt</h1>
-            <div class="container mt-5">
-                <input type="form-check-text" class="rounded-pill bg-beige-color" id="username" name="username" placeholder="username"></input>
-            </div>
+            <h2 style="color:#EFE3C4">Sixt</h2>
+            <h1 style="color:#EFE3C4">Inloggen</h1>
         </div>
+            <div class="container col-auto ms-5 me-5 mb-2 mt-5">
+              <div class="row">
+                <input type="form-check-text"  class="form-control custom-input-height  bg-beige-color" id="email" name="email" placeholder="    E-mailadres"></input>
+              </div>
+            </div>
+            <div class="container col-auto ms-5 me-5 mb-2 mt-2">
+              <div class="row">  
+                <input type="password"  class="form-control custom-input-height  bg-beige-color" id="password" name="password" placeholder="    Wachtwoord"></input>
+              </div>
+            </div>
+            <div class="container col-auto mt-1">
+              <div class="row">
+                <div class="col-auto ms-4 me-4 text-center">
+                    <a href="#" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
+                  <div class="line-hyper"></div>
+                </div>
+              </div>
+            </div>
+            <div class="container col-auto mt-5">
+              <div class="row">
+                <div class="col-auto ms-3 text-center">
+                <button type="submit" id="registerButton" name="registerButton" class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style="width: 150px;background-color:#FCB716;border-color:#FCB716">Registreren</button>
+                </div>
+                <div class="col-auto me-3 text-center">
+                <button type="submit" id="saveButton" name="saveButton" class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style="width: 150px;background-color:#FCB716;border-color:#FCB716">Inloggen</button>
+                </div>
+              </div>
+            </div>
     </form>
 </div>

@@ -15,7 +15,6 @@ public function get(): ?Response{
     $request = $this->currentRequest;
     if ($request->hasPostObject()) {
         //dumpDie($request->getPostObject()->body());
-        redirect('/RegisterSucces');
     }
 }
 
