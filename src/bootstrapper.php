@@ -14,6 +14,7 @@ use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
 use Service\CategoryService;
+use Service\CouponService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
 use Service\UserService;
@@ -31,7 +32,7 @@ $container->registerClass(ReviewService::class)->asSingleton();
 $container->registerClass(CategoryService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
-$container->registerClass(ManageCouponsController::class)->asSingleton();
+$container->registerClass(CouponService::class)->asSingleton();
 
 
 $router = Application::getRouter();
@@ -50,8 +51,9 @@ $router->get('/ControlPanel/Accounts/UsersTableData', [ManageAccountsController:
 $router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-$router->get('/ControlPanel/ManageVouchers', [ManageCouponsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
-$router->get('/ControlPanel/ManageVouchers/GetVouchers', [ManageCouponsController::class, 'getVouchers'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/ManageCoupons', [ManageCouponsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/ManageCoupons/GetCoupons', [ManageCouponsController::class, 'getCoupons'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->put('/ControlPanel/ManageCoupons/UpdateCoupon', [ManageCouponsController::class, 'updateCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 

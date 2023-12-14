@@ -1,46 +1,202 @@
-<div class="d-flex flex-grow-1">
-    <?php echo component(\Http\Controllers\ControlPanel\SidebarComponent::class); ?>
-
-
-
-    <div class="d-flex flex-column flex-grow-1">
-        <section class="py-5 text-center container">
-            <div class="row">
-                <div>
-                    <h1>Manage vouchers</h1>
-                    <p>Beheer alle vouchers</p>
-                </div>
+<div class="d-flex flex-column flex-grow-1">
+    <section class="py-5 text-center container">
+        <div class="row">
+            <div>
+                <h1>Manage vouchers</h1>
+                <p>Beheer alle vouchers</p>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <style>
+        .form-control {
+            margin-right: 10px;
+        }
+
+        .pagination-detail {
+            margin-left: 10px;
+        }
+
+        #addCouponModal {
+            margin-left: 10px;
+        }
+    </style>
+
+    <div>
         <div style="min-height: 460px; visibility: hidden" id="tablecontainer">
             <table class="table" id="table" data-toggle="table" data-height="460" data-ajax="fetchVouchers" data-search="true" data-side-pagination="server" data-pagination="true" data-filter-control="true" data-reorderable-rows="true">
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
-                        <th data-field="name" data-sortable="true">Name</th>
+                        <th data-field="name" data-sortable="true">Naam</th>
                         <th data-field="code" data-sortable="true">Code</th>
-                        <th data-field="value" data-sortable="true">Value</th>
-                        <th data-field="type" data-filter-control="select">Type</th>
-                        <th data-field="startDate" data-sortable="true">Start date</th>
-                        <th data-field="endDate" data-sortable="true">End date</th>
-                        <th data-field="usageAmount" data-sortable="true">Usage amount</th>
-                        <th data-field="maxUsageAmount">Max usage amount</th>
-                        <th data-field="active" data-filter-control="select">Active</th>
+                        <th data-field="value" data-sortable="true">Waarde</th>
+                        <th data-field="type" data-sortable="true">Type</th>
+                        <th data-field="startDate" data-sortable="true">Start datum</th>
+                        <th data-field="endDate" data-sortable="true">Eind datum</th>
+                        <th data-field="usageAmount" data-sortable="true">Keer gebruikt</th>
+                        <th data-field="maxUsageAmount" data-sortable="true">Max te gebruiken</th>
+                        <th data-field="active" data-sortable="true">Actief</th>
+                        <th data-field="edit" data-formatter="editFormatter"></th>
                     </tr>
                 </thead>
             </table>
+        </div>
+
+        <button type="button" id="addCouponModal" class="btn px-5 btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            Coupon toevoegen
+        </button>
+    </div>
+
+    <div class="modal" tabindex="-1" id="editCouponModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Coupon aanpassen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="editId" hidden>
+
+
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Naam:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editName" placeholder="Naam" aria-label="EditName" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editCode" class="form-label">Code:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editCode" placeholder="Code" aria-label="EditCode" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editValue" class="form-label">Waarde:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="editValue" placeholder="Waarde" aria-label="EditValue" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editType" class="form-label">Type:</label>
+                        <div class="input-group">
+                            <select class="form-select" id="editType" aria-label="EditType">
+                                <option value="amount">Bedrag</option>
+                                <option value="percentage">Percentage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 date" data-provide="datepicker">
+                        <label for="editEndDate" class="form-label">Eind datum:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editEndDate" placeholder="Eind datum" aria-label="EditEndDate" aria-describedby="basic-addon1">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editMaxAmount" class="form-label">Max te gebruiken:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="editMaxAmount" placeholder="Max te gebruiken" aria-label="EditMaxAmount" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editActive" class="form-label">Type:</label>
+                        <div class="input-group">
+                            <select class="form-select" id="editActive" aria-label="EditActive">
+                                <option value="active">Actief</option>
+                                <option value="inactive">Inactief</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
+                    <button id="saveButton" type="button" class="btn btn-primary">Opslaan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Coupon toevoegen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
+                    <button id="saveButtonNew" type="button" class="btn btn-primary">Opslaan</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#tablecontainer').css('visibility', 'visible');
+    });
+
     function fetchVouchers(params) {
         // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
-        var url = '/ControlPanel/ManageVouchers/GetVouchers';
+        var url = '/ControlPanel/ManageCoupons/GetCoupons';
 
         $.get(url + '?' + $.param(params.data)).then(function(res) {
             params.success(res)
         })
     }
+
+    function editFormatter(value, row, index) {
+        return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
+    }
+
+
+
+    $(document).on('click', '.edit-btn', function() {
+        var index = $(this).data('index');
+        var row = $('#table').bootstrapTable('getData')[index];
+
+        $("#editId").val(row.id);
+        $("#editName").val(row.name);
+        $("#editCode").val(row.code);
+        $("#editValue").val(row.value);
+        $("#editType").val(row.type.toLowerCase() === "bedrag" ? "amount" : "percentage");
+        $("#editEndDate").val(row.endDate);
+        $("#editMaxAmount").val(row.maxUsageAmount);
+        console.log(row.active);
+        $("#editActive").val(row.active.toLowerCase() === "actief" ? "active" : "inactive");
+
+        $('#editCouponModal').modal('show');
+    });
+
+    $(document).on('click', '#saveButton', function() {
+        var data = {
+            _method: "PUT",
+            id: $("#editId").val(),
+            name: $("#editName").val(),
+            code: $("#editCode").val(),
+            value: $("#editValue").val(),
+            type: $("#editType").val(),
+            endDate: $("#editEndDate").val(),
+            maxUsageAmount: $("#editMaxAmount").val(),
+            active: $("#editActive").val() === "active" ? true : false
+        }
+
+        $.post("/ControlPanel/ManageCoupons/UpdateCoupon", data, function() {
+            $('#editCouponModal').modal('hide');
+            $('#table').bootstrapTable('refresh');
+        });
+    });
 </script>

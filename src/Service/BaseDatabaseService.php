@@ -4,10 +4,12 @@ namespace Service;
 
 use Lib\Database\DatabaseContext;
 
-class BaseDatabaseService {
+class BaseDatabaseService
+{
     private DatabaseContext $_dbContext;
 
-    function __construct() {
+    function __construct()
+    {
         $this->_dbContext = new DatabaseContext();
     }
 
@@ -39,7 +41,9 @@ class BaseDatabaseService {
                 }
             }
 
-            $stmt->bind_param($types, ...$params);
+            if (!empty($params)) {
+                $stmt->bind_param($types, ...$params);
+            }
 
             if (!$stmt->execute()) {
                 // Handle error
@@ -59,7 +63,7 @@ class BaseDatabaseService {
 
             // If the query is not a SELECT statement, return the result of the execution
             return $result;
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         } finally {
             $db->close();

@@ -25,7 +25,7 @@ class SidebarComponent implements Component
                 "notifications" => ""
             ],
             [
-                "path" => "/ControlPanel/ManageVouchers",
+                "path" => "/ControlPanel/ManageCoupons",
                 "enabled" => $currentRole->hasRightsOf(Role::Analyst),
                 "text" => "Beheer vouchers",
                 "notifications" => ""

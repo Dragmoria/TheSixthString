@@ -3,6 +3,7 @@
 namespace Validators;
 
 use Lib\Enums\Gender;
+use Lib\Enums\ReviewStatus;
 use Lib\Enums\Role;
 
 class Validate
@@ -51,5 +52,10 @@ class Validate
         } catch (\InvalidArgumentException $e) {
             return false;
         }
+    }
+
+    public static function isNumber(string $number)
+    {
+        return is_numeric($number);
     }
 }
