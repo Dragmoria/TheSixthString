@@ -46,19 +46,19 @@
 </style>
 
 <div class="container-sm mb-custom mt-custom me-custom ms-custom" >   
-    <form class="card p-1 bg-card-custom" style="height: 500px;" method="POST" action="/Account" onsubmit="return validatePasswords()">
+    <form class="card p-1 bg-card-custom" style="height: 500px;" method="POST" action="/Account" onsubmit="return ChangeURL()">
         <div class="container ms-3 mt-3">
             <h2 style="color:#EFE3C4">Sixt</h2>
             <h1 style="color:#EFE3C4">Inloggen</h1>
         </div>
             <div class="container col-auto ms-5 me-5 mb-2 mt-5">
               <div class="row">
-                <input type="form-check-text"  class="form-control custom-input-height  bg-beige-color" id="email" name="email" placeholder="    E-mailadres"></input>
+                <input type="form-check-text"  class="form-control custom-input-height  bg-beige-color" id="email" name="email" placeholder="    E-mailadres" required></input>
               </div>
             </div>
             <div class="container col-auto ms-5 me-5 mb-2 mt-2">
               <div class="row">  
-                <input type="password"  class="form-control custom-input-height  bg-beige-color" id="password" name="password" placeholder="    Wachtwoord"></input>
+                <input type="password"  class="form-control custom-input-height  bg-beige-color" id="password" name="password" placeholder="    Wachtwoord" required></input>
               </div>
             </div>
             <div class="container col-auto mt-1">
@@ -72,7 +72,7 @@
             <div class="container col-auto mt-5">
               <div class="row">
                 <div class="col-auto ms-3 text-center">
-                <button type="submit" id="registerButton" name="registerButton" class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style="width: 150px;background-color:#FCB716;border-color:#FCB716">Registreren</button>
+                <button type="submit" id="registerButton" name="registerButton" class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style="width: 150px;background-color:#FCB716;border-color:#FCB716" onclick="ChangeURL()">Registreren</button>
                 </div>
                 <div class="col-auto me-3 text-center">
                 <button type="submit" id="saveButton" name="saveButton" class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color" style="width: 150px;background-color:#FCB716;border-color:#FCB716">Inloggen</button>
@@ -81,3 +81,19 @@
             </div>
     </form>
 </div>
+
+
+
+
+<script>
+        function ChangeURL() {
+            // Get the current URL
+            var currentURL = window.location.href;
+            // Replace the path with '/Register'
+            var newURL = currentURL.replace('Login', 'Register');
+
+            // Perform the redirection
+            window.location.href = newURL;
+            return false;
+        }
+    </script>
