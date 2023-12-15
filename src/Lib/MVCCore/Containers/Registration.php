@@ -12,9 +12,9 @@ class Registration
     /**
      * Represents the lifetime of the registration.
      *
-     * @var Lifetime
+     * @var LifeTime
      */
-    public Lifetime $lifeTime;
+    public LifeTime $lifeTime;
     /**
      * Represents the class name of the registration.
      *
@@ -35,7 +35,7 @@ class Registration
      */
     public function __construct(string $toRegisterClassName)
     {
-        $this->lifeTime = Lifetime::Transient;
+        $this->lifeTime = LifeTime::Transient;
         $this->className = $toRegisterClassName;
 
         $this->resolver = function () use ($toRegisterClassName) {
@@ -50,7 +50,7 @@ class Registration
      */
     public function asTransient(): Registration
     {
-        $this->lifeTime = Lifetime::Transient;
+        $this->lifeTime = LifeTime::Transient;
         return $this;
     }
 
@@ -61,7 +61,7 @@ class Registration
      */
     public function asSingleton(): Registration
     {
-        $this->lifeTime = Lifetime::Singleton;
+        $this->lifeTime = LifeTime::Singleton;
         return $this;
     }
 

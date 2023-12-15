@@ -81,7 +81,7 @@ class Container
         $registration = $this->registrations[$target];
 
         // Check if the registration is a singleton
-        if ($registration->lifeTime === Lifetime::Singleton) {
+        if ($registration->lifeTime === LifeTime::Singleton) {
             // Check if the instance doesn't exists yet
             if (!array_key_exists($target, $this->instances)) {
                 // Create a new instance and add it to the instances array
