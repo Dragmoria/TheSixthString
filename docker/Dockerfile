@@ -2,14 +2,7 @@ FROM php:apache
 
 RUN docker-php-ext-install mysqli
 
-# Enable the necessary Apache modules
-RUN a2enmod rewrite
-RUN a2enmod autoindex
-
-COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
-
-# Enable the site
-RUN a2ensite 000-default
+COPY ./docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 COPY ./src /var/www/html
 
