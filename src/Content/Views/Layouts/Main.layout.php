@@ -14,16 +14,14 @@
 
 </head>
 
-<body class="min-vh-100 d-flex flex-column">
-    <div class="d-flex flex-column vh-100">
-        <header>
-            <?php include VIEWS_PATH . 'Partials/Header.partial.php' ?>
-        </header>
+<body>
+    <header>
+        <?php include VIEWS_PATH . 'Partials/Header.partial.php' ?>
+    </header>
 
-        <main class="flex-grow-1 d-flex flex-column">
-            <?php echo $content; ?>
-        </main>
-    </div>
+    <main>
+        <?php echo $content; ?>
+    </main>
 
     <footer class="mt-auto">
         <?php include VIEWS_PATH . 'Partials/Footer.partial.php'; ?>
