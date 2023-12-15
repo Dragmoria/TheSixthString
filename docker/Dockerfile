@@ -7,7 +7,7 @@ COPY ./src /var/www/html
 
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/custom.ini
 
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www
 
