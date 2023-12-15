@@ -4,7 +4,7 @@ RUN pecl install -o -f xdebug \
     && docker-php-ext-enable xdebug
 
 # Copy the source code first
-# COPY ./src /var/www/html
+COPY ./src /var/www/html
 
 # Then copy the Apache configuration file
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/custom.ini
