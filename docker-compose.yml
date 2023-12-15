@@ -2,7 +2,9 @@ version: "3.1"
 
 services:
   web:
-    build: ./docker
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
     ports:
       - "80:80"
       - "443:443"
