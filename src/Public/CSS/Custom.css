@@ -43,3 +43,12 @@
     background-color: var(--sixth-yellow);
     height: 15px; 
   }
+
+  .header-custom {
+    background: url('../images/header.jpg');
+    background-repeat: no-repeat !important;
+    background-position: center;
+    height: calc(100vh - 71px);
+    width: 100%;
+    filter: drop-shadow(5px 29px 40px #000000);
+  }
