@@ -13,6 +13,9 @@ WORKDIR /var/www
 
 RUN a2enmod rewrite
 
+# Create the public directory
+RUN mkdir -p /var/www/html/public
+
 RUN chown -R www-data:www-data /var/www
 
 CMD ["apache2-foreground"]
