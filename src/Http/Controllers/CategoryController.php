@@ -20,8 +20,7 @@ class CategoryController extends Controller {
         if($this->hasChildCategoriesForSelectedCategory($categories)) {
             $response->setBody(view(VIEWS_PATH . 'Categories.view.php', ['categories' => $categories])->withLayout(MAIN_LAYOUT));
         } else {
-            $data = ['filters' => array(), 'products' => array()];
-            $response->setBody(view(VIEWS_PATH . 'Products.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
+            redirect("/Product?categoryId=" . $urlQueryParams["id"]);
         }
 
         return $response;

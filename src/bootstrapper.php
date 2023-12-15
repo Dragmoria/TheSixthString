@@ -9,6 +9,7 @@ use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\HomeController;
+use Http\Controllers\ProductController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -32,6 +33,7 @@ $container->registerClass(ReviewService::class)->asSingleton();
 $container->registerClass(CategoryService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
+$container->registerClass(\Service\ProductService::class)->asSingleton();
 
 
 $router = Application::getRouter();
@@ -53,6 +55,8 @@ $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class,
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 
 $router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Product', [ProductController::class, 'index']);
+$router->get('/Product/{id}', [ProductController::class, 'details']);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 

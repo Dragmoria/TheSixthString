@@ -19,7 +19,7 @@ class ProductModel {
     public string $sku = "";
     public ?BrandModel $brand = null;
     public ?CategoryModel $category = null;
-    public ?string $media = null;
+    public ?MediaModel $media = null;
     public string $createdOn = "";
 
     public static function convertToModel(?Product $entity): ?ProductModel {
@@ -36,7 +36,7 @@ class ProductModel {
         $model->unitPrice = $entity->unitPrice;
         $model->recommendedUnitPrice = $entity->recommendedUnitPrice;
         $model->sku = $entity->sku;
-        $model->media = $entity->media;
+        $model->media = MediaModel::convertToModel($entity->media);
         $model->createdOn = $entity->createdOn;
 
         return $model;

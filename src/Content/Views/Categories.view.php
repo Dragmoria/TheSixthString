@@ -1,8 +1,5 @@
 <?php
 $selectedCategoryProducts = array();
-//TODO:
-//als er geen categorieen meer zijn en wel een geselecteerde categorie,
-//dan het overzicht met producten tonen voor die geselecteerde categorie -> nieuwe pagina, Products. Dit moet al in de controller gebeuren!
 ?>
 <div class="container">
     <div class="row">
@@ -40,7 +37,7 @@ $selectedCategoryProducts = array();
             foreach ($selectedCategoryProducts as $product) {
                 ?>
                 <div class="col-6 col-md-4 col-lg-2">
-                    <a class="card rounded-4 mb-4" href="/Product?id=<?= $product->id ?>">
+                    <a class="card rounded-4 mb-4" href="/Product/<?= $product->id ?>">
                         <img class="card-img-top rounded-4"
                              src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
                              alt="Category image">

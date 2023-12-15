@@ -12,7 +12,7 @@ class CategoryModel {
     public string $name = "";
     public string $description = "";
     public bool $active = false;
-    public ?string $media = null;
+    public ?MediaModel $media = null;
     public array $products = array();
 
     public static function convertToModel(?Category $entity): ?CategoryModel {
@@ -23,7 +23,7 @@ class CategoryModel {
         $model->name = $entity->name;
         $model->description = $entity->description;
         $model->active = $entity->active;
-        $model->media = $entity->media;
+        $model->media = MediaModel::convertToModel($entity->media);
 
         return $model;
     }

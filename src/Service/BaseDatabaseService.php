@@ -35,7 +35,7 @@ class BaseDatabaseService {
                     $types .= 'i';
                     $param = (int) $param; // Convert boolean to integer
                 } else {
-                    throw new \Exception('Invalid parameter type');
+                    throw new \Exception('Invalid parameter type: ' . gettype($param));
                 }
             }
 
