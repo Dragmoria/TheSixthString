@@ -8,6 +8,7 @@
       <div class="navbar-nav">
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/ControlPanel">Control panel</a>
+        <a class="nav-link" href="/Category">Categorieën</a>
       </div>
     </div>
   </div>

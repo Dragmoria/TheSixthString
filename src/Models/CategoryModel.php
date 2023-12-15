@@ -8,11 +8,12 @@ class CategoryModel {
     public function __construct() { }
 
     public int $id = 0;
+    public bool $isSelectedCategory = false;
     public string $name = "";
     public string $description = "";
     public bool $active = false;
     public ?string $media = null;
-    public array $children = array();
+    public array $products = array();
 
     public static function convertToModel(?Category $entity): ?CategoryModel {
         if($entity->isEmptyObject()) return null;

@@ -39,7 +39,9 @@ class BaseDatabaseService {
                 }
             }
 
-            $stmt->bind_param($types, ...$params);
+            if(count($params) > 0) {
+                $stmt->bind_param($types, ...$params);
+            }
 
             if (!$stmt->execute()) {
                 // Handle error
@@ -59,8 +61,8 @@ class BaseDatabaseService {
 
             // If the query is not a SELECT statement, return the result of the execution
             return $result;
-        } catch(\Exception) {
-            throw;
+        } catch(\Exception $ex) {
+            throw $ex;
         } finally {
             $db->close();
         }

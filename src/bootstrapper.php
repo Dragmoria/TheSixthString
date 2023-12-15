@@ -1,5 +1,6 @@
 <?php
 
+use Http\Controllers\CategoryController;
 use Http\Controllers\ControlPanel\ManageAccountsController;
 use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\ControlPanel\ManageContentController;
@@ -50,6 +51,8 @@ $router->get('/ControlPanel/Accounts/UsersTableData', [ManageAccountsController:
 $router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+
+$router->get('/Category', [CategoryController::class, 'index']);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 
