@@ -2,9 +2,9 @@ FROM php:apache
 
 RUN docker-php-ext-install mysqli
 
-COPY ./docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
 COPY ./src /var/www/html
+
+COPY ./docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 WORKDIR /var/www
 
