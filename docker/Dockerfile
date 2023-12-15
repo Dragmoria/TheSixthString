@@ -7,10 +7,10 @@ RUN pecl install -o -f xdebug \
 COPY ./src /var/www/html
 
 # Then copy the Apache configuration file
-COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Then copy the PHP configuration file
-COPY ./docker/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www
 
