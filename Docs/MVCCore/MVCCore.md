@@ -1,5 +1,5 @@
 # MVCCore
-> **Tijdsduur:** 30 minuten
+> **Leestijd:** 40 minuten
 
 # Inhoudsopgave
 - [Inhoudsopgave](#inhoudsopgave)
@@ -19,11 +19,11 @@ Voor een quick guide kun je kijken naar de [Quick Guide](./QuickGuide.md).
 Het Model-View-Controller (MVC) patroon is een ontwerppatroon dat wordt gebruikt in softwareontwikkeling om de structuur en organisatie van een applicatie te verbeteren. Het helpt ontwikkelaars om de code beter te organiseren en de onderhoudbaarheid te vergroten.
 
 MVC bestaat uit drie hoofdcomponenten: het Model, de View en de Controller.
-1. **Het Model:** Het Model vertegenwoordigt de gegevens en de logica van de applicatie. Het kan bijvoorbeeld de databasegegevens bevatten en de regels voor gegevensvalidatie definiëren. Het Model is verantwoordelijk voor het ophalen, bijwerken en opslaan van gegevens.
+1. **Het Model:** Het Model vertegenwoordigt de gegevens en de logica van de applicatie. Het kan bijvoorbeeld de databasegegevens bevatten en de regels voor gegevensvalidatie definiëren. Via het Model worden de gegevens (waaronder de gegevens die op het scherm moeten worden getoond), aan de View gegeven.
 
 2. **De View:** De View is verantwoordelijk voor het weergeven van de gebruikersinterface aan de gebruiker. Het kan HTML-pagina's, formulieren, grafieken, enz. bevatten. De View krijgt gegevens van het Model en toont deze aan de gebruiker.
 
-3. **De Controller:** De Controller fungeert als een tussenpersoon tussen het Model en de View. Het ontvangt gebruikersinvoer van de View en verwerkt deze. Het kan bijvoorbeeld gegevens uit het Model ophalen, deze aanpassen en doorgeven aan de View om te worden weergegeven. De Controller bevat de logica van de applicatie en coördineert de interactie tussen het Model en de View.
+3. **De Controller:** De Controller fungeert als een tussenpersoon tussen het Model en de View. Het ontvangt gebruikersinvoer van de View en verwerkt deze. De Controller bevat de logica van de applicatie en coördineert de interactie tussen het Model en de View. De Controller zorgt ervoor dat het Model wordt gevuld met data en dat de View (samen met deze data) wordt getoond aan de gebruiker. De Controller is ook het doorgeefluik naar de Services die alle acties op de database uitvoeren.
 
 Het MVC-patroon bevordert de scheiding van verantwoordelijkheden en maakt het gemakkelijker om wijzigingen aan te brengen in de applicatie. Het maakt het ook mogelijk om verschillende weergaven te maken voor dezelfde gegevens, waardoor de flexibiliteit en herbruikbaarheid van de code wordt vergroot.
 
@@ -76,6 +76,7 @@ De package die we hebben bestaat uit een aantal onderdelen. Ik zal deze onderdel
 11. [Partial / Component](#partial--component)
     11.1 [Partial](#partial)
     11.2 [Component](#component)
+12. [Model](#model)
 
 
 ### Application
@@ -856,9 +857,9 @@ Een middleware is een functie die na het request wordt uitgevoerd. Dit kun je ge
 $router = Application::getRouter();
 $router->get("/", [HomeController::class, "index"])->middleware(Authenticate::class, [Roles::Admin->value]);
 ```
-De router zal dan eerst de `Authenticate` middleware uitvoeren en daarna pas de `index` functie van de `HomeController`. De `Authenticate` middleware zal dan eerst kijken of de user is ingelogd en of de user de juiste rol heeft. Als dit niet zo is dan kan de controller verschillende dingen doen. Bijvoorbeeld de user redirecten naar een login pagina. Dit ziet er als volgt uit:
+De router zal dan eerst de `Authenticate` middleware uitvoeren en daarna pas de `index` functie van de `HomeController`. De `Authenticate` middleware zal dan eerst kijken of de user is ingelogd en of de user de juiste rol heeft. Als dit niet zo is dan kan de controller verschillende dingen doen. Bijvoorbeeld de user redirecten naar een login pagina. Elke middleware moet `Middleware` interface implementeren. Dit ziet er als volgt uit:
 ```php
-class Authenticate {
+class Authenticate implements Middleware {
     private array $acceptedRoles;
 
     public function __construct(array $acceptedRoles) {
@@ -882,7 +883,7 @@ class Authenticate {
 ```
 Daarnaast kun je ook kiezen om een `HTTPStatusCodes` terug te geven. Dit is een enum die alle http status codes bevat. Als je een status code teruggeeft zal de router proberen een view te vinden die bij die status code hoort. Als die view niet bestaat zal de router een standaard view laten zien. Dit ziet er als volgt uit:
 ```php
-class Authenticate {
+class Authenticate implements Middleware {
     private array $acceptedRoles;
 
     public function __construct(array $acceptedRoles) {
@@ -1010,5 +1011,109 @@ Dit is een component dat de data zelf ophaald. Dit is handig als je een componen
 ```php
 <div>
     <?php echo component(Http\Controllers\Components\ProductComponent::class) ?>
+</div>
+```
+
+### Model
+Als je data toe voegt aan een view kan dat op meerdere manieren. De snelste manier is om gewoon een array aan data mee te geven zoals dit:
+```php
+class HomeController extends Controller {
+    public function index(): ?Response {
+        $response = new ViewResponse();
+        $response->setBody(view(VIEWS_PATH . "home.php", ["name" => "John Doe"]));
+        return $response;
+    }
+}
+```
+Dit is ok met de hoeveelheid data die je in deze situatie mee wilt geven. Maar stel dat je een product wilt meegegeven waar wat meer data bij komt kijken zoals bij onze producten. Dan is het handig om een model te gebruiken. Een model is een class die de data van een `ding` representeert. Dit is handig als dit `ding` veel data heeft die je hier onder kan scharen. Denk aan het product hier heb je:
+- Id;
+- Name;
+- Subtitle;
+- Description;
+- Active;
+- AmountInStock;
+- DemoAmountInStock;
+- UnitPrice;
+- RecommendedUnitPrice;
+- SKU;
+- BrandId;
+- CategoryId;
+- Media;
+- CreatedOn.
+
+Als je al deze data lost in een array meegeeft aan de view wordt het al snel onoverzichtelijk. Daarnaast is het mogelijk dat je product op meerdere pagina's gaat gebruiken. Dan moet je op meerdere plekken een onoverzichtelijk array meegeven. Om dit overzichtelijk te houden kun je een model gebruiken. Dit ziet er als volgt uit:
+```php
+class ProductModel {
+    int Id;
+    string Name;
+    string Subtitle;
+    string Description;
+    bool Active;
+    int AmountInStock;
+    int DemoAmountInStock;
+    float UnitPrice;
+    float RecommendedUnitPrice;
+    string SKU;
+    int BrandId;
+    int CategoryId;
+    array Media;
+    DateTime CreatedOn;
+}
+```
+Dit kun je dan gemakkelijker naar de view meegeven. Als je dan in het model ook nog een slimme methode aanmaakt om de data direct vanuit de data source door kan geven is het helemaal mooi. Bijvoorbeeld iets als dit:
+```php
+class ProductModel {
+    int Id;
+    string Name;
+    string Subtitle;
+    string Description;
+    bool Active;
+    int AmountInStock;
+    int DemoAmountInStock;
+    float UnitPrice;
+    float RecommendedUnitPrice;
+    string SKU;
+    int BrandId;
+    int CategoryId;
+    array Media;
+    DateTime CreatedOn;
+
+    public function __construct(int $id) {
+        $product = Application::resolve(ProductService::class)->getById($id);
+        $this->Id = $product->id;
+        $this->Name = $product->name;
+        $this->Subtitle = $product->subtitle;
+        $this->Description = $product->description;
+        $this->Active = $product->active;
+        $this->AmountInStock = $product->amountInStock;
+        $this->DemoAmountInStock = $product->demoAmountInStock;
+        $this->UnitPrice = $product->unitPrice;
+        $this->RecommendedUnitPrice = $product->recommendedUnitPrice;
+        $this->SKU = $product->sku;
+        $this->BrandId = $product->brandId;
+        $this->CategoryId = $product->categoryId;
+        $this->Media = $product->media;
+        $this->CreatedOn = $product->createdOn;
+    }
+}
+```
+Nu kun je dit model meegeven aan de view. Dit ziet er als volgt uit:
+```php
+class HomeController extends Controller {
+    public function index(): ?Response {
+        $response = new ViewResponse();
+
+        $product = new ProductModel();
+
+        $response->setBody(view(VIEWS_PATH . "home.php", ["product" => $product]));
+        return $response;
+    }
+}
+```
+In de view kun je nu het volgende doen om de data uit het model te halen:
+```php
+<div>
+    <h1><?php echo $product->Name ?></h1>
+    <p><?php echo $product->Description ?></p>
 </div>
 ```

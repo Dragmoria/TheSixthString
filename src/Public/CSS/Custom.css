@@ -1,0 +1,94 @@
+:root {
+    --sixth-primary: #1C1713;
+    --sixth-secondary: #FCB716;
+    --sixth-tertiary: #2C231E;
+    --sixth-beige: #EFE3C4;
+    --sixth-beige-2: #FBE5CE;
+    --sixth-white: #FFFFFF;
+}
+
+.btn-card {
+    transition: box-shadow .3s;
+    border-radius: 20px;
+}
+
+.sixth-bg-primary {
+    background-color: var(--sixth-primary);
+}
+
+.sixth-bg-secondary {
+    background-color: var(--sixth-secondary);
+}
+
+.sixth-bg-tertiary {
+    background-color: var(--sixth-tertiary);
+}
+
+.sixth-bg-beige {
+    background-color: var(--sixth-beige);
+}
+
+.sixth-bg-beige-2 {
+    background-color: var(--sixth-beige-2);
+}
+
+.sixth-bg-white {
+    background-color: var(--sixth-white);
+}
+
+.btn-card:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
+div.sixth-primary {
+    background-color: var(--sixth-primary);
+}
+
+div.sixth-secondary {
+    background-color: var(--sixth-secondary);
+}
+
+div.sixth-tertiary {
+    background-color: var(--sixth-tertiary);
+} 
+
+div.sixth-tertiary h1, div.sixth-tertiary p {
+    color: var(--sixth-beige);
+}
+
+div.sixth-beige {
+    background-color: var(--sixth-beige);
+} 
+
+div.sixth-beige h1, div.sixth-beige p {
+    color: var(--sixth-primary);
+}
+
+div.sixth-beige-2 {
+    background-color: var(--sixth-beige-2);
+}
+
+div.sixth-white {
+    background-color: var(--sixth-white);
+}
+
+
+
+
+
+.fixed-width-span {
+    width: 120px; /* Adjust the width as needed */
+}
+
+.spacer {
+    height: 1pc;
+}
+
+.white-button {
+    background-color: #fff;
+    border-color: #000000;
+}
+
+.custom-control-input{
+    color: green;
+}
