@@ -3,7 +3,7 @@ version: "3.1"
 services:
   web:
     build: ./docker
-    image: php:apache-xdebug
+    image: php:apache
     ports:
       - "80:80"
       - "443:443"
@@ -13,7 +13,7 @@ services:
   db:
     image: mysql:latest
     ports:
-      - "3310:3306"
+      - "3311:3306"
     volumes:
       - phpwebapp_db_data:/var/lib/mysql
     environment:
