@@ -1,20 +1,17 @@
 FROM php:apache
 
-RUN docker-php-ext-install mysqli
+RUN pecl install -o -f xdebug \
+    && docker-php-ext-enable xdebug
 
 COPY ./src /var/www/html
 
+COPY ./docker/php.ini /usr/local/etc/php/conf.d/custom.ini
+
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
 WORKDIR /var/www
 
-# Create the public directory
-RUN mkdir -p /var/www/html/public
-
-# Copy the Apache configuration file after creating the public directory
-COPY ./docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
-RUN a2ensite 000-default
-
-RUN service apache2 restart
+RUN a2enmod rewrite
 
 RUN chown -R www-data:www-data /var/www
 

@@ -6,12 +6,12 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
   db:
     image: mysql:latest
     ports:
-      - "3311:3306"
+      - "3310:3306"
     volumes:
       - phpwebapp_db_data:/var/lib/mysql
     environment:
@@ -22,7 +22,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "81:80"
+      - "8081:80"
     environment:
       - PMA_HOST=db
       - PMA_PORT=3306
