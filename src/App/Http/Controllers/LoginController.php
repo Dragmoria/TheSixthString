@@ -11,3 +11,5 @@ class LoginController extends Controller{
         return $Response;
     }
 }
+
+?>

@@ -118,7 +118,7 @@
         </div>
         <div class="spacer"></div>
         <div class="col-3 ms-4 mb-3">
-            <h2 style="color:#EFE3C4">Inlog gegevens</h2>
+            <h2 style="color:#EFE3C4">Inloggegevens</h2>
         </div>
         <div class="spacer"></div>
         <div class="row">

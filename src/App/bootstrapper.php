@@ -23,7 +23,7 @@ $router->get('/Register', [RegisterController::class, 'register']);
 $router->get('/Login', [LoginController::class, 'loginPage']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces',[RegisterController::class, 'post']);
-
+$router->post('/Account', [LoginController::class, 'post']);
 
 // Run the application.
 Application::run();
