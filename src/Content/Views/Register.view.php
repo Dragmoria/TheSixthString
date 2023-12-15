@@ -69,12 +69,12 @@ $fields = array(
 
 
 
-<div class="container d-flex justify-content-center">
+<div class="container d-flex mb-5 mt-5 justify-content-center">
     <div class="card p-1 bg-card-custom w-75 d-inline-block">
         <div class="card-body">
             <form class="" method="POST" action="/Register" onsubmit="return validatePasswords()">
                 <div class="row">
-                    <div class="col-auto mt-4 ms-4 mb-3">
+                    <div class="col-auto mt-4 mb-3">
                         <h1 style="color:#EFE3C4">Registratie</h1>
                         <?= $spacer . $spacer ?>
                         <h3 style="color:#EFE3C4">Persoonlijke gegevens</h3>
@@ -94,7 +94,7 @@ $fields = array(
                 <div class="row">
                     <?php $index = 0;
                     foreach ($fields as $label => $field): ?>
-                        <div class="col-4 mb-3">
+                        <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                             <input type="text" class="form-control bg-beige-color" id="<?= $field['name'] ?>"
                                 name="<?= $field['name'] ?>" placeholder="<?php echo $label; ?>" <?php echo ($field['importance'] === 'required') ? 'required' : ''; ?>>
                         </div>
@@ -112,7 +112,7 @@ $fields = array(
                 </div>
 
                 <div class="row">
-                    <div class="col-4 mb-3">
+                    <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                         <select class="form-select bg-beige-color" id="country" name="country" required>
                             <option value="" disabled selected>Selecteer land</option>
                             <option value="1">Nederland</option>
@@ -120,7 +120,7 @@ $fields = array(
                             <option value="3">Luxemburg</option>
                         </select>
                     </div>
-                    <div class="col-4 mb-3">
+                    <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                         <input type="date" class="form-control bg-beige-color" id="birthdate" name="birthdate"
                             min="1900-01-01" max="2050-12-31" / required>
                     </div>
@@ -128,20 +128,20 @@ $fields = array(
 
 
                 <div class="row">
-                    <div class="col-3 ms-4 mb-3">
+                    <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
                         <i>
                             <p style="color:#EFE3C4">* is niet verplicht</p>
                         </i>
                     </div>
                     <div class="spacer"></div>
-                    <div class="col-3 ms-4 mb-3">
+                    <div class="col-auto mb-3">
                         <h2 style="color:#EFE3C4">Inloggegevens</h2>
                     </div>
                     <div class="spacer"></div>
                 </div>
                 <div class="row">
                     <?php foreach (['E-mailadres' => 'email', 'Wachtwoord' => 'password', 'Herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
-                        <div class="col-4 mb-3">
+                        <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                             <?php if ($name === 'password' || $name === 'repeatPassword'): ?>
                                 <div class="password-container">
                                     <input type="<?= $label === 'email' ? 'text' : 'password' ?>"
@@ -158,7 +158,7 @@ $fields = array(
                     <?php endforeach; ?>
                     <div class="spacer"></div>
                     <div class="row">
-                        <div class="col-10 ms-4 mb-5 text-center">
+                        <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
                             <button type="submit" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
@@ -199,7 +199,6 @@ $fields = array(
 
 
     function togglePasswordVisibility(passwordName) {
-        var repeatPasswordInput = document.getElementById('repeatPassword');
         var passwordInput = document.getElementById(passwordName);
 
 
