@@ -62,7 +62,7 @@ class BaseDatabaseService
             }
 
             // If the query is not a SELECT statement, return the result of the execution
-            return $result;
+            return $stmt->affected_rows > 0;
         } catch (\Exception $ex) {
             throw $ex;
         } finally {

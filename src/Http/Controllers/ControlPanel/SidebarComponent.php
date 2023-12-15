@@ -20,32 +20,38 @@ class SidebarComponent implements Component
             ],
             [
                 "path" => "/ControlPanel/ManageContent",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Content beheer",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/ManageCoupons",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Beheer vouchers",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/ModerateReviews",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Moderate reviews",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/OrderManagement",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Beheer orders",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/Accounts",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Admin),
                 "text" => "Beheer accounts",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/Appointments",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Bekijk afspraken",
                 "notifications" => ""
             ],
         ];

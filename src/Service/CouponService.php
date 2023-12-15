@@ -65,4 +65,25 @@ class CouponService extends BaseDatabaseService
 
         return $result !== false;
     }
+
+    public function addCoupon(CouponModel $newCoupon): bool
+    {
+        $query = 'INSERT INTO coupon (name, code, value, startDate, endDate, usageAmount, maxUsageAmount, active, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+        $params = [
+            $newCoupon->name,
+            $newCoupon->code,
+            $newCoupon->value,
+            $newCoupon->startDate->format('Y-m-d'),
+            $newCoupon->endDate === null ? null : $newCoupon->endDate->format('Y-m-d'),
+            0,
+            $newCoupon->maxUsageAmount,
+            $newCoupon->active,
+            $newCoupon->type->value
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result;
+    }
 }

@@ -133,7 +133,73 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="newName" class="form-label">Naam:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newName" placeholder="Naam" aria-label="NewName" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="newCode" class="form-label">Code:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newCode" placeholder="Code" aria-label="NewCode" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newValue" class="form-label">Waarde:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="newValue" placeholder="Waarde" aria-label="NewValue" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newType" class="form-label">Type:</label>
+                        <div class="input-group">
+                            <select class="form-select" id="newType" aria-label="NewType">
+                                <option value="amount">Bedrag</option>
+                                <option value="percentage">Percentage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 date" data-provide="datepicker">
+                        <label for="newStartDate" class="form-label">Start datum:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newStartDate" placeholder="Start datum" aria-label="NewStartDate" aria-describedby="basic-addon1">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 date" data-provide="datepicker">
+                        <label for="newEndDate" class="form-label">Eind datum:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newEndDate" placeholder="Eind datum" aria-label="NewEndDate" aria-describedby="basic-addon1">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newMaxAmount" class="form-label">Max te gebruiken:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="newMaxAmount" placeholder="Max te gebruiken" aria-label="NewMaxAmount" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newActive" class="form-label">Type:</label>
+                        <div class="input-group">
+                            <select class="form-select" id="newActive" aria-label="NewActive">
+                                <option value="active">Actief</option>
+                                <option value="inactive">Inactief</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
@@ -175,7 +241,6 @@
         $("#editType").val(row.type.toLowerCase() === "bedrag" ? "amount" : "percentage");
         $("#editEndDate").val(row.endDate);
         $("#editMaxAmount").val(row.maxUsageAmount);
-        console.log(row.active);
         $("#editActive").val(row.active.toLowerCase() === "actief" ? "active" : "inactive");
 
         $('#editCouponModal').modal('show');
@@ -183,20 +248,74 @@
 
     $(document).on('click', '#saveButton', function() {
         var data = {
-            _method: "PUT",
-            id: $("#editId").val(),
-            name: $("#editName").val(),
-            code: $("#editCode").val(),
-            value: $("#editValue").val(),
-            type: $("#editType").val(),
-            endDate: $("#editEndDate").val(),
-            maxUsageAmount: $("#editMaxAmount").val(),
-            active: $("#editActive").val() === "active" ? true : false
+            _method: "PATCH",
+            editId: $("#editId").val(),
+            editName: $("#editName").val(),
+            editCode: $("#editCode").val(),
+            editValue: $("#editValue").val(),
+            editType: $("#editType").val(),
+            editEndDate: $("#editEndDate").val(),
+            editMaxUsageAmount: $("#editMaxAmount").val(),
+            editActive: $("#editActive").val() === "active" ? true : false
         }
 
-        $.post("/ControlPanel/ManageCoupons/UpdateCoupon", data, function() {
-            $('#editCouponModal').modal('hide');
-            $('#table').bootstrapTable('refresh');
+        $.post("/ControlPanel/ManageCoupons/UpdateCoupon", data, function(response) {
+            if (response === "Coupon updated") {
+                $('#editCouponModal').modal('hide');
+                $('#table').bootstrapTable('refresh');
+            } else {
+                handleInvalidInput(response);
+            }
         });
     });
+
+    $(document).on('click', '#saveButtonNew', function() {
+        var data = {
+            _method: "PUT",
+            newName: $("#newName").val(),
+            newCode: $("#newCode").val(),
+            newValue: $("#newValue").val(),
+            newType: $("#newType").val(),
+            newStartDate: $("#newStartDate").val(),
+            newEndDate: $("#newEndDate").val(),
+            newMaxUsageAmount: $("#newMaxAmount").val(),
+            newActive: $("#newActive").val() === "active" ? true : false
+        }
+
+        $.post("/ControlPanel/ManageCoupons/AddNewCoupon", data, function(response) {
+            if (response === "Coupon added") {
+                $('#addModal').modal('hide');
+                $('#table').bootstrapTable('refresh');
+
+                $("#newName").val('');
+                $("#newCode").val('');
+                $("#newValue").val('');
+                $("#newType").val('');
+                $("#newStartDate").val('');
+                $("#newEndDate").val('');
+                $("#newMaxAmount").val('');
+                $("#newActive").val('');
+            } else {
+                handleInvalidInput(response);
+            }
+        });
+    });
+
+
+    const handleInvalidInput = function(data) {
+        // Handle error
+        $('input').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+
+        if (Array.isArray(data)) {
+            data.forEach(function(error) {
+                var input = $('#' + error.field);
+                input.addClass('is-invalid');
+                var errorDiv = $('<div>').addClass('invalid-feedback').text(error.message);
+                input.after(errorDiv);
+            });
+        } else {
+            console.log(data);
+        }
+    };
 </script>

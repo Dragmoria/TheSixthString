@@ -8,6 +8,7 @@ use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\HomeController;
+use Http\Controllers\JeMoederController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -53,7 +54,12 @@ $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class,
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/ControlPanel/ManageCoupons', [ManageCouponsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageCoupons/GetCoupons', [ManageCouponsController::class, 'getCoupons'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
-$router->put('/ControlPanel/ManageCoupons/UpdateCoupon', [ManageCouponsController::class, 'updateCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->patch('/ControlPanel/ManageCoupons/UpdateCoupon', [ManageCouponsController::class, 'updateCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->put('/ControlPanel/ManageCoupons/AddNewCoupon', [ManageCouponsController::class, 'addNewCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+
+
+$router->get('/test/{id}/{id}', [JeMoederController::class, 'test']);
+
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 
