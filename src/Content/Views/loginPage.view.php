@@ -45,10 +45,10 @@
 
 </style>
 
-<div class="container-sm mb-custom mt-custom me-custom ms-custom" >   
-    <form class="card p-1 bg-card-custom" style="height: 500px;" method="POST" action="/Account">
+<div class="container-sm card p-1 bg-card-custom" mb-custom mt-custom me-custom ms-custom" >   
+    <form class= style="height: 500px;" method="POST" action="/Account">
         <div class="container ms-3 mt-3">
-            <h2 style="color:#EFE3C4">Sixt</h2>
+            <h2 style="color:#EFE3C4">Sixth</h2>
             <h1 style="color:#EFE3C4">Inloggen</h1>
         </div>
             <div class="container col-auto ms-5 me-5 mb-2 mt-5">
