@@ -14,6 +14,8 @@ COPY ./docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 RUN a2ensite 000-default
 
+RUN service apache2 restart
+
 RUN chown -R www-data:www-data /var/www
 
 CMD ["apache2-foreground"]
