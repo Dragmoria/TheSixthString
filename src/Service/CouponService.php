@@ -3,7 +3,6 @@
 namespace Service;
 
 use Lib\Database\Entity\Coupon;
-use Lib\Enums\CouponType;
 use Lib\Enums\SortOrder;
 use Models\CouponModel;
 

@@ -38,6 +38,14 @@ class ManageCouponsController extends Controller
 
         $coupons = $couponService->getCoupons($sort, $order);
 
+        if ($coupons === null) {
+            $response = new JsonResponse();
+            $response->setBody([
+                "total" => 0,
+                "rows" => []
+            ]);
+            return $response;
+        }
 
         $couponsJson = [];
         foreach ($coupons as $coupon) {
@@ -146,16 +154,12 @@ class ManageCouponsController extends Controller
             $errors[] = ['field' => "newValue", 'message' => "Waarde mag niet leeg zijn"];
         }
 
-        if (!Validate::isNumber($body['newValue'])) {
+        if (Validate::notEmpty($body['newValue']) && !Validate::isNumber($body['newValue'])) {
             $errors[] = ['field' => "newValue", 'message' => "Waarde moet een getal zijn"];
         }
 
         if (!Validate::dateString($body['newEndDate'])) {
             $errors[] = ['field' => "newEndDate", 'message' => "Eind datum is niet in geldig formaat"];
-        }
-
-        if (!Validate::notEmpty($body['newEndDate'])) {
-            $errors[] = ['field' => "newEndDate", 'message' => "Eind datum mag niet leeg zijn"];
         }
 
         if (!Validate::dateString($body['newStartDate'])) {
@@ -170,7 +174,7 @@ class ManageCouponsController extends Controller
             $errors[] = ['field' => "newMaxUsageAmount", 'message' => "Maximale gebruiks hoeveelheid mag niet leeg zijn"];
         }
 
-        if (!Validate::isNumber($body['newMaxUsageAmount'])) {
+        if (Validate::notEmpty($body['newMaxUsageAmount']) && !Validate::isNumber($body['newMaxUsageAmount'])) {
             $errors[] = ['field' => "newMaxUsageAmount", 'message' => "Maximale gebruiks hoeveelheid moet een nummer zijn"];
         }
 
@@ -193,7 +197,7 @@ class ManageCouponsController extends Controller
             $errors[] = ['field' => "editId", 'message' => "Id mag niet leeg zijn"];
         }
 
-        if (!Validate::isNumber($body['editId'])) {
+        if (Validate::notEmpty($body['editId']) && !Validate::isNumber($body['editId'])) {
             $errors[] = ['field' => "editId", 'message' => "Id moet een getal zijn"];
         }
 
@@ -209,16 +213,12 @@ class ManageCouponsController extends Controller
             $errors[] = ['field' => "editValue", 'message' => "Waarde mag niet leeg zijn"];
         }
 
-        if (!Validate::isNumber($body['editValue'])) {
+        if (Validate::notEmpty($body['editValue']) && !Validate::isNumber($body['editValue'])) {
             $errors[] = ['field' => "editValue", 'message' => "Waarde moet een getal zijn"];
         }
 
         if (!Validate::dateString($body['editEndDate'])) {
             $errors[] = ['field' => "editEndDate", 'message' => "Eind datum is niet in geldig formaat"];
-        }
-
-        if (!Validate::notEmpty($body['editEndDate'])) {
-            $errors[] = ['field' => "editEndDate", 'message' => "Eind datum mag niet leeg zijn"];
         }
 
         if (!Validate::notEmpty($body['editMaxUsageAmount'])) {

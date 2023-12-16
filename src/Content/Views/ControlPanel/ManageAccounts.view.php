@@ -56,54 +56,61 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="newEmail" class="form-label">Email:</label>
-                        <div class="input-group">
-                            <input type="email" class="form-control" id="newEmail" placeholder="Email" aria-label="NewEmail" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="newFirstName" class="form-label">Voornaam:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="newFirstName" placeholder="Voornaam" aria-label="NewFirstName" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="newInsertion" class="form-label">Tussenvoegsel:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="newInsertion" placeholder="Tussenvoegsel" aria-label="NewInsertion" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="newLastName" class="form-label">Achternaam:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="newLastName" placeholder="Achternaam" aria-label="NewLastName" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 date" data-provide="datepicker">
-                        <label for="newDateOfBirth" class="form-label">Geboortedatum:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="newDateOfBirth" placeholder="Geboortedatum" aria-label="NewDateOfBirth" aria-describedby="basic-addon1">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
+                    <form class="was-validated">
+                        <div class="mb-3">
+                            <label for="newEmail" class="form-label">Email:</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" id="newEmail" placeholder="Email" aria-label="NewEmail" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="newGender" class="form-label">Geslacht:</label>
-                        <div class="input-group">
-                            <select class="form-select" id="newGender" aria-label="NewGender">
-                                <option value="Male">Man</option>
-                                <option value="Female">Vrouw</option>
-                                <option value="Unknown">Anders</option>
-                            </select>
+                        <div class="mb-3">
+                            <label for="newFirstName" class="form-label">Voornaam:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newFirstName" placeholder="Voornaam" aria-label="NewFirstName" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="newInsertion" class="form-label">Tussenvoegsel:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newInsertion" placeholder="Tussenvoegsel" aria-label="NewInsertion" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newLastName" class="form-label">Achternaam:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newLastName" placeholder="Achternaam" aria-label="NewLastName" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 date" data-provide="datepicker">
+                            <label for="newDateOfBirth" class="form-label">Geboortedatum:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newDateOfBirth" placeholder="Geboortedatum" aria-label="NewDateOfBirth" aria-describedby="basic-addon1" required>
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="newGender" class="form-label">Geslacht:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="newGender" aria-label="NewGender" required>
+                                    <option value="Male">Man</option>
+                                    <option value="Female">Vrouw</option>
+                                    <option value="Unknown">Anders</option>
+                                </select>
+                                <div class="invalid-feedback">Selecteer een optie.</div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
@@ -121,61 +128,68 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="id" hidden>
+                    <form class="was-validated">
+                        <input type="text" id="id" hidden>
 
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Rol:</label>
-                        <div class="input-group">
-                            <select class="form-select" id="role" aria-label="Role">
-                                <option value="Staff">Staff</option>
-                                <option value="Analyst">Analyst</option>
-                                <option value="Manager">Manager</option>
-                                <option value="Admin">Admin</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">Voornaam:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="firstName" placeholder="Voornaam" aria-label="FirstName" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="insertion" class="form-label">Tussenvoegsel:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="insertion" placeholder="Tussenvoegsel" aria-label="Insertion" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Achternaam:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="lastName" placeholder="Achternaam" aria-label="LastName" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 date" data-provide="datepicker">
-                        <label for="dateOfBirth" class="form-label">Geboortedatum:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="dateOfBirth" placeholder="Geboortedatum" aria-label="DateOfBirth" aria-describedby="basic-addon1">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Rol:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="role" aria-label="Role" required>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Analyst">Analyst</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                                <div class="invalid-feedback">Selecteer een optie.</div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="gender" class="form-label">Geslacht:</label>
-                        <div class="input-group">
-                            <select class="form-select" id="gender" aria-label="Gender">
-                                <option value="Male">Man</option>
-                                <option value="Female">Vrouw</option>
-                                <option value="Unknown">Anders</option>
-                            </select>
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">Voornaam:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="firstName" placeholder="Voornaam" aria-label="FirstName" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="insertion" class="form-label">Tussenvoegsel:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="insertion" placeholder="Tussenvoegsel" aria-label="Insertion" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Achternaam:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="lastName" placeholder="Achternaam" aria-label="LastName" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 date" data-provide="datepicker">
+                            <label for="dateOfBirth" class="form-label">Geboortedatum:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="dateOfBirth" placeholder="Geboortedatum" aria-label="DateOfBirth" aria-describedby="basic-addon1" required>
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Geslacht:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="gender" aria-label="Gender" required>
+                                    <option value="Male">Man</option>
+                                    <option value="Female">Vrouw</option>
+                                    <option value="Unknown">Anders</option>
+                                </select>
+                                <div class="invalid-feedback">Selecteer een optie.</div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
@@ -257,30 +271,9 @@
                 $('#editModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
-            } else {
-                // Handle error
-                handleInvalidInput(response);
             }
         });
     });
-
-    const handleInvalidInput = function(data) {
-        // Handle error
-        $('input').removeClass('is-invalid');
-        $('.invalid-feedback').remove();
-
-        if (Array.isArray(data)) {
-            data.forEach(function(error) {
-                var input = $('#' + error.field);
-                input.addClass('is-invalid');
-                var errorDiv = $('<div>').addClass('invalid-feedback').text(error.message);
-                input.after(errorDiv);
-            });
-        } else {
-            console.log(data);
-        }
-    };
-
 
 
     $(document).on('click', '#saveButtonNew', function() {
@@ -300,9 +293,6 @@
                 $('#addModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
-            } else {
-                // Handle error
-                handleInvalidInput(response);
             }
         });
     });

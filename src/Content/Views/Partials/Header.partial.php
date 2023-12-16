@@ -3,7 +3,7 @@
   <div class="container-fluid px-0 py-2">
     <!-- Logo -->
     <a class="navbar-brand pt-0 mx-5" href="#">
-      <img src="images/logo-small.svg" alt="Sixth" width="60px">
+      <img src="/images/logo-small.svg" alt="Sixth" width="60px">
     </a>
     <!-- Search Bar -->
 
@@ -29,12 +29,12 @@
       </li>
       <li class="nav-item mx-3">
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
-          <img src="images/account-icon.png" alt="Account" width="17" height="17">
+          <img src="/images/account-icon.png" alt="Account" width="17" height="17">
         </button>
       </li>
       <li class="nav-item me-5">
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
-          <img src="images/basket-icon.png" alt="Mand" width="17" height="17">
+          <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
         </button>
       </li>
     </ul>
@@ -50,14 +50,14 @@
   <div class="container-fluid px-0 pt-3">
     <!-- Logo and Search Bar on the left -->
     <a class="navbar-brand pt-0 mx-3" href="#">
-      <img src="images/Logo_Small.svg" alt="Your Logo">
+      <img src="/images/logo-small.svg" alt="Your Logo">
     </a>
     <div class="d-flex ms-auto">
       <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
-        <img src="images/account-icon.png" alt="Account" width="17" height="17">
+        <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
       <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
-        <img src="images/basket-icon.png" alt="Mand" width="17" height="17">
+        <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
       </button>
     </div>
     <!-- Hamburger Menu Button -->

@@ -50,7 +50,7 @@ class UserModel
     {
         $entity = new User();
 
-        $entity->id = $this->id;
+        if (isset($this->id)) $entity->id = $this->id;
         $entity->emailAddress = $this->emailAddress;
         $entity->passwordHash = $this->passwordHash;
         $entity->role = $this->role->value;

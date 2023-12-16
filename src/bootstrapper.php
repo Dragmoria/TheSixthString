@@ -7,7 +7,6 @@ use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
-use Http\Controllers\HomeController;
 use Http\Controllers\JeMoederController;
 use Http\Controllers\IndexController;
 use Http\Middlewares\SilentAuthentication;
@@ -57,8 +56,6 @@ $router->get('/ControlPanel/ManageCoupons', [ManageCouponsController::class, 'sh
 $router->get('/ControlPanel/ManageCoupons/GetCoupons', [ManageCouponsController::class, 'getCoupons'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->patch('/ControlPanel/ManageCoupons/UpdateCoupon', [ManageCouponsController::class, 'updateCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->put('/ControlPanel/ManageCoupons/AddNewCoupon', [ManageCouponsController::class, 'addNewCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
-
-$router->get('/test/{id}/{id}', [JeMoederController::class, 'test']);
 
 $router->get('/', [IndexController::class, 'show']);
 

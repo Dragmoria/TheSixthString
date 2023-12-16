@@ -18,26 +18,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
 </head>
 
-<body class="min-vh-100 d-flex flex-column">
-    <div class="d-flex flex-column vh-100">
+<body>
+    <div class="min-vh-100 d-flex flex-column" style="background-color: white;">
         <header>
             <?php include VIEWS_PATH . 'Partials/Header.partial.php' ?>
         </header>
 
-        <main class="flex-grow-1 d-flex flex-column">
+        <main class="flex-grow-1 d-flex">
             <div class="d-flex flex-grow-1">
                 <?php echo component(\Http\Controllers\ControlPanel\SidebarComponent::class); ?>
-
                 <?php echo $content; ?>
             </div>
         </main>
     </div>
+
+    <footer class="mt-auto">
+        <?php include VIEWS_PATH . 'Partials/Footer.partial.php'; ?>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
 
     <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="/Js/Helper.js"></script>
 </body>
 
 </html>
