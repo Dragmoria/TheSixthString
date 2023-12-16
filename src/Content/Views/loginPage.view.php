@@ -91,7 +91,7 @@
       <div class="col-auto mt-1 me-1">
         <div class="row">
           <div class="col-12 mb-5 text-center">
-            <a href="#" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
+            <a href="/wachtwoord-vergeten" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
             <div class="line-hyper"></div>
           </div>
         </div>
