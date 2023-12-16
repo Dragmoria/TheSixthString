@@ -2,17 +2,18 @@ version: "3.1"
 
 services:
   web:
-    build: ./docker
+    build: 
+      context: .
+      dockerfile: ./docker/DockerfileLocal
     ports:
-      - "80:80"
-      - "443:443"
+      - "${WEB_HTTP_PORT}:80"
+      - "${WEB_HTTPS_PORT}:443"
     volumes:
       - ./src:/var/www/html
-      - ./docker/php.ini:/usr/local/etc/php/conf.d/custom.ini
   db:
     image: mysql:latest
     ports:
-      - "3311:3306"
+      - "${MYSQL_EXTERNAL_PORT}:3306"
     volumes:
       - phpwebapp_db_data:/var/lib/mysql
     environment:
@@ -23,7 +24,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "81:80"
+      - "${PHPMYADMIN_EXTERNAL_PORT}:80"
     environment:
       - PMA_HOST=db
       - PMA_PORT=3306
