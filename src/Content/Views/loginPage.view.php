@@ -25,21 +25,6 @@
     /* Adjust the multiplier as needed */
   }
 
-  .mt-custom {
-    margin-top: 10rem !important;
-  }
-
-  .mb-custom {
-    margin-bottom: 10rem !important;
-  }
-
-  .ms-custom {
-    padding-right: 25rem !important;
-  }
-
-  .me-custom {
-    padding-left: 25rem !important;
-  }
 
   .line-hyper {
     content: "";

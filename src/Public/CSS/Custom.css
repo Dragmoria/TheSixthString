@@ -44,7 +44,7 @@
     height: 15px; 
   }
 
-<<<<<<< HEAD
+
 .btn-card {
     transition: box-shadow .3s;
     border-radius: 20px;
@@ -130,7 +130,7 @@ div.sixth-white {
 .custom-control-input{
     color: green;
 }
-=======
+
   .header-custom {
     background: url('../images/header.jpg');
     background-repeat: no-repeat !important;
@@ -139,4 +139,3 @@ div.sixth-white {
     width: 100%;
     filter: drop-shadow(5px 29px 40px #000000);
   }
->>>>>>> main
