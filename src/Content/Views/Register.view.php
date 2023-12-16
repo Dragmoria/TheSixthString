@@ -37,6 +37,16 @@
 
     }
 
+    .line-hyper {
+        content: "";
+        display: block;
+        width: calc(10 * 1.05 * 1em);
+        max-width: 100%;
+        border-bottom: 0.1em solid #EFE3C4;
+        margin-left: 6.3rem;
+
+    }
+
     .password-input {}
 
     .toggle-eye {
@@ -72,7 +82,7 @@ $fields = array(
 <div class="container d-flex mb-5 mt-5 justify-content-center">
     <div class="card p-1 bg-card-custom w-75 d-inline-block">
         <div class="card-body">
-            <form class="" method="POST" action="/Register" onsubmit="return validatePasswords()">
+            <form id="registerForm" method="POST" action="/Register" onsubmit="return handleFormSubmission(event)">
                 <div class="row">
                     <div class="col-auto mt-4 mb-3">
                         <h1 style="color:#EFE3C4">Registratie</h1>
@@ -125,8 +135,6 @@ $fields = array(
                             min="1900-01-01" max="2050-12-31" / required>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
                         <i>
@@ -164,40 +172,40 @@ $fields = array(
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
                         </div>
                     </div>
+                </div>
             </form>
+
+            <!-- Success message div -->
+            <div class="d-flex justify-content-center col-auto mt-5 ms-3 me-3">
+                <div id="successMessageRegister" class="text-center text-start"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
+                    <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
+                    <p class="mt-3" style="color:#EFE3C4">We hebben je een e-mail gestuurd met <br> daarin een
+                        persoonlijke link.
+                        <br> Via deze link kun je je registratie activeren.
+                        <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.
+                    </p>
+                    <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">sluit deze pagina</a>
+                    <div class="mb-5 line-hyper"></div>
+                </div>
+            </div>
         </div>
     </div>
-
-
 </div>
-</div>
+
 
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Get the password input elements
-        var passwordInputs = document.querySelectorAll('.password-input');
+        var myForm = document.getElementById('registerForm');
+        var successMessage = document.getElementById('successMessageRegister');
 
-        // Add input event listeners to all password fields
-        passwordInputs.forEach(function (passwordInput) {
-            // Get the associated eye icon element
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-            // Add an input event listener to the password field
-            passwordInput.addEventListener('input', function () {
-                // Toggle the eye icon visibility based on whether there is input in the password field
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-            // Add mouse event listeners to the eye icon for toggling password visibility
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
+        myForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            myForm.style.display = 'none';
+            successMessage.style.display = 'block';
         });
     });
-
-
     function togglePasswordVisibility(passwordName) {
         var passwordInput = document.getElementById(passwordName);
 
@@ -221,4 +229,57 @@ $fields = array(
 
         return true; // Allow form submission
     }
+
+    function handleFormSubmission(event) {
+        event.preventDefault();  // Prevent the form from submitting and reloading the page
+
+        // Validate passwords
+        if (!validatePasswords()) {
+            return false; // Prevent form submission
+        }
+
+        // Assuming this is where you want to display the success message
+        var successMessage = document.getElementById('successMessageRegister');
+
+        // Show the success message
+        successMessage.style.display = 'block';
+        successMessage.style.visibility = 'visible';
+
+        // Hide the form
+        var myForm = document.getElementById('registerForm');
+        myForm.style.display = 'none';
+
+        return false;  // Prevent the form from submitting and reloading the page
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the password input elements
+        var passwordInputs = document.querySelectorAll('.password-input');
+
+        // Add input event listeners to all password fields
+        passwordInputs.forEach(function (passwordInput) {
+            // Get the associated eye icon element
+            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+            eyeIcon.style.display = 'none';
+
+            // Add an input event listener to the password field
+            passwordInput.addEventListener('input', function () {
+                // Toggle the eye icon visibility based on whether there is input in the password field
+                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+            });
+
+            // Add mouse event listeners to the eye icon for toggling password visibility
+            eyeIcon.addEventListener('mousedown', function () {
+                togglePasswordVisibility(passwordInput.id);
+            });
+        });
+
+        // Add the submit event listener after the DOM content has loaded
+        var myForm = document.getElementById('registerForm');
+        myForm.addEventListener('submit', handleFormSubmission);
+    });
+
+
+
+
 </script>

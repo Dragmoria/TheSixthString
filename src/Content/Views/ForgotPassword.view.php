@@ -57,34 +57,35 @@ $randomLink = ""
 
     <!-- Success message div -->
     <div class="d-flex justify-content-center col-auto mt- 5 ms-3 me-3">
-    <div id="successMessage" class="text-center text-start" style="display: none; color: green;">
-      <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
-      <p class="mt-3" style="color:#EFE3C4">We hebben je een e-mail gestuurd met <br> daarin een persoonlijke link. 
-      <br> Via deze link kun je een nieuw wachtwoord opgeven. 
-      <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.</p>
-      <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
-      <div class="mb-5 line-hyper"></div>
+      <div id="successMessage" class="text-center text-start" style="display: none; color: green;">
+        <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
+        <p class="mt-3" style="color:#EFE3C4">We hebben je een e-mail gestuurd met <br> daarin een persoonlijke link.
+          <br> Via deze link kun je een nieuw wachtwoord opgeven.
+          <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.
+        </p>
+        <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">Terug naar inloggen</a>
+        <div class="mb-5 line-hyper"></div>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <script>
 
-function handleFormSubmission(event) {
-  event.preventDefault();  // Prevent the form from submitting and reloading the page
-  
-  // Perform the form submission using AJAX or other techniques
-  // ...
+  function handleFormSubmission(event) {
+    event.preventDefault();  // Prevent the form from submitting and reloading the page
 
-  // Show the success message
-  document.getElementById('successMessage').style.display = 'block';
+    // Perform the form submission using AJAX or other techniques
+    // ...
 
-  // You can optionally hide the form after success
-  document.querySelector('form').style.display = 'none';
+    // Show the success message
+    document.getElementById('successMessage').style.display = 'block';
 
-  return false;  // Prevent the form from submitting and reloading the page
-}
+    // You can optionally hide the form after success
+    document.querySelector('form').style.display = 'none';
+
+    return false;  // Prevent the form from submitting and reloading the page
+  }
 
 
 </script>
