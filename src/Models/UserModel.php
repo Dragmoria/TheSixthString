@@ -60,7 +60,7 @@ class UserModel
         $entity->dateOfBirth = $this->dateOfBirth->format('Y-m-d');
         $entity->gender = $this->gender->value;
         $entity->active = $this->active;
-        $entity->createdOn = $this->createdOn->format('Y-m-d');
+        $entity->createdOn = $this->createdOn->format('Y-m-d H:i:s');
 
         return $entity;
     }

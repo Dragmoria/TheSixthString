@@ -9,6 +9,7 @@ use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\HomeController;
 use Http\Controllers\JeMoederController;
+use Http\Controllers\IndexController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -40,7 +41,7 @@ $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
 
 // Add routes below here.
-$router->get('/', [HomeController::class, 'index']);
+// $router->get('/', [HomeController::class, 'index']);
 
 $router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
 $router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
@@ -59,6 +60,7 @@ $router->put('/ControlPanel/ManageCoupons/AddNewCoupon', [ManageCouponsControlle
 
 $router->get('/test/{id}/{id}', [JeMoederController::class, 'test']);
 
+$router->get('/', [IndexController::class, 'show']);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];
 
