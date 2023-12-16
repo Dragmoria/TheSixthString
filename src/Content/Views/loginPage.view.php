@@ -47,7 +47,7 @@
     width: calc(10 * 1.05 * 1em);
     max-width: 100%;
     border-bottom: 0.1em solid #EFE3C4;
-    margin-left: 4.8rem;
+    margin-left: 4.5rem;
 
   }
 
@@ -88,7 +88,7 @@
             <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
       </div>
-      <div class="col-auto mt-1">
+      <div class="col-auto mt-1 me-1">
         <div class="row">
           <div class="col-12 mb-5 text-center">
             <a href="#" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
