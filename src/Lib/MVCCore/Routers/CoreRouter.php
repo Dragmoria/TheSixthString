@@ -10,7 +10,8 @@ use Lib\MVCCore\Routers\Responses\ViewResponse;
  * 
  * @package Lib\MVCCore
  */
-class CoreRouter implements Router {
+class CoreRouter implements Router
+{
     /**
      * Array of registered routes.
      *
@@ -33,14 +34,15 @@ class CoreRouter implements Router {
      * @param array $callback The callback of the route.
      * @return Router Returns itself so it can be chained.
      */
-    protected function addRoute(RequestTypes $method, string $uri, array $callback): Router {
+    protected function addRoute(RequestTypes $method, string $uri, array $callback): Router
+    {
         $methodType = $method->value;
-        
-        $this->routes[$methodType][$uri] = [ "callback" => $callback, "middlewares" => [] ];
+
+        $this->routes[$methodType][$uri] = ["callback" => $callback, "middlewares" => []];
 
         return $this;
     }
-    
+
     /**
      * Used to register a new route of type GET.
      *
@@ -48,10 +50,11 @@ class CoreRouter implements Router {
      * @param array $callback The callback to be executed when the route is requested. Should take form of [Controller::class, 'methodToCall']
      * @return Router Router instance to allow for method chaining.
      */
-    public function get(string $uri, array $callback): Router {
+    public function get(string $uri, array $callback): Router
+    {
         return $this->addRoute(RequestTypes::GET, $uri, $callback);
     }
-    
+
     /**
      * Used to register a new route of type POST.
      *
@@ -59,7 +62,8 @@ class CoreRouter implements Router {
      * @param array $callback The callback to be executed when the route is requested. Should take form of [Controller::class, 'methodToCall']
      * @return Router Router instance to allow for method chaining.
      */
-    public function post(string $uri, array $callback): Router {
+    public function post(string $uri, array $callback): Router
+    {
         return $this->addRoute(RequestTypes::POST, $uri, $callback);
     }
 
@@ -70,7 +74,8 @@ class CoreRouter implements Router {
      * @param array $callback The callback to be executed when the route is requested. Should take form of [Controller::class, 'methodToCall']
      * @return Router Router instance to allow for method chaining.
      */
-    public function delete(string $uri, array $callback): Router {
+    public function delete(string $uri, array $callback): Router
+    {
         return $this->addRoute(RequestTypes::DELETE, $uri, $callback);
     }
 
@@ -81,7 +86,8 @@ class CoreRouter implements Router {
      * @param array $callback The callback to be executed when the route is requested. Should take form of [Controller::class, 'methodToCall']
      * @return Router Router instance to allow for method chaining.
      */
-    public function patch(string $uri, array $callback): Router {
+    public function patch(string $uri, array $callback): Router
+    {
         return $this->addRoute(RequestTypes::PATCH, $uri, $callback);
     }
 
@@ -92,24 +98,31 @@ class CoreRouter implements Router {
      * @param array $callback The callback to be executed when the route is requested. Should take form of [Controller::class, 'methodToCall']
      * @return Router Router instance to allow for method chaining.
      */
-    public function put(string $uri, array $callback): Router {
+    public function put(string $uri, array $callback): Router
+    {
         return $this->addRoute(RequestTypes::PUT, $uri, $callback);
     }
-    
+
+    public function testRoute($method, $path): void
+    {
+        $routesToSearch = $this->routes[$method];
+    }
+
     /**
      * Will handle the request and route it to the correct controller.
      *
      * @param Request $request The current request object.
      * @return void
      */
-    public function route(Request $request): void {
+    public function route(Request $request): void
+    {
         $methodType = $request->method()->value;
         $uri = $request->path();
-        
+
         foreach ($this->routes[$methodType] as $pattern => $route) {
             // will replace the possible dynamic part of a route with a regex so we can match it with te given url
             $pattern = preg_replace('/{[^}]+}/', '([^/]+)', $pattern);
-            
+
             // preg match will see if the route matches to the given url ([^/]+) will match anything except a / so it basically makes it so that a route with {id} will match anything at that spot
             if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
                 // will make it so the only element in the array is the id so we can possibly pass it to the controller
@@ -118,7 +131,7 @@ class CoreRouter implements Router {
                 $callback = $route['callback'];
                 // will get the middlewares from the route
                 $middlewares = $route['middlewares'] ?? null;
-                
+
                 // will loop over the middlewares and execute them if there are any
                 if ($middlewares !== null) {
                     foreach ($middlewares as $middleware) {
@@ -169,7 +182,8 @@ class CoreRouter implements Router {
      * @param array|null $middlewareParameter The parameter to be passed to the middleware constructor.
      * @return void
      */
-    public function middleware(string $middlewareName, array $middlewareParameter = null): Router {
+    public function middleware(string $middlewareName, array $middlewareParameter = null): Router
+    {
         reset($this->routes['GET']);
         end($this->routes['GET']);
         $key = key($this->routes['GET']);
@@ -177,7 +191,7 @@ class CoreRouter implements Router {
         $this->routes['GET'][$key]['middlewares'][] = ['name' => $middlewareName, 'parameters' => $middlewareParameter];
         return $this;
     }
-    
+
     /**
      * Enables the ability to add a view to be rendered when a specific status code is returned.
      *
@@ -185,7 +199,8 @@ class CoreRouter implements Router {
      * @param View $view The view to be rendered. 
      * @return void
      */
-    public function registerStatusView(HTTPStatusCodes $statusCode, View $viewName): void {
+    public function registerStatusView(HTTPStatusCodes $statusCode, View $viewName): void
+    {
         $this->registeredStatusViews[$statusCode->value] = $viewName;
     }
 
@@ -195,17 +210,19 @@ class CoreRouter implements Router {
      * @param View $view The view to be rendered.
      * @return void
      */
-    public function registerGenericStatusView(View $viewName): void {
+    public function registerGenericStatusView(View $viewName): void
+    {
         $this->registeredStatusViews['generic'] = $viewName;
     }
-    
+
     /**
      * Aborts the current request and renders a view for the given status code.
      *
      * @param HTTPStatusCodes $statusCode The status code to render the view for.
      * @return void
      */
-    protected function abort(HTTPStatusCodes $statusCode): void {
+    protected function abort(HTTPStatusCodes $statusCode): void
+    {
         // Check if a view is registered for the given status code
         if (!isset($this->registeredStatusViews[$statusCode->value])) {
             // Check if a generic view is registered
@@ -219,11 +236,12 @@ class CoreRouter implements Router {
             echo "Error: No view registered for status code: " . $statusCode->value;
             return;
         }
-        
+
         $this->sendStatusView($statusCode, $this->registeredStatusViews[$statusCode->value]);
     }
 
-    private function sendStatusView(HTTPStatusCodes $statusCode, View $view): void {
+    private function sendStatusView(HTTPStatusCodes $statusCode, View $view): void
+    {
         // Create the response
         $response = new ViewResponse();
 

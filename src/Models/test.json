@@ -1,0 +1,50 @@
+- producten
+
+name
+
+subtitle / short description
+
+full description
+
+SKU
+
+brand
+
+category
+
+price
+
+retail price
+
+published / active
+
+
+media and such
+{
+    "thumbnail": "",
+    "mainImage": "",
+    "secondaryImages": [
+        "",
+        ""
+    ],
+    "video": ""
+}
+
+- brands
+
+toevoegen
+
+deleten als er geen producten meer zijn die het gebruiken
+
+aanpassen
+
+
+- categories
+
+toevoegen
+
+deleten als er geen producten meer zijn die het gebruiken
+
+aanpassen
+
+heeft een thumbnail image
