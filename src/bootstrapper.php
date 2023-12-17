@@ -10,6 +10,7 @@ use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\HomeController;
 use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
+use Http\Controllers\AccountPageController;
 use http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Middlewares\SilentAuthentication;
@@ -56,6 +57,7 @@ $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class,
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/Register', [RegisterController::class, 'register']);
 $router->get('/Login', [LoginController::class, 'loginPage']);
+$router->get('/Account', [AccountPageController::class, 'AccountPage']);
 $router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);

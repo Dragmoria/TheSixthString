@@ -24,10 +24,10 @@
   .line-hyper {
     content: "";
     display: block;
-    width: calc(10 * 1.05 * 1em);
+    width: calc(10 * 0.9 * 1em);
     max-width: 100%;
     border-bottom: 0.1em solid #EFE3C4;
-    margin-left: 6.3rem;
+    margin-left: 7.2rem;
 
   }
 </style>

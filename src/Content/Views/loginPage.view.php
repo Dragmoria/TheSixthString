@@ -69,7 +69,7 @@
       <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
         <div class="row">
             <input type="password" class="form-control custom-input-height bg-beige-color password-input" id="password"
-              name="password" placeholder="Wachtwoord" required>
+              name="password" placeholder="Wachtwoord" value=<?$oldValue required>
             <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
       </div>
@@ -102,16 +102,7 @@
 
 
 <script>
-  function ChangeURL() {
-    // Get the current URL
-    var currentURL = window.location.href;
-    // Replace the path with '/Register'
-    var newURL = currentURL.replace('Login', 'Register');
 
-    // Perform the redirection
-    window.location.href = newURL;
-    return false;
-  }
 
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -150,15 +141,4 @@
   }
 
 
-  function validatePasswords() {
-    var password1 = document.getElementById('password').value;
-    var password2 = document.getElementById('repeatPassword').value;
-
-    if (password1 !== password2) {
-      alert('Passwords do not match. Please try again.');
-      return false; // Prevent form submission
-    }
-
-    return true; // Allow form submission
-  }
 </script>

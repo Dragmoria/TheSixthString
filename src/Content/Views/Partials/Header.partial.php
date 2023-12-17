@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg sticky-top flex-column py-0 d-none d-lg-block">
   <div class="container-fluid px-0 py-2">
     <!-- Logo -->
-    <a class="navbar-brand pt-0 mx-5" href="#">
+    <a class="navbar-brand pt-0 mx-5" href="/">
       <img src="images/logo-small.svg" alt="Sixth" width="60px">
     </a>
     <!-- Search Bar -->
@@ -100,3 +100,4 @@
   <div class="container-fluid" style="height: 15px; background-color: var(--sixth-yellow);"></div>
 
 </nav>
+
