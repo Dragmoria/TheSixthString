@@ -26,8 +26,15 @@ class LoginController extends Controller
 
     public function validateLogin(): ?Response
     {
+
+        unset($_SESSION['error'], $_SESSION['success']);
+        $postObject = $this->currentRequest->getPostObject();
+
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserByEmail($email = $_POST["email"]);
+
+        $oldValue = $postObject->oldBody()['email'] ?? null;
+        
 
         if(isset($user)){
 
