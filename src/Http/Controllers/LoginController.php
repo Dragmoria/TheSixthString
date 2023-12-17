@@ -42,42 +42,34 @@ class LoginController extends Controller
         redirect('/Account');
     }
 
+
     public function validateLogin(): ?Response
     {
         unset($_SESSION['error'], $_SESSION['success']);
         $postObject = $this->currentRequest->getPostObject();
+        $postBody = $postObject->body();
 
         $userservice = Application::resolve(UserService::class);
-        $user = $userservice->getUserByEmail($_POST["email"]);
+        $user = $userservice->getUserByEmail($postBody['email']);
+
         if (isset($user)) {
-            if ($_POST["password"] === $user->passwordHash) {
-            redirect("/Account");
-            }
-            else{
+            if ($postBody["password"] === $user->passwordHash) {
+                redirect("/Account");
+                $_SESSION["user"] = [
+                    "id" => $user->id,
+                    "role" => $user->role
+                ];
+            } else {
                 $postObject->flash();
                 $postObject->flashPostError('password', 'Wachtwoord is onjuist');
                 redirect("/Login");
-
-
             }
         } else {
             $postObject->flash();
             $postObject->flashPostError('email', 'Er bestaat geen account met dit emailadres');
             redirect("/Login");
-            dumpDie("hallo");
-
         }
-
-
-        $_SESSION["user"] = [
-            "id" => $user->id,
-            "role" => $user->role
-        ];
-
-
     }
-
-
 
 }
 
