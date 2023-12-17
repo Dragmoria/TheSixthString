@@ -4,6 +4,11 @@
     background-color: #2C231E;
   }
 
+  p {
+    font-size: 0.700em;
+    /* 14px/16=0.875em */
+  }
+
   .bg-beige-color {
     background-color: #EFE3C4;
     border-color: #EFE3C4
@@ -37,41 +42,49 @@
   }
 
   .password-container {
-        position: relative;
+    position: relative;
 
-    }
+  }
 
-    .password-input {}
+  .password-input {}
 
-    .toggle-eye {
-        position: absolute;
-        top: 50%;
-        left: 192px;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
+  .toggle-eye {
+    position: absolute;
+    top: 50%;
+    left: 192px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
 </style>
 
 
 <div class="container d-flex mb-5 mt-5 justify-content-center">
   <div class="card p-1 bg-card-custom w-40 d-inline-block">
     <form method="POST" action="/Account">
-      <input hidden name="_method" value="PUT"/>
+      <input hidden name="_method" value="PUT" />
       <div class="ms-5 mt-3">
         <h2 style="color:#EFE3C4">Sixth</h2>
         <h1 style="color:#EFE3C4">Inloggen</h1>
       </div>
-      <div class="col-auto ms-5 me-5 mb-4 mt-5">
+      <div class="ms-5 mt-5">
+        <p style="color:#FF0000;display: <? if (isset($error)) {
+          echo $error ?? "none";
+        } ?>;">ongeldig emailadres of
+          wachtwoord</p>
+      </div>
+      <div class="col-auto ms-5 me-5 mb-4 mt-3">
         <div class="row">
-          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email" value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email"
-            placeholder="E-mailadres" required></input>
+          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email"
+            value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email" placeholder="E-mailadres"
+            required></input>
         </div>
       </div>
       <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
         <div class="row">
-            <input type="password" class="form-control custom-input-height bg-beige-color password-input" value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password"
-              name="password" placeholder="Wachtwoord" required>
-            <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
+          <input type="password" class="form-control custom-input-height bg-beige-color password-input"
+            value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password" name="password"
+            placeholder="Wachtwoord" required>
+          <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
       </div>
       <div class="col-auto mt-1 me-1">

@@ -17,20 +17,21 @@ class LoginController extends Controller
         $postObject = $this->currentRequest->getPostObject();
         $oldValueEmail = $postObject->oldBody()['email'] ?? null;
         $oldValuePassword = $postObject->oldBody()['password'] ?? null;
-
+        $error = $postObject->getPostError('Error') ?? "none";
 
         $Response = new ViewResponse();
-        $Response->setStatusCode(HTTPStatusCodes::OK)
 
+        $Response->setStatusCode(HTTPStatusCodes::OK)
             ->setBody(view(VIEWS_PATH . 'loginPage.view.php', [
                 'oldValueEmail' => $oldValueEmail,
                 'oldValuePassword' => $oldValuePassword,
-                'error' => $postObject->getPostError('textfield'),
+                'error' => $error,
                 'success' => $postObject->getPostSuccess('textfield')
             ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'))
             ->addHeader('Content-Type', 'text/html');
 
         $postObject->flush();
+
         unset($_SESSION['error'], $_SESSION['success']);
         return $Response;
     }
@@ -61,12 +62,12 @@ class LoginController extends Controller
                 ];
             } else {
                 $postObject->flash();
-                $postObject->flashPostError('password', 'Wachtwoord is onjuist');
+                $postObject->flashPostError('Error', "block");
                 redirect("/Login");
             }
         } else {
             $postObject->flash();
-            $postObject->flashPostError('email', 'Er bestaat geen account met dit emailadres');
+            $postObject->flashPostError('Error', "block");
             redirect("/Login");
         }
     }
