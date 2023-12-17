@@ -22,16 +22,66 @@ class LoginController extends Controller
         $Response = new ViewResponse();
         $Response->setStatusCode(HTTPStatusCodes::OK)
 
-        ->setBody(view(VIEWS_PATH . 'loginPage.view.php', [
-            'oldValueEmail' => $oldValueEmail,
-            'oldValuePassword' => $oldValuePassword,
-            'error' => $postObject->getPostError('textfield'),
-            'success' => $postObject->getPostSuccess('textfield')
-        ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'))
-        ->addHeader('Content-Type', 'text/html');
+            ->setBody(view(VIEWS_PATH . 'loginPage.view.php', [
+                'oldValueEmail' => $oldValueEmail,
+                'oldValuePassword' => $oldValuePassword,
+                'error' => $postObject->getPostError('textfield'),
+                'success' => $postObject->getPostSuccess('textfield')
+            ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'))
+            ->addHeader('Content-Type', 'text/html');
 
         $postObject->flush();
         unset($_SESSION['error'], $_SESSION['success']);
         return $Response;
     }
+
+
+
+    public function post(): ?Response
+    {
+        redirect('/Account');
+    }
+
+    public function validateLogin(): ?Response
+    {
+
+        unset($_SESSION['error'], $_SESSION['success']);
+        $postObject = $this->currentRequest->getPostObject();
+
+        $userservice = Application::resolve(UserService::class);
+        $user = $userservice->getUserByEmail($_POST["email"]);
+
+        if (isset($user)) {
+            if ($_POST["password"] === $user->password) {
+            
+            }
+            else{
+                $postObject->flash();
+                $postObject->flashPostError('password', 'Wachtwoord is onjuist');
+                redirect("/Login");
+
+
+            }
+        } else {
+            $postObject->flash();
+            $postObject->flashPostError('email', 'Er bestaat geen account met dit emailadres');
+            redirect("/Login");
+
+
+        }
+
+
+        $_SESSION["user"] = [
+            "id" => $user->id,
+            "role" => $user->role
+        ];
+
+
+    }
+
+
+
 }
+
+
+?>
