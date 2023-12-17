@@ -7,7 +7,8 @@ namespace Lib\MVCCore\Containers;
  * 
  * @package Lib\MVCCore
  */
-enum LifeTime {
+enum LifeTime
+{
     /**
      * Every request resolves the same instance.
      */
