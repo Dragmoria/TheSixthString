@@ -62,14 +62,14 @@
       </div>
       <div class="col-auto ms-5 me-5 mb-4 mt-5">
         <div class="row">
-          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email" name="email"
+          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email" value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email"
             placeholder="E-mailadres" required></input>
         </div>
       </div>
       <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
         <div class="row">
-            <input type="password" class="form-control custom-input-height bg-beige-color password-input" id="password"
-              name="password" placeholder="Wachtwoord" value=<?php echo htmlspecialchars($oldValue ?? ''); ?> required>
+            <input type="password" class="form-control custom-input-height bg-beige-color password-input" value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password"
+              name="password" placeholder="Wachtwoord" required>
             <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
       </div>
