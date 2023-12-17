@@ -44,16 +44,14 @@ class LoginController extends Controller
 
     public function validateLogin(): ?Response
     {
-
         unset($_SESSION['error'], $_SESSION['success']);
         $postObject = $this->currentRequest->getPostObject();
 
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserByEmail($_POST["email"]);
-
         if (isset($user)) {
-            if ($_POST["password"] === $user->password) {
-            
+            if ($_POST["password"] === $user->passwordHash) {
+            redirect("/Account");
             }
             else{
                 $postObject->flash();
@@ -66,7 +64,7 @@ class LoginController extends Controller
             $postObject->flash();
             $postObject->flashPostError('email', 'Er bestaat geen account met dit emailadres');
             redirect("/Login");
-
+            dumpDie("hallo");
 
         }
 

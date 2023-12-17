@@ -56,6 +56,7 @@
 <div class="container d-flex mb-5 mt-5 justify-content-center">
   <div class="card p-1 bg-card-custom w-40 d-inline-block">
     <form method="POST" action="/Account">
+      <input hidden name="_method" value="PUT"/>
       <div class="ms-5 mt-3">
         <h2 style="color:#EFE3C4">Sixth</h2>
         <h1 style="color:#EFE3C4">Inloggen</h1>

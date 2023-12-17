@@ -57,7 +57,7 @@ $router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class,
 $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/Register', [RegisterController::class, 'register']);
 $router->get('/Login', [LoginController::class, 'loginPage']);
-$router->post('/AccountValidation', [LoginController::class, 'validateLogin']);
+$router->put('/Account', [LoginController::class, 'validateLogin']);
 $router->get('/Account', [AccountPageController::class, 'AccountPage']);
 $router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
