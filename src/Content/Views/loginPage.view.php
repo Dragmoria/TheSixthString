@@ -69,7 +69,7 @@
       <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
         <div class="row">
             <input type="password" class="form-control custom-input-height bg-beige-color password-input" id="password"
-              name="password" placeholder="Wachtwoord" value=<?$oldValue required>
+              name="password" placeholder="Wachtwoord" value=<? echo $oldValue ?> required>
             <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
       </div>

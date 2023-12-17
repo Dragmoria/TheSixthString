@@ -128,4 +128,6 @@ class UserService extends BaseDatabaseService
         // Assuming the query returns only one user
         return $result[0];
     }
+
+    
 }
