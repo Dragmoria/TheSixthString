@@ -7,8 +7,8 @@ class MediaElementModel
     public function __construct(string $title, string $url)
     {
         $this->title = $title;
-        $this->url = $url;
+        $this->url = !empty($url) ? $url : null;
     }
     public string $title = "";
-    public string $url = "";
+    public ?string $url = null;
 }

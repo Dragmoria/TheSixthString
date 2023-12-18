@@ -3,6 +3,7 @@
 namespace Models;
 
 use Lib\Database\Entity\Product;
+use Lib\Helpers\TaxHelper;
 
 class ProductModel
 {
@@ -24,6 +25,8 @@ class ProductModel
     public ?CategoryModel $category = null;
     public ?MediaModel $media = null;
     public string $createdOn = "";
+    public array $reviews = array();
+    public ?float $reviewAverage = null;
 
     public static function convertToModel(?Product $entity): ?ProductModel
     {
@@ -37,8 +40,8 @@ class ProductModel
         $model->active = $entity->active;
         $model->amountInStock = $entity->amountInStock;
         $model->demoAmountInStock = $entity->demoAmountInStock;
-        $model->unitPrice = $entity->unitPrice;
-        $model->recommendedUnitPrice = $entity->recommendedUnitPrice;
+        $model->unitPrice = TaxHelper::calculatePriceIncludingTax($entity->unitPrice);
+        $model->recommendedUnitPrice = TaxHelper::calculatePriceIncludingTax($entity->recommendedUnitPrice);
         $model->sku = $entity->sku;
         $model->media = MediaModel::convertToModel($entity->media);
         $model->createdOn = $entity->createdOn;

@@ -1,5 +1,6 @@
 <?php
 
+use Http\Controllers\CategoryController;
 use Http\Controllers\ControlPanel\ManageAccountsController;
 use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\ControlPanel\ManageBrandsController;
@@ -8,6 +9,7 @@ use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ManageProductsController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\IndexController;
+use Http\Controllers\ProductController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -34,6 +36,7 @@ $container->registerClass(CategoryService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
+$container->registerClass(\Service\ProductService::class)->asSingleton();
 $container->registerCLass(BrandService::class)->asSingleton();
 
 
@@ -65,6 +68,14 @@ $router->get('/ControlPanel/ManageCategories', [ManageCategoriesController::clas
 
 
 $router->get('/', [IndexController::class, 'show']);
+
+$router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Product', [ProductController::class, 'index']);
+$router->get('/Product/{id}', [ProductController::class, 'details']);
+
+$router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Product', [ProductController::class, 'index']);
+$router->get('/Product/{id}', [ProductController::class, 'details']);
 
 $_SESSION["user"] = ["role" => Role::Admin];
 
