@@ -62,7 +62,6 @@ $router->get('/Account', [AccountPageController::class, 'AccountPage']);
 $router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);
-$router->post('/Account', [LoginController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
 
 $_SESSION["user"] = ["role" => Role::Admin->value];

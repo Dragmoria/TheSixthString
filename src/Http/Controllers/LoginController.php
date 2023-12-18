@@ -17,7 +17,7 @@ class LoginController extends Controller
         $postObject = $this->currentRequest->getPostObject();
         $oldValueEmail = $postObject->oldBody()['email'] ?? null;
         $oldValuePassword = $postObject->oldBody()['password'] ?? null;
-        $error = $postObject->getPostError('Error') ?? "none";
+        $error = $postObject->getPostError('error') ?? null;
 
         $Response = new ViewResponse();
 
@@ -27,22 +27,12 @@ class LoginController extends Controller
                 'oldValuePassword' => $oldValuePassword,
                 'error' => $error,
                 'success' => $postObject->getPostSuccess('textfield')
-            ])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'))
-            ->addHeader('Content-Type', 'text/html');
+            ])->withLayout(MAIN_LAYOUT));
 
         $postObject->flush();
-
         unset($_SESSION['error'], $_SESSION['success']);
         return $Response;
     }
-
-
-
-    public function post(): ?Response
-    {
-        redirect('/Account');
-    }
-
 
     public function validateLogin(): ?Response
     {
@@ -55,19 +45,20 @@ class LoginController extends Controller
 
         if (isset($user)) {
             if ($postBody["password"] === $user->passwordHash) {
-                redirect("/Account");
                 $_SESSION["user"] = [
                     "id" => $user->id,
                     "role" => $user->role
                 ];
+                redirect("/Account");
+                exit;
             } else {
                 $postObject->flash();
-                $postObject->flashPostError('Error', "block");
+                $postObject->flashPostError('error', "block");
                 redirect("/Login");
             }
         } else {
             $postObject->flash();
-            $postObject->flashPostError('Error', "block");
+            $postObject->flashPostError('error', "block");
             redirect("/Login");
         }
     }

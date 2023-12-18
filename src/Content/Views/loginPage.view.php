@@ -67,9 +67,9 @@
         <h1 style="color:#EFE3C4">Inloggen</h1>
       </div>
       <div class="ms-5 mt-5">
-        <p style="color:#FF0000;display: <? if (isset($error)) {
+        <p style="color:#FF0000;display: <?
           echo $error ?? "none";
-        } ?>;">ongeldig emailadres of
+         ?>;">ongeldig emailadres of
           wachtwoord</p>
       </div>
       <div class="col-auto ms-5 me-5 mb-4 mt-3">
