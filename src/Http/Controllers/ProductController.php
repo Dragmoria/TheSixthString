@@ -38,8 +38,7 @@ class ProductController extends Controller {
         $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
             [
                 "product" => $productDetails,
-                "previousPage" => "",
-                "fallbackMainImage" => new MediaElementModel("fallback", "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png")
+                "previousPage" => ""
             ]
         )->withLayout(MAIN_LAYOUT));
 

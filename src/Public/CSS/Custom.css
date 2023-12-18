@@ -71,3 +71,7 @@ div.sixth-beige-2 {
 div.sixth-white {
     background-color: var(--sixth-white);
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

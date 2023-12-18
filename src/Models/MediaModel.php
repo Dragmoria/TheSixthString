@@ -18,8 +18,10 @@ class MediaModel {
         $model->mainImage = new MediaElementModel($deserializedJson->mainImage->title, $deserializedJson->mainImage->url);
         $model->video = new MediaElementModel($deserializedJson->video->title, $deserializedJson->video->url);
 
+        $model->secondaryImages[] = $model->mainImage;
+
         foreach($deserializedJson->secondaryImages as $secondaryImage) {
-            array_push($model->secondaryImages, new MediaElementModel($secondaryImage->title, $secondaryImage->url));
+            $model->secondaryImages[] = new MediaElementModel($secondaryImage->title, $secondaryImage->url);
         }
 
         return $model;
