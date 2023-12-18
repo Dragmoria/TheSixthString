@@ -27,6 +27,13 @@
       <li class="nav-item">
         <a class="nav-link text-sixth-beige" href="#">Overig</a>
       </li>
+      <?php
+      if (currentRole()->hasRightsOf(Lib\Enums\Role::Analyst)) {
+        echo '<li class="nav-item">';
+        echo '<a class="nav-link text-sixth-beige" href="/ControlPanel">Control panel</a>';
+        echo '</li>';
+      }
+      ?>
       <li class="nav-item mx-3">
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
           <img src="/images/account-icon.png" alt="Account" width="17" height="17">
