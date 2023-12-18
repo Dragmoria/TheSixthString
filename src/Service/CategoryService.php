@@ -9,7 +9,7 @@ use Models\ProductModel;
 
 class CategoryService extends BaseDatabaseService
 {
-    public function getCategories(?int $selectedCategoryId): array
+    public function getCategories(?int $selectedCategoryId = null): array
     {
         $query = "select id, name, media from category where active = 1 ";
         $params = array();
