@@ -11,8 +11,6 @@ use Lib\MVCCore\View;
  */
 interface Router
 {
-    public function testRoute($method, $path): void;
-
     /**
      * Will handle the request and route it to the correct controller.
      *

@@ -103,10 +103,7 @@ class CoreRouter implements Router
         return $this->addRoute(RequestTypes::PUT, $uri, $callback);
     }
 
-    public function testRoute($method, $path): void
-    {
-        $routesToSearch = $this->routes[$method];
-    }
+
 
     /**
      * Will handle the request and route it to the correct controller.
@@ -120,13 +117,11 @@ class CoreRouter implements Router
         $uri = $request->path();
 
         foreach ($this->routes[$methodType] as $pattern => $route) {
-            // will replace the possible dynamic part of a route with a regex so we can match it with te given url
-            $pattern = preg_replace('/{[^}]+}/', '([^/]+)', $pattern);
+            // will replace the possible dynamic part of a route with a regex so we can match it with the given url
+            $pattern = preg_replace('/{([^}]+)}/', '(?<$1>[^/]+)', $pattern);
 
-            // preg match will see if the route matches to the given url ([^/]+) will match anything except a / so it basically makes it so that a route with {id} will match anything at that spot
+            // preg match will see if the route matches to the given url
             if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
-                // will make it so the only element in the array is the id so we can possibly pass it to the controller
-                array_shift($matches);
                 // will get the callback from the route
                 $callback = $route['callback'];
                 // will get the middlewares from the route
@@ -153,8 +148,10 @@ class CoreRouter implements Router
                 $controllerMethod = $callback[1];
 
                 $controller->setRequest($request);
-                // passes the id to the controller, if the array is emtpy it will still pass it but the controller method doesn't care about it
-                $controllerReturn = $controller->$controllerMethod(...$matches);
+
+                $matches = array_intersect_key($matches, array_flip(array_filter(array_keys($matches), 'is_string')));
+                // passes the dynamic parts to the controller
+                $controllerReturn = $controller->$controllerMethod($matches);
 
                 // if the controller returns a response we will send it and stop the execution of the route
                 if ($controllerReturn !== null) {

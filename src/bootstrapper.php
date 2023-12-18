@@ -4,21 +4,15 @@ use Http\Controllers\ControlPanel\ManageAccountsController;
 use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\ControlPanel\ManageBrandsController;
 use Http\Controllers\ControlPanel\ManageCategoriesController;
-use Http\Controllers\ControlPanel\ManageContentController;
 use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ManageProductsController;
-use Http\Controllers\ControlPanel\ModerateReviewsController;
-use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Controllers\ControlPanel\StatisticsController;
-use Http\Controllers\JeMoederController;
 use Http\Controllers\IndexController;
-use Http\Controllers\TestSomethingController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
-use Lib\MVCCore\Routers\Request;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
@@ -47,16 +41,6 @@ $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
 
 // Add routes below here.
-// $router->get('/', [HomeController::class, 'index']);
-
-
-
-$router->get('/test/{id}/{name}', [TestSomethingController::class, 'test']);
-
-$router->testRoute("GET", "/test/1/hoedan");
-//$router->testRoute("GET", "/test/1/hoedan/appel");
-
-die;
 
 $router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
 $router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
