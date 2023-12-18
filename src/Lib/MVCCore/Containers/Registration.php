@@ -7,7 +7,8 @@ namespace Lib\MVCCore\Containers;
  * 
  * @package Lib\MVCCore
  */
-class Registration {
+class Registration
+{
     /**
      * Represents the lifetime of the registration.
      *
@@ -26,17 +27,18 @@ class Registration {
      * @var [type]
      */
     public $resolver;
-    
+
     /**
      * Creates a basic registration. The registration is transient by default. Adds a resolver function that will create a new instance of the class.
      * 
      * @param string $toRegisterClassName Fully qualified class name of the registration.
      */
-    public function __construct(string $toRegisterClassName) {
+    public function __construct(string $toRegisterClassName)
+    {
         $this->lifeTime = LifeTime::Transient;
         $this->className = $toRegisterClassName;
 
-        $this->resolver = function() use($toRegisterClassName) {
+        $this->resolver = function () use ($toRegisterClassName) {
             return new $toRegisterClassName;
         };
     }
@@ -46,7 +48,8 @@ class Registration {
      *
      * @return Registration Returns the registration so that it can be chained.
      */
-    public function asTransient(): Registration {
+    public function asTransient(): Registration
+    {
         $this->lifeTime = LifeTime::Transient;
         return $this;
     }
@@ -56,7 +59,8 @@ class Registration {
      *
      * @return Registration Returns the registration so that it can be chained.
      */
-    public function asSingleton(): Registration {
+    public function asSingleton(): Registration
+    {
         $this->lifeTime = LifeTime::Singleton;
         return $this;
     }
@@ -67,7 +71,8 @@ class Registration {
      * @param callable $resolver Resolver function.
      * @return void
      */
-    public function setResolver(callable $resolver): void {
+    public function setResolver(callable $resolver): void
+    {
         $this->resolver = $resolver;
     }
 }
