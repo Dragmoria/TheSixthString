@@ -43,6 +43,7 @@ class LoginController extends Controller
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserByEmail($postBody['email']);
 
+
         if (isset($user)) {
             if ($postBody["password"] === $user->passwordHash) {
                 $_SESSION["user"] = [
@@ -50,7 +51,6 @@ class LoginController extends Controller
                     "role" => $user->role
                 ];
                 redirect("/Account");
-                exit;
             } else {
                 $postObject->flash();
                 $postObject->flashPostError('error', "block");
@@ -61,6 +61,7 @@ class LoginController extends Controller
             $postObject->flashPostError('error', "block");
             redirect("/Login");
         }
+
     }
 
 }

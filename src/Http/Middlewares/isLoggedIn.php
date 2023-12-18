@@ -7,7 +7,7 @@ use Lib\MVCCore\Middleware;
 use Lib\MVCCore\Routers\HTTPStatusCodes;
 
 class isLoggedIn implements Middleware {
-    public function handle(){
+    public function handle() :?HTTPStatusCodes {
     if (!isset($_SESSION["user"]["id"])) {
         redirect('/Login');
     } else {

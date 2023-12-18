@@ -57,10 +57,13 @@
   <div class="card p-1 bg-card-custom w-40 d-inline-block">
     <form method="POST" action="/Account">
       <div class="ms-5 mt-3">
-        <h2 style="color:#EFE3C4">Sixth</h2>
         <h1 style="color:#EFE3C4">Account Page</h1>
-      
         </div>
+        <div class="col-auto">
+            <button type="submit" id="logoutButton" 
+              class="btn btn-primary rounded-pill form-check bg-beige-color"
+              style="width: min-content;background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
+          </div>
     </form>
   </div>
 </div>

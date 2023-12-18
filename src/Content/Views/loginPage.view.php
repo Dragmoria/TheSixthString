@@ -98,12 +98,12 @@
       <div class="col-12 ms-5 mb-5 me-5 form">
         <div class="row">
           <div class="col-auto">
-            <a href="/Register" id="registerButton" name="registerButton"
+            <a href="/Register" id="registerButton" 
               class="btn btn-primary rounded-pill form-check bg-beige-color"
               style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Register">Registreren</a>
           </div>
           <div class="col-auto">
-            <button type="submit" id="loginButton" name="loginButton"
+            <button type="submit" id="loginButton" 
               class="btn btn-primary rounded-pill form-check bg-beige-color"
               style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Login">Inloggen</button>
           </div>

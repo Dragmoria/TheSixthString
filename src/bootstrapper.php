@@ -13,11 +13,13 @@ use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
+use Http\Middlewares\isLoggedIn;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Lib\MVCCore\Middleware;
 use Service\CategoryService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
@@ -58,13 +60,14 @@ $router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController
 $router->get('/Register', [RegisterController::class, 'register']);
 $router->get('/Login', [LoginController::class, 'loginPage']);
 $router->put('/Account', [LoginController::class, 'validateLogin']);
-$router->get('/Account', [AccountPageController::class, 'AccountPage']);
+$router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
+$router->post('/Account', [AccountPageController::class, 'Logout']);
 $router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
 
-$_SESSION["user"] = ["role" => Role::Admin->value];
+
 
 // Run the application.
 Application::run();

@@ -10,7 +10,8 @@
     <!-- Links & Buttons -->
     <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-sixth-beige" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle text-sixth-beige" href="#" id="navbarDropdown" role="button"
+          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categorieen
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -28,9 +29,10 @@
         <a class="nav-link text-sixth-beige" href="#">Overig</a>
       </li>
       <li class="nav-item mx-3">
-        <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+        <a href="/Account"
+          class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
           <img src="images/account-icon.png" alt="Account" width="17" height="17">
-        </button>
+        </a>
       </li>
       <li class="nav-item me-5">
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
@@ -46,22 +48,26 @@
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none" style="background-color:var(--sixth-brown) !important;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
+  style="background-color:var(--sixth-brown) !important;">
   <div class="container-fluid px-0 pt-3">
     <!-- Logo and Search Bar on the left -->
     <a class="navbar-brand pt-0 mx-3" href="#">
       <img src="images/Logo_Small.svg" alt="Your Logo">
     </a>
     <div class="d-flex ms-auto">
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <a href="/Account" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="images/account-icon.png" alt="Account" width="17" height="17">
-      </button>
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      </a>
+      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="images/basket-icon.png" alt="Mand" width="17" height="17">
       </button>
     </div>
     <!-- Hamburger Menu Button -->
-    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Links and Buttons on the right -->
@@ -69,7 +75,8 @@
       <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
         <li class="nav-item dropdown">
           <!-- Added dropdown class to the list item -->
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: var(--sixth-beige)" ;>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="color: var(--sixth-beige)" ;>
             Categorieen
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -100,4 +107,3 @@
   <div class="container-fluid" style="height: 15px; background-color: var(--sixth-yellow);"></div>
 
 </nav>
-
