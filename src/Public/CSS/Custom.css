@@ -60,3 +60,10 @@ div.sixth-white {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.sixth-button {
+    background-color: var(--sixth-yellow) !important;
+    border: none;
+    color: var(--sixth-brown);
+    font-weight: bold;
+}

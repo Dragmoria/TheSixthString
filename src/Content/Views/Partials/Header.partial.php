@@ -11,7 +11,7 @@
     <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-sixth-beige" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Categorieen
+          Categorieën
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Categorie 1</a>
@@ -70,7 +70,7 @@
         <li class="nav-item dropdown">
           <!-- Added dropdown class to the list item -->
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: var(--sixth-beige)" ;>
-            Categorieen
+            Categorieën
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Action</a>
