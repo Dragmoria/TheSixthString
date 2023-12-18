@@ -6,7 +6,7 @@ use Lib\MVCCore\Application;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
-use Service\CategoryService;
+use Models\MediaElementModel;
 use Service\ProductService;
 
 class ProductController extends Controller {
@@ -21,6 +21,7 @@ class ProductController extends Controller {
             //TODO: pre-select category-filter
         }
 
+        //TODO:
 //        $products = Application::resolve(ProductService::class)->getProducts($urlQueryParams["id"] ?? null);
         $products = array();
 
@@ -34,7 +35,13 @@ class ProductController extends Controller {
 
         $productDetails = Application::resolve(ProductService::class)->getProductDetails((int)$id);
 
-        $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php', ['data' => $productDetails])->withLayout(MAIN_LAYOUT));
+        $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
+            [
+                "product" => $productDetails,
+                "previousPage" => "",
+                "fallbackMainImage" => new MediaElementModel("fallback", "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png")
+            ]
+        )->withLayout(MAIN_LAYOUT));
 
         return $response;
     }

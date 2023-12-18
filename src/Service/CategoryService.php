@@ -32,7 +32,7 @@ class CategoryService extends BaseDatabaseService {
                 $this->fillSelectedCategoryModel($selectedCategoryId, $model);
             }
 
-            array_push($models, $model);
+            $models[] = $model;
         }
 
         return $models;
@@ -41,7 +41,7 @@ class CategoryService extends BaseDatabaseService {
     private function fillSelectedCategoryModel(int $id, CategoryModel &$model): void {
         $productEntities = $this->executeQuery("select * from product where categoryId = ?", [$id], Product::class);
         foreach($productEntities as $entity) {
-            array_push($model->products, ProductModel::convertToModel($entity));
+            $model->products[] = ProductModel::convertToModel($entity);
         }
     }
 }
