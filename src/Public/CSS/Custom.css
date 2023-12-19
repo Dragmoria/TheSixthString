@@ -29,6 +29,10 @@ nav {
     color: var(--sixth-beige) !important;
 }
 
+.text-sixth-brown {
+    color: var(--sixth-brown) !important;
+}
+
 .dropdown-menu {
     background-color: var(--sixth-beige) !important;
     color: var(--sixth-black) !important;
@@ -66,4 +70,8 @@ div.sixth-white {
     border: none;
     color: var(--sixth-brown);
     font-weight: bold;
+}
+
+.bg-sixth-beige {
+    background-color: var(--sixth-beige);
 }

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg sticky-top flex-column py-0 d-none d-lg-block">
   <div class="container-fluid px-0 py-2">
     <!-- Logo -->
-    <a class="navbar-brand pt-0 mx-5" href="#">
+    <a class="navbar-brand pt-0 mx-5" href="/">
       <img src="/images/logo-small.svg" alt="Sixth" width="60px">
     </a>
     <!-- Search Bar -->
@@ -14,7 +14,9 @@
           Categorieën
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Categorie 1</a>
+            <a class="dropdown-item" href="/Category">Alles tonen</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Categorie 1</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Categorie 2</a>
           <div class="dropdown-divider"></div>
@@ -73,8 +75,9 @@
             Categorieën
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="/Category">Alles tonen</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
