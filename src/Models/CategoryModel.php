@@ -14,6 +14,7 @@ class CategoryModel {
     public bool $active = false;
     public ?MediaModel $media = null;
     public array $products = array();
+    public array $children = array();
 
     public static function convertToModel(?Category $entity): ?CategoryModel {
         if($entity->isEmptyObject()) return null;

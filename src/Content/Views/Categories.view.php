@@ -19,7 +19,7 @@ $selectedCategoryProducts = array();
 <div class="container">
     <div class="row">
         <div class="col-12 mt-4 mb-5 text-center">
-            <h1>Categorieën</h1>
+            <h1 class="text-sixth-beige">Categorieën</h1>
         </div>
     </div>
     <div class="row">

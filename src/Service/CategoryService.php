@@ -38,6 +38,33 @@ class CategoryService extends BaseDatabaseService {
         return $models;
     }
 
+    public function getCategoriesWithChildren(): array {
+        $queryResult = $this->executeQuery("select * from category order by parentId", [], Category::class); //sort by parentId so the categories without a parent come first
+
+        $models = array();
+        foreach($queryResult as $resultItem) {
+            $this->addToResult($resultItem, $models);
+        }
+
+        return $models;
+    }
+
+    private function addToResult(Category $entity, array &$models): void {
+        if($entity->parentId == null) {
+            $models[] = CategoryModel::convertToModel($entity);
+            return;
+        }
+
+        foreach($models as $model) {
+            if($entity->parentId == $model->id) {
+                $model->children[] = CategoryModel::convertToModel($entity);
+                return;
+            }
+
+            $this->addToResult($entity, $model->children);
+        }
+    }
+
     private function fillSelectedCategoryModel(int $id, CategoryModel &$model): void {
         $productEntities = $this->executeQuery("select * from product where categoryId = ?", [$id], Product::class);
         foreach($productEntities as $entity) {
