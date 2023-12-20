@@ -45,7 +45,7 @@ class LoginController extends Controller
 
 
         if (isset($user)) {
-            if ($postBody["password"] === $user->passwordHash) {
+            if (password_verify($postBody["password"], $user->passwordHash)) {
                 $_SESSION["user"] = [
                     "id" => $user->id,
                     "role" => $user->role

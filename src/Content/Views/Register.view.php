@@ -137,7 +137,7 @@ $fields = array(
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
                             <div class="col-auto form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                <input class="form-check-input" type="radio" name="gender"
                                     id="<?= $gender->toString() ?>" value="<?php echo $gender->toString(); ?>" required>
                                 <label style="color:#EFE3C4" class="form-check-label" for="<?= $gender->toString() ?>">
                                     <?= $gender->toStringTranslate() ?>
@@ -221,7 +221,7 @@ $fields = array(
 
 
 
-            <!-- Success message div -->
+            <!-- Success message  -->
             <div class="d-flex justify-content-center col-auto mt-5 ms-3 me-3">
                 <div id="successMessageRegister" class="text-center text-start"
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
@@ -270,6 +270,7 @@ $(document).ready(function () {
                 type: "POST",
                 data: $("#registerForm").serialize(),
                 success: function (response) {
+                    console.log(response)
                     var successMessage = document.getElementById('successMessageRegister');
                     successMessage.style.display = 'block';
                     successMessage.style.visibility = 'visible';

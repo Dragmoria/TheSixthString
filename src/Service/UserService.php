@@ -75,7 +75,7 @@ class UserService extends BaseDatabaseService
             $input->firstName,
             $input->insertion,
             $input->lastName,
-            $input->dateOfBirth->format('Y-m-d'),
+            $input->dateOfBirth->format('Y-m-d H:i:s'),
             $input->gender->value,
             $input->active,
             $input->createdOn->format('Y-m-d H:i:s')

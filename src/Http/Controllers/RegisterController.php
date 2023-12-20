@@ -2,6 +2,7 @@
 namespace Http\Controllers;
 
 use Lib\Enums\Role;
+use lib\enums\Gender;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
@@ -32,25 +33,26 @@ class RegisterController extends Controller
 
     public function saveRegistery() :?Response
     {
-
-        dumpdie("hello");
-        
+       
         $postBody = $this->currentRequest->getPostObject()->body();
 
-        $newUserModel = new UserModel();
-        $newUserModel->emailAddress = $postBody('username');
-        $newUserModel->passwordHash = $postBody('password');
-        $newUserModel->role = Role::Customer;
-        $newUserModel->firstName = $postBody('firstname');
-        $newUserModel->insertion = $postBody('middlename');
-        $newUserModel->lastName = $postBody('lastname');
-        $newUserModel->dateOfBirth = $postBody('birthdate');
-        $newUserModel->gender = $postBody('gender');
 
+        $newUserModel = new UserModel();
+
+        $newUserModel->emailAddress = $postBody['email'];
+        $newUserModel->passwordHash = password_hash($postBody['password'],PASSWORD_DEFAULT);
+        $newUserModel->role = Role::Customer;
+        $newUserModel->firstName = $postBody['firstname'];
+        $newUserModel->insertion = $postBody['middlename'];
+        $newUserModel->lastName = $postBody['lastname'];
+        $newUserModel->dateOfBirth = new \DateTime($postBody['birthdate']);
+        $newUserModel->gender = Gender::fromString($postBody['gender']);
+        $newUserModel->active = true;
+        $newUserModel->createdOn = new \DateTime('now');
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->createCustomer($newUserModel);
         $createdUserId = $createdUser->id;
-
+        dumpDie($createdUserId);
         
     }
 

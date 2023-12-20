@@ -42,8 +42,8 @@ class UserModel
         $model->insertion = $entity->insertion;
         $model->lastName = $entity->lastName;
         $model->dateOfBirth = new \DateTime($entity->dateOfBirth);
-        $model->gender = Gender::from($entity->gender);
-        $model->active = $entity->active;
+        $model->gender = Gender::Unknown;
+        $model->active = false;
         $model->createdOn = new \DateTime($entity->createdOn);
 
         return $model;
