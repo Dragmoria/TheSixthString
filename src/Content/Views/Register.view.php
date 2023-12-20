@@ -3,6 +3,8 @@
 
 
 <script>
+
+
     function togglePasswordVisibility(passwordName) {
         console.log("jQuery is defined:", typeof jQuery !== 'undefined');
         var passwordInput = document.getElementById(passwordName);
@@ -83,10 +85,10 @@
     .line-hyper {
         content: "";
         display: block;
-        width: calc(10 * 1.05 * 1em);
+        width: calc(10 * 0.80 * 1em);
         max-width: 100%;
         border-bottom: 0.1em solid #EFE3C4;
-        margin-left: 6.3rem;
+        margin-left: 5.7rem;
 
     }
 
@@ -241,44 +243,50 @@ $fields = array(
 
 <script>
 
+function validatePasswords() {
+    var password1 = document.getElementById('password').value;
+    var password2 = document.getElementById('repeatPassword').value;
 
-    function validatePasswords() {
-        var password1 = document.getElementById('password').value;
-        var password2 = document.getElementById('repeatPassword').value;
+    if (password1 !== password2) {
+        alert('Passwords do not match. Please try again.');
+        return false;
+    }
 
-        if (password1 !== password2) {
-            alert('Passwords do not match. Please try again.');
-            return false;
+    return true;
+}
+
+$(document).ready(function () {
+    $("#saveButton").on("click", function () {
+
+        if (!validatePasswords()) {
+            return; 
         }
 
+ 
+        if ($("#registerForm")[0].checkValidity()) {
+           
+            $.ajax({
+                url: "/RegisterValidate",
+                type: "POST",
+                data: $("#registerForm").serialize(),
+                success: function (response) {
+                    var successMessage = document.getElementById('successMessageRegister');
+                    successMessage.style.display = 'block';
+                    successMessage.style.visibility = 'visible';
 
-
-        $(document).ready(function () {
-
-            $("#saveButton").on("click", function () {
-                console.log("Button clicked!");
-                $.ajax({
-                    url: "/RegisterValidate",
-                    type: "POST",
-                    data: $("#registerForm").serialize(),
-                    success: function (response) {
-
-                        var successMessage = document.getElementById('successMessageRegister');
-                        successMessage.style.display = 'block';
-                        successMessage.style.visibility = 'visible';
-
-
-                        var myForm = document.getElementById('registerForm');
-                        myForm.style.display = 'none';
-                    },
-                    error: function (xhr, status, error) {
-
-                        alert("An error occurred: " + error);
-
-                        console.error(xhr);
-                        console.error(status);
-                    }
-                });
+                    var myForm = document.getElementById('registerForm');
+                    myForm.style.display = 'none';
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error);
+                    console.error(xhr);
+                    console.error(status);
+                }
             });
+        } else {
 
+            $("#registerForm")[0].reportValidity();
+        }
+    });
+});
 </script>

@@ -32,6 +32,8 @@ class RegisterController extends Controller
 
     public function saveRegistery() :?Response
     {
+
+        dumpdie("hello");
         
         $postBody = $this->currentRequest->getPostObject()->body();
 
@@ -48,8 +50,6 @@ class RegisterController extends Controller
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->createCustomer($newUserModel);
         $createdUserId = $createdUser->id;
-
-        redirect('/Login');
 
         
     }

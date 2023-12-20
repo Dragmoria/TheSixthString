@@ -63,7 +63,6 @@ $router->put('/Account', [LoginController::class, 'validateLogin']);
 $router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
 $router->post('/Account', [AccountPageController::class, 'Logout']);
 $router->post('/RegisterValidate', [RegisterController::class, 'saveRegistery']);
-
 $router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);
