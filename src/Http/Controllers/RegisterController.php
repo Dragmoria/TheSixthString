@@ -1,6 +1,7 @@
 <?php
 namespace Http\Controllers;
 
+use Lib\Enums\Role;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
@@ -23,85 +24,66 @@ class RegisterController extends Controller
     }
 
 
+class UserService extends BaseDatabaseService
+{
+    public function addUser(UserModel $model): void {
+        $userQuery = "insert into user (firstname, lastname) values ('?', '?')";
+        $result = $this->executeQuery($userQuery, [$model->firstName, $model->lastName]);
+        $userId = 1;
+        $invoiceAddressQuery = "insert into address (street, city, type) values('?', '?', '?')";
+        $this->executeQuery($invoiceAddressQuery, [$model->address->street, $model->address->city, AddressType::Invoice->value]);
+        $shippingAddressQuery = "insert into address (street, city, type) values('?', '?', '?')";
+        $this->executeQuery($shippingAddressQuery, [$model->address->street, $model->address->city, AddressType::Shipping->value]);
+    }
 
-    public function post(): ?Response
+    public function SaveUser() :?Response
     {
-        unset($_SESSION['error'], $_SESSION['success']);
-        $postObject = $this->currentRequest->getPostObject();
 
-        // List of input fields
-        $fields = array(
-            'firstname',
-            'lastname',
-            'zipcode',
-            'housenumber',
-            'street',
-            'city',
-            'country',
-            'birthdate',
-            'email',
-            'password',
-            'repeatPassword',
-        );
+        $postBody = $this->currentRequest->getPostObject()->body();
 
-        // Initialize the formData array
-        $formData = array();
-
-        // Initialize the notFilledFields array
-        $notFilledFields = array();
-
-        // Flag to check if all fields are filled
-        $allFieldsFilled = true;
-
-        // Loop through each field and retrieve the data
-        foreach ($fields as $field) {
-            // Check if the field is set in the POST data and the value is not empty
-            if (isset($_POST[$field]) && !empty($_POST[$field])) {
-                // Store the field data in the array
-                $formData[$field] = $_POST[$field];
-            } else {
-                // If the field is not set or is empty, set a default value or leave it empty
-                $formData[$field] = '';
-
-                // Set the flag to false if any required field is not filled
-                if ($field !== 'middlename' && $field !== 'addition' && $field !== 'herhalen wachtwoord') {
-                    $allFieldsFilled = false;
-                }
-
-                // Add the field to the notFilledFields array
-                $notFilledFields[] = $field;
-            }
-        }
-        dumpDie($notFilledFields);
-
-        // Check the selected radio button
-        if (isset($_POST['inlineRadioOptions'])) {
-            $selectedRadioButton = $_POST['inlineRadioOptions'];
-            echo "Selected radio button: " . $selectedRadioButton;
-        } else {
-            echo "No radio button selected";
-            $allFieldsFilled = false; // Set the flag to false if radio button is not selected
-        }
-
-        // Store the form data in the session
-        $_SESSION['formData'] = $formData;
-
-        // Redirect to the same page if not all fields are filled
-        if (!$allFieldsFilled) {
-            $_SESSION['notFilledFields'] = $notFilledFields;
-            redirect('/Register');
-        }
-
-        // Return a response if needed
-        // return new Response();
+        $usermodel = new UserModel();
+        $usermodel->emailAddress = $postbody('username');
+        $usermodel->passwordHash = $postbody('password');
+        $usermodel->role = Role::Customer;
+        $usermodel->firstName = $postbody('firstname');
+        $usermodel->insertion = $postbody('middlename');
+        $usermodel->lastName = $postbody('lastname');
+        $usermodel->dateOfBirth = $postbody('birthdate');
+        $usermodel->gender = $postbody('gender');
+        $usermodel->street = $postbody('street');
+        $usermodel->housenumber = $postbody('housenumber');
+        $usermodel->$housenumberExtension = $postbody('addition');
+        $usermodel->zipcode = $postbody('zipcode');
+        $usermodel->city = $postbody('city');
+        $usermodel->country = $postbody('country');
+        
     }
 
 
-}
 
+    public function createUser(UserModel $input): UserModel
+    {
+        $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
+        $params = [
+            $input->emailAddress,
+            $input->passwordHash,
+            $input->role->value,
+            $input->firstName,
+            $input->insertion,
+            $input->lastName,
+            $input->dateOfBirth->format('Y-m-d'),
+            $input->gender->value,
+            $input->active,
+            $input->createdOn->format('Y-m-d H:i:s')
+        ];
 
+        $result = $this->executeQuery($query, $params);
 
+        // return the just created user after getting it from the database
+        $user = $this->getByEmail($input->emailAddress);
+        return UserModel::convertToModel($user);
+    }
 
 
 

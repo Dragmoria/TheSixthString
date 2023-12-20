@@ -60,6 +60,34 @@ class UserService extends BaseDatabaseService
         return $models;
     }
 
+
+
+
+
+    public function createCustomer(UserModel $input): UserModel
+    {
+        $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        $params = [
+            $input->emailAddress,
+            $input->passwordHash,
+            $input->role->value,
+            $input->firstName,
+            $input->insertion,
+            $input->lastName,
+            $input->dateOfBirth->format('Y-m-d'),
+            $input->gender->value,
+            $input->active,
+            $input->createdOn->format('Y-m-d H:i:s')
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        // return the just created user after getting it from the database
+        $user = $this->getByEmail($input->emailAddress);
+        return UserModel::convertToModel($user);
+    }
+
     public function createUser(UserModel $input): UserModel
     {
         $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";

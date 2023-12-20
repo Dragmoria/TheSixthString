@@ -64,15 +64,15 @@
 <? $date = date("Y-m-d");
 $spacer = '<div class="spacer"></div>';
 $fields = array(
-    'Voornaam' => array('name' => 'firstname', 'importance' => 'required'),
-    'Tussenvoegsel *' => array('name' => 'middlename', 'importance' => 'notrequired'),
-    'Achternaam' => array('name' => 'lastname', 'importance' => 'required'),
-    'Postcode' => array('name' => 'zipcode', 'importance' => 'required'),
-    'Huisnummer' => array('name' => 'housenumber', 'importance' => 'required'),
-    'Toevoeging *' => array('name' => 'addition', 'importance' => 'notrequired'),
-    'Straat' => array('name' => 'street', 'importance' => 'required'),
-    'Plaats' => array('name' => 'city', 'importance' => 'required'),
-    'Telefoonnummer *' => array('name' => 'phonenumber', 'importance' => 'notrequired')
+    'Voornaam *' => array('name' => 'firstname', 'importance' => 'required'),
+    'Tussenvoegsel' => array('name' => 'middlename', 'importance' => 'notrequired'),
+    'Achternaam *' => array('name' => 'lastname', 'importance' => 'required'),
+    'Postcode *' => array('name' => 'zipcode', 'importance' => 'required'),
+    'Huisnummer *' => array('name' => 'housenumber', 'importance' => 'required'),
+    'Toevoeging' => array('name' => 'addition', 'importance' => 'notrequired'),
+    'Straat *' => array('name' => 'street', 'importance' => 'required'),
+    'Plaats *' => array('name' => 'city', 'importance' => 'required'),
+    'Telefoonnummer' => array('name' => 'phonenumber', 'importance' => 'notrequired')
 );
 ?>
 
@@ -82,7 +82,7 @@ $fields = array(
 <div class="container d-flex mb-5 mt-5 justify-content-center">
     <div class="card p-1 bg-card-custom w-75 d-inline-block">
         <div class="card-body">
-            <form id="registerForm" method="POST" action="/Register" onsubmit="return handleFormSubmission(event)">
+            <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
                     <div class="col-auto mt-4 mb-3">
                         <h1 style="color:#EFE3C4">Registratie</h1>
@@ -90,7 +90,7 @@ $fields = array(
                         <h3 style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <div class="spacer"></div>
                         <p style="color:#EFE3C4">Aanhef</p>
-                        <?php foreach (['Mevrouw' => 'female', 'De heer' => 'male', 'Anders' => 'else'] as $label => $name): ?>
+                        <?php foreach (['Mevrouw' => 'gender', 'De heer' => 'gender', 'Anders' => 'gender'] as $label => $name): ?>
                             <div class="col-auto form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?= $name ?>"
                                     value="<?php echo $label; ?>" required>
@@ -138,7 +138,7 @@ $fields = array(
                 <div class="row">
                     <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
                         <i>
-                            <p style="color:#EFE3C4">* is niet verplicht</p>
+                            <p style="color:#EFE3C4">* is verplicht</p>
                         </i>
                     </div>
                     <div class="spacer"></div>
@@ -196,16 +196,6 @@ $fields = array(
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var myForm = document.getElementById('registerForm');
-        var successMessage = document.getElementById('successMessageRegister');
-
-        myForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            myForm.style.display = 'none';
-            successMessage.style.display = 'block';
-        });
-    });
     function togglePasswordVisibility(passwordName) {
         var passwordInput = document.getElementById(passwordName);
 
@@ -232,7 +222,7 @@ $fields = array(
 
     function handleFormSubmission(event) {
         event.preventDefault();  // Prevent the form from submitting and reloading the page
-
+        
         // Validate passwords
         if (!validatePasswords()) {
             return false; // Prevent form submission
@@ -273,10 +263,6 @@ $fields = array(
                 togglePasswordVisibility(passwordInput.id);
             });
         });
-
-        // Add the submit event listener after the DOM content has loaded
-        var myForm = document.getElementById('registerForm');
-        myForm.addEventListener('submit', handleFormSubmission);
     });
 
 

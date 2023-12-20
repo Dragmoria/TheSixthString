@@ -24,6 +24,9 @@ class UserModel
     public bool $active;
     public \DateTime $createdOn;
 
+    public ?AddresModel $address = null;
+    
+
 
     public static function convertToModel(?User $entity): ?UserModel
     {
