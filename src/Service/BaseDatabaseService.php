@@ -67,4 +67,15 @@ class BaseDatabaseService {
             $db->close();
         }
     }
+
+    public function query(string $query, int $result_mode = MYSQLI_STORE_RESULT): \mysqli_result|bool {
+        $db = $this->_dbContext->connect();
+        try {
+            return $db->query($query, $result_mode);
+        } catch(\Exception $ex) {
+            throw $ex;
+        } finally {
+            $db->close();
+        }
+    }
 }

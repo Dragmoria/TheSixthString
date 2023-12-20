@@ -56,8 +56,11 @@ class ProductService extends BaseDatabaseService {
 
     private function buildFilteredQuery(string &$query, array &$params, ProductFilterModel $model): void {
         if(!is_null($model->categoryId)) {
-            $query .= " and categoryId = ?";
-            $params[] = $model->categoryId;
+            $categoryIds = $this->getAllChildCategoriesForParent($model->categoryId);
+            $categoryIds[] = $model->categoryId;
+
+            $query .= " and categoryId in (" . substr(str_repeat(",?", count($categoryIds)), 1) . ")";
+            $params = array_merge($params, $categoryIds);
         }
 
         if(!is_null($model->brandId)) {
@@ -88,5 +91,17 @@ class ProductService extends BaseDatabaseService {
             default:
                 throw new \InvalidArgumentException("Invalid sort type $sortType->name");
         }
+    }
+
+    private function getAllChildCategoriesForParent(int $parentId): array {
+        $query = "with recursive cte as ( select cat.id, cat.name, cat.parentId from category cat union all select c.id,c.name, cat.parentId from category cat inner join cte c on c.parentId = cat.Id) select c.id from cte c where parentId = $parentId";
+        $queryResult = $this->query($query)->fetch_all(MYSQLI_ASSOC);
+
+        $childIds = array();
+        foreach($queryResult as $item) {
+            $childIds[] = (int)$item["id"];
+        }
+
+        return $childIds;
     }
 }
