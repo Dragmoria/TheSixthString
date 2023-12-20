@@ -49,7 +49,7 @@ class RegisterController extends Controller
         $createdUser = $userservice->createCustomer($newUserModel);
         $createdUserId = $createdUser->id;
 
-
+        redirect('/Login');
 
         
     }

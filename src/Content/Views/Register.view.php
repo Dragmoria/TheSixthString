@@ -1,4 +1,47 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+<script>
+    function togglePasswordVisibility(passwordName) {
+        console.log("jQuery is defined:", typeof jQuery !== 'undefined');
+        var passwordInput = document.getElementById(passwordName);
+
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var passwordInputs = document.querySelectorAll('.password-input');
+
+
+        passwordInputs.forEach(function (passwordInput) {
+
+            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+            eyeIcon.style.display = 'none';
+
+
+            passwordInput.addEventListener('input', function () {
+
+                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+            });
+
+
+            eyeIcon.addEventListener('mousedown', function () {
+                togglePasswordVisibility(passwordInput.id);
+            });
+        });
+    });
+</script>
+
+
+
+
+
 <style>
     body {
         background-color: #2C231E;
@@ -76,11 +119,7 @@ $fields = array(
 );
 ?>
 
-<? foreach (\Lib\Enums\Gender::cases() as $gender){ ?>
-        <label><?= $sortType->name ?>
-    <input type="radio" name="SortType" value="<?= $sortType->name ?>">
-        </label>
-<? } ?>
+
 
 
 <div class="container d-flex mb-5 mt-5 justify-content-center">
@@ -94,15 +133,15 @@ $fields = array(
                         <h3 style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <div class="spacer"></div>
                         <p style="color:#EFE3C4">Aanhef</p>
-                        <?php foreach (['Mevrouw' => 'gender', 'De heer' => 'gender', 'Anders' => 'gender'] as $label => $name): ?>
+                        <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
                             <div class="col-auto form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?= $name ?>"
-                                    value="<?php echo $label; ?>" required>
-                                <label style="color:#EFE3C4" class="form-check-label" for="<?= $label ?>">
-                                    <?= $label ?>
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                    id="<?= $gender->toString() ?>" value="<?php echo $gender->toString(); ?>" required>
+                                <label style="color:#EFE3C4" class="form-check-label" for="<?= $gender->toString() ?>">
+                                    <?= $gender->toStringTranslate() ?>
                                 </label>
                             </div>
-                        <?php endforeach; ?>
+                        <? endforeach; ?>
                     </div>
                 </div>
                 <div class="row">
@@ -114,24 +153,23 @@ $fields = array(
                         </div>
 
                         <?php
-                        // Increment the index
+                        // Increment the index and check if it's the third field, and not the last field
                         $index++;
-
-                        // Check if it's the third field, and not the last field
                         if ($index % 3 === 0 && $index < count($fields)) {
                             echo '</div><div class="row">';
                         }
                         ?>
                     <?php endforeach; ?>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                         <select class="form-select bg-beige-color" id="country" name="country" required>
                             <option value="" disabled selected>Selecteer land</option>
-                            <option value="1">Nederland</option>
-                            <option value="2">België</option>
-                            <option value="3">Luxemburg</option>
+                            <? foreach (\Lib\Enums\Country::cases() as $country): ?>
+                                <option value="<?= $country->toString() ?>">
+                                    <?= $country->toStringTranslate() ?>
+                                </option>
+                            <? endforeach; ?>
                         </select>
                     </div>
                     <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
@@ -171,13 +209,15 @@ $fields = array(
                     <div class="spacer"></div>
                     <div class="row">
                         <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
-                            <button type="submit" id="saveButton" name="saveButton"
+                            <button type="button" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
                         </div>
                     </div>
                 </div>
             </form>
+
+
 
             <!-- Success message div -->
             <div class="d-flex justify-content-center col-auto mt-5 ms-3 me-3">
@@ -200,16 +240,6 @@ $fields = array(
 
 
 <script>
-    function togglePasswordVisibility(passwordName) {
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
 
 
     function validatePasswords() {
@@ -218,58 +248,37 @@ $fields = array(
 
         if (password1 !== password2) {
             alert('Passwords do not match. Please try again.');
-            return false; // Prevent form submission
+            return false;
         }
 
-        return true; // Allow form submission
-    }
 
-    function handleFormSubmission(event) {
-        event.preventDefault();  // Prevent the form from submitting and reloading the page
-        
-        // Validate passwords
-        if (!validatePasswords()) {
-            return false; // Prevent form submission
-        }
 
-        // Assuming this is where you want to display the success message
-        var successMessage = document.getElementById('successMessageRegister');
+        $(document).ready(function () {
 
-        // Show the success message
-        successMessage.style.display = 'block';
-        successMessage.style.visibility = 'visible';
+            $("#saveButton").on("click", function () {
+                console.log("Button clicked!");
+                $.ajax({
+                    url: "/RegisterValidate",
+                    type: "POST",
+                    data: $("#registerForm").serialize(),
+                    success: function (response) {
 
-        // Hide the form
-        var myForm = document.getElementById('registerForm');
-        myForm.style.display = 'none';
+                        var successMessage = document.getElementById('successMessageRegister');
+                        successMessage.style.display = 'block';
+                        successMessage.style.visibility = 'visible';
 
-        return false;  // Prevent the form from submitting and reloading the page
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get the password input elements
-        var passwordInputs = document.querySelectorAll('.password-input');
+                        var myForm = document.getElementById('registerForm');
+                        myForm.style.display = 'none';
+                    },
+                    error: function (xhr, status, error) {
 
-        // Add input event listeners to all password fields
-        passwordInputs.forEach(function (passwordInput) {
-            // Get the associated eye icon element
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
+                        alert("An error occurred: " + error);
 
-            // Add an input event listener to the password field
-            passwordInput.addEventListener('input', function () {
-                // Toggle the eye icon visibility based on whether there is input in the password field
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+                        console.error(xhr);
+                        console.error(status);
+                    }
+                });
             });
-
-            // Add mouse event listeners to the eye icon for toggling password visibility
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-
-
-
 
 </script>

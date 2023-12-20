@@ -22,6 +22,20 @@ enum Gender: int
         }
     }
 
+    public function toStringTranslate()
+    {
+        switch ($this->value) {
+            case 0:
+                return "Onbekend";
+            case 1:
+                return "Mevrouw";
+            case 2:
+                return "De heer";
+            default:
+                return "Onbekend";
+        }
+    }
+
     public static function fromString(string $from)
     {
         switch (strtolower($from)) {
