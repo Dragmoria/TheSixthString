@@ -90,7 +90,7 @@ function buildCategoryDropdownElements($selectedFilters, $category, int $index):
                 </div>
                 <div class="col-12">
                     <div class="mb-4 mt-3">
-                        <input type="checkbox" id="instock-filter" checked>
+                        <input type="checkbox" id="instock-filter" <?= $selectedFilters->isInStock ? "checked" : "" ?>>
                         <label for="instock-filter" class="text-sixth-beige">Op voorraad</label>
                     </div>
                 </div>

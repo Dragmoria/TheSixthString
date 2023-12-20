@@ -32,7 +32,7 @@ class ProductController extends Controller {
         $response->setBody(view(VIEWS_PATH . 'Products.view.php',
             [
                 'products' => $products,
-                'selectedFilters' => $filterModel,         //TODO: pre-select selected filters when reloading page
+                'selectedFilters' => $filterModel,
                 'filterData' => $filterData
             ]
         )->withLayout(MAIN_LAYOUT));
@@ -62,7 +62,7 @@ class ProductController extends Controller {
         $filterModel->brandId = !empty($urlQueryParams["brand"]) ? $urlQueryParams["brand"] : null;
 
         if(!empty($urlQueryParams["instock"])) {
-            $filterModel->isInStock = $urlQueryParams["instock"];
+            $filterModel->isInStock = $urlQueryParams["instock"] == "true";
         }
 
         if(!empty($urlQueryParams["minprice"])) {
