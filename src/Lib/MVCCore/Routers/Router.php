@@ -9,7 +9,8 @@ use Lib\MVCCore\View;
  * 
  * @package Lib\MVCCore
  */
-interface Router {
+interface Router
+{
     /**
      * Will handle the request and route it to the correct controller.
      *
@@ -17,7 +18,7 @@ interface Router {
      * @return void
      */
     public function route(Request $request): void;
-    
+
     /**
      * Used to register a new route of type GET.
      *

@@ -25,7 +25,7 @@ class ManageCouponsController extends Controller
         return $response;
     }
 
-    public function getCoupons(): ?Response
+    public function getCouponsTableData(): ?Response
     {
         $params = $this->currentRequest->urlQueryParams();
         $search = $params['search'];

@@ -7,3 +7,7 @@ function blockKeys(event, forbiddenKeys, splitOn = ';') {
         return false;
     }
 }
+
+function editFormatter(value, row, index) {
+    return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
+}

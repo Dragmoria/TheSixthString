@@ -40,9 +40,10 @@ class ProductService extends BaseDatabaseService {
             $model->brand = BrandModel::convertToModel($brandEntity);
         }
 
-        if(!is_null($productEntity->categoryId)) {}
-        $categoryEntity = $this->executeQuery("select * from category where id = ?", [$productEntity->categoryId], Category::class)[0];
-        $model->category = CategoryModel::convertToModel($categoryEntity);
+        if(!is_null($productEntity->categoryId)) {
+            $categoryEntity = $this->executeQuery("select * from category where id = ?", [$productEntity->categoryId], Category::class)[0];
+            $model->category = CategoryModel::convertToModel($categoryEntity);
+        }
 
         $reviewEntities = $this->executeQuery("select rev.* from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productEntity->id], Review::class);
         foreach($reviewEntities as $reviewEntity) {

@@ -5,8 +5,11 @@ namespace Models;
 use Lib\Database\Entity\Product;
 use Lib\Helpers\TaxHelper;
 
-class ProductModel {
-    public function __construct() { }
+class ProductModel
+{
+    public function __construct()
+    {
+    }
 
     public int $id = 0;
     public string $name = "";
@@ -25,8 +28,9 @@ class ProductModel {
     public array $reviews = array();
     public ?float $reviewAverage = null;
 
-    public static function convertToModel(?Product $entity): ?ProductModel {
-        if($entity->isEmptyObject()) return null;
+    public static function convertToModel(?Product $entity): ?ProductModel
+    {
+        if ($entity->isEmptyObject()) return null;
 
         $model = new ProductModel();
         $model->id = $entity->id;
