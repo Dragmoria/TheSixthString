@@ -76,11 +76,11 @@ $fields = array(
 );
 ?>
 
-<?foreach(\Lib\Enums\SortType::cases() as $sortType): ?>
+<? foreach (\Lib\Enums\Gender::cases() as $gender){ ?>
         <label><?= $sortType->name ?>
     <input type="radio" name="SortType" value="<?= $sortType->name ?>">
         </label>
-<? endforeach; ?>
+<? } ?>
 
 
 <div class="container d-flex mb-5 mt-5 justify-content-center">
