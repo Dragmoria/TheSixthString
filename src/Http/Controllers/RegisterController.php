@@ -5,6 +5,10 @@ use Lib\Enums\Role;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Lib\MVCCore\Application;
+use Models\AddressModel;
+use Models\UserModel;
+use Service\UserService;
 
 class RegisterController extends Controller
 {
@@ -24,68 +28,35 @@ class RegisterController extends Controller
     }
 
 
-class UserService extends BaseDatabaseService
-{
-    public function addUser(UserModel $model): void {
-        $userQuery = "insert into user (firstname, lastname) values ('?', '?')";
-        $result = $this->executeQuery($userQuery, [$model->firstName, $model->lastName]);
-        $userId = 1;
-        $invoiceAddressQuery = "insert into address (street, city, type) values('?', '?', '?')";
-        $this->executeQuery($invoiceAddressQuery, [$model->address->street, $model->address->city, AddressType::Invoice->value]);
-        $shippingAddressQuery = "insert into address (street, city, type) values('?', '?', '?')";
-        $this->executeQuery($shippingAddressQuery, [$model->address->street, $model->address->city, AddressType::Shipping->value]);
-    }
 
-    public function SaveUser() :?Response
+
+    public function saveRegistery() :?Response
     {
-
+        
         $postBody = $this->currentRequest->getPostObject()->body();
 
-        $usermodel = new UserModel();
-        $usermodel->emailAddress = $postbody('username');
-        $usermodel->passwordHash = $postbody('password');
-        $usermodel->role = Role::Customer;
-        $usermodel->firstName = $postbody('firstname');
-        $usermodel->insertion = $postbody('middlename');
-        $usermodel->lastName = $postbody('lastname');
-        $usermodel->dateOfBirth = $postbody('birthdate');
-        $usermodel->gender = $postbody('gender');
-        $usermodel->street = $postbody('street');
-        $usermodel->housenumber = $postbody('housenumber');
-        $usermodel->$housenumberExtension = $postbody('addition');
-        $usermodel->zipcode = $postbody('zipcode');
-        $usermodel->city = $postbody('city');
-        $usermodel->country = $postbody('country');
+        $newUserModel = new UserModel();
+        $newUserModel->emailAddress = $postBody('username');
+        $newUserModel->passwordHash = $postBody('password');
+        $newUserModel->role = Role::Customer;
+        $newUserModel->firstName = $postBody('firstname');
+        $newUserModel->insertion = $postBody('middlename');
+        $newUserModel->lastName = $postBody('lastname');
+        $newUserModel->dateOfBirth = $postBody('birthdate');
+        $newUserModel->gender = $postBody('gender');
+
+        $userservice = Application::resolve(UserService::class);
+        $createdUser = $userservice->createCustomer($newUserModel);
+        $createdUserId = $createdUser->id;
+
+
+
         
     }
 
 
 
-    public function createUser(UserModel $input): UserModel
-    {
-        $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
-        $params = [
-            $input->emailAddress,
-            $input->passwordHash,
-            $input->role->value,
-            $input->firstName,
-            $input->insertion,
-            $input->lastName,
-            $input->dateOfBirth->format('Y-m-d'),
-            $input->gender->value,
-            $input->active,
-            $input->createdOn->format('Y-m-d H:i:s')
-        ];
-
-        $result = $this->executeQuery($query, $params);
-
-        // return the just created user after getting it from the database
-        $user = $this->getByEmail($input->emailAddress);
-        return UserModel::convertToModel($user);
-    }
-
-
+}
 
 
 ?>

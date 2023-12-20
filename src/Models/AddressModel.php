@@ -8,7 +8,7 @@ use Lib\Database\Entity\User;
 use Lib\Enums\AddressType;
 
 
-class AddresModel
+class AddressModel
 {
     function __construct()
     {

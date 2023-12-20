@@ -64,7 +64,7 @@ class UserService extends BaseDatabaseService
 
 
 
-    public function createCustomer(UserModel $input): UserModel
+    public function createCustomer(UserModel $input): ?UserModel
     {
         $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
