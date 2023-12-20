@@ -2,13 +2,13 @@
 
 namespace Service;
 
-use http\Exception\InvalidArgumentException;
 use Lib\Database\Entity\Brand;
 use Lib\Database\Entity\Category;
 use Lib\Database\Entity\Product;
 use Lib\Database\Entity\Review;
 use Lib\Enums\ReviewStatus;
 use Lib\Enums\SortType;
+use Lib\Helpers\TaxHelper;
 use Models\BrandModel;
 use Models\CategoryModel;
 use Models\ProductFilterModel;
@@ -72,8 +72,8 @@ class ProductService extends BaseDatabaseService {
         $params[] = 0;
 
         $query .= " and unitPrice >= ? and unitPrice <= ?";
-        $params[] = $model->minPrice;
-        $params[] = $model->maxPrice;
+        $params[] = TaxHelper::calculatePriceExcludingTax($model->minPrice);
+        $params[] = TaxHelper::calculatePriceExcludingTax($model->maxPrice);
 
         $query .= " order by " . $this->getSortOrder($model->sortOrder);
     }
