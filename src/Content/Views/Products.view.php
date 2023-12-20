@@ -1,4 +1,17 @@
 <?php
+function buildCategoryDropdownElements($selectedFilters, $category, int $index): void {
+    $selected = !is_null($selectedFilters->categoryId) && $selectedFilters->categoryId == $category->id ? "selected" : "";
+    for($i = 0; $i < $index; $i++) {
+        $category->name = "&nbsp;" . $category->name;
+    }
+
+    echo '<option ' . $selected . ' value="' . $category->id . '">' . $category->name . '</option>';
+
+    $index += 4;
+    foreach($category->children as $childCategory) {
+        buildCategoryDropdownElements($selectedFilters, $childCategory, $index);
+    }
+}
 ?>
 
 <div class="container">
@@ -39,11 +52,7 @@
                         <option value="">Kies een categorie</option>
                         <?php
                         foreach ($filterData->categories as $category) {
-                            $selected = !is_null($selectedFilters->categoryId) && $selectedFilters->categoryId == $category->id ? "selected" : "";
-                            ?>
-                            <option <?= $selected ?> value="<?= $category->id ?>"><?= $category->name ?></option>
-                            <?php
-                            //TODO: ook de children recursive tonen!
+                            buildCategoryDropdownElements($selectedFilters, $category, 0);
                         }
                         ?>
                     </select>
@@ -91,7 +100,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 mt-2">
+            <div class="row">
+                <?php
+                if (count($products) <= 0) {
+                    ?>
+                    <p class="text-sixth-beige">Geen producten gevonden</p>
+                    <?php
+                }
+
+                foreach ($products as $product) {
+                    ?>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <?php
+                        echo component(\Http\Controllers\Components\ProductCardComponent::class, (array)$product);
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 </div>

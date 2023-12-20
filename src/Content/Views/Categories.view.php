@@ -38,7 +38,8 @@ foreach ($categories as $category) {
             }
             ?>
             <div class="col-6 col-md-4">
-                <a class="card bg-sixth-beige rounded-4 mb-4 text-decoration-none" href="/Category?id=<?= $category->id ?>">
+                <a class="card bg-sixth-beige rounded-4 mb-4 text-decoration-none"
+                   href="/Category?id=<?= $category->id ?>">
                     <img class="card-img-top rounded-4 thumbnail category-thumbnail"
                          src="<?= $category->media->thumbnail->url ?? "" ?>"
                          alt="Category image">
@@ -62,7 +63,13 @@ foreach ($categories as $category) {
         <div class="row">
             <?php
             foreach ($selectedCategoryProducts as $product) {
-                echo component(\Http\Controllers\Components\ProductCardComponent::class, (array)$product);
+                ?>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                    <?php
+                    echo component(\Http\Controllers\Components\ProductCardComponent::class, (array)$product);
+                    ?>
+                </div>
+                <?php
             }
             ?>
         </div>
