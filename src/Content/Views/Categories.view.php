@@ -1,5 +1,13 @@
 <?php
 $selectedCategoryProducts = array();
+$pageTitle = "Categorieën";
+
+foreach ($categories as $category) {
+    if ($category->isSelectedCategory) {
+        $selectedCategoryProducts = $category->products;
+        $pageTitle = $category->name;
+    }
+}
 ?>
 
 <style>
@@ -19,14 +27,13 @@ $selectedCategoryProducts = array();
 <div class="container">
     <div class="row">
         <div class="col-12 mt-4 mb-5 text-center">
-            <h1 class="text-sixth-beige">Categorieën</h1>
+            <h1 id="page-title" class="text-sixth-beige"><?= $pageTitle ?></h1>
         </div>
     </div>
     <div class="row">
         <?php
         foreach ($categories as $category) {
             if ($category->isSelectedCategory) {
-                $selectedCategoryProducts = $category->products;
                 continue;
             }
             ?>

@@ -16,8 +16,10 @@ use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
 use Service\UserService;
@@ -36,7 +38,8 @@ $container->registerClass(CategoryService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
-$container->registerClass(\Service\ProductService::class)->asSingleton();
+$container->registerClass(ProductService::class)->asSingleton();
+$container->registerClass(BrandService::class)->asSingleton();
 
 
 $router = Application::getRouter();

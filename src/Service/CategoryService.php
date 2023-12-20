@@ -8,7 +8,7 @@ use Models\CategoryModel;
 use Models\ProductModel;
 
 class CategoryService extends BaseDatabaseService {
-    public function getCategories(?int $selectedCategoryId): array {
+    public function getActiveCategories(?int $selectedCategoryId): array {
         $query = "select id, name, media from category where active = 1 ";
         $params = array();
 
@@ -38,8 +38,13 @@ class CategoryService extends BaseDatabaseService {
         return $models;
     }
 
-    public function getCategoriesWithChildren(): array {
-        $queryResult = $this->executeQuery("select * from category order by parentId", [], Category::class); //sort by parentId so the categories without a parent come first
+    public function getActiveCategoriesWithChildren(?array $columns = null): array {
+        $columnsToSelect = "*";
+        if(!empty($columns)) {
+            $columnsToSelect = implode(",", $columns);
+        }
+
+        $queryResult = $this->executeQuery("select $columnsToSelect from category where active = ? order by parentId", [1], Category::class); //sort by parentId so the categories without a parent come first
 
         $models = array();
         foreach($queryResult as $resultItem) {
