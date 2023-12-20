@@ -208,15 +208,11 @@
 
     function fetchUsers(params) {
         // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
-        var url = '/ControlPanel/Accounts/UsersTableData'
+        var url = '/ControlPanel/Accounts/GetUsersTableData'
 
         $.get(url + '?' + $.param(params.data)).then(function(res) {
             params.success(res)
         })
-    }
-
-    function editFormatter(value, row, index) {
-        return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
     }
 
     $(document).on('click', '.edit-btn', function() {

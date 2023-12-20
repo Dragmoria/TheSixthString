@@ -33,7 +33,7 @@ class ManageAccountsController extends Controller
         return $response;
     }
 
-    public function usersTableData(): ?Response
+    public function getUsersTableData(): ?Response
     {
         $params = $this->currentRequest->urlQueryParams();
         $search = $params['search'];

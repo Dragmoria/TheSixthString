@@ -4,16 +4,20 @@ namespace Models;
 
 use Lib\Database\Entity\Brand;
 
-class BrandModel {
-    public function __construct() { }
+class BrandModel
+{
+    public function __construct()
+    {
+    }
 
     public int $id = 0;
     public string $name = "";
     public string $description = "";
     public bool $active = false;
 
-    public static function convertToModel(?Brand $entity): ?BrandModel {
-        if($entity->isEmptyObject()) return null;
+    public static function convertToModel(?Brand $entity): ?BrandModel
+    {
+        if ($entity->isEmptyObject()) return null;
 
         $model = new BrandModel();
 

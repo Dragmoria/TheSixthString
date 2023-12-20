@@ -4,12 +4,10 @@ namespace Service;
 
 use Lib\Database\DatabaseContext;
 
-class BaseDatabaseService
-{
+class BaseDatabaseService {
     private DatabaseContext $_dbContext;
 
-    function __construct()
-    {
+    function __construct() {
         $this->_dbContext = new DatabaseContext();
     }
 
@@ -37,7 +35,7 @@ class BaseDatabaseService
                     $types .= 'i';
                     $param = (int) $param; // Convert boolean to integer
                 } else {
-                    throw new \Exception('Invalid parameter type');
+                    throw new \Exception('Invalid parameter type: ' . gettype($param));
                 }
             }
 

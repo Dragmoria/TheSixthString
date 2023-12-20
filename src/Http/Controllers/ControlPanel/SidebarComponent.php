@@ -13,21 +13,39 @@ class SidebarComponent implements Component
 
         $buttons = [
             [
+                "path" => "/ControlPanel",
+                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "text" => "Dashboard",
+                "notifications" => ""
+            ],
+            [
                 "path" => "/ControlPanel/Statistics",
                 "enabled" => $currentRole->hasRightsOf(Role::Analyst),
                 "text" => "Statistieken",
                 "notifications" => ""
             ],
             [
-                "path" => "/ControlPanel/ManageContent",
+                "path" => "/ControlPanel/ManageProducts",
                 "enabled" => $currentRole->hasRightsOf(Role::Manager),
-                "text" => "Content beheer",
+                "text" => "Product beheer",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/ManageBrands",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Brand beheer",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/ManageCategories",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Categorie beheer",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/ManageCoupons",
                 "enabled" => $currentRole->hasRightsOf(Role::Manager),
-                "text" => "Beheer vouchers",
+                "text" => "Beheer coupons",
                 "notifications" => ""
             ],
             [

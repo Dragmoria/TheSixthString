@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="editActive" class="form-label">Type:</label>
+                            <label for="editActive" class="form-label">Actief:</label>
                             <div class="input-group">
                                 <select class="form-select" id="editActive" aria-label="EditActive" required>
                                     <option value="active">Actief</option>
@@ -231,15 +231,11 @@
 
     function fetchVouchers(params) {
         // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
-        var url = '/ControlPanel/ManageCoupons/GetCoupons';
+        var url = '/ControlPanel/ManageCoupons/GetCouponsTableData';
 
         $.get(url + '?' + $.param(params.data)).then(function(res) {
             params.success(res)
         })
-    }
-
-    function editFormatter(value, row, index) {
-        return '<button class="btn btn-primary edit-btn" data-index="' + index + '">Edit</button>';
     }
 
 
