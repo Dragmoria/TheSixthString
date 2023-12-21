@@ -11,7 +11,7 @@ use Lib\MVCCore\Application;
 use Models\AddressModel;
 use Models\UserModel;
 use Service\UserService;
-use service\AddressService;
+use Service\AddressService;
 
 class RegisterController extends Controller
 {
@@ -61,7 +61,7 @@ class RegisterController extends Controller
         $createdUser = $userservice->createCustomer($newUserModel);
         $createdUserId = $createdUser->id;
 
-            for ($AddressType = 1; $AddressType <= 2; $AddressType++) {
+            for ($AddressType = 0; $AddressType <= 1; $AddressType++) {
 
             $newAddressModel = new AddressModel();
             

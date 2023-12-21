@@ -20,7 +20,7 @@ class AddressService extends BaseDatabaseService
 
     public function createAddress(AddressModel $input): ?AddressModel
     {
-        $query = "INSERT INTO user ('userId', `street`, `housenumber`, `housenumberExtension`, `zipCode`, `city`, `country`, `active`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $query = "INSERT INTO address (`userId`, `street`, `housenumber`, `housenumberExtension`, `zipCode`, `city`, `country`, `active`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         $params = [
             $input->userId,
@@ -29,7 +29,7 @@ class AddressService extends BaseDatabaseService
             $input->housenumberExtension,
             $input->zipCode,
             $input->city,
-            $input->country,
+            $input->country->value,
             $input->active,
             $input->type,
         ];
