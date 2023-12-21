@@ -3,7 +3,6 @@
 namespace Service;
 
 use Lib\Database\Entity\Address;
-use Lib\Enums\Country;
 use Models\AddressModel;
 
 class AddressService extends BaseDatabaseService
@@ -12,19 +11,12 @@ class AddressService extends BaseDatabaseService
     {
         $address = $this->getById($id);
 
-        if ($address === null) return null;
+        if ($address === null)
+            return null;
         $model = AddressModel::convertToModel($address);
 
         return $model;
     }
-
-
-
-
-
-
-
-
 
     public function createAddress(AddressModel $input): ?AddressModel
     {
@@ -49,7 +41,7 @@ class AddressService extends BaseDatabaseService
         return AddressModel::convertToModel($Address);
     }
 
- 
+
 
     public function updateAddress(AddressModel $updateAddress): bool
     {
@@ -79,11 +71,12 @@ class AddressService extends BaseDatabaseService
 
         $result = $this->executeQuery($query, $params, Address::class);
 
-        if (count($result) === 0) return null;
+        if (count($result) === 0)
+            return null;
         // Assuming the query returns only one user
         return $result[0];
     }
 
 
-    
+
 }
