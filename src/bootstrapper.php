@@ -37,11 +37,12 @@ $container = Container::getInstance();
 $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(function () {
     return new EnvHandler(BASE_PATH . '/.env');
 });
+$container->registerClass(AddressService::class)->asSingleton();
 $container->registerClass(ReviewService::class)->asSingleton();
 $container->registerClass(CategoryService::class)->asSingleton();
 $container->registerClass(UserService::class)->asSingleton();
 $container->registerClass(ResetpasswordService::class)->asSingleton();
-$container->registerClass(AddressService::class)->asSingleton();
+
 
 
 $router = Application::getRouter();

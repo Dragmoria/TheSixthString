@@ -82,7 +82,6 @@ class RegisterController extends Controller
 
 
             }
-            dumpDie($createdAddressId);
     }
 
 
