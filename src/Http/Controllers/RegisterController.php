@@ -3,6 +3,7 @@ namespace Http\Controllers;
 
 use Lib\Enums\Role;
 use lib\enums\Gender;
+use lib\enums\Country;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
@@ -33,11 +34,14 @@ class RegisterController extends Controller
 
     public function saveRegistery() :?Response
     {
+
+
        
         $postBody = $this->currentRequest->getPostObject()->body();
 
 
         $newUserModel = new UserModel();
+        
 
         $newUserModel->emailAddress = $postBody['email'];
         $newUserModel->passwordHash = password_hash($postBody['password'],PASSWORD_DEFAULT);
@@ -49,11 +53,26 @@ class RegisterController extends Controller
         $newUserModel->gender = Gender::fromString($postBody['gender']);
         $newUserModel->active = true;
         $newUserModel->createdOn = new \DateTime('now');
+
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->createCustomer($newUserModel);
         $createdUserId = $createdUser->id;
-        dumpDie($createdUserId);
-        
+
+            for ($AddressType = 1; $AddressType <= 2; $AddressType++) {
+            $newAddressModel = new AddressModel();
+            
+            $newAddressModel->userId = $createdUserId;
+            $newAddressModel->street = $postBody['street'];
+            $newAddressModel->housenumber = $postBody['housenumber'];
+            $newAddressModel->housenumberExtension = $postBody['addition'];
+            $newAddressModel->zipCode = $postBody['zipcode'];
+            $newAddressModel->city = $postBody['city'];
+            $newAddressModel->country = Country::fromString($postBody['country']);
+            $newAddressModel->active = true;
+            $newAddressModel->type = $AddressType;
+
+            dumpDie($createdUserId);
+            }
     }
 
 

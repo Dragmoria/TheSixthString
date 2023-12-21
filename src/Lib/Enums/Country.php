@@ -6,7 +6,7 @@ enum Country: int
 {
     case Netherlands = 0;
     case Belgium = 1;
-    case Luxembourgh = 2;
+    case Luxembourg = 2;
 
     public function toString()
     {
@@ -16,7 +16,7 @@ enum Country: int
             case 1:
                 return "Belgium";
             case 2:
-                return "Luxembourgh";
+                return "Luxembourg";
             default:
                 return "Netherlands";
         }
@@ -39,12 +39,12 @@ enum Country: int
     public static function fromString(string $from)
     {
         switch (strtolower($from)) {
-            case 'Netherlands':
+            case 'netherlands':
                 return self::Netherlands;
-            case 'Belgium':
+            case 'belgium':
                 return self::Belgium;
-            case 'Luxembourgh':
-                return self::Luxembourgh;
+            case 'luxembourg':
+                return self::Luxembourg;
             default:
                 throw new \InvalidArgumentException("Invalid country: $from");
         }

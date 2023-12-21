@@ -1,6 +1,7 @@
 <?php
 
 namespace Lib\Database\Entity;
+use lib\Enums\Country;
 
 class Address extends SaveableObject {
     public function __construct() {
@@ -13,7 +14,7 @@ class Address extends SaveableObject {
     public ?string $housenumberExtension = null;
     public string $zipCode = "";
     public string $city = "";
-    public int $country = 0;
+    public Country $country = Country::Netherlands;
     public bool $active = false;
     public int $type = 0; //default is AddressType::Invoice (= 0)
 }

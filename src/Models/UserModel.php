@@ -2,7 +2,9 @@
 
 namespace Models;
 
+
 use Lib\Database\Entity\User;
+use Models\AddressModel;
 use Lib\Enums\Gender;
 use Lib\Enums\Role;
 
@@ -24,7 +26,6 @@ class UserModel
     public bool $active;
     public \DateTime $createdOn;
 
-    public ?AddressModel $address = null;
 
 
 
