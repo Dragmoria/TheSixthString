@@ -6,8 +6,17 @@ use Lib\Database\Entity\Brand;
 use Lib\Enums\SortOrder;
 use Models\BrandModel;
 
-class BrandService extends BaseDatabaseService
-{
+class BrandService extends BaseDatabaseService {
+    public function getActiveBrands(): array {
+        $entities = $this->executeQuery("select id, name from brand where active = ?", [1], Brand::class);
+        $models = array();
+        foreach($entities as $entity) {
+            $models[] = BrandModel::convertToModel($entity);
+        }
+
+        return $models;
+    }
+
     public function getBrands(string $sortField, SortOrder $sortOrder): ?array
     {
         $query = 'SELECT * FROM brand';

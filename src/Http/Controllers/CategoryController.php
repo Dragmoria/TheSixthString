@@ -15,12 +15,12 @@ class CategoryController extends Controller {
         $request = $this->currentRequest;
         $urlQueryParams = $request->urlQueryParams();
 
-        $categories = Application::resolve(CategoryService::class)->getCategories($urlQueryParams["id"] ?? null);
+        $categories = Application::resolve(CategoryService::class)->getActiveCategories($urlQueryParams["id"] ?? null);
 
         if($this->hasChildCategoriesForSelectedCategory($categories)) {
             $response->setBody(view(VIEWS_PATH . 'Categories.view.php', ['categories' => $categories])->withLayout(MAIN_LAYOUT));
         } else {
-            redirect("/Product?categoryId=" . $urlQueryParams["id"]);
+            redirect("/Product?category=" . $urlQueryParams["id"]);
         }
 
         return $response;

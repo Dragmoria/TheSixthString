@@ -1,26 +1,25 @@
+<?php
+function buildCategoryList($category, int $index): void { //used in CategoryMenu.component.php
+    echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
+
+    foreach($category->children as $childCategory) {
+        buildCategoryList($childCategory, ++$index);
+    }
+}
+?>
+
 <!-- Navbar Large screens -->
 <nav class="navbar navbar-expand-lg sticky-top flex-column py-0 d-none d-lg-block">
   <div class="container-fluid px-0 py-2">
     <!-- Logo -->
-    <a class="navbar-brand pt-0 mx-5" href="#">
+    <a class="navbar-brand pt-0 mx-5" href="/">
       <img src="/images/logo-small.svg" alt="Sixth" width="60px">
     </a>
     <!-- Search Bar -->
 
     <!-- Links & Buttons -->
     <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-sixth-beige" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Categorieen
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Categorie 1</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Categorie 2</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Categorie 3</a>
-        </div>
-      </li>
+        <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
       <li class="nav-item">
         <a class="nav-link text-sixth-beige" href="#">Service</a>
       </li>
@@ -74,18 +73,7 @@
     <!-- Links and Buttons on the right -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-        <li class="nav-item dropdown">
-          <!-- Added dropdown class to the list item -->
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: var(--sixth-beige)" ;>
-            Categorieen
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
+          <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
         <li class="nav-item">
           <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
         </li>

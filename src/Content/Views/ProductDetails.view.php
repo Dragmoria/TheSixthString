@@ -24,10 +24,10 @@ $reviewAverage = 0;
     }
 </style>
 
-<div class="container">
+<div class="container text-sixth-beige">
     <div class="row">
         <div class="col-12 mt-3">
-            <a href="<?= $previousPage ?>">Terug naar productoverzicht</a>
+            <a class="text-sixth-beige" href="#" onclick="history.go(-1);">Terug naar productoverzicht</a>
         </div>
         <div class="col-12 mt-4 mb-5">
             <h1><?= $product->name ?></h1>
@@ -35,7 +35,7 @@ $reviewAverage = 0;
         <div class="col-12 col-md-5">
             <div class="row">
                 <div id="media-container" class="col-12" data-type-shown="image">
-                    <img id="main-product-image" class="rounded img-fluid"
+                    <img id="main-product-image" class="rounded-4 img-fluid"
                          src="<?= $product->media->mainImage->url ?>"
                          alt="main product image"/>
                     <iframe id="product-video" class="d-none w-100 rounded" width="560" height="315" src="<?= $product->media->video->url ?>"
@@ -49,9 +49,10 @@ $reviewAverage = 0;
                     <div class="row">
                         <div id="thumbnail-slider" class="col-12 mt-4 text-nowrap overflow-x-scroll ps-0 pe-0">
                             <?php
-                            foreach ($product->media->secondaryImages as $secondaryImage) {
+                            for($i = 0; $i < count($product->media->secondaryImages); $i++) {
+                                $secondaryImage = $product->media->secondaryImages[$i];
                                 ?>
-                                <img class="product-thumbnail cursor-pointer rounded" data-type="image" src="<?= $secondaryImage->url ?>"
+                                <img class="product-thumbnail cursor-pointer rounded-4 <?= $i == 0 ? "mb-3" : "" ?>" data-type="image" src="<?= $secondaryImage->url ?>"
                                      alt="<?= $secondaryImage->title ?>" onclick="selectImage(this)"/>
                                 <?php
                             }
@@ -60,7 +61,7 @@ $reviewAverage = 0;
                     </div>
                 </div>
                 <div class="col-3 d-flex">
-                    <svg id="product-video-thumbnail" class="cursor-pointer rounded m-auto"
+                    <svg id="product-video-thumbnail" class="cursor-pointer rounded-4 m-auto"
                          onclick="toggleMediaVisibility(this)" data-type="video"
                          xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 384 512">
                         <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
@@ -75,7 +76,7 @@ $reviewAverage = 0;
                     <h2><?= $product->brand->name ?? "Onbekend merk" ?></h2>
                 </div>
                 <div class="col-12">
-                    <a href="#product-reviews">Gemiddelde beoordeling: <?= $product->reviewAverage ?> / 5
+                    <a class="text-sixth-beige" href="#product-reviews">Gemiddelde beoordeling: <?= $product->reviewAverage ?> / 5
                         (<?= count($product->reviews) ?> beoordelingen)</a>
                 </div>
                 <div class="col-12 mt-3">
@@ -84,7 +85,8 @@ $reviewAverage = 0;
                 <Div class="col-12 mt-2">
                     <small>Artikelcode: <?= $product->sku ?></small>
                     <div class="col-12 mt-5">
-                        <h1>€<?= number_format($product->unitPrice, 2, ",", ".") ?></h1>
+                        <span>Adviesprijs <?= formatPrice($product->recommendedUnitPrice) ?></span>
+                        <h1>Nu <?= formatPrice($product->unitPrice) ?></h1>
                     </div>
                     <div class="col-12">
                         <?php
@@ -104,7 +106,7 @@ $reviewAverage = 0;
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary">Toevoegen aan winkelwagen</button>
+                                        <button class="btn btn-primary sixth-button rounded-4">Toevoegen aan winkelwagen</button>
                                     </div>
                                 </div>
                             </form>
@@ -171,9 +173,9 @@ $reviewAverage = 0;
             }
 
             function toggleMediaVisibility(element) {
-                $('.product-thumbnail').removeClass('border border-dark');
-                $('#product-video-thumbnail').removeClass('border border-dark');
-                $(element).addClass('border border-dark');
+                $('.product-thumbnail').removeClass('mb-3');
+                $('#product-video-thumbnail').removeClass('mb-3');
+                $(element).addClass('mb-3');
 
                 if($(element).data('type') != $('#media-container').data('type-shown')) {
                     $('#main-product-image').toggleClass('d-none');

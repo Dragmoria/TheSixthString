@@ -23,7 +23,7 @@ class ManageCategoriesController extends Controller
     {
         $categoryService = Application::resolve(CategoryService::class);
 
-        $t = $categoryService->getCategories();
+        $t = $categoryService->getActiveCategories(null);
 
         dumpDie($t);
     }
