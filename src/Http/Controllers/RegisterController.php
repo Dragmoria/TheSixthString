@@ -32,7 +32,6 @@ class RegisterController extends Controller
 
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserByEmail($postBody['email']);
-        dumpDie($user);
 
         if (!isset($user)) {
             
@@ -69,8 +68,8 @@ class RegisterController extends Controller
                 $newAddressModel->type = $AddressType;
                 $addressService = Application::resolve(AddressService::class);
                 $createdAddress = $addressService->createAddress($newAddressModel);
-
             }
+            return $createdAddress;
         }
         else{
             $Response = new TextResponse();

@@ -131,9 +131,9 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="container-fluid d-flex mb-5 mt-5 justify-content-center">
+<div id="RegisterPageContainer" class="container-fluid d-flex mb-5 justify-content-center">
     <div id="registrationCard" class="card p-1 bg-card-custom d-inline-block"
-        style="position: relative; margin-top: 50px;">
+        style="position: relative; margin-top: 0px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
@@ -240,7 +240,7 @@ $fields = array(
                         <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.
                     </p>
                     <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">sluit deze pagina</a>
-                    <div class="mb-5 line-hyper"></div>
+                    <div class="line-hyper"></div>
                 </div>
             </div>
         </div>
@@ -279,6 +279,7 @@ $fields = array(
                     data: $("#registerForm").serialize(),
                     success: function (response) {
                         if (response !== "UserExists") {
+                            console.log(response)
                             var myForm = $("#registerForm");
                             myForm.hide();
 
@@ -289,8 +290,6 @@ $fields = array(
                             var MyContainer = $("#RegisterPageContainer")
 
                             MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-
-
                         }
                         else {
                             alert("Het ingevoerde e-mailadres is al in gebruik");
