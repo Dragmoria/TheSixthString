@@ -8,7 +8,8 @@ use Lib\Enums\Role;
  * @param mixed $value The value to dump.
  * @return void
  */
-function dumpDie($value): void {
+function dumpDie($value): void
+{
     echo "<pre>";
     var_dump($value);
     echo "</pre>";
@@ -21,13 +22,15 @@ function dumpDie($value): void {
  * @param mixed $value The value to dump.
  * @return void
  */
-function dump($value): void {
+function dump($value): void
+{
     echo "<pre>";
     var_dump($value);
     echo "</pre>";
 }
 
-function cast($className, array $objectArray) {
+function cast($className, array $objectArray)
+{
     $object = (object)$objectArray;
 
     if (!class_exists($className))
@@ -35,8 +38,7 @@ function cast($className, array $objectArray) {
 
     $new = new $className();
 
-    foreach($object as $property => &$value)
-    {
+    foreach ($object as $property => &$value) {
         $new->$property = &$value;
         unset($object->$property);
     }
@@ -44,10 +46,15 @@ function cast($className, array $objectArray) {
     return $new;
 }
 
-function currentRole(): ?Role {
-    if(isset($_SESSION["user"]["role"])) {
-        return Role::from((int)$_SESSION["user"]["role"]);
+function currentRole(): ?Role
+{
+    if (isset($_SESSION["user"]["role"])) {
+        return $_SESSION["user"]["role"];
     }
 
     return null;
+}
+
+function formatPrice(float $price): string  {
+    return "€" . number_format($price, 2, ",", ".");
 }

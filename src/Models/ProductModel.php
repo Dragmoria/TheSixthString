@@ -3,9 +3,13 @@
 namespace Models;
 
 use Lib\Database\Entity\Product;
+use Lib\Helpers\TaxHelper;
 
-class ProductModel {
-    public function __construct() { }
+class ProductModel
+{
+    public function __construct()
+    {
+    }
 
     public int $id = 0;
     public string $name = "";
@@ -19,11 +23,14 @@ class ProductModel {
     public string $sku = "";
     public ?BrandModel $brand = null;
     public ?CategoryModel $category = null;
-    public ?string $media = null;
+    public ?MediaModel $media = null;
     public string $createdOn = "";
+    public array $reviews = array();
+    public ?float $reviewAverage = null;
 
-    public static function convertToModel(?Product $entity): ?ProductModel {
-        if($entity->isEmptyObject()) return null;
+    public static function convertToModel(?Product $entity): ?ProductModel
+    {
+        if ($entity->isEmptyObject()) return null;
 
         $model = new ProductModel();
         $model->id = $entity->id;
@@ -33,10 +40,10 @@ class ProductModel {
         $model->active = $entity->active;
         $model->amountInStock = $entity->amountInStock;
         $model->demoAmountInStock = $entity->demoAmountInStock;
-        $model->unitPrice = $entity->unitPrice;
-        $model->recommendedUnitPrice = $entity->recommendedUnitPrice;
+        $model->unitPrice = TaxHelper::calculatePriceIncludingTax($entity->unitPrice);
+        $model->recommendedUnitPrice = TaxHelper::calculatePriceIncludingTax($entity->recommendedUnitPrice);
         $model->sku = $entity->sku;
-        $model->media = $entity->media;
+        $model->media = MediaModel::convertToModel($entity->media);
         $model->createdOn = $entity->createdOn;
 
         return $model;

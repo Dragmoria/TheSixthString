@@ -1,63 +1,77 @@
 :root {
-  --sixth-black: #1C1713;
-  --sixth-brown: #2C231E;
-  --sixth-yellow: #FCB716;
-  --sixth-beige: #EFE3C4;
-  --sixth-white: #FFFFFF;
-}
-
-.fixed-width-span {
-  width: 120px;
-  /* Adjust the width as needed */
-}
-
-.spacer {
-  height: 1pc;
+    --sixth-black: #1C1713;
+    --sixth-brown: #2C231E;
+    --sixth-yellow: #FCB716;
+    --sixth-beige: #EFE3C4;
+    --sixth-white: #FFFFFF;
 }
 
 *::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 body {
-  background-color: var(--sixth-brown) !important;
+    background-color: var(--sixth-brown) !important;
 }
 
 nav {
-  background-color: var(--sixth-brown) !important;
+    background-color: var(--sixth-brown) !important;
 }
 
 .nav-button {
-  background-color: var(--sixth-yellow) !important;
-  border-color: var(--sixth-yellow) !important;
-  width: 40px !important;
-  height: 40px !important;
+    background-color: var(--sixth-yellow) !important;
+    border-color: var(--sixth-yellow) !important;
+    width: 40px !important;
+    height: 40px !important;
 }
 
 .text-sixth-beige {
-  color: var(--sixth-beige) !important;
+    color: var(--sixth-beige) !important;
+}
+
+.text-sixth-brown {
+    color: var(--sixth-brown) !important;
 }
 
 .dropdown-menu {
-  background-color: var(--sixth-beige) !important;
-  color: var(--sixth-black) !important;
+    background-color: var(--sixth-beige) !important;
+    color: var(--sixth-black) !important;
 }
 
 .dropdown-item:hover {
-  background-color: var(--sixth-beige) !important;
-  font-weight: 500 !important;
+    background-color: var(--sixth-beige) !important;
+    font-weight: 500 !important;
 }
 
 .kpi-bar {
-  background-color: var(--sixth-yellow);
-  height: 15px;
+    background-color: var(--sixth-yellow);
+    height: 15px;
 }
 
 .header-custom {
-  background: url('../images/header.jpg');
-  background-repeat: no-repeat !important;
-  background-position: center;
-  height: calc(100vh - 71px);
-  width: 100%;
-  filter: drop-shadow(5px 29px 40px #000000);
+    background: url('../images/header.jpg');
+    background-repeat: no-repeat !important;
+    background-position: center;
+    height: calc(100vh - 71px);
+    width: 100%;
+    filter: drop-shadow(5px 29px 40px #000000);
+}
+
+div.sixth-white {
+    background-color: var(--sixth-white);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.sixth-button {
+    background-color: var(--sixth-yellow) !important;
+    border: none;
+    color: var(--sixth-brown);
+    font-weight: bold;
+}
+
+.bg-sixth-beige {
+    background-color: var(--sixth-beige);
 }

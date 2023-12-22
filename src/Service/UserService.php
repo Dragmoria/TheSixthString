@@ -92,17 +92,19 @@ class UserService extends BaseDatabaseService
     {
         $query = "INSERT INTO user (`emailAddress`, `passwordHash`, `role`, `firstName`, `insertion`, `lastName`, `dateOfBirth`, `gender`, `active`, `createdOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
+        $entity = $input->convertToEntity();
+
         $params = [
-            $input->emailAddress,
-            $input->passwordHash,
-            $input->role->value,
-            $input->firstName,
-            $input->insertion,
-            $input->lastName,
-            $input->dateOfBirth->format('Y-m-d'),
-            $input->gender->value,
-            $input->active,
-            $input->createdOn->format('Y-m-d H:i:s')
+            $entity->emailAddress,
+            $entity->passwordHash,
+            $entity->role,
+            $entity->firstName,
+            $entity->insertion,
+            $entity->lastName,
+            $entity->dateOfBirth,
+            $entity->gender,
+            $entity->active,
+            $entity->createdOn
         ];
 
         $result = $this->executeQuery($query, $params);
