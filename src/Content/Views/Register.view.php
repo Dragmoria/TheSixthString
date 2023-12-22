@@ -132,7 +132,7 @@ $fields = array(
 
 
 <div id="RegisterPageContainer" class="container-fluid d-flex mb-5 justify-content-center">
-    <div id="registrationCard" class="card p-1 bg-card-custom d-inline-block"
+    <div id="registrationCard" class="card bg-card-custom d-inline-block"
         style="position: relative; margin-top: 0px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
@@ -230,7 +230,7 @@ $fields = array(
 
 
             <!-- Success message  -->
-            <div class="d-flex justify-content-center col-auto mt-5 ms-3 me-3">
+            <div class="d-flex justify-content-center col-auto mt-5">
                 <div id="successMessageRegister" class="text-center text-start"
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
                     <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
