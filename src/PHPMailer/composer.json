@@ -59,7 +59,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPMailer\\PHPMailer\\": "src/"
+            "PHPMailer\\PHPMailer\\": "PHPMailer/"
         }
     },
     "autoload-dev": {
