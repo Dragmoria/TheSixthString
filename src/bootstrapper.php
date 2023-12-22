@@ -91,7 +91,7 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 
-$_SESSION["user"] = ["role" => Role::Admin];
+//$_SESSION["user"] = ["role" => Role::Admin];
 
 // Run the application.
 Application::run();
