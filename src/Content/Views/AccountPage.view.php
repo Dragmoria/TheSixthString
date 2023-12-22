@@ -65,7 +65,7 @@ $user = $_SESSION["user"]["firstname"];
 <div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
   <form id="accountForm" method="POST" action="/Account">
     <div class="row">
-      <div class="col-11 ms-3 mb-4 text-center">
+      <div class="col-8 ms-5 mb-4 text-center">
         <h1 style=color:#EFE3C4>Mijn Account</h1>
       </div>
       <div class="row">
@@ -81,7 +81,7 @@ $user = $_SESSION["user"]["firstname"];
         </div>
         <div class="col-1 text-center">
           <div class="d-flex">
-            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 250px; margin: auto;"></div>
+            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 480px; margin: auto;"></div>
           </div>
         </div>
         <div class="col-8">
@@ -98,11 +98,11 @@ $user = $_SESSION["user"]["firstname"];
                 </div>
               </div>
               <div class="row">
-                <div class="col-6 mt-5 text-center">
-                  <p1 style=color:#EFE3C4>Persoonlijke gegevens</p1>
+                <div class="col-6 mt-5 ms-5">
+                  <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
                 </div>
-                <div class="col-6 mt-5 text-center">
-                  <p1 style=color:#EFE3C4>Cadeaubonnen</p1>
+                <div class="col-4 mt-5 ms-1">
+                  <h5 style=color:#EFE3C4>Cadeaubonnen</h5>
                 </div>
               </div>
               <div class="row">
