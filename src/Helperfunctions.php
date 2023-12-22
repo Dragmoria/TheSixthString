@@ -48,6 +48,7 @@ function cast($className, array $objectArray)
 
 function currentRole(): ?Role
 {
+
     if (isset($_SESSION["user"]["role"])) {
         return $_SESSION["user"]["role"];
     }

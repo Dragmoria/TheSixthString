@@ -19,4 +19,6 @@ class User extends SaveableObject
     public int $gender = 0; //default is Gender::Unknown (= 0)
     public bool $active = false;
     public string $createdOn = "";
+    
+    
 }

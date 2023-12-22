@@ -2,7 +2,9 @@
 
 namespace Models;
 
+
 use Lib\Database\Entity\User;
+use Models\AddressModel;
 use Lib\Enums\Gender;
 use Lib\Enums\Role;
 
@@ -25,6 +27,8 @@ class UserModel
     public \DateTime $createdOn;
 
 
+
+
     public static function convertToModel(?User $entity): ?UserModel
     {
         if ($entity->isEmptyObject()) return null;
@@ -39,8 +43,8 @@ class UserModel
         $model->insertion = $entity->insertion;
         $model->lastName = $entity->lastName;
         $model->dateOfBirth = new \DateTime($entity->dateOfBirth);
-        $model->gender = Gender::from($entity->gender);
-        $model->active = $entity->active;
+        $model->gender = Gender::Unknown;
+        $model->active = false;
         $model->createdOn = new \DateTime($entity->createdOn);
 
         return $model;

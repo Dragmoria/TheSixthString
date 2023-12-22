@@ -22,9 +22,9 @@ services:
     volumes:
       - phpwebapp_db_data:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE="thesixthstring"
+      - MYSQL_USER="root"
+      - MYSQL_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
