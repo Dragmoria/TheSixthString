@@ -13,39 +13,63 @@ class SidebarComponent implements Component
 
         $buttons = [
             [
+                "path" => "/ControlPanel",
+                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "text" => "Dashboard",
+                "notifications" => ""
+            ],
+            [
                 "path" => "/ControlPanel/Statistics",
                 "enabled" => $currentRole->hasRightsOf(Role::Analyst),
                 "text" => "Statistieken",
                 "notifications" => ""
             ],
             [
-                "path" => "/ControlPanel/ManageContent",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
-                "text" => "Content beheer",
+                "path" => "/ControlPanel/ManageProducts",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Product beheer",
                 "notifications" => ""
             ],
             [
-                "path" => "/ControlPanel/ManageVouchers",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
-                "text" => "Beheer vouchers",
+                "path" => "/ControlPanel/ManageBrands",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Brand beheer",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/ManageCategories",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Categorie beheer",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/ManageCoupons",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Beheer coupons",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/ModerateReviews",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Moderate reviews",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/OrderManagement",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Beheer orders",
                 "notifications" => ""
             ],
             [
                 "path" => "/ControlPanel/Accounts",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
+                "enabled" => $currentRole->hasRightsOf(Role::Admin),
                 "text" => "Beheer accounts",
+                "notifications" => ""
+            ],
+            [
+                "path" => "/ControlPanel/Appointments",
+                "enabled" => $currentRole->hasRightsOf(Role::Manager),
+                "text" => "Bekijk afspraken",
                 "notifications" => ""
             ],
         ];

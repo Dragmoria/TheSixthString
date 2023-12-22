@@ -33,7 +33,7 @@ class ManageAccountsController extends Controller
         return $response;
     }
 
-    public function usersTableData(): ?Response
+    public function getUsersTableData(): ?Response
     {
         $params = $this->currentRequest->urlQueryParams();
         $search = $params['search'];
@@ -76,9 +76,9 @@ class ManageAccountsController extends Controller
     {
         $userService = Application::resolve(UserService::class);
 
-        $toUpdateUser = $userService->getUserById($this->currentRequest->getPostObject()->body()['id']);
+        $toUpdateUser = $userService->getUserById($this->currentRequest->postObject->body()['id']);
 
-        $postBody = $this->currentRequest->getPostObject()->body();
+        $postBody = $this->currentRequest->postObject->body();
 
         $errors = $this->validateUser($postBody);
 
@@ -108,7 +108,7 @@ class ManageAccountsController extends Controller
     {
         $userService = Application::resolve(UserService::class);
 
-        $postBody = $this->currentRequest->getPostObject()->body();
+        $postBody = $this->currentRequest->postObject->body();
 
         $errors = $this->validateNewUser($postBody);
 
@@ -150,7 +150,7 @@ class ManageAccountsController extends Controller
     {
         $userService = Application::resolve(UserService::class);
 
-        $user = $userService->getUserById($this->currentRequest->getPostObject()->body()['id']);
+        $user = $userService->getUserById($this->currentRequest->postObject->body()['id']);
 
         $resetpasswordService = Application::resolve(ResetpasswordService::class);
 
