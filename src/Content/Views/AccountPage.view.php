@@ -42,6 +42,9 @@
   }
 
   .password-input {}
+  .mt-Title-AccountCard{
+    margin-top: 2.2rem;
+  }
 
   .toggle-eye {
     position: absolute;
@@ -77,23 +80,23 @@ $user = $_SESSION["user"]["firstname"];
           <button type="button" id="logoutButton" class="mt-3 btn btn-primary bg-beige-color w-100"
             style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Bestelgeschiedenis</button>
           <button type="button" id="logoutButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
-            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Wachtwoord wijzigen</button>
+            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Gegevens wijzigen</button>
         </div>
         <div class="col-1 text-center">
           <div class="d-flex">
-            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 480px; margin: auto;"></div>
+            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 720px; margin: auto;"></div>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-8 ">
           <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
             <div class="card-body overflow-auto">
               <div id="nameCard" class="card ms-4 mt-4 me-4"
                 style="background-color: #EFE3C4; width: 120vh; height: 15vh;">
                 <div class="text-center">
-                  <div class="d-flex ms-3 mt-4">
-                    <h1 style=" color: #2C231E;">Hallo
+                  <div class="d-flex ms-4 mt-Title-AccountCard">
+                    <h3 style=" color: #2C231E;">Hallo
                       <? echo $user; ?>
-                    </h1>
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -120,6 +123,22 @@ $user = $_SESSION["user"]["firstname"];
                     <div class="text-center">
                       <div class="d-flex ms-3 mt-4">
                         </h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-5 ms-5">
+                    <h5 style=color:#EFE3C4>Laatste bestelling</h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
+                      <div class="text-center">
+                        <div class="d-flex ms-3 mt-4">
+                          </h1>
+                        </div>
                       </div>
                     </div>
                   </div>
