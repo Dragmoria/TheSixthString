@@ -20,7 +20,7 @@ class AccountPageController extends Controller
     {
         unset($_SESSION['user']);
         redirect('/Login');
-
+        
     }
 
 

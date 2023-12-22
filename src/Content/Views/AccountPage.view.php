@@ -37,36 +37,98 @@
   }
 
   .password-container {
-        position: relative;
+    position: relative;
 
-    }
+  }
 
-    .password-input {}
+  .password-input {}
 
-    .toggle-eye {
-        position: absolute;
-        top: 50%;
-        left: 192px;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
+  .toggle-eye {
+    position: absolute;
+    top: 50%;
+    left: 192px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
 </style>
 
+<?
+$user = $_SESSION["user"]["firstname"];
+?>
 
-<div class="container d-flex mb-5 mt-5 justify-content-center">
-  <div class="card p-1 bg-card-custom w-40 d-inline-block">
-    <form method="POST" action="/Account">
-      <div class="ms-5 mt-3">
-        <h1 style="color:#EFE3C4">Account Page</h1>
+
+
+
+
+
+
+<div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
+  <form id="accountForm" method="POST" action="/Account">
+    <div class="row">
+      <div class="col-11 ms-3 mb-4 text-center">
+        <h1 style=color:#EFE3C4>Mijn Account</h1>
+      </div>
+      <div class="row">
+        <div class="col-2 ms-5">
+          <button type="submit" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
+            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
+          <button type="button" id="logoutButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Persoonlijke gegevens</button>
+          <button type="button" id="logoutButton" class="mt-3 btn btn-primary bg-beige-color w-100"
+            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Bestelgeschiedenis</button>
+          <button type="button" id="logoutButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Wachtwoord wijzigen</button>
         </div>
-        <div class="col-auto">
-            <button type="submit" id="logoutButton" 
-              class="btn btn-primary rounded-pill form-check bg-beige-color"
-              style="width: min-content;background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
+        <div class="col-1 text-center">
+          <div class="d-flex">
+            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 250px; margin: auto;"></div>
           </div>
-    </form>
-  </div>
+        </div>
+        <div class="col-8">
+          <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+            <div class="card-body overflow-auto">
+              <div id="nameCard" class="card ms-4 mt-4 me-4"
+                style="background-color: #EFE3C4; width: 120vh; height: 15vh;">
+                <div class="text-center">
+                  <div class="d-flex ms-3 mt-4">
+                    <h1 style=" color: #2C231E;">Hallo
+                      <? echo $user; ?>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 mt-5 text-center">
+                  <p1 style=color:#EFE3C4>Persoonlijke gegevens</p1>
+                </div>
+                <div class="col-6 mt-5 text-center">
+                  <p1 style=color:#EFE3C4>Cadeaubonnen</p1>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
+                    <div class="text-center">
+                      <div class="d-flex ms-3 mt-4">
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
+                    <div class="text-center">
+                      <div class="d-flex ms-3 mt-4">
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-
-
-

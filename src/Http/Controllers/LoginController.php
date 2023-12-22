@@ -48,7 +48,8 @@ class LoginController extends Controller
             if (password_verify($postBody["password"], $user->passwordHash)) {
                 $_SESSION["user"] = [
                     "id" => $user->id,
-                    "role" => $user->role
+                    "role" => $user->role,
+                    "firstname" => $user->firstName
                 ];
                 redirect("/Account");
             } else {
