@@ -137,8 +137,8 @@ $fields = array(
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
                             <div class="col-auto form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender"
-                                    id="<?= $gender->toString() ?>" value="<?php echo $gender->toString(); ?>" required>
+                                <input class="form-check-input" type="radio" name="gender" id="<?= $gender->toString() ?>"
+                                    value="<?php echo $gender->toString(); ?>" required>
                                 <label style="color:#EFE3C4" class="form-check-label" for="<?= $gender->toString() ?>">
                                     <?= $gender->toStringTranslate() ?>
                                 </label>
@@ -205,6 +205,9 @@ $fields = array(
                             <?php else: ?>
                                 <input type="text" class="form-control form-check-inline bg-beige-color" id="<?= $name ?>"
                                     name="<?= $name ?>" placeholder="<?= $label ?>" required>
+                                    <div class="ms-4 mt-1">
+                                    <p id="errorLabel" style="color:#FF0000;display: block;">Gebruiker bestaat al</p>
+                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -243,51 +246,64 @@ $fields = array(
 
 <script>
 
-function validatePasswords() {
-    var password1 = document.getElementById('password').value;
-    var password2 = document.getElementById('repeatPassword').value;
+    function validatePasswords() {
+        var password1 = document.getElementById('password').value;
+        var password2 = document.getElementById('repeatPassword').value;
 
-    if (password1 !== password2) {
-        alert('Passwords do not match. Please try again.');
-        return false;
+        if (password1 !== password2) {
+            alert('Passwords do not match. Please try again.');
+            return false;
+        }
+
+        return true;
     }
 
-    return true;
-}
+    $(document).ready(function () {
+        $("#saveButton").on("click", function () {
 
-$(document).ready(function () {
-    $("#saveButton").on("click", function () {
+            if (!validatePasswords()) {
+                return;
+            }
 
-        if (!validatePasswords()) {
-            return; 
-        }
 
- 
-        if ($("#registerForm")[0].checkValidity()) {
-           
-            $.ajax({
-                url: "/RegisterValidate",
-                type: "POST",
-                data: $("#registerForm").serialize(),
-                success: function (response) {
-                    console.log(response)
-                    var successMessage = document.getElementById('successMessageRegister');
-                    successMessage.style.display = 'block';
-                    successMessage.style.visibility = 'visible';
+            if ($("#registerForm")[0].checkValidity()) {
 
-                    var myForm = document.getElementById('registerForm');
-                    myForm.style.display = 'none';
-                },
-                error: function (xhr, status, error) {
-                    alert("An error occurred: " + error);
-                    console.error(xhr);
-                    console.error(status);
-                }
-            });
-        } else {
+                $.ajax({
+                    url: "/RegisterValidate",
+                    type: "POST",
+                    data: $("#registerForm").serialize(),
+                    success: function (response) {
+                        if (!response === "UserExists") {
+                            var successMessage = document.getElementById('successMessageRegister');
+                            successMessage.style.display = 'block';
+                            successMessage.style.visibility = 'visible';
 
-            $("#registerForm")[0].reportValidity();
-        }
+                            var myForm = document.getElementById('registerForm');
+                            myForm.style.display = 'none';
+                        }
+                        else {
+                            var errorLabel = document.getElementById('errorLabel');
+                            errorLabel.style.display = 'block';
+                            errorLabel.style.visibility = 'visible';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (error === "UserExists") {
+                            alert("Gebruiker bestaat al");
+                        }
+                        else {
+                            console.log(error)
+                            console.log(xhr)
+                            alert("An error occurred: " + error);
+                            console.error(xhr);
+                            console.error(status);
+                        }
+                    }
+                });
+            } else {
+
+                $("#registerForm")[0].reportValidity();
+            }
+        });
     });
-});
 </script>

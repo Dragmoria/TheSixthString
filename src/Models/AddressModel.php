@@ -15,13 +15,14 @@ class AddressModel
     function __construct()
     {
     }
+    public int $id;
     public int $userId = 0;
     public string $street = "";
     public int $housenumber = 0;
     public ?string $housenumberExtension = null;
     public string $zipCode = "";
     public string $city = "";
-    public Country $country = Country::Netherlands;
+    public int $country = Country::Netherlands->value;
     public bool $active = false;
     public int $type = AddressType::Shipping->value;
 
@@ -31,17 +32,21 @@ class AddressModel
 
     public static function convertToModel(?address $entity): ?AddressModel
     {
-        if ($entity->isEmptyObject()) return null;
+        if ($entity === null) {
+            return null;
+        }
+
 
         $model = new AddressModel();
 
-        $model->userId = $entity->id;
+        $model->id = $entity->id;
+        $model->userId = $entity->userId;
         $model->street = $entity->street;
         $model->housenumber = $entity->housenumber;
         $model->housenumberExtension = $entity->housenumberExtension;
         $model->zipCode = $entity->zipCode;
         $model->city = $entity->city;
-        $model->country = Country::Netherlands;
+        $model->country = Country::Netherlands->value;
         $model->active = $entity->active;
         $model->type = $entity->type;
 
@@ -51,8 +56,9 @@ class AddressModel
     public function convertToEntity(): Address
     {
         $entity = new Address();
-
-        $entity->id = $this->userId;
+        
+        $entity->id = $this->id;
+        $entity->userId = $this->userId;
         $entity->street = $this->street;
         $entity->housenumber = $this->housenumber;
         $entity->housenumberExtension = $this->housenumberExtension;

@@ -14,7 +14,7 @@ class Address extends SaveableObject {
     public ?string $housenumberExtension = null;
     public string $zipCode = "";
     public string $city = "";
-    public Country $country = Country::Netherlands;
+    public int $country = Country::Netherlands->value;
     public bool $active = false;
     public int $type = 0; //default is AddressType::Invoice (= 0)
 }

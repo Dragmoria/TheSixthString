@@ -7,9 +7,9 @@ use Models\AddressModel;
 
 class AddressService extends BaseDatabaseService
 {
-    public function getAddressByUserId(int $id): ?AddressModel
+    public function getAddressByUserId(int $userId, int $type): ?AddressModel
     {
-        $address = $this->getById($id);
+        $address = $this->getByUserIdAndType($userId,$type);
 
         if ($address === null)
             return null;
@@ -29,16 +29,16 @@ class AddressService extends BaseDatabaseService
             $input->housenumberExtension,
             $input->zipCode,
             $input->city,
-            $input->country->value,
+            $input->country,
             $input->active,
             $input->type,
         ];
 
         $result = $this->executeQuery($query, $params);
-
         // return the just created user after getting it from the database
-        $Address = $this->getById($input->userId);
+        $Address = $this->getCreatedAddress($input->userId, $input->type);
         return AddressModel::convertToModel($Address);
+        
     }
 
 
@@ -56,7 +56,7 @@ class AddressService extends BaseDatabaseService
             $Address->zipCode,
             $Address->city,
             $Address->country,
-            $Address->id
+            $Address->userId
         ];
 
         $result = $this->executeQuery($query, $params);
@@ -64,13 +64,25 @@ class AddressService extends BaseDatabaseService
         return $result !== false;
     }
 
-    private function getById(int $id): ?Address
+    private function getByUserIdAndType(int $userId, int $type): ?Address
     {
-        $query = 'SELECT * FROM address WHERE id = ? LIMIT 1';
-        $params = [$id];
+        $query = 'SELECT * FROM address WHERE userId = ? LIMIT 1';
+        $params = [$userId];
 
         $result = $this->executeQuery($query, $params, Address::class);
 
+        if (count($result) === 0)
+            return null;
+        // Assuming the query returns only one user
+        return $result[0];
+    }
+
+    private function getCreatedAddress(int $userId, int $type): ?Address
+    {
+        $query = 'SELECT * FROM address WHERE userId = ? AND type = ? LIMIT 1';
+        $params = [$userId, $type];
+
+        $result = $this->executeQuery($query, $params, Address::class);
         if (count($result) === 0)
             return null;
         // Assuming the query returns only one user
