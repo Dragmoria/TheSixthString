@@ -25,7 +25,7 @@
         <?php echo $content; ?>
     </main>
 
-    <footer class="mt-auto">
+    <footer>
         <?php include VIEWS_PATH . 'Partials/Footer.partial.php'; ?>
     </footer>
 

@@ -18,15 +18,22 @@
     background-color: var(--sixth-brown) !important;
   }
   
+  .text-sixth-beige {
+    color: var(--sixth-beige) !important;
+  }
+
   .nav-button {
     background-color: var(--sixth-yellow) !important;
     border-color: var(--sixth-yellow) !important; 
     width: 40px !important; 
     height: 40px !important;
   }
-  
-  .text-sixth-beige {
-    color: var(--sixth-beige) !important;
+
+  .footer-button {
+    background-color: var(--sixth-beige) !important;
+    border-color: var(--sixth-beige) !important; 
+    width: 40px !important; 
+    height: 40px !important;
   }
   
   .dropdown-menu {
