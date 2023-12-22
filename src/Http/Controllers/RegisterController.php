@@ -32,9 +32,10 @@ class RegisterController extends Controller
 
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserByEmail($postBody['email']);
-
+        dumpDie($user);
 
         if (!isset($user)) {
+            
 
             $newUserModel = new UserModel();
 
@@ -70,8 +71,6 @@ class RegisterController extends Controller
                 $createdAddress = $addressService->createAddress($newAddressModel);
 
             }
-
-            dumpDie($createdAddress);
         }
         else{
             $Response = new TextResponse();

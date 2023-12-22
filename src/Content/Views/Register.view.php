@@ -75,6 +75,13 @@
 
     .bg-card-custom {
         background-color: #1C1713;
+        width: 60%;
+    }
+
+    .bg-card-succes {
+        background-color: #1C1713;
+        width: 90vh;
+        height: 70vh;
     }
 
     .password-container {
@@ -124,8 +131,9 @@ $fields = array(
 
 
 
-<div class="container d-flex mb-5 mt-5 justify-content-center">
-    <div class="card p-1 bg-card-custom w-75 d-inline-block">
+<div id="RegisterPageContainer" class="container-fluid d-flex mb-5 mt-5 justify-content-center">
+    <div id="registrationCard" class="card p-1 bg-card-custom d-inline-block"
+        style="position: relative; margin-top: 50px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
@@ -205,9 +213,6 @@ $fields = array(
                             <?php else: ?>
                                 <input type="text" class="form-control form-check-inline bg-beige-color" id="<?= $name ?>"
                                     name="<?= $name ?>" placeholder="<?= $label ?>" required>
-                                    <div class="ms-4 mt-1">
-                                    <p id="errorLabel" style="color:#FF0000;display: block;">Gebruiker bestaat al</p>
-                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -273,31 +278,28 @@ $fields = array(
                     type: "POST",
                     data: $("#registerForm").serialize(),
                     success: function (response) {
-                        if (!response === "UserExists") {
-                            var successMessage = document.getElementById('successMessageRegister');
-                            successMessage.style.display = 'block';
-                            successMessage.style.visibility = 'visible';
+                        if (response !== "UserExists") {
+                            var myForm = $("#registerForm");
+                            myForm.hide();
 
-                            var myForm = document.getElementById('registerForm');
-                            myForm.style.display = 'none';
+                            var successMessage = $("#successMessageRegister");
+                            successMessage.show();
+
+                            var MyCard = $("#registrationCard")
+                            var MyContainer = $("#RegisterPageContainer")
+
+                            MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
+
+
                         }
                         else {
-                            var errorLabel = document.getElementById('errorLabel');
-                            errorLabel.style.display = 'block';
-                            errorLabel.style.visibility = 'visible';
+                            alert("Het ingevoerde e-mailadres is al in gebruik");
                         }
                     },
                     error: function (xhr, status, error) {
-                        if (error === "UserExists") {
-                            alert("Gebruiker bestaat al");
-                        }
-                        else {
-                            console.log(error)
-                            console.log(xhr)
-                            alert("An error occurred: " + error);
-                            console.error(xhr);
-                            console.error(status);
-                        }
+                        alert("An error occurred: " + error);
+                        console.error(xhr);
+                        console.error(status);
                     }
                 });
             } else {
