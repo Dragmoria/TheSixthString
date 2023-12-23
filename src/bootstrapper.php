@@ -27,7 +27,6 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
-use Service\MailService;
 use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
@@ -52,7 +51,6 @@ $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
-$container->registerClass(MailService::class);
 
 
 

@@ -4,19 +4,24 @@ namespace EmailTemplates;
 
 class MailTemplate
 {
-    public string $to;
+    private string $templatePath;
 
-    public string $subject;
+    private array $data;
 
-    public Mail $body;
-
-    public MailFrom $from;
-
-    public function __construct(string $to, string $subject, Mail $body, MailFrom $from)
+    public function __construct(string $templatePath, array $data = [])
     {
-        $this->to = $to;
-        $this->subject = $subject;
-        $this->body = $body;
-        $this->from = $from;
+        $this->templatePath = $templatePath;
+        $this->data = $data;
+    }
+
+    public function render(): string
+    {
+        extract($this->data);
+
+        ob_start();
+
+        include $this->templatePath;
+
+        return ob_get_clean();
     }
 }

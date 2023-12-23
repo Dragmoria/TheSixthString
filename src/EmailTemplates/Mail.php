@@ -2,26 +2,65 @@
 
 namespace EmailTemplates;
 
+use Lib\EnvUtility\EnvHandler;
+use Lib\MVCCore\Application;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
 class Mail
 {
-    private string $templatePath;
+    public string $to;
 
-    private array $data;
+    public string $subject;
 
-    public function __construct(string $templatePath, array $data = [])
+    public string $body;
+
+    public readonly MailFrom $from;
+
+    public readonly string $password;
+
+    public readonly string $name;
+
+    public ?string $altBody;
+
+    public function __construct(string $to, string $subject, MailTemplate $body, MailFrom $from, string $mailerName, ?MailTemplate $altBody = null)
     {
-        $this->templatePath = $templatePath;
-        $this->data = $data;
+        $this->to = $to;
+        $this->subject = $subject;
+        $this->body = $body->render();
+        $this->altBody = $altBody?->render();
+        $this->from = $from;
+
+        $env = Application::resolve(EnvHandler::class);
+
+        $this->password = $env->getEnv('MAIL_PASSWORD_' . $this->from->getName());
+
+        $this->name = $mailerName;
     }
 
-    public function render(): string
+    public function send(): bool
     {
-        extract($this->data);
+        $mail = new PHPMailer();
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = $this->from->value;                     //SMTP username
+        $mail->Password   = $this->password;                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-        ob_start();
+        //Mail versturen settings
+        $mail->setFrom($mail->Username, $this->name);
+        $mail->addAddress($this->to);     //Add a recipient
+        $mail->addReplyTo('info@thesixthstring.store', 'Information');
 
-        include $this->templatePath;
 
-        return ob_get_clean();
+        $mail->isHTML(true);
+        $mail->Subject = $this->subject;
+        $mail->Body    = $this->body;
+        $mail->AltBody = $this->altBody ?? "";
+
+        return $mail->send();
     }
 }
