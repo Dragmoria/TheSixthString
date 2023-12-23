@@ -21,7 +21,7 @@ class DatabaseContext
         $this->_username = $envHandler->getEnv('MYSQL_USER');
         $this->_password = $envHandler->getEnv('MYSQL_PASSWORD');
         $this->_database = $envHandler->getEnv('MYSQL_DATABASE');
-        $this->_port = $envHandler->getEnv('MYSQL_INTERNAL_PORT');
+        $this->_port = $envHandler->getEnv('MYSQL_PORT');
     }
 
     public function connect(): \mysqli
