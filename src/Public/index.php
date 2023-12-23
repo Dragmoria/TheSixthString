@@ -10,6 +10,8 @@ const RUNTIME_PATH = BASE_PATH . 'Runtime' . DIRECTORY_SEPARATOR;
 // Add a global constant for the namespace of the components to use when adding a component to a view.
 const COMPONENT_NAMESPACE = 'HTTP\\Controllers\\Components\\';
 
+const MAIL_TEMPLATES = BASE_PATH . 'EmailTemplates' . DIRECTORY_SEPARATOR;
+
 const MAIN_LAYOUT = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'Layouts' . DIRECTORY_SEPARATOR . 'Main.layout.php';
 const CONTROLPANEL_LAYOUT = BASE_PATH . 'Content' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'Layouts' . DIRECTORY_SEPARATOR . 'ControlPanel.layout.php';
 
