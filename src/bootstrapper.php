@@ -17,6 +17,7 @@ use Http\Controllers\IndexController;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
 use Http\Controllers\Mailcontroller;
+use Http\Controllers\ResetPasswordController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -29,6 +30,7 @@ use Service\CategoryService;
 use Service\CouponService;
 use Service\ProductService;
 use Service\ResetpasswordService;
+use Service\RandomLinkService;
 use Service\ReviewService;
 use Service\UserService;
 use Service\MailService;
@@ -53,6 +55,8 @@ $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
 $container->registerClass(MailService::class);
+$container->registerClass(RandomLinkService::class);
+
 
 
 $router = Application::getRouter();
@@ -73,7 +77,7 @@ $router->put('/Account', [LoginController::class, 'validateLogin']);
 $router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
 $router->post('/Account', [AccountPageController::class, 'Logout']);
 $router->post('/RegisterValidate', [RegisterController::class, 'saveRegistery']);
-$router->get('/wachtwoord-vergeten', [ForgotPasswordController::class, 'ForgotPassword']);
+$router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPassword']);
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
@@ -93,6 +97,8 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->get('/Mail', [MailController::class, 'mail']);
+$router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
+$router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
 
 //$_SESSION["user"] = ["role" => Role::Admin];
 

@@ -23,7 +23,10 @@ class MailController extends Controller
         $Response = new ViewResponse();
         $Response->setBody(view(VIEWS_PATH . 'Mail.view.php', [])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
         $test = Application::resolve(MailService::class);
-        $test->test();
+        $sender = "noreply@thesixthstring.store";
+        $password = "JarneKompier123!";
+        $displayname = "no-reply@thesixthstring.store";
+        $test->test($sender,$password,$displayname);
 
         return $Response;
     }

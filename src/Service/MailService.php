@@ -12,27 +12,27 @@ class MailService
     {
     }
 
-    public function test()
+    public function test(string $sender,string $password,string $displayname)
     {
         $mail = new PHPMailer();
         $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'Beheerder@sixthstring.onmicrosoft.com';                     //SMTP username
-        $mail->Password   = 'f$@GmK%^Z9YwmRey9rY9';                               //SMTP password
+        $mail->Username   = $sender;                    //SMTP username
+        $mail->Password   = $password;                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Mail versturen settings
-        $mail->setFrom($mail->Username, 'Mailer');
-        $mail->addAddress('j.kompier@hotmail.nl');     //Add a recipient
+        $mail->setFrom($mail->Username, $displayname);
+        $mail->addAddress('jarnogerrets@gmail.com');     //Add a recipient
         // $mail->addReplyTo('info@thesixthstring.store', 'Information');
 
         //Content ww veranderen -> moet je schrijven in html
         $mail->isHTML(true);
         $mail->Subject = 'Wachtwoord vergeten';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->Body    = 'Het werkt!!! <b>in bold!</b>';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         try {

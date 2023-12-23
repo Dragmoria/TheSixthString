@@ -46,7 +46,7 @@ class RegisterController extends Controller
             $newUserModel->lastName = $postBody['lastname'];
             $newUserModel->dateOfBirth = new \DateTime($postBody['birthdate']);
             $newUserModel->gender = Gender::fromString($postBody['gender']);
-            $newUserModel->active = true;
+            $newUserModel->active = false;
             $newUserModel->createdOn = new \DateTime('now');
 
             $userservice = Application::resolve(UserService::class);
@@ -64,7 +64,7 @@ class RegisterController extends Controller
                 $newAddressModel->zipCode = $postBody['zipcode'];
                 $newAddressModel->city = $postBody['city'];
                 $newAddressModel->country = Country::fromString($postBody['country'])->value;
-                $newAddressModel->active = true;
+                $newAddressModel->active = false;
                 $newAddressModel->type = $AddressType;
                 $addressService = Application::resolve(AddressService::class);
                 $createdAddress = $addressService->createAddress($newAddressModel);

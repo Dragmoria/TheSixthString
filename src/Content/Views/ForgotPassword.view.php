@@ -38,7 +38,7 @@ $randomLink = ""
 
 <div class="container d-flex mb-5 mt-5 justify-content-center">
   <div class="card p-1 bg-card-custom w-40">
-    <form method="POST" action="/wachtwoord-vergeten/sent" onsubmit="return handleFormSubmission(event)">
+    <form id="ForgotPasswordForm" method="POST" action="/wachtwoord-vergeten/sent" onsubmit="handleFormSubmission(event)">
       <div class="ms-5 me-5 mt-3">
         <h1 style="color:#EFE3C4">Wachtwoord herstellen</h1>
       </div>
@@ -75,16 +75,21 @@ $randomLink = ""
   function handleFormSubmission(event) {
     event.preventDefault();  // Prevent the form from submitting and reloading the page
 
-    // Perform the form submission using AJAX or other techniques
-    // ...
-
-    // Show the success message
-    document.getElementById('successMessage').style.display = 'block';
-
-    // You can optionally hide the form after success
-    document.querySelector('form').style.display = 'none';
-
-    return false;  // Prevent the form from submitting and reloading the page
+    $.ajax({
+      url: "/CreateRandomURL",
+      type: "POST",
+      data: $("#ForgotPasswordForm").serialize(),
+      success: function (response) {
+        console.log(response);
+        document.getElementById('successMessage').style.display = 'block';
+        document.querySelector('form').style.display = 'none';
+      },
+      error: function (xhr, status, error) {
+        alert("An error occurred: " + error);
+        console.error(xhr);
+        console.error(status);
+      }
+    });
   }
 
 
