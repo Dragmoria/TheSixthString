@@ -16,6 +16,7 @@ use http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
+use Http\Controllers\Mailcontroller;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -30,6 +31,7 @@ use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
 use Service\UserService;
+use Service\MailService;
 
 
 
@@ -50,7 +52,7 @@ $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
-
+$container->registerClass(MailService::class);
 
 
 $router = Application::getRouter();
@@ -90,6 +92,7 @@ $router->get('/', [IndexController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
+$router->get('/Mail', [MailController::class, 'mail']);
 
 //$_SESSION["user"] = ["role" => Role::Admin];
 
