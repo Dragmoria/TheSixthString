@@ -19,8 +19,6 @@ class ResetPasswordController extends Controller {
         $Response = new ViewResponse();
         $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', [])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
         $resetPasswordService = Application::resolve(RandomLinkService::class);
-        $randomLink = $resetPasswordService->generateRandomString(35);
-        dumpDie($randomLink);
         return $Response;
         
     }

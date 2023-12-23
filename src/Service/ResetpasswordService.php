@@ -9,7 +9,7 @@ class ResetpasswordService extends BaseDatabaseService
 {
     public function newResetpassword(ResetpasswordModel $resetpasswordModel): bool
     {
-        $this->deleteResetpasswordByUserId($resetpasswordModel->id);
+        $this->deleteResetpasswordByUserId($resetpasswordModel->userId);
 
         $query = 'INSERT INTO resetpassword (userId, link, validUntil) VALUES (?, ?, ?)';
         $params = [

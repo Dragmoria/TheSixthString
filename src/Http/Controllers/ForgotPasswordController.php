@@ -10,6 +10,7 @@ use Models\UserModel;
 use Service\UserService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
+use Service\MailService;
 
 
 class ForgotPasswordController extends Controller{
@@ -45,6 +46,19 @@ class ForgotPasswordController extends Controller{
             $resetPasswordService = Application::resolve(ResetpasswordService::class);
             $createdLink = $resetPasswordService->newResetpassword($newResetPasswordModel);
             
+            $test = Application::resolve(MailService::class);
+            $sender = "noreply@thesixthstring.store";
+            $reciever = $postBody['email'];
+            $password = "JarneKompier123!";
+            $displayname = "no-reply@thesixthstring.store";
+            $body = "<h1>Hallo " . $user->firstName . "</h1><p></p><p>Hier is je link om het wachtwoord te herstellen:</p><p></p><a href=http://localhost:8080/ResetPassword/" . $randomLink . ">Reset password</a>";
+            $test->test($sender, $reciever, $password, $displayname, $body);
+            
+            $Response = new TextResponse();
+            $Response->setBody('Sent');
+            return $Response;
+
+
         }
 
 
