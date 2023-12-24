@@ -12,7 +12,7 @@ class MailService
     {
     }
 
-    public function test(string $sender, string $reciever, string $password, string $displayname, string $Body)
+    public function SendMail(string $sender, string $reciever, string $password, string $displayname, string $Body, string $subject)
     {
         $mail = new PHPMailer();
         $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
@@ -31,7 +31,7 @@ class MailService
 
         //Content ww veranderen -> moet je schrijven in html
         $mail->isHTML(true);
-        $mail->Subject = 'Wachtwoord herstellen';
+        $mail->Subject = $subject;
         $mail->Body = $Body;
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 

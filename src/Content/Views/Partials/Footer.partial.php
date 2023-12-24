@@ -44,19 +44,19 @@
             <h5 style="color: var(--sixth-yellow);">Volg ons</h5>
             <div class="d-flex justify-content-between">
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
-                    <img src="images\social-icons\facebook.png" alt="F" width="17" height="17">
+                    <img src="\images\social-icons\facebook.png" alt="F" width="17" height="17">
                 </button>
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
-                    <img src="images\social-icons\x.png" alt="X" width="17" height="17">
+                    <img src="\images\social-icons\x.png" alt="X" width="17" height="17">
                 </button>
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
-                    <img src="images\social-icons\instagram.png" alt="I" width="17" height="17">
+                    <img src="\images\social-icons\instagram.png" alt="I" width="17" height="17">
                 </button>
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
-                    <img src="images\social-icons\youtube.png" alt="Y" width="17" height="17">
+                    <img src="\images\social-icons\youtube.png" alt="Y" width="17" height="17">
                 </button>
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
-                    <img src="images\social-icons\pintrest.png" alt="P" width="17" height="17">
+                    <img src="\images\social-icons\pintrest.png" alt="P" width="17" height="17">
                 </button>
             </div>
         </div>
@@ -66,7 +66,7 @@
 
         <!-- Logo -->
         <div class="col-md-3">
-            <img src="images/logo-big.svg" alt="Logo" class="img-fluid">
+            <img src="\images/logo-big.svg" alt="Logo" class="img-fluid">
         </div>
 
         <div class="col">

@@ -25,6 +25,7 @@ class UserModel
     public Gender $gender;
     public bool $active;
     public \DateTime $createdOn;
+    public string $Link;
 
 
 
@@ -46,6 +47,7 @@ class UserModel
         $model->gender = Gender::Unknown;
         $model->active = false;
         $model->createdOn = new \DateTime($entity->createdOn);
+        $model->Link = $entity->Link;
 
         return $model;
     }
@@ -65,6 +67,7 @@ class UserModel
         $entity->gender = $this->gender->value;
         $entity->active = $this->active;
         $entity->createdOn = $this->createdOn->format('Y-m-d H:i:s');
+        $entity->link = $this->Link;
 
         return $entity;
     }

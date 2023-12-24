@@ -280,10 +280,7 @@ $fields = array(
                         if (response === "UserExists") {
                             alert("Het ingevoerde e-mailadres is al in gebruik");
                         }
-                        elseif(response === "PasswordNotMatching"){
-                            alert("De wachtwoorden komen niet overeen");
-                        }
-                    }else {
+                        else {
                         var myForm = $("#registerForm");
                         myForm.hide();
 

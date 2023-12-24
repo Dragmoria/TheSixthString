@@ -36,7 +36,7 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
       <li class="nav-item mx-3">
       <a href="/Account"
           class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
-          <img src="images/account-icon.png" alt="Account" width="17" height="17">
+          <img src="/images/account-icon.png" alt="Account" width="17" height="17">
         </a>
       </li>
       <li class="nav-item me-5">

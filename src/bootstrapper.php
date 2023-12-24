@@ -100,6 +100,7 @@ $router->get('/Mail', [MailController::class, 'mail']);
 $router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
 $router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
 $router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
+$router->get('/Activate/{dynamicLink}', [RegisterController::class, 'Activate']);
 
 
 //$_SESSION["user"] = ["role" => Role::Admin];UpdatePassword

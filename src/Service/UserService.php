@@ -44,6 +44,8 @@ class UserService extends BaseDatabaseService
         return $model;
     }
 
+
+
     public function getUsersByRole(Role $role): ?array
     {
         $query = 'SELECT * FROM user WHERE role = ?';
@@ -174,6 +176,13 @@ class UserService extends BaseDatabaseService
         // Assuming the query returns only one user
         return $result[0];
     }
+
+
+
+
+
+
+
 
     
 }
