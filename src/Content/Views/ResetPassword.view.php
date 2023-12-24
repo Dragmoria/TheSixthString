@@ -90,10 +90,6 @@ $displayForm1 = empty($error);
 
     .password-input {}
 
-    .mt-Title-AccountCard {
-        margin-top: 2.2rem;
-    }
-
     .toggle-eye {
         position: absolute;
         top: 50%;

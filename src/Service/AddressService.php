@@ -66,8 +66,8 @@ class AddressService extends BaseDatabaseService
 
     private function getByUserIdAndType(int $userId, int $type): ?Address
     {
-        $query = 'SELECT * FROM address WHERE userId = ? LIMIT 1';
-        $params = [$userId];
+        $query = 'SELECT * FROM address WHERE userId = ? AND type = ? LIMIT 1';
+        $params = [$userId, $type];
 
         $result = $this->executeQuery($query, $params, Address::class);
 

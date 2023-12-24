@@ -42,8 +42,9 @@
   }
 
   .password-input {}
-  .mt-Title-AccountCard{
-    margin-top: 2.2rem;
+
+  .mt-Title-AccountCard {
+    margin-top: 4rem;
   }
 
   .toggle-eye {
@@ -52,6 +53,15 @@
     left: 192px;
     transform: translateY(-50%);
     cursor: pointer;
+  }
+
+  .custom-icon-size {
+    font-size: 8.2rem;
+    /* Adjust the size as needed */
+    color: #1C1713;
+    top: -82px;
+    left: 175px;
+
   }
 </style>
 
@@ -89,14 +99,17 @@ $user = $_SESSION["user"]["firstname"];
         </div>
         <div class="col-8 ">
           <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
-            <div class="card-body overflow-auto">
+            <div class="card-body">
               <div id="nameCard" class="card ms-4 mt-4 me-4"
-                style="background-color: #EFE3C4; width: 120vh; height: 15vh;">
+                style="background-color: #EFE3C4; position: relative; width: 120vh; height: 25vh;">
                 <div class="text-center">
                   <div class="d-flex ms-4 mt-Title-AccountCard">
-                    <h3 style=" color: #2C231E;">Hallo
+                    <h1 style=" color: #2C231E;">Hallo
                       <? echo $user; ?>
-                    </h3>
+                    </h1>
+                    <div class="col">
+                      <i class="bi bi-person-lines-fill custom-icon-size" style=" position: relative;"></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -110,16 +123,51 @@ $user = $_SESSION["user"]["firstname"];
               </div>
               <div class="row">
                 <div class="col-6">
-                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
-                    <div class="text-center">
-                      <div class="d-flex ms-3 mt-4">
-                        </h1>
+                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                    <div class="row">
+                      <div class="col ms-3 mt-2">
+                        <h5 style=color:#FFFFFF class="mt-3">Dit ben jij</h5>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col ms-3 mt-1">
+                        <p style=color:#FFFFFF class="mb-0">
+                          <?php echo $firstname . (isset($addition) ? " " . $addition . " " : " ") . $lastname; ?>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col ms-3">
+                        <p style=color:#FFFFFF class="mb-0">
+                          <? echo $street . " " . $housenumber . (isset($housenumberextension) ? $housenumberextension : "") ?>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col ms-3">
+                        <p style=color:#FFFFFF class="mb-4">
+                          <? echo $zipcode . " " . $city ?>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col ms-3">
+                        <p style=color:#FFFFFF class="mb-0 mt-2">
+                          Klantnummer: <? echo $klantnummer ?>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col ms-3">
+                        <p style=color:#FFFFFF>
+                          <? echo $email ?>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
-                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
+                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                     <div class="text-center">
                       <div class="d-flex ms-3 mt-4">
                         </h1>
@@ -134,7 +182,7 @@ $user = $_SESSION["user"]["firstname"];
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 25vh;">
+                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                       <div class="text-center">
                         <div class="d-flex ms-3 mt-4">
                           </h1>
