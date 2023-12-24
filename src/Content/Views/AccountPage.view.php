@@ -113,74 +113,62 @@ $user = $_SESSION["user"]["firstname"];
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-6 mt-5 ms-5">
-                  <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
-                </div>
-                <div class="col-4 mt-5 ms-1">
-                  <h5 style=color:#EFE3C4>Cadeaubonnen</h5>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
-                    <div class="row">
-                      <div class="col ms-3 mt-2">
-                        <h5 style=color:#FFFFFF class="mt-3">Dit ben jij</h5>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col ms-3 mt-1">
-                        <p style=color:#FFFFFF class="mb-0">
-                          <?php echo $firstname . (isset($addition) ? " " . $addition . " " : " ") . $lastname; ?>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col ms-3">
-                        <p style=color:#FFFFFF class="mb-0">
-                          <? echo $street . " " . $housenumber . (isset($housenumberextension) ? $housenumberextension : "") ?>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col ms-3">
-                        <p style=color:#FFFFFF class="mb-4">
-                          <? echo $zipcode . " " . $city ?>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col ms-3">
-                        <p style=color:#FFFFFF class="mb-0 mt-2">
-                          Klantnummer: <? echo $klantnummer ?>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col ms-3">
-                        <p style=color:#FFFFFF>
-                          <? echo $email ?>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
-                    <div class="text-center">
-                      <div class="d-flex ms-3 mt-4">
-                        </h1>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <!-- start personal info tab -->
+              <div id="InfoForm" style="display: block;">
                 <div class="row">
                   <div class="col-6 mt-5 ms-5">
-                    <h5 style=color:#EFE3C4>Laatste bestelling</h5>
+                    <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
+                  </div>
+                  <div class="col-4 mt-5 ms-1">
+                    <h5 style=color:#EFE3C4>Cadeaubonnen</h5>
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-6">
+                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                      <div class="row">
+                        <div class="col ms-3 mt-2">
+                          <h5 style=color:#FFFFFF class="mt-3">Dit ben jij</h5>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col ms-3 mt-1">
+                          <p style=color:#FFFFFF class="mb-0">
+                            <?php echo $firstname . (isset($addition) ? " " . $addition . " " : " ") . $lastname; ?>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col ms-3">
+                          <p style=color:#FFFFFF class="mb-0">
+                            <? echo $street . " " . $housenumber . (isset($housenumberextension) ? $housenumberextension : "") ?>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col ms-3">
+                          <p style=color:#FFFFFF class="mb-4">
+                            <? echo $zipcode . " " . $city ?>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col ms-3">
+                          <p style=color:#FFFFFF class="mb-0 mt-2">
+                            Klantnummer:
+                            <? echo $klantnummer ?>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col ms-3">
+                          <p style=color:#FFFFFF>
+                            <? echo $email ?>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-6">
                     <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                       <div class="text-center">
@@ -190,8 +178,30 @@ $user = $_SESSION["user"]["firstname"];
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-6 mt-5 ms-5">
+                      <h5 style=color:#EFE3C4>Laatste bestelling</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                        <div class="text-center">
+                          <div class="d-flex ms-3 mt-4">
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <!-- end personal info tab -->
+              <div id="ChangePersonalInfo" style="display: none;">
+
+
+              </div>
+
             </div>
           </div>
         </div>

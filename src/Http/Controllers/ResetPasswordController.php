@@ -40,6 +40,10 @@ class ResetPasswordController extends Controller
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['error' => "LinkExpired"])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             } else {
+                $_SESSION["user"] = [
+                    "link" => $urlData["dynamicLink"]
+                ];
+
                 $user = $user->firstName;
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
@@ -53,8 +57,12 @@ class ResetPasswordController extends Controller
         $postBody = $this->currentRequest->getPostObject()->body();
 
         if ($postBody["password"] === $postBody["repeatPassword"]) {
+
+            $resetPasswordService = Application::resolve(ResetpasswordService::class);
+            $Resetpassword = $resetPasswordService->getResetpasswordByLink($_SESSION["user"]["link"]);
+
             $userservice = Application::resolve(UserService::class);
-            $user = $userservice->getUserById($_SESSION["user"]["id"]);
+            $user = $userservice->getUserById($Resetpassword[0]->userId);
             if (isset($user)){
 
                 $UpdateUser = new UserModel;
@@ -63,7 +71,7 @@ class ResetPasswordController extends Controller
                 $UpdateUser->id = $user->id;
 
                 $updatePassword = $userservice->ChangePasswordUser($UpdateUser);
-
+                $deleteLink = $resetPasswordService->deleteResetpasswordByUserId($UpdateUser->id);
                 $Response = new TextResponse();
                 $Response->setBody('PasswordUpdated');
                 return $Response;

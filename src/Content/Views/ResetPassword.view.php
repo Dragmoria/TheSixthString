@@ -203,6 +203,7 @@ $displayForm1 = empty($error);
                     type: "POST",
                     data: $("#ResetPasswordForm").serialize(),
                     success: function (response) {
+                        console.log(response);
                         $("#SuccesForm").show();
                         $("#ResetPasswordForm").hide();
                     },

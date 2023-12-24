@@ -57,7 +57,8 @@ class ForgotPasswordController extends Controller
             $password = "JarneKompier123!";
             $displayname = "no-reply@thesixthstring.store";
             $body = $this->ResetPasswordTemplate($randomLink);
-            $test->test($sender, $reciever, $password, $displayname, $body);
+            $subject = "Wachtwoord herstellen";
+            $test->SendMail($sender, $reciever, $password, $displayname, $body,$subject);
 
             $Response = new TextResponse();
             $Response->setBody('Sent');

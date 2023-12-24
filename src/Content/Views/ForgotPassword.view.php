@@ -80,7 +80,6 @@ $randomLink = ""
       type: "POST",
       data: $("#ForgotPasswordForm").serialize(),
       success: function (response) {
-        console.log(response);
         document.getElementById('successMessage').style.display = 'block';
         document.querySelector('form').style.display = 'none';
       },
