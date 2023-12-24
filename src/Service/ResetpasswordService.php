@@ -33,7 +33,7 @@ class ResetpasswordService extends BaseDatabaseService
         return $result !== false;
     }
 
-    public function getResetpasswordByLink(string $link): ?ResetpasswordModel
+    public function getResetpasswordByLink(string $link): ?array
     {
         $query = 'SELECT * FROM resetpassword WHERE link = ?';
         $params = [$link];
@@ -47,7 +47,7 @@ class ResetpasswordService extends BaseDatabaseService
 
         if (count($models) === 0) return null;
 
-        return ResetpasswordModel::convertToModel($models[0]);
+        return $models;
     }
 
 

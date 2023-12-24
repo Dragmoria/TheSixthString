@@ -32,10 +32,12 @@ class ResetpasswordModel
     public function convertToEntity(): Resetpassword
     {
         $entity = new Resetpassword();
+        
         $entity->id = $this->id;
+        $entity->userId = $this->userId;
         $entity->link = $this->link;
         $entity->validUntil = $this->validUntil->format('Y-m-d');
-        $entity->userId = $this->userId;
+
 
         return $entity;
     }
