@@ -191,12 +191,14 @@ CREATE TABLE thesixthstring.shoppingcartitem(
 
 #------------------------------------------------------------------------------------------------------------------------------
 
-CREATE TABLE thesixthstring.tryoutschedule(
-	id int AUTO_INCREMENT NOT NULL,
-	date datetime NOT NULL,
-	productId int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (productId) REFERENCES product(id)
+create table tryoutschedule
+(
+    id int auto_increment primary key,
+    startDate datetime not null,
+    endDate datetime null,
+    productId int not null,
+    constraint tryoutschedule_ibfk_1
+        foreign key (productId) references product (id)
 );
 
 #------------------------------------------------------------------------------------------------------------------------------
