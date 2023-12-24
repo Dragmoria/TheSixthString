@@ -78,8 +78,9 @@ class RegisterController extends Controller
                 $randomLinkService = Application::resolve(RandomLinkService::class);
                 $randomLink = $randomLinkService->generateRandomString(32);
 
+                $newUserModel->id = $createdUserId;
+                $newUserModel->activationLink = $randomLink;
 
-                $newUserModel->Link = $randomLink;
 
                 $ActivateService = Application::resolve(ActivateService::class);
                 $result = $ActivateService->newActivationLink($newUserModel);
@@ -99,7 +100,7 @@ class RegisterController extends Controller
                 $Response->setBody('UserExists');
                 return $Response;
             }
-        }else {
+        } else {
             $Response = new TextResponse();
             $Response->setBody('PasswordNotMatching');
             return $Response;
@@ -109,29 +110,34 @@ class RegisterController extends Controller
 
 
 
-    // public function Activate($urlData): ?Response
-    // {
+    public function Activate($urlData): ?Response
+    {
+        $Response = new ViewResponse();
+        $ActivateService = Application::resolve(ActivateService::class);
+        $userModel = $ActivateService->getUserByLink($urlData["dynamicLink"]);
 
-    //     $resetPasswordService = Application::resolve(ResetpasswordService::class);
-    //     $result = $resetPasswordService->getResetpasswordByLink($urlData["dynamicLink"]);
+        $userModel->active = true;
 
-    //     if (!isset($result)) {
-    //         $Response->setStatusCode(HTTPStatusCodes::NOT_FOUND);
-    //         return $Response;
-    //     } else {
+        $result = $ActivateService->changeActiveStatus($userModel);
 
-    //     $Response->setBody(view(VIEWS_PATH . 'AccountActivated.view.php', [])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
-    //     return $Response;
+        if (!isset($result)) {
+            $Response->setStatusCode(HTTPStatusCodes::NOT_FOUND);
+            return $Response;
+        } else {
+
+            $Response->setBody(view(VIEWS_PATH . 'AccountActivated.view.php', [])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
+            return $Response;
 
 
-    // }
+        }
+    }
 
 
 
     public function ActivateLink($gebruiker, $token)
     {
 
-        $body = "<h1>goedendag </h1> ". $gebruiker .
+        $body = "<h1>goedendag </h1> " . $gebruiker .
             "<p>
             Klik op de link om je account te activeren:
             <a href=http://localhost:8080/Activate/" . $token . ">Account activeren</a>

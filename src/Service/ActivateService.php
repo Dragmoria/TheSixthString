@@ -29,7 +29,7 @@ public function newActivationLink(UserModel $newActivationLink): bool
     $user = $newActivationLink;
 
     $params = [
-        $user->Link,
+        $user->activationLink,
         $user->id
     ];
 
@@ -39,17 +39,18 @@ public function newActivationLink(UserModel $newActivationLink): bool
 }
 public function changeActiveStatus(UserModel $changeStatus): bool
 {
-    $query = "UPDATE user SET `active` = ? WHERE id = ?;";
+    $query = "UPDATE user SET `active` = ? WHERE activationLink = ? AND id = ?;";
 
     $user = $changeStatus;
 
     $params = [
         $user->active,
+        $user->activationLink,
         $user->id
     ];
 
     $result = $this->executeQuery($query, $params);
-
+    
     return $result !== false;
 }
 

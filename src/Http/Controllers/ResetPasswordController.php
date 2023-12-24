@@ -40,12 +40,6 @@ class ResetPasswordController extends Controller
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['error' => "LinkExpired"])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             } else {
-                $_SESSION["user"] = [
-                    "id" => "$user->id",
-                    "role" => $user->role,
-                    "firstname" => $user->firstName
-                ];
-
                 $user = $user->firstName;
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;

@@ -20,7 +20,7 @@ class User extends SaveableObject
     public bool $active = false;
     public string $createdOn = "";
 
-    public ?string $Link = null;
+    public ?string $activationLink = null;
     
     
 }
