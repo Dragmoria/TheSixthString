@@ -29,56 +29,60 @@ class RegisterController extends Controller
     {
 
         $postBody = $this->currentRequest->getPostObject()->body();
-
-        $userservice = Application::resolve(UserService::class);
-        $user = $userservice->getUserByEmail($postBody['email']);
-
-        if (!isset($user)) {
-            
-
-            $newUserModel = new UserModel();
-
-            $newUserModel->emailAddress = $postBody['email'];
-            $newUserModel->passwordHash = password_hash($postBody['password'], PASSWORD_DEFAULT);
-            $newUserModel->role = Role::Customer;
-            $newUserModel->firstName = $postBody['firstname'];
-            $newUserModel->insertion = $postBody['middlename'];
-            $newUserModel->lastName = $postBody['lastname'];
-            $newUserModel->dateOfBirth = new \DateTime($postBody['birthdate']);
-            $newUserModel->gender = Gender::fromString($postBody['gender']);
-            $newUserModel->active = false;
-            $newUserModel->createdOn = new \DateTime('now');
+        if ($postBody["password"] === $postBody["repeatPassword"]) {
 
             $userservice = Application::resolve(UserService::class);
-            $createdUser = $userservice->createCustomer($newUserModel);
-            $createdUserId = $createdUser->id;
+            $user = $userservice->getUserByEmail($postBody['email']);
 
-            for ($AddressType = 0; $AddressType <= 1; $AddressType++) {
+            if (!isset($user)) {
 
-                $newAddressModel = new AddressModel();
 
-                $newAddressModel->userId = $createdUserId;
-                $newAddressModel->street = $postBody['street'];
-                $newAddressModel->housenumber = $postBody['housenumber'];
-                $newAddressModel->housenumberExtension = $postBody['addition'];
-                $newAddressModel->zipCode = $postBody['zipcode'];
-                $newAddressModel->city = $postBody['city'];
-                $newAddressModel->country = Country::fromString($postBody['country'])->value;
-                $newAddressModel->active = false;
-                $newAddressModel->type = $AddressType;
-                $addressService = Application::resolve(AddressService::class);
-                $createdAddress = $addressService->createAddress($newAddressModel);
+                $newUserModel = new UserModel();
+
+                $newUserModel->emailAddress = $postBody['email'];
+                $newUserModel->passwordHash = password_hash($postBody['password'], PASSWORD_DEFAULT);
+                $newUserModel->role = Role::Customer;
+                $newUserModel->firstName = $postBody['firstname'];
+                $newUserModel->insertion = $postBody['middlename'];
+                $newUserModel->lastName = $postBody['lastname'];
+                $newUserModel->dateOfBirth = new \DateTime($postBody['birthdate']);
+                $newUserModel->gender = Gender::fromString($postBody['gender']);
+                $newUserModel->active = false;
+                $newUserModel->createdOn = new \DateTime('now');
+
+                $userservice = Application::resolve(UserService::class);
+                $createdUser = $userservice->createCustomer($newUserModel);
+                $createdUserId = $createdUser->id;
+
+                for ($AddressType = 0; $AddressType <= 1; $AddressType++) {
+
+                    $newAddressModel = new AddressModel();
+
+                    $newAddressModel->userId = $createdUserId;
+                    $newAddressModel->street = $postBody['street'];
+                    $newAddressModel->housenumber = $postBody['housenumber'];
+                    $newAddressModel->housenumberExtension = $postBody['addition'];
+                    $newAddressModel->zipCode = $postBody['zipcode'];
+                    $newAddressModel->city = $postBody['city'];
+                    $newAddressModel->country = Country::fromString($postBody['country'])->value;
+                    $newAddressModel->active = false;
+                    $newAddressModel->type = $AddressType;
+                    $addressService = Application::resolve(AddressService::class);
+                    $createdAddress = $addressService->createAddress($newAddressModel);
+                }
+                return $createdAddress;
+            } else {
+                $Response = new TextResponse();
+                $Response->setBody('UserExists');
+                return $Response;
             }
-            return $createdAddress;
-        }
-        else{
+        }else {
             $Response = new TextResponse();
-            $Response->setBody('UserExists');
+            $Response->setBody('PasswordNotMatching');
             return $Response;
         }
+
     }
-
-
 
 }
 

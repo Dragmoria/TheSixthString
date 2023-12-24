@@ -99,8 +99,10 @@ $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->get('/Mail', [MailController::class, 'mail']);
 $router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
 $router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
+$router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
 
-//$_SESSION["user"] = ["role" => Role::Admin];
+
+//$_SESSION["user"] = ["role" => Role::Admin];UpdatePassword
 
 // Run the application.
 Application::run();

@@ -135,6 +135,22 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
+    public function ChangePasswordUser(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `passwordHash` = ? WHERE id = ?;";
+
+        $user = $updateUser;
+
+        $params = [
+            $user->passwordHash,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result !== false;
+    }
+
     private function getById(int $id): ?User
     {
         $query = 'SELECT * FROM user WHERE id = ? LIMIT 1';

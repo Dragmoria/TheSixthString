@@ -132,8 +132,7 @@ $fields = array(
 
 
 <div id="RegisterPageContainer" class="container-fluid d-flex mb-5 justify-content-center">
-    <div id="registrationCard" class="card bg-card-custom d-inline-block"
-        style="position: relative; margin-top: 0px;">
+    <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
@@ -278,33 +277,35 @@ $fields = array(
                     type: "POST",
                     data: $("#registerForm").serialize(),
                     success: function (response) {
-                        if (response !== "UserExists") {
-                            console.log(response)
-                            var myForm = $("#registerForm");
-                            myForm.hide();
+                        if (response === "UserExists") {
+                            alert("Het ingevoerde e-mailadres is al in gebruik");
+                        }
+                        elseif(response === "PasswordNotMatching"){
+                            alert("De wachtwoorden komen niet overeen");
+                        }
+                    }else {
+                        var myForm = $("#registerForm");
+                        myForm.hide();
 
-                            var successMessage = $("#successMessageRegister");
-                            successMessage.show();
+                        var successMessage = $("#successMessageRegister");
+                        successMessage.show();
 
-                            var MyCard = $("#registrationCard")
+                        var MyCard = $("#registrationCard")
                             var MyContainer = $("#RegisterPageContainer")
 
                             MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                        }
-                        else {
-                            alert("Het ingevoerde e-mailadres is al in gebruik");
-                        }
-                    },
+                    }
+                },
                     error: function (xhr, status, error) {
                         alert("An error occurred: " + error);
                         console.error(xhr);
                         console.error(status);
                     }
                 });
-            } else {
+    } else {
 
-                $("#registerForm")[0].reportValidity();
-            }
+        $("#registerForm")[0].reportValidity();
+    }
         });
     });
 </script>

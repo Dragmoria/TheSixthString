@@ -7,6 +7,7 @@ use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
+use Models\UserModel;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
 use Service\UserService;
@@ -30,14 +31,22 @@ class ResetPasswordController extends Controller
         } else {
             $userservice = Application::resolve(UserService::class);
             $user = $userservice->getUserById($result[0]->userId);
-            $user = $user->firstName;
+
             $timeString = $result[0]->validUntil->format('Y-m-d H:i:s');
             $currentTime = time();
             $timestamp = strtotime($timeString);
+
             if ($timestamp < $currentTime) {
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['error' => "LinkExpired"])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             } else {
+                $_SESSION["user"] = [
+                    "id" => "$user->id",
+                    "role" => $user->role,
+                    "firstname" => $user->firstName
+                ];
+
+                $user = $user->firstName;
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             }
@@ -45,13 +54,30 @@ class ResetPasswordController extends Controller
     }
 
 
-    public function validateLink($urlData): ?Response
-    {
+    public function changePasswords(): ?Response
+    {   
+        $postBody = $this->currentRequest->getPostObject()->body();
 
-        $resetPasswordService = Application::resolve(ResetpasswordService::class);
-        $result = $resetPasswordService->getResetpasswordByLink($urlData);
+        if ($postBody["password"] === $postBody["repeatPassword"]) {
+            $userservice = Application::resolve(UserService::class);
+            $user = $userservice->getUserById($_SESSION["user"]["id"]);
+            if (isset($user)){
 
-        dumpDie($result);
+                $UpdateUser = new UserModel;
+
+                $UpdateUser->passwordHash = password_hash($postBody['password'], PASSWORD_DEFAULT);
+                $UpdateUser->id = $user->id;
+
+                $updatePassword = $userservice->ChangePasswordUser($UpdateUser);
+
+                $Response = new TextResponse();
+                $Response->setBody('PasswordUpdated');
+                return $Response;
+
+            }
+
+        }
+
 
 
 
