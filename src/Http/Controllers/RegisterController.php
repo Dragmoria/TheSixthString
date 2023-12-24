@@ -12,6 +12,7 @@ use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
 use Models\AddressModel;
 use Models\UserModel;
+use Service\ActivateService;
 use Service\UserService;
 use Service\AddressService;
 use Service\RandomLinkService;
@@ -76,7 +77,13 @@ class RegisterController extends Controller
 
                 $randomLinkService = Application::resolve(RandomLinkService::class);
                 $randomLink = $randomLinkService->generateRandomString(32);
-        
+
+
+                $newUserModel->Link = $randomLink;
+
+                $ActivateService = Application::resolve(ActivateService::class);
+                $result = $ActivateService->newActivationLink($newUserModel);
+
                 $mail = Application::resolve(MailService::class);
                 $sender = "noreply@thesixthstring.store";
                 $reciever = $newUserModel->emailAddress;
@@ -86,7 +93,7 @@ class RegisterController extends Controller
                 $body = $this->ActivateLink($newUserModel->firstName, $randomLink);
                 $mail->SendMail($sender, $reciever, $password, $displayname, $body, $subject);
 
-                return $createdAddress;
+                return $result;
             } else {
                 $Response = new TextResponse();
                 $Response->setBody('UserExists');

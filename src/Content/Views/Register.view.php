@@ -277,6 +277,7 @@ $fields = array(
                     type: "POST",
                     data: $("#registerForm").serialize(),
                     success: function (response) {
+                        console.log(response);
                         if (response === "UserExists") {
                             alert("Het ingevoerde e-mailadres is al in gebruik");
                         }

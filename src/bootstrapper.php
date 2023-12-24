@@ -24,6 +24,7 @@ use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
 use Lib\MVCCore\Middleware;
+use Service\ActivateService;
 use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
@@ -56,6 +57,7 @@ $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
 $container->registerClass(MailService::class);
 $container->registerClass(RandomLinkService::class);
+$container->registerClass(ActivateService::class);
 
 
 
