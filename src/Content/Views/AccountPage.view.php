@@ -94,11 +94,11 @@ $fields = array(
         <div class="col-2 ms-5">
           <button type="submit" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
             style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
-          <button type="button" id="logoutButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+          <button type="button" id="infoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
             style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Persoonlijke gegevens</button>
-          <button type="button" id="logoutButton" class="mt-3 btn btn-primary bg-beige-color w-100"
+          <button type="button" id="orderHistoryButton" class="mt-3 btn btn-primary bg-beige-color w-100"
             style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Bestelgeschiedenis</button>
-          <button type="button" id="logoutButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+          <button type="button" id="changeInfoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
             style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Gegevens wijzigen</button>
         </div>
         <div class="col-1 text-center">
@@ -123,7 +123,7 @@ $fields = array(
                 </div>
               </div>
               <!-- start personal info tab -->
-              <div id="InfoForm" style="display: none;">
+              <div id="InfoForm" style="display: block;">
                 <div class="row">
                   <div class="col-6 mt-5 ms-5">
                     <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
@@ -207,11 +207,19 @@ $fields = array(
                   </div>
                 </div>
               </div>
-              <!-- end personal info tab -->
-              <div id="ChangePersonalInfo" style="display: block;">
+              <!-- start order history tab -->
+              <div id="orderHistory" style="display: nonelock;">
+                <div class="row text-center mt-5">
+                  <h4 style=color:#EFE3C4>Bestelgeschiedenis</h4>
+                </div>
+              </div>
+              <!-- start change info tab -->
+              <div id="ChangePersonalInfo" style="display: nonelock;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Wijzigen persoonlijke gegevens</h4>
-                  <i><p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p></i>
+                  <i>
+                    <p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p>
+                  </i>
                 </div>
                 <div class="row mt-4 mb-4 justify-content-center">
                   <?php $index = 0;
@@ -229,9 +237,6 @@ $fields = array(
                     ?>
                   <?php endforeach; ?>
                 </div>
-
-
-
               </div>
             </div>
           </div>
@@ -243,9 +248,33 @@ $fields = array(
 
 
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Function to toggle visibility of forms
+    function toggleForms(showInfoForm, showChangePersonalInfo, showOrderHistory) {
+      const infoForm = document.getElementById("InfoForm");
+      const changePersonalInfoForm = document.getElementById("ChangePersonalInfo");
+      const orderHistoryDiv = document.getElementById("orderHistory");
 
+      infoForm.style.display = showInfoForm ? "block" : "none";
+      changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
+      orderHistoryDiv.style.display = showOrderHistory ? "block" : "none";
+    }
 
+    // Add click event listeners to the buttons
+    const infoButton = document.getElementById("infoButton");
+    const changeInfoButton = document.getElementById("changeInfoButton");
+    const orderHistoryButton = document.getElementById("orderHistoryButton");
 
+    infoButton.addEventListener("click", function() {
+      toggleForms(true, false, false);
+    });
 
+    changeInfoButton.addEventListener("click", function() {
+      toggleForms(false, true, false);
+    });
 
+    orderHistoryButton.addEventListener("click", function() {
+      toggleForms(false, false, true);
+    });
+  });
 </script>
