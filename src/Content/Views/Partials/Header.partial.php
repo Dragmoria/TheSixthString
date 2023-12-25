@@ -48,7 +48,7 @@ function buildCategoryList($category, int $index): void
             <div class="dropdown-menu start-0" style="margin-left: -85px;" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="/Account">Account pagina</a>
               <!-- Use JavaScript to submit the form when the dropdown item is clicked -->
-              <a class="dropdown-item" href="#" onclick="document.getElementById("logoutForm").submit();">Uitloggen</a>
+              <a class="dropdown-item" href="/#" onclick="document.getElementById(\'logoutForm\').submit();">Uitloggen</a>
             </div>
           </li>
         </form>
