@@ -22,7 +22,6 @@ class AccountPageController extends Controller
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user->id, 1);
 
-
         $Response->setBody(view(VIEWS_PATH . 'AccountPage.view.php', [
             'firstname' => $user->firstName,
             'addition' => $user->insertion,

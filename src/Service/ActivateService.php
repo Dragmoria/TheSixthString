@@ -39,12 +39,13 @@ public function newActivationLink(UserModel $newActivationLink): bool
 }
 public function changeActiveStatus(UserModel $changeStatus): bool
 {
-    $query = "UPDATE user SET `active` = ? WHERE activationLink = ? AND id = ?;";
+    $query = "UPDATE user SET `active` = ?, `activationLink` = ? WHERE activationLink = ? AND id = ?;";
 
     $user = $changeStatus;
 
     $params = [
         $user->active,
+        "Activated",
         $user->activationLink,
         $user->id
     ];

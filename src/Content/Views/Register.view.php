@@ -111,8 +111,6 @@
 </style>
 
 
-<h1 style="color:#2C231E">Home</h1>
-<p style="color:#2C231E">kiek</p>
 <? $date = date("Y-m-d");
 $spacer = '<div class="spacer"></div>';
 $fields = array(
@@ -162,7 +160,6 @@ $fields = array(
                         </div>
 
                         <?php
-                        // Increment the index and check if it's the third field, and not the last field
                         $index++;
                         if ($index % 3 === 0 && $index < count($fields)) {
                             echo '</div><div class="row">';

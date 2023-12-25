@@ -67,6 +67,15 @@
 
 <?
 $user = $_SESSION["user"]["firstname"];
+
+$fields = array(
+  'Postcode' => array('name' => 'zipcode', 'type' => 'text'),
+  'Huisnummer' => array('name' => 'housenumber', 'type' => 'text'),
+  'Toevoeging' => array('name' => 'addition', 'type' => 'text'),
+  'Straat' => array('name' => 'street', 'type' => 'text'),
+  'Plaats' => array('name' => 'city', 'type' => 'text'),
+  'Telefoonnummer' => array('name' => 'phonenumber', 'type' => 'text'),
+);
 ?>
 
 
@@ -114,7 +123,7 @@ $user = $_SESSION["user"]["firstname"];
                 </div>
               </div>
               <!-- start personal info tab -->
-              <div id="InfoForm" style="display: block;">
+              <div id="InfoForm" style="display: none;">
                 <div class="row">
                   <div class="col-6 mt-5 ms-5">
                     <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
@@ -173,7 +182,9 @@ $user = $_SESSION["user"]["firstname"];
                     <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                       <div class="text-center">
                         <div class="d-flex ms-3 mt-4">
-                          </h1>
+                          <div class="container mt-5">
+
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -197,11 +208,31 @@ $user = $_SESSION["user"]["firstname"];
                 </div>
               </div>
               <!-- end personal info tab -->
-              <div id="ChangePersonalInfo" style="display: none;">
+              <div id="ChangePersonalInfo" style="display: block;">
+                <div class="row text-center mt-5">
+                  <h4 style=color:#EFE3C4>Wijzigen persoonlijke gegevens</h4>
+                  <i><p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p></i>
+                </div>
+                <div class="row mt-4 mb-4 justify-content-center">
+                  <?php $index = 0;
+                  foreach ($fields as $label => $field): ?>
+                    <div class="col-4">
+                      <input type="<? echo $field['type']; ?>" class="form-control bg-beige-color"
+                        id="<?= $field['name'] ?>" name="<?= $field['name'] ?>" placeholder="<?php echo $label; ?>">
+                    </div>
+
+                    <?php
+                    $index++;
+                    if ($index % 2 === 0 && $index < count($fields)) {
+                      echo '</div><div class="row mb-4 justify-content-center">';
+                    }
+                    ?>
+                  <?php endforeach; ?>
+                </div>
+
 
 
               </div>
-
             </div>
           </div>
         </div>
@@ -209,3 +240,12 @@ $user = $_SESSION["user"]["firstname"];
     </div>
   </form>
 </div>
+
+
+<script>
+
+
+
+
+
+</script>

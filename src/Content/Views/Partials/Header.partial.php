@@ -1,10 +1,11 @@
 <?php
-function buildCategoryList($category, int $index): void { //used in CategoryMenu.component.php
-    echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
+function buildCategoryList($category, int $index): void
+{ //used in CategoryMenu.component.php
+  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
 
-    foreach($category->children as $childCategory) {
-        buildCategoryList($childCategory, ++$index);
-    }
+  foreach ($category->children as $childCategory) {
+    buildCategoryList($childCategory, ++$index);
+  }
 }
 ?>
 
@@ -19,7 +20,7 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
 
     <!-- Links & Buttons -->
     <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-        <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
+      <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
       <li class="nav-item">
         <a class="nav-link text-sixth-beige" href="#">Service</a>
       </li>
@@ -33,12 +34,34 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
         echo '</li>';
       }
       ?>
+      <?php
+      // when user is logged in, a drop down menu is showing on "hover-over" else just a regular Href:/Account.
+      if (isset($_SESSION["user"]["id"])) {
+        echo '
+      <div class="dropdown custom-dropdown">
+        <form id="logoutForm" method="POST" action="/Account">
+          <li class="nav-item mx-3">
+            <button type="submit"
+              class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+              <img src="/images/account-icon.png" alt="Account" width="17" height="17">
+            </button>
+            <div class="dropdown-menu start-0" style="margin-left: -85px;" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/Account">Account pagina</a>
+              <!-- Use JavaScript to submit the form when the dropdown item is clicked -->
+              <a class="dropdown-item" href="#" onclick="document.getElementById("logoutForm").submit();">Uitloggen</a>
+            </div>
+          </li>
+        </form>
+      </div>';
+      } else {
+        echo '
       <li class="nav-item mx-3">
-      <a href="/Account"
-          class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+        <a href="/Account" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
           <img src="/images/account-icon.png" alt="Account" width="17" height="17">
         </a>
-      </li>
+      </li>';
+      }
+      ?>
       <li class="nav-item me-5">
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
@@ -53,29 +76,33 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none" style="background-color:var(--sixth-brown) !important;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
+  style="background-color:var(--sixth-brown) !important;">
   <div class="container-fluid px-0 pt-3">
     <!-- Logo and Search Bar on the left -->
     <a class="navbar-brand pt-0 mx-3" href="#">
       <img src="/images/logo-small.svg" alt="Your Logo">
     </a>
     <div class="d-flex ms-auto">
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
       </button>
     </div>
     <!-- Hamburger Menu Button -->
-    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Links and Buttons on the right -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-          <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
-        <li class="nav-item">
+        <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
+        <li class="nav-item">`
           <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
         </li>
         <li class="nav-item">
