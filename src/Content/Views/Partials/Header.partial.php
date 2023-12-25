@@ -1,10 +1,11 @@
 <?php
-function buildCategoryList($category, int $index): void { //used in CategoryMenu.component.php
-    echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
+function buildCategoryList($category, int $index): void
+{ //used in CategoryMenu.component.php
+  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
 
-    foreach($category->children as $childCategory) {
-        buildCategoryList($childCategory, ++$index);
-    }
+  foreach ($category->children as $childCategory) {
+    buildCategoryList($childCategory, ++$index);
+  }
 }
 ?>
 
@@ -19,7 +20,7 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
 
     <!-- Links & Buttons -->
     <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-        <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
+      <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
       <li class="nav-item">
         <a class="nav-link text-sixth-beige" href="#">Service</a>
       </li>
@@ -34,9 +35,8 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
       }
       ?>
       <li class="nav-item mx-3">
-      <a href="/Account"
-          class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
-          <img src="images/account-icon.png" alt="Account" width="17" height="17">
+        <a href="/Account" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+          <img src="/images/account-icon.png" alt="Account" width="17" height="17">
         </a>
       </li>
       <li class="nav-item me-5">
@@ -74,7 +74,7 @@ function buildCategoryList($category, int $index): void { //used in CategoryMenu
     <!-- Links and Buttons on the right -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
-          <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
+        <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
         <li class="nav-item">
           <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
         </li>

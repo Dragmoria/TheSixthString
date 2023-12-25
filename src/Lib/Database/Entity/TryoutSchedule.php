@@ -2,11 +2,14 @@
 
 namespace Lib\Database\Entity;
 
-class TryoutSchedule extends SaveableObject {
-    public function __construct() {
+class TryoutSchedule extends SaveableObject
+{
+    public function __construct()
+    {
         parent::__construct("tryoutschedule");
     }
 
-    public string $date = "";
+    public string $startDate = "";
+    public string $endDate = "";
     public int $productId = 0;
 }
