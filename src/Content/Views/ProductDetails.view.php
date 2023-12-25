@@ -36,23 +36,31 @@ $reviewAverage = 0;
             <div class="row">
                 <div id="media-container" class="col-12" data-type-shown="image">
                     <img id="main-product-image" class="rounded-4 img-fluid"
-                         src="<?= $product->media->mainImage->url ?>"
+                         src="<?= $product->media->mainImage->url ?? "" ?>"
                          alt="main product image"/>
-                    <iframe id="product-video" class="d-none w-100 rounded" width="560" height="315" src="<?= $product->media->video->url ?>"
-                            title="<?= $product->media->video->title ?>"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen>
-                    </iframe>
+                    <?php
+                    if (($product->media->video->title ?? null) != null) {
+                        ?>
+                        <iframe id="product-video" class="d-none w-100 rounded" width="560" height="315"
+                                src="<?= $product->media->video->url ?>"
+                                title="<?= $product->media->video->title ?>"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                        </iframe>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <div class="col-9">
                     <div class="row">
                         <div id="thumbnail-slider" class="col-12 mt-4 text-nowrap overflow-x-scroll ps-0 pe-0">
                             <?php
-                            for($i = 0; $i < count($product->media->secondaryImages); $i++) {
+                            for ($i = 0; $i < count(($product->media->secondaryImages ?? array())); $i++) {
                                 $secondaryImage = $product->media->secondaryImages[$i];
                                 ?>
-                                <img class="product-thumbnail cursor-pointer rounded-4 <?= $i == 0 ? "mb-3" : "" ?>" data-type="image" src="<?= $secondaryImage->url ?>"
+                                <img class="product-thumbnail cursor-pointer rounded-4 <?= $i == 0 ? "mb-3" : "" ?>"
+                                     data-type="image" src="<?= $secondaryImage->url ?>"
                                      alt="<?= $secondaryImage->title ?>" onclick="selectImage(this)"/>
                                 <?php
                             }
@@ -61,12 +69,18 @@ $reviewAverage = 0;
                     </div>
                 </div>
                 <div class="col-3 d-flex">
-                    <svg id="product-video-thumbnail" class="cursor-pointer rounded-4 m-auto"
-                         onclick="toggleMediaVisibility(this)" data-type="video"
-                         xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 384 512">
-                        <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                        <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
-                    </svg>
+                    <?php
+                    if (($product->media->video->title ?? null) != null) {
+                        ?>
+                        <svg id="product-video-thumbnail" class="cursor-pointer rounded-4 m-auto"
+                             onclick="toggleMediaVisibility(this)" data-type="video"
+                             xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 384 512">
+                            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                            <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
+                        </svg>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -76,7 +90,8 @@ $reviewAverage = 0;
                     <h2><?= $product->brand->name ?? "Onbekend merk" ?></h2>
                 </div>
                 <div class="col-12">
-                    <a class="text-sixth-beige" href="#product-reviews">Gemiddelde beoordeling: <?= $product->reviewAverage ?> / 5
+                    <a class="text-sixth-beige" href="#product-reviews">Gemiddelde
+                        beoordeling: <?= $product->reviewAverage ?> / 5
                         (<?= count($product->reviews) ?> beoordelingen)</a>
                 </div>
                 <div class="col-12 mt-3">
@@ -106,7 +121,9 @@ $reviewAverage = 0;
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary sixth-button rounded-4">Toevoegen aan winkelwagen</button>
+                                        <button class="btn btn-primary sixth-button rounded-4">Toevoegen aan
+                                            winkelwagen
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -177,7 +194,7 @@ $reviewAverage = 0;
                 $('#product-video-thumbnail').removeClass('mb-3');
                 $(element).addClass('mb-3');
 
-                if($(element).data('type') != $('#media-container').data('type-shown')) {
+                if ($(element).data('type') != $('#media-container').data('type-shown')) {
                     $('#main-product-image').toggleClass('d-none');
                     $('#product-video').toggleClass('d-none');
                 }
