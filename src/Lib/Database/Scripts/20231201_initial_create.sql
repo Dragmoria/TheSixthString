@@ -29,7 +29,7 @@ CREATE TABLE thesixthstring.address(
 	active bit NOT NULL,
 	type int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (userId) REFERENCES user(id)
+    FOREIGN KEY (userId) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 #------------------------------------------------------------------------------------------------------------------------------
@@ -75,20 +75,20 @@ CREATE TABLE thesixthstring.coupon(
 
 CREATE TABLE thesixthstring.order(
 	id int AUTO_INCREMENT NOT NULL,
-	userId int NOT NULL,
+	userId int,
 	orderTotal decimal(18, 2) NOT NULL,
 	orderTax decimal(18, 2) NOT NULL,
 	couponId int NULL,
-	shippingAddressId int NOT NULL,
-	invoiceAddressId int NOT NULL,
+	shippingAddressId int,
+	invoiceAddressId int,
 	paymentStatus int NOT NULL,
 	shippingStatus int NOT NULL,
 	createdOn datetime NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (userId) REFERENCES user(id),
+    FOREIGN KEY (userId) REFERENCES user(id) ON DELETE SET NULL,
     FOREIGN KEY (couponId) REFERENCES coupon(id),
-    FOREIGN KEY (shippingAddressId) REFERENCES address(id),
-    FOREIGN KEY (invoiceAddressId) REFERENCES address(id)
+    FOREIGN KEY (shippingAddressId) REFERENCES address(id) ON DELETE SET NULL,
+    FOREIGN KEY (invoiceAddressId) REFERENCES address(id) ON DELETE SET NULL
 );
 
 #------------------------------------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ CREATE TABLE thesixthstring.shoppingcartitem(
 
 #------------------------------------------------------------------------------------------------------------------------------
 
-create table tryoutschedule
+create table thesixthstring.tryoutschedule
 (
     id int auto_increment primary key,
     startDate datetime not null,
@@ -214,7 +214,7 @@ CREATE TABLE thesixthstring.visitedproduct(
 
 #------------------------------------------------------------------------------------------------------------------------------
 
-create table resetpassword
+create table thesixthstring.resetpassword
 (
     id int auto_increment primary key,
     userId int not null,
