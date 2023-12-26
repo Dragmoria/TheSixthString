@@ -1,12 +1,18 @@
 <?php
 namespace Http\Controllers;
 
+use Lib\Enums\Role;
+use lib\enums\Gender;
+use lib\enums\Country;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
+use Models\UserModel;
 use Service\AddressService;
 use Service\UserService;
+use Models\AddressModel;
+
 
 
 
@@ -44,6 +50,28 @@ class AccountPageController extends Controller
         unset($_SESSION['user']);
         redirect('/Login');
         
+    }
+
+
+    public function updateInfo(): ?Response
+    {
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
+        
+        $userservice = Application::resolve(UserService::class);
+        $updateUser = new UserModel();
+        $updateUser = $userservice->getUserById($user);
+
+        $updateUser->emailAddress = isset($postBody['email']) ? $postBody['email'] : $updateUser->emailAddress;
+        $updateUser->firstName = isset($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;
+        $updateUser->insertion = isset($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;
+        $updateUser->lastName = isset($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
+        $updateUser->dateOfBirth = isset($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
+        $updateUser->gender = isset($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
+
+        $userservice = Application::resolve(UserService::class);
+        $createdUser = $userservice->changePersonalInfo($updateUser);
+
     }
 
 

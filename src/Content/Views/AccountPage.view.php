@@ -114,6 +114,9 @@
 $user = $_SESSION["user"]["firstname"];
 
 $fields = array(
+  'Voornaam *' => array('name' => 'firstname', 'type' => 'text'),
+  'Tussenvoegsel' => array('name' => 'middlename', 'type' => 'text'),
+  'Achternaam *' => array('name' => 'lastname', 'type' => 'text'),
   'Postcode' => array('name' => 'zipcode', 'type' => 'text'),
   'Huisnummer' => array('name' => 'housenumber', 'type' => 'text'),
   'Toevoeging' => array('name' => 'addition', 'type' => 'text'),
@@ -231,7 +234,9 @@ $fields = array(
                     <div id="giftCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                       <div class="row">
                         <div class="col ms-3 mt-4">
-                          <h5 class="col-6" style=color:#FFFFFF class="mt-3">U heeft nog <? echo "€51,23" ?> tegoed.</h5>
+                          <h5 class="col-6" style=color:#FFFFFF class="mt-3">U heeft nog
+                            <? echo "€51,23" ?> tegoed.
+                          </h5>
                           <p class="col-5" style=color:#FFFFFF>Als u afrekent wordt dit automatisch gebruikt.</p>
                         </div>
                       </div>
@@ -273,7 +278,7 @@ $fields = array(
                     <p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p>
                   </i>
                 </div>
-                <div class="row mt-4 mb-4 justify-content-center">
+                <div class="row ms-3 me-3 mt-4 mb-4 justify-content-center">
                   <?php $index = 0;
                   foreach ($fields as $label => $field): ?>
                     <div class="col-4">
@@ -283,23 +288,37 @@ $fields = array(
 
                     <?php
                     $index++;
-                    if ($index % 2 === 0 && $index < count($fields)) {
-                      echo '</div><div class="row mb-4 justify-content-center">';
+                    if ($index % 3 === 0 && $index < count($fields)) {
+                      echo '</div><div class="row ms-3 me-3 mb-4 justify-content-center">';
                     }
                     ?>
                   <?php endforeach; ?>
                 </div>
-                <div class="row mt-4 justify-content-center text-center">
-                  <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
+                <div class="row ms-3 me-3 mt-4 mb-4 justify-content-center">
+                  <div class="col-4">
+                    <select class="form-select bg-beige-color" id="country" name="country">
+                      <option value="" selected>Selecteer land</option>
+                      <? foreach (\Lib\Enums\Country::cases() as $country): ?>
+                        <option value="<?= $country->toString() ?>">
+                          <?= $country->toStringTranslate() ?>
+                        </option>
+                      <? endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <input type="date" class="form-control bg-beige-color" id="birthdate" name="birthdate"
+                      min="1900-01-01" max="2050-12-31">
+                  </div>
+                  <div class="col-4 text-center">
                     <button type="button" id="saveChangeInfoButton" name="saveChangeInfoButton"
                       class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
-                      style="background-color:#FCB716;border-color:#FCB716">Gegevens wijzigen</button>
+                      style="width: 100%;background-color:#FCB716;border-color:#FCB716">Gegevens wijzigen</button>
                   </div>
                 </div>
-                <div class="row mt-5 justify-content-center text-center">
+                <div class="row ms-3 me-3 mt-5 justify-content-center text-center">
                   <h4 style=color:#EFE3C4>Wachtwoord wijzigen</h4>
                 </div>
-                <div class="row mt-4 justify-content-center">
+                <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
                   <div class="col-4">
                     <div class="password-container">
                       <input type="password" class="form-control bg-beige-color password-input" id="changePassword"
@@ -316,12 +335,12 @@ $fields = array(
                         onclick="togglePasswordVisibility('repeatChangePassword')"></i>
                     </div>
                   </div>
-                </div>
-                <div class="row mt-4 justify-content-center text-center">
-                  <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
-                    <button type="button" id="saveChangePasswordButton" name="saveChangePasswordButton"
-                      class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
-                      style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
+                  <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
+                    <div class="col-4 text-center">
+                      <button type="button" id="saveChangePasswordButton" name="saveChangePasswordButton"
+                        class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
+                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -375,7 +394,42 @@ $fields = array(
       toggleFormsAndChangeIcon(false, false, true);
     });
   });
+
+
+
+  function validatePasswords() {
+    var password1 = document.getElementById('changePassword').value;
+    var password2 = document.getElementById('repeatchangePassword').value;
+
+    if (password1 !== password2) {
+      alert('Passwords do not match. Please try again.');
+      return false;
+    }
+
+    return true;
+  }
+
+
+  $(document).ready(function () {
+    $("#saveChangeInfoButton").on("click", function () {
+
+      $.ajax({
+        url: "/UpdateInfo",
+        type: "POST",
+        data: $("#ChangePersonalInfo").serialize(),
+        success: function (response) {
+          console.log(response)
+        },
+        error: function (xhr, status, error) {
+          alert("An error occurred: " + error);
+          console.error(xhr);
+          console.error(status);
+        }
+      });
+    });
+  });
+
+
+
+
 </script>
-
-
-<!--bi bi-gift-fill - persoonlijke gegevens =>bi bi-person-fill -->

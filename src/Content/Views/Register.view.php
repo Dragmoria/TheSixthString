@@ -6,7 +6,7 @@
 
 
     function togglePasswordVisibility(passwordName) {
-        console.log("jQuery is defined:", typeof jQuery !== 'undefined');
+
         var passwordInput = document.getElementById(passwordName);
 
 
@@ -180,7 +180,7 @@ $fields = array(
                     </div>
                     <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
                         <input type="date" class="form-control bg-beige-color" id="birthdate" name="birthdate"
-                            min="1900-01-01" max="2050-12-31" / required>
+                            min="1900-01-01" max="2050-12-31" required>
                     </div>
                 </div>
                 <div class="row">
