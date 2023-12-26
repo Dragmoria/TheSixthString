@@ -114,15 +114,15 @@
 $user = $_SESSION["user"]["firstname"];
 
 $fields = array(
-  'Voornaam *' => array('name' => 'firstname', 'type' => 'text'),
-  'Tussenvoegsel' => array('name' => 'middlename', 'type' => 'text'),
-  'Achternaam *' => array('name' => 'lastname', 'type' => 'text'),
-  'Postcode' => array('name' => 'zipcode', 'type' => 'text'),
-  'Huisnummer' => array('name' => 'housenumber', 'type' => 'text'),
-  'Toevoeging' => array('name' => 'addition', 'type' => 'text'),
-  'Straat' => array('name' => 'street', 'type' => 'text'),
-  'Plaats' => array('name' => 'city', 'type' => 'text'),
-  'Telefoonnummer' => array('name' => 'phonenumber', 'type' => 'text'),
+  'Voornaam' => array('name' => 'firstname', 'placeholder' => $firstname),
+  'Tussenvoegsel' => array('name' => 'middlename', 'placeholder' => $addition),
+  'Achternaam' => array('name' => 'lastname', 'placeholder' => $lastname),
+  'Postcode' => array('name' => 'zipcode', 'placeholder' => $zipcode),
+  'Huisnummer' => array('name' => 'housenumber', 'placeholder' => $housenumber),
+  'Toevoeging' => array('name' => 'addition', 'placeholder' => $housenumberextension),
+  'Straat' => array('name' => 'street', 'placeholder' => $street),
+  'Plaats' => array('name' => 'city', 'placeholder' => $city),
+  'Telefoonnummer' => array('name' => 'phonenumber', 'placeholder' => 'Telefoonnummer'),
 );
 ?>
 
@@ -133,7 +133,7 @@ $fields = array(
 
 
 <div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
-  <form id="accountForm" method="POST" action="/Account">
+  <div id="accountForm" method="POST" action="/Account">
     <div class="row">
       <div class="col-8 ms-5 mb-4 text-center">
         <h1 style=color:#EFE3C4>Mijn Account</h1>
@@ -172,7 +172,7 @@ $fields = array(
                 </div>
               </div>
               <!-- start personal info tab -->
-              <div id="InfoForm" style="display: block;">
+              <form id="InfoForm" style="display: block;">
                 <div class="row">
                   <div class="col-6 mt-5 ms-5">
                     <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
@@ -183,7 +183,7 @@ $fields = array(
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                    <div id="infoCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
                       <div class="row">
                         <div class="col ms-3 mt-2">
                           <h5 style=color:#FFFFFF class="mt-3">Dit ben jij</h5>
@@ -263,27 +263,31 @@ $fields = array(
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
               <!-- start order history tab -->
-              <div id="orderHistory" style="display: none;">
+              <form id="orderHistory" style="display: none;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Bestelgeschiedenis</h4>
                 </div>
-              </div>
+              </form>
               <!-- start change info tab -->
-              <div id="ChangePersonalInfo" style="display: none;">
+              <form id="ChangePersonalInfo" style="display: none;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Wijzigen persoonlijke gegevens</h4>
                   <i>
                     <p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p>
                   </i>
+                  <b>
+                    <p id="InfoUpdatedText" style=color:#FCB716;display:none;>Gegevens gewijzigd!</p>
+                  </b>
                 </div>
-                <div class="row ms-3 me-3 mt-4 mb-4 justify-content-center">
+                <div class="row ms-3 me-3 mt-3 mb-4 justify-content-center">
                   <?php $index = 0;
                   foreach ($fields as $label => $field): ?>
                     <div class="col-4">
-                      <input type="<? echo $field['type']; ?>" class="form-control bg-beige-color"
-                        id="<?= $field['name'] ?>" name="<?= $field['name'] ?>" placeholder="<?php echo $label; ?>">
+                      <input type="text" class="form-control bg-beige-color" id="<?= $field['name'] ?>"
+                        name="<?= $field['name'] ?>"
+                        placeholder="<?php echo !empty($field['placeholder']) ? $field['placeholder'] : $label; ?>">
                     </div>
 
                     <?php
@@ -297,18 +301,28 @@ $fields = array(
                 <div class="row ms-3 me-3 mt-4 mb-4 justify-content-center">
                   <div class="col-4">
                     <select class="form-select bg-beige-color" id="country" name="country">
-                      <option value="" selected>Selecteer land</option>
-                      <? foreach (\Lib\Enums\Country::cases() as $country): ?>
-                        <option value="<?= $country->toString() ?>">
-                          <?= $country->toStringTranslate() ?>
+                      <?php foreach (\Lib\Enums\Country::cases() as $countryOption): ?>
+                        <option value="<?= $countryOption->toString() ?>" <?= ($country == $countryOption->value) ? 'selected' : '' ?>>
+                          <?= $countryOption->toStringTranslate() ?>
                         </option>
-                      <? endforeach; ?>
+                      <?php endforeach; ?>
                     </select>
                   </div>
                   <div class="col-4">
                     <input type="date" class="form-control bg-beige-color" id="birthdate" name="birthdate"
-                      min="1900-01-01" max="2050-12-31">
+                      value="<? echo $birthdate; ?>" min="1900-01-01" max="2050-12-31">
                   </div>
+                  <div class="col-4">
+                    <select class="form-select bg-beige-color" id="country" name="country">
+                      <?php foreach (\Lib\Enums\Gender::cases() as $GenderOption): ?>
+                        <option value="<?= $GenderOption->toString() ?>" <?= ($gender == $GenderOption->value) ? 'selected' : '' ?>>
+                          <?= $GenderOption->toStringTranslate() ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="row ms-3 me-3 mt-5 justify-content-center text-center">
                   <div class="col-4 text-center">
                     <button type="button" id="saveChangeInfoButton" name="saveChangeInfoButton"
                       class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
@@ -343,93 +357,113 @@ $fields = array(
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
-</div>
+    <div>
+    </div>
 
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Function to toggle visibility of forms and change icon
-    function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
-      const infoForm = document.getElementById("InfoForm");
-      const changePersonalInfoForm = document.getElementById("ChangePersonalInfo");
-      const orderHistory = document.getElementById("orderHistory");
-      const accountIcon = document.getElementById("accountIcon");
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
 
-      infoForm.style.display = showInfoForm ? "block" : "none";
-      changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
-      orderHistory.style.display = showOrderHistory ? "block" : "none";
+        function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
+          const accountCard = document.getElementById("accountCard");
+          const infoForm = accountCard.querySelector("#InfoForm");
+          const changePersonalInfoForm = accountCard.querySelector("#ChangePersonalInfo");
+          const orderHistory = accountCard.querySelector("#orderHistory");
+          const accountIcon = document.getElementById("accountIcon");
 
-      // Change icon class based on the form being displayed
-      if (showInfoForm) {
-        accountIcon.className = "bi bi-person-vcard-fill custom-icon-size";
-      } else if (showChangePersonalInfo) {
-        accountIcon.className = "bi bi-person-fill-gear custom-icon-size";
-      } else if (showOrderHistory) {
-        accountIcon.className = "bi bi-collection-fill custom-icon-size";
-      }
-      // Add more conditions for other forms and icons
-    }
+          console.log(infoForm);
 
-    // Add click event listeners to the buttons
-    const infoButton = document.getElementById("infoButton");
-    const changeInfoButton = document.getElementById("changeInfoButton");
-    const orderHistoryButton = document.getElementById("orderHistoryButton");
+          infoForm.style.display = showInfoForm ? "block" : "none";
+          changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
+          orderHistory.style.display = showOrderHistory ? "block" : "none";
 
-    infoButton.addEventListener("click", function () {
-      toggleFormsAndChangeIcon(true, false, false);
-    });
-
-    changeInfoButton.addEventListener("click", function () {
-      toggleFormsAndChangeIcon(false, true, false);
-    });
-
-    orderHistoryButton.addEventListener("click", function () {
-      toggleFormsAndChangeIcon(false, false, true);
-    });
-  });
-
-
-
-  function validatePasswords() {
-    var password1 = document.getElementById('changePassword').value;
-    var password2 = document.getElementById('repeatchangePassword').value;
-
-    if (password1 !== password2) {
-      alert('Passwords do not match. Please try again.');
-      return false;
-    }
-
-    return true;
-  }
-
-
-  $(document).ready(function () {
-    $("#saveChangeInfoButton").on("click", function () {
-
-      $.ajax({
-        url: "/UpdateInfo",
-        type: "POST",
-        data: $("#ChangePersonalInfo").serialize(),
-        success: function (response) {
-          console.log(response)
-        },
-        error: function (xhr, status, error) {
-          alert("An error occurred: " + error);
-          console.error(xhr);
-          console.error(status);
+          if (showInfoForm) {
+            accountIcon.className = "bi bi-person-vcard-fill custom-icon-size";
+          } else if (showChangePersonalInfo) {
+            accountIcon.className = "bi bi-person-fill-gear custom-icon-size";
+          } else if (showOrderHistory) {
+            accountIcon.className = "bi bi-collection-fill custom-icon-size";
+          }
         }
+
+        const infoButton = document.getElementById("infoButton");
+        const changeInfoButton = document.getElementById("changeInfoButton");
+        const orderHistoryButton = document.getElementById("orderHistoryButton");
+
+
+
+        infoButton.addEventListener("click", function () {
+          toggleFormsAndChangeIcon(true, false, false);
+        });
+
+        changeInfoButton.addEventListener("click", function () {
+          toggleFormsAndChangeIcon(false, true, false);
+        });
+
+        orderHistoryButton.addEventListener("click", function () {
+          toggleFormsAndChangeIcon(false, false, true);
+        });
       });
-    });
-  });
+
+
+      $(document).ready(function () {
+        $("#logoutButton").on("click", function () {
+          $.ajax({
+            url: "/Account",
+            type: "POST",
+            success: function (response) {
+
+              window.location.href = "/Login";
+            },
+            error: function (xhr, status, error) {
+
+              console.error(xhr);
+              console.error(status);
+            }
+          });
+        });
+      });
+
+
+      function validatePasswords() {
+        var password1 = document.getElementById('changePassword').value;
+        var password2 = document.getElementById('repeatChangePassword').value;
+
+        if (password1 !== password2) {
+          alert('Passwords do not match. Please try again.');
+          return false;
+        }
+
+        return true;
+      }
+
+
+      $(document).ready(function () {
+        $("#saveChangeInfoButton").on("click", function () {
+          event.preventDefault();
+
+          $.ajax({
+            url: "/UpdateInfo",
+            type: "POST",
+            data: $("#ChangePersonalInfo").serialize(),
+            success: function (response) {
+              console.log(response)
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr);
+              console.error(status);
+            }
+          });
+        });
+      });
 
 
 
 
-</script>
+    </script>

@@ -38,11 +38,14 @@ class AccountPageController extends Controller
             'housenumberextension' => $address->housenumberExtension,
             'zipcode' => $address->zipCode,
             'city' => $address->city,
-            'klantnummer' => $user->id
+            'klantnummer' => $user->id,
+            'country' => $address->country,
+            'birthdate' => $user->dateOfBirth->format('Y-m-d'),
+            'gender' => $user->gender->value
         ])->withLayout(MAIN_LAYOUT));
-        
-        return $Response;
 
+        return $Response;
+            
     }
 
     public function Logout(): ?Response
@@ -59,15 +62,14 @@ class AccountPageController extends Controller
         $user = $_SESSION["user"]["id"];
         
         $userservice = Application::resolve(UserService::class);
-        $updateUser = new UserModel();
         $updateUser = $userservice->getUserById($user);
 
-        $updateUser->emailAddress = isset($postBody['email']) ? $postBody['email'] : $updateUser->emailAddress;
-        $updateUser->firstName = isset($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;
-        $updateUser->insertion = isset($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;
-        $updateUser->lastName = isset($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
-        $updateUser->dateOfBirth = isset($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
-        $updateUser->gender = isset($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
+        $updateUser->emailAddress = !empty($postBody['email']) ? $postBody['email'] : $updateUser->emailAddress;
+        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;
+        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;
+        $updateUser->lastName = !empty($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
+        $updateUser->dateOfBirth = !empty($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
+        $updateUser->gender = !empty($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
 
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->changePersonalInfo($updateUser);
