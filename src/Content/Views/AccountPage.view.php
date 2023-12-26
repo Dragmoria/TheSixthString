@@ -1,4 +1,42 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+<script>
+
+
+  function togglePasswordVisibility(passwordName) {
+    var passwordInput = document.getElementById(passwordName);
+
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+
+    var passwordInputs = document.querySelectorAll('.password-input');
+
+
+    passwordInputs.forEach(function (passwordInput) {
+
+      var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+      eyeIcon.style.display = 'none';
+
+
+      passwordInput.addEventListener('input', function () {
+
+        eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+      });
+
+
+      eyeIcon.addEventListener('mousedown', function () {
+        togglePasswordVisibility(passwordInput.id);
+      });
+    });
+  });
+</script>
+
 <style>
   body {
     background-color: #2C231E;
@@ -50,7 +88,7 @@
   .toggle-eye {
     position: absolute;
     top: 50%;
-    left: 192px;
+    left: 250px;
     transform: translateY(-50%);
     cursor: pointer;
   }
@@ -61,6 +99,13 @@
     color: #1C1713;
     top: -82px;
     left: 175px;
+
+  }
+
+  .custom-icon-InsideCard-size {
+    font-size: 7rem;
+    /* Adjust the size as needed */
+    color: #EFE3C4;
 
   }
 </style>
@@ -113,11 +158,12 @@ $fields = array(
                 style="background-color: #EFE3C4; position: relative; width: 120vh; height: 25vh;">
                 <div class="text-center">
                   <div class="d-flex ms-4 mt-Title-AccountCard">
-                    <h1 style=" color: #2C231E;">Hallo
+                    <h1 id="titleText" style=" color: #2C231E;">Hallo
                       <? echo $user; ?>
                     </h1>
                     <div class="col">
-                      <i class="bi bi-person-lines-fill custom-icon-size" style=" position: relative;"></i>
+                      <i id="accountIcon" class="bi bi-person-vcard-fill custom-icon-size custom-icon-size"
+                        style=" position: relative;"></i>
                     </div>
                   </div>
                 </div>
@@ -176,6 +222,9 @@ $fields = array(
                           </p>
                         </div>
                       </div>
+                      <div id="specialIconContainer" style="position: absolute; top: -5%; left: 65%;">
+                        <i class="bi bi-person-fill custom-icon-InsideCard-size"></i>
+                      </div>
                     </div>
                   </div>
                   <div class="col-6">
@@ -208,13 +257,13 @@ $fields = array(
                 </div>
               </div>
               <!-- start order history tab -->
-              <div id="orderHistory" style="display: nonelock;">
+              <div id="orderHistory" style="display: none;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Bestelgeschiedenis</h4>
                 </div>
               </div>
               <!-- start change info tab -->
-              <div id="ChangePersonalInfo" style="display: nonelock;">
+              <div id="ChangePersonalInfo" style="display: none;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Wijzigen persoonlijke gegevens</h4>
                   <i>
@@ -237,6 +286,41 @@ $fields = array(
                     ?>
                   <?php endforeach; ?>
                 </div>
+                <div class="row mt-4 justify-content-center text-center">
+                  <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
+                    <button type="button" id="saveChangeInfoButton" name="saveChangeInfoButton"
+                      class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
+                      style="background-color:#FCB716;border-color:#FCB716">Gegevens wijzigen</button>
+                  </div>
+                </div>
+                <div class="row mt-5 justify-content-center text-center">
+                  <h4 style=color:#EFE3C4>Wachtwoord wijzigen</h4>
+                </div>
+                <div class="row mt-4 justify-content-center">
+                  <div class="col-4">
+                    <div class="password-container">
+                      <input type="password" class="form-control bg-beige-color password-input" id="changePassword"
+                        name="changePassword" placeholder="Wachtwoord">
+                      <i class="bs bi-eye-slash-fill toggle-eye"
+                        onclick="togglePasswordVisibility('changePassword')"></i>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="password-container">
+                      <input type="password" class="form-control bg-beige-color password-input"
+                        id="repeatChangePassword" name="repeatChangePassword" placeholder="Wachtwoord herhalen">
+                      <i class="bs bi-eye-slash-fill toggle-eye"
+                        onclick="togglePasswordVisibility('repeatChangePassword')"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4 justify-content-center text-center">
+                  <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
+                    <button type="button" id="saveChangePasswordButton" name="saveChangePasswordButton"
+                      class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
+                      style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -248,16 +332,27 @@ $fields = array(
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Function to toggle visibility of forms
-    function toggleForms(showInfoForm, showChangePersonalInfo, showOrderHistory) {
+  document.addEventListener("DOMContentLoaded", function () {
+    // Function to toggle visibility of forms and change icon
+    function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
       const infoForm = document.getElementById("InfoForm");
       const changePersonalInfoForm = document.getElementById("ChangePersonalInfo");
-      const orderHistoryDiv = document.getElementById("orderHistory");
+      const orderHistory = document.getElementById("orderHistory");
+      const accountIcon = document.getElementById("accountIcon");
 
       infoForm.style.display = showInfoForm ? "block" : "none";
       changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
-      orderHistoryDiv.style.display = showOrderHistory ? "block" : "none";
+      orderHistory.style.display = showOrderHistory ? "block" : "none";
+
+      // Change icon class based on the form being displayed
+      if (showInfoForm) {
+        accountIcon.className = "bi bi-person-vcard-fill custom-icon-size";
+      } else if (showChangePersonalInfo) {
+        accountIcon.className = "bi bi-person-fill-gear custom-icon-size";
+      } else if (showOrderHistory) {
+        accountIcon.className = "bi bi-collection-fill custom-icon-size";
+      }
+      // Add more conditions for other forms and icons
     }
 
     // Add click event listeners to the buttons
@@ -265,16 +360,19 @@ $fields = array(
     const changeInfoButton = document.getElementById("changeInfoButton");
     const orderHistoryButton = document.getElementById("orderHistoryButton");
 
-    infoButton.addEventListener("click", function() {
-      toggleForms(true, false, false);
+    infoButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(true, false, false);
     });
 
-    changeInfoButton.addEventListener("click", function() {
-      toggleForms(false, true, false);
+    changeInfoButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(false, true, false);
     });
 
-    orderHistoryButton.addEventListener("click", function() {
-      toggleForms(false, false, true);
+    orderHistoryButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(false, false, true);
     });
   });
 </script>
+
+
+<!--bi bi-gift-fill - persoonlijke gegevens =>bi bi-person-fill -->
