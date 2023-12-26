@@ -40,6 +40,7 @@
 <style>
   body {
     background-color: #2C231E;
+    margin: 0;
   }
 
   .bg-beige-color {
@@ -108,6 +109,9 @@
     color: #EFE3C4;
 
   }
+  
+
+
 </style>
 
 <?
@@ -133,21 +137,23 @@ $fields = array(
 
 
 <div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
-  <div id="accountForm" method="POST" action="/Account">
+  <div id="accountBox">
     <div class="row">
       <div class="col-8 ms-5 mb-4 text-center">
         <h1 style=color:#EFE3C4>Mijn Account</h1>
       </div>
       <div class="row">
         <div class="col-2 ms-5">
-          <button type="submit" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
-            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
-          <button type="button" id="infoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
-            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Persoonlijke gegevens</button>
-          <button type="button" id="orderHistoryButton" class="mt-3 btn btn-primary bg-beige-color w-100"
-            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Bestelgeschiedenis</button>
-          <button type="button" id="changeInfoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
-            style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Gegevens wijzigen</button>
+          <div id="fixedButtonsContainer" class="fixed-buttons">
+            <button type="submit" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
+              style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
+            <button type="button" id="infoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+              style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Persoonlijke gegevens</button>
+            <button type="button" id="orderHistoryButton" class="mt-3 btn btn-primary bg-beige-color w-100"
+              style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Bestelgeschiedenis</button>
+            <button type="button" id="changeInfoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
+              style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Gegevens wijzigen</button>
+          </div>
         </div>
         <div class="col-1 text-center">
           <div class="d-flex">
@@ -313,7 +319,7 @@ $fields = array(
                       value="<? echo $birthdate; ?>" min="1900-01-01" max="2050-12-31">
                   </div>
                   <div class="col-4">
-                    <select class="form-select bg-beige-color" id="country" name="country">
+                    <select class="form-select bg-beige-color" id="gender" name="gender">
                       <?php foreach (\Lib\Enums\Gender::cases() as $GenderOption): ?>
                         <option value="<?= $GenderOption->toString() ?>" <?= ($gender == $GenderOption->value) ? 'selected' : '' ?>>
                           <?= $GenderOption->toStringTranslate() ?>
@@ -333,6 +339,10 @@ $fields = array(
                   <h4 style=color:#EFE3C4>Wachtwoord wijzigen</h4>
                 </div>
                 <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
+                  <div class="col-4">
+                    <input type="email" class="form-control bg-beige-color" id="email" name="email"
+                      placeholder=<? echo $email ?>>
+                  </div>
                   <div class="col-4">
                     <div class="password-container">
                       <input type="password" class="form-control bg-beige-color password-input" id="changePassword"
@@ -376,8 +386,6 @@ $fields = array(
           const changePersonalInfoForm = accountCard.querySelector("#ChangePersonalInfo");
           const orderHistory = accountCard.querySelector("#orderHistory");
           const accountIcon = document.getElementById("accountIcon");
-
-          console.log(infoForm);
 
           infoForm.style.display = showInfoForm ? "block" : "none";
           changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
@@ -453,7 +461,8 @@ $fields = array(
             type: "POST",
             data: $("#ChangePersonalInfo").serialize(),
             success: function (response) {
-              console.log(response)
+              console.log(response);
+              //window.location.href = "/Account";
             },
             error: function (xhr, status, error) {
               console.error(xhr);

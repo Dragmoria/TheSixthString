@@ -45,7 +45,7 @@ class AddressService extends BaseDatabaseService
 
     public function updateAddress(AddressModel $updateAddress): bool
     {
-        $query = "UPDATE address SET `street` = ?, `housenumber` = ?, `housenumberExtension` = ?, `zipCode` = ?, `city` = ?, `country` = ? WHERE userId = ?;";
+        $query = "UPDATE address SET `street` = ?, `housenumber` = ?, `housenumberExtension` = ?, `zipCode` = ?, `city` = ?, `country` = ? WHERE userId = ? AND type = ?;";
 
         $Address = $updateAddress->convertToEntity();
 
@@ -56,7 +56,8 @@ class AddressService extends BaseDatabaseService
             $Address->zipCode,
             $Address->city,
             $Address->country,
-            $Address->userId
+            $Address->userId,
+            $Address->type
         ];
 
         $result = $this->executeQuery($query, $params);

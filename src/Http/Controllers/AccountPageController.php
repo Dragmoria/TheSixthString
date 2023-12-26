@@ -60,19 +60,35 @@ class AccountPageController extends Controller
     {
         $postBody = $this->currentRequest->getPostObject()->body();
         $user = $_SESSION["user"]["id"];
-        
+
         $userservice = Application::resolve(UserService::class);
         $updateUser = $userservice->getUserById($user);
 
-        $updateUser->emailAddress = !empty($postBody['email']) ? $postBody['email'] : $updateUser->emailAddress;
         $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;
         $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;
         $updateUser->lastName = !empty($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
         $updateUser->dateOfBirth = !empty($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
         $updateUser->gender = !empty($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
-
+        
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->changePersonalInfo($updateUser);
+
+        $addressService = Application::resolve(AddressService::class);
+        $address = $addressService->getAddressByUserId($user, 1);
+
+        
+
+        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;
+        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;
+        $address->housenumber = !empty($postBody['housenumber']) ? $postBody['housenumber'] : $address->housenumber;
+        $address->housenumberExtension = !empty($postBody['addition']) ? $postBody['addition'] : $address->housenumberExtension;
+        $address->city = !empty($postBody['city']) ? $postBody['city'] : $address->city;
+        $address->country = !empty($postBody['country']) ? Country::fromString($postBody['country'])->value : $address->country; 
+        $address->type = 1;
+
+
+        $updateAddressService = Application::resolve(AddressService::class);
+        $updatedAddress = $updateAddressService->updateAddress($address);
 
     }
 
