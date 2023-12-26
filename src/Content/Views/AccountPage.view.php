@@ -222,19 +222,21 @@ $fields = array(
                           </p>
                         </div>
                       </div>
-                      <div id="specialIconContainer" style="position: absolute; top: -5%; left: 65%;">
+                      <div id="specialIconContainerInfo" style="position: absolute; top: -5%; left: 65%;">
                         <i class="bi bi-person-fill custom-icon-InsideCard-size"></i>
                       </div>
                     </div>
                   </div>
                   <div class="col-6">
-                    <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
-                      <div class="text-center">
-                        <div class="d-flex ms-3 mt-4">
-                          <div class="container mt-5">
-
-                          </div>
+                    <div id="giftCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                      <div class="row">
+                        <div class="col ms-3 mt-4">
+                          <h5 class="col-6" style=color:#FFFFFF class="mt-3">U heeft nog <? echo "€51,23" ?> tegoed.</h5>
+                          <p class="col-5" style=color:#FFFFFF>Als u afrekent wordt dit automatisch gebruikt.</p>
                         </div>
+                      </div>
+                      <div id="specialIconContainerGift" style="position: absolute; top: -5%; left: 65%;">
+                        <i class="bi bi-gift-fill custom-icon-InsideCard-size"></i>
                       </div>
                     </div>
                   </div>
@@ -245,10 +247,11 @@ $fields = array(
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      <div id="nameCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
+                      <div id="orderCard" class="card ms-4 mt-3 me-4 w-90"
+                        style="background-color: #000; height: 33vh;">
                         <div class="text-center">
                           <div class="d-flex ms-3 mt-4">
-                            </h1>
+
                           </div>
                         </div>
                       </div>
