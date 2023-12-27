@@ -139,12 +139,11 @@ class UserService extends BaseDatabaseService
 
     public function changePersonalInfo(UserModel $updateUser): bool
     {
-        $query = "UPDATE user SET `emailAddress` = ?, `firstName` = ?, `insertion` = ?, `lastName` = ?, `dateOfBirth` = ?, `gender` = ? WHERE id = ?;";
+        $query = "UPDATE user SET `firstName` = ?, `insertion` = ?, `lastName` = ?, `dateOfBirth` = ?, `gender` = ? WHERE id = ?;";
 
         $user = $updateUser->convertToEntity();
 
         $params = [
-            $user->emailAddress,
             $user->firstName,
             $user->insertion,
             $user->lastName,
@@ -165,6 +164,24 @@ class UserService extends BaseDatabaseService
 
         $params = [
             $user->passwordHash,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result !== false;
+    }
+
+    public function ChangePasswordAndEmailUser(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `emailAddress` = ?, `passwordHash` = ?, `active` = ? WHERE id = ?;";
+
+        $user = $updateUser;
+
+        $params = [
+            $user->emailAddress,
+            $user->passwordHash,
+            $user->active,
             $user->id
         ];
 

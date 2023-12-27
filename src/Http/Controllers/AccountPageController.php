@@ -12,8 +12,9 @@ use Models\UserModel;
 use Service\AddressService;
 use Service\UserService;
 use Models\AddressModel;
-
-
+use Service\RandomLinkService;
+use Service\MailService;
+use Service\ActivateService;
 
 
 class AccountPageController extends Controller
@@ -41,8 +42,10 @@ class AccountPageController extends Controller
             'klantnummer' => $user->id,
             'country' => $address->country,
             'birthdate' => $user->dateOfBirth->format('Y-m-d'),
-            'gender' => $user->gender->value
+            'gender' => $user->gender->value,
+            'updatedinfo' => !empty($_SESSION["user"]["comment"]) ? $_SESSION["user"]["comment"] : ""
         ])->withLayout(MAIN_LAYOUT));
+        $_SESSION["user"]["comment"] ="";
 
         return $Response;
             
@@ -61,6 +64,9 @@ class AccountPageController extends Controller
         $postBody = $this->currentRequest->getPostObject()->body();
         $user = $_SESSION["user"]["id"];
 
+        $_SESSION["user"]["comment"] = $postBody['key'];
+
+
         $userservice = Application::resolve(UserService::class);
         $updateUser = $userservice->getUserById($user);
 
@@ -76,8 +82,6 @@ class AccountPageController extends Controller
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user, 1);
 
-        
-
         $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;
         $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;
         $address->housenumber = !empty($postBody['housenumber']) ? $postBody['housenumber'] : $address->housenumber;
@@ -89,10 +93,78 @@ class AccountPageController extends Controller
 
         $updateAddressService = Application::resolve(AddressService::class);
         $updatedAddress = $updateAddressService->updateAddress($address);
+        
 
     }
 
+    public function updatePasswordAndEmail(): ?Response
+    {
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
+
+        if (!isset($postBody['key2'])) {
+
+            $userservice = Application::resolve(UserService::class);
+            $updateUser = $userservice->getUserById($user);
+
+            $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
+            
+            $userservice = Application::resolve(UserService::class);
+            $createdUser = $userservice->ChangePasswordUser($updateUser);
+
+        } else{
+            
+            $userservice = Application::resolve(UserService::class);
+            $updateUser = $userservice->getUserById($user);
+
+            $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
+            $updateUser->emailAddress = $postBody['email'];
+            $updateUser->active = false;
+            
+            $userservice = Application::resolve(UserService::class);
+            $createdUser = $userservice->ChangePasswordAndEmailUser($updateUser);
+
+
+            $randomLinkService = Application::resolve(RandomLinkService::class);
+            $randomLink = $randomLinkService->generateRandomString(32);
+
+            $updateUser->id = $user;
+            $updateUser->activationLink = $randomLink;
+
+            $ActivateService = Application::resolve(ActivateService::class);
+            $result = $ActivateService->newActivationLink($updateUser);
+
+
+            $mail = Application::resolve(MailService::class);
+            $sender = "noreply@thesixthstring.store";
+            $reciever = $updateUser->emailAddress;
+            $password = "JarneKompier123!";
+            $displayname = "no-reply@thesixthstring.store";
+            $subject = "Account activeren";
+            $body = $this->ActivateLink($updateUser->firstName, $randomLink);
+            $mail->SendMail($sender, $reciever, $password, $displayname, $body, $subject);
+        }
+
+
+
+
+
+
+
+    }
+
+    public function ActivateLink($gebruiker, $token)
+    {
+
+        $body = "<h1>goedendag </h1> " . $gebruiker .
+            "<p>
+            Klik op de link om je account te activeren:
+            <a href=http://localhost:8080/Activate/" . $token . ">Account activeren</a>
+            </p>";
+        return $body;
+
+    }
 }
 
 

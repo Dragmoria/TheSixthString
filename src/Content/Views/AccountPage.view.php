@@ -109,13 +109,10 @@
     color: #EFE3C4;
 
   }
-  
-
-
 </style>
 
 <?
-$user = $_SESSION["user"]["firstname"];
+$user = $firstname;
 
 $fields = array(
   'Voornaam' => array('name' => 'firstname', 'placeholder' => $firstname),
@@ -178,7 +175,7 @@ $fields = array(
                 </div>
               </div>
               <!-- start personal info tab -->
-              <form id="InfoForm" style="display: block;">
+              <form id="InfoForm" style="display: <? echo !empty($updatedinfo) ? "none" : "block" ?>;">
                 <div class="row">
                   <div class="col-6 mt-5 ms-5">
                     <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
@@ -277,14 +274,16 @@ $fields = array(
                 </div>
               </form>
               <!-- start change info tab -->
-              <form id="ChangePersonalInfo" style="display: none;">
+              <form id="ChangePersonalInfo" style="display: <? echo !empty($updatedinfo) ? "block" : "none" ?>;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Wijzigen persoonlijke gegevens</h4>
                   <i>
                     <p style=color:#EFE3C4>Vul in wat u wenst te wijzigen, overige gegevens mag u leeg laten.</p>
                   </i>
                   <b>
-                    <p id="InfoUpdatedText" style=color:#FCB716;display:none;>Gegevens gewijzigd!</p>
+                    <p id="InfoUpdatedText"
+                      style="color:#FCB716;display: <? echo !empty($updatedinfo) ? "block" : "none" ?>" ;>Gegevens
+                      gewijzigd!</p>
                   </b>
                 </div>
                 <div class="row ms-3 me-3 mt-3 mb-4 justify-content-center">
@@ -335,13 +334,15 @@ $fields = array(
                       style="width: 100%;background-color:#FCB716;border-color:#FCB716">Gegevens wijzigen</button>
                   </div>
                 </div>
+              </form>
+              <form id="ChangeEmailAndPassword" style="display: <? echo !empty($updatedinfo) ? "block" : "none" ?>;">
                 <div class="row ms-3 me-3 mt-5 justify-content-center text-center">
                   <h4 style=color:#EFE3C4>Wachtwoord wijzigen</h4>
                 </div>
                 <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
                   <div class="col-4">
                     <input type="email" class="form-control bg-beige-color" id="email" name="email"
-                      placeholder=<? echo $email ?>>
+                      placeholder="<? echo $email ?>">
                   </div>
                   <div class="col-4">
                     <div class="password-container">
@@ -361,7 +362,8 @@ $fields = array(
                   </div>
                   <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
                     <div class="col-4 text-center">
-                      <button type="button" id="saveChangePasswordButton" name="saveChangePasswordButton"
+                      <button type="button" id="saveChangePasswordAndEmailButton"
+                        name="saveChangePasswordAndEmailButton"
                         class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                         style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
                     </div>
@@ -373,106 +375,163 @@ $fields = array(
         </div>
       </div>
     </div>
-    <div>
-    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
+      const accountCard = document.getElementById("accountCard");
+      const infoForm = accountCard.querySelector("#InfoForm");
+      const changePersonalInfoForm = accountCard.querySelector("#ChangePersonalInfo");
+      const ChangeEmailAndPasswordForm = accountCard.querySelector('#ChangeEmailAndPassword');
+      const orderHistory = accountCard.querySelector("#orderHistory");
+      const accountIcon = document.getElementById("accountIcon");
+      const changeText = accountCard.querySelector('#InfoUpdatedText');
+
+      infoForm.style.display = showInfoForm ? "block" : "none";
+      changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
+      ChangeEmailAndPasswordForm.style.display = showChangePersonalInfo ? "block" : "none";
+      orderHistory.style.display = showOrderHistory ? "block" : "none";
+      changeText.style.display = "none";
+
+      if (showInfoForm) {
+        accountIcon.className = "bi bi-person-vcard-fill custom-icon-size";
+      } else if (showChangePersonalInfo) {
+        accountIcon.className = "bi bi-person-fill-gear custom-icon-size";
+      } else if (showOrderHistory) {
+        accountIcon.className = "bi bi-collection-fill custom-icon-size";
+      }
+    }
+
+    const infoButton = document.getElementById("infoButton");
+    const changeInfoButton = document.getElementById("changeInfoButton");
+    const orderHistoryButton = document.getElementById("orderHistoryButton");
 
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
 
-        function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
-          const accountCard = document.getElementById("accountCard");
-          const infoForm = accountCard.querySelector("#InfoForm");
-          const changePersonalInfoForm = accountCard.querySelector("#ChangePersonalInfo");
-          const orderHistory = accountCard.querySelector("#orderHistory");
-          const accountIcon = document.getElementById("accountIcon");
+    infoButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(true, false, false);
+    });
 
-          infoForm.style.display = showInfoForm ? "block" : "none";
-          changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
-          orderHistory.style.display = showOrderHistory ? "block" : "none";
+    changeInfoButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(false, true, false);
+    });
 
-          if (showInfoForm) {
-            accountIcon.className = "bi bi-person-vcard-fill custom-icon-size";
-          } else if (showChangePersonalInfo) {
-            accountIcon.className = "bi bi-person-fill-gear custom-icon-size";
-          } else if (showOrderHistory) {
-            accountIcon.className = "bi bi-collection-fill custom-icon-size";
-          }
+    orderHistoryButton.addEventListener("click", function () {
+      toggleFormsAndChangeIcon(false, false, true);
+    });
+  });
+
+
+  $(document).ready(function () {
+    $("#logoutButton").on("click", function () {
+      $.ajax({
+        url: "/Account",
+        type: "POST",
+        success: function (response) {
+
+          window.location.href = "/Login";
+
+        },
+        error: function (xhr, status, error) {
+
+          console.error(xhr);
+          console.error(status);
         }
-
-        const infoButton = document.getElementById("infoButton");
-        const changeInfoButton = document.getElementById("changeInfoButton");
-        const orderHistoryButton = document.getElementById("orderHistoryButton");
-
-
-
-        infoButton.addEventListener("click", function () {
-          toggleFormsAndChangeIcon(true, false, false);
-        });
-
-        changeInfoButton.addEventListener("click", function () {
-          toggleFormsAndChangeIcon(false, true, false);
-        });
-
-        orderHistoryButton.addEventListener("click", function () {
-          toggleFormsAndChangeIcon(false, false, true);
-        });
       });
+    });
+  });
 
 
-      $(document).ready(function () {
-        $("#logoutButton").on("click", function () {
+  function validatePasswords() {
+    var password1 = document.getElementById('changePassword').value;
+    var password2 = document.getElementById('repeatChangePassword').value;
+
+    if (password1 !== password2) {
+      alert('Passwords do not match. Please try again.');
+      return false;
+    }
+
+    return true;
+  }
+
+
+  $(document).ready(function () {
+    $("#saveChangeInfoButton").on("click", function () {
+      event.preventDefault();
+
+      var additionalData = {
+        key: 'infoUpdated'
+      };
+
+      var serializedData = $("#ChangePersonalInfo").serialize();
+      var combinedData = serializedData + '&' + $.param(additionalData);
+
+      $.ajax({
+        url: "/UpdateInfo",
+        type: "POST",
+        data: combinedData,
+        success: function (response) {
+          console.log(response);
+          window.location.href = "/Account";
+
+        },
+        error: function (xhr, status, error) {
+          console.error(xhr);
+          console.error(status);
+        }
+      });
+    });
+  });
+
+
+  $(document).ready(function () {
+    $("#saveChangePasswordAndEmailButton").on("click", function () {
+      event.preventDefault();
+
+      if (!validatePasswords()) {
+        return;
+      }
+
+      var email = document.getElementById('email').value;
+      var oldEmail = '<? echo $email; ?>';
+
+      var additionalData = {
+        key: 'passwordUpdated'
+      };
+
+      if (email !== "") {
+        additionalData.key2 = 'emailUpdated';
+      }
+      var serializedData = $("#ChangeEmailAndPassword").serialize();
+      var combinedData = serializedData + '&' + $.param(additionalData);
+
+      $.ajax({
+        url: "/UpdatePasswordAndEmail",
+        type: "POST",
+        data: combinedData,
+        success: function (response) {
+          console.log(response);
           $.ajax({
             url: "/Account",
             type: "POST",
             success: function (response) {
-
-              window.location.href = "/Login";
+              window.location.href = "/Login"
             },
             error: function (xhr, status, error) {
-
               console.error(xhr);
               console.error(status);
             }
           });
-        });
-      });
-
-
-      function validatePasswords() {
-        var password1 = document.getElementById('changePassword').value;
-        var password2 = document.getElementById('repeatChangePassword').value;
-
-        if (password1 !== password2) {
-          alert('Passwords do not match. Please try again.');
-          return false;
+        },
+        error: function (xhr, status, error) {
+          console.error(xhr);
+          console.error(status);
         }
-
-        return true;
-      }
-
-
-      $(document).ready(function () {
-        $("#saveChangeInfoButton").on("click", function () {
-          event.preventDefault();
-
-          $.ajax({
-            url: "/UpdateInfo",
-            type: "POST",
-            data: $("#ChangePersonalInfo").serialize(),
-            success: function (response) {
-              console.log(response);
-              //window.location.href = "/Account";
-            },
-            error: function (xhr, status, error) {
-              console.error(xhr);
-              console.error(status);
-            }
-          });
-        });
       });
+    });
+  });
 
-
-
-
-    </script>
+</script>
