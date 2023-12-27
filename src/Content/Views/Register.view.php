@@ -196,22 +196,24 @@ $fields = array(
                     <div class="spacer"></div>
                 </div>
                 <div class="row">
-                    <?php foreach (['E-mailadres' => 'email', 'Wachtwoord' => 'password', 'Herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
-                        <div class="col-lg-4 col-xl-4 col-sm-12 mb-3 col-md-8">
-                            <?php if ($name === 'password' || $name === 'repeatPassword'): ?>
-                                <div class="password-container">
-                                    <input type="<?= $label === 'email' ? 'text' : 'password' ?>"
-                                        class="form-control bg-beige-color password-input" id="<?= $name ?>" name="<?= $name ?>"
-                                        placeholder="<?= $label ?>" required>
-                                    <i class="bs bi-eye-slash-fill toggle-eye"
-                                        onclick="togglePasswordVisibility('<?= $name ?>')"></i>
-                                </div>
-                            <?php else: ?>
-                                <input type="text" class="form-control form-check-inline bg-beige-color" id="<?= $name ?>"
-                                    name="<?= $name ?>" placeholder="<?= $label ?>" required>
-                            <?php endif; ?>
+                    <?php foreach (['E-mailadres' => 'email', 'Herhalen e-mailadres' => 'repeatEmail'] as $label => $name): ?>
+                        <div class="me-3 col-lg-5 col-xl-5 col-sm-12 mb-3 col-md-8">
+                            <input type="text" class="form-control form-check-inline bg-beige-color" id="<?= $name ?>"
+                                name="<?= $name ?>" placeholder="<?= $label ?>" required>
                         </div>
                     <?php endforeach; ?>
+                </div>
+                <div class="row">
+                    <?php foreach (['Wachtwoord' => 'password', 'Herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
+                        <div class="me-3 col-lg-5 col-xl-5 col-sm-12 mb-3 col-md-8">
+                            <div class="password-container">
+                                <input type="password" class="form-control bg-beige-color password-input" id="<?= $name ?>"
+                                    name="<?= $name ?>" placeholder="<?= $label ?>" required>
+                                <i class="bs bi-eye-slash-fill toggle-eye"
+                                    onclick="togglePasswordVisibility('<?= $name ?>')"></i>
+                            </div>
+                        </div>
+                    <? endforeach; ?>
                     <div class="spacer"></div>
                     <div class="row">
                         <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
@@ -251,16 +253,31 @@ $fields = array(
         var password1 = document.getElementById('password').value;
         var password2 = document.getElementById('repeatPassword').value;
 
+
         if (password1 !== password2) {
-            alert('Passwords do not match. Please try again.');
+            alert('wachtwoorden zijn niet hezelfde, probeer het opnieuw.');
             return false;
         }
+
 
         return true;
     }
 
+    function validateEmails() {
+        var email1 = document.getElementById('email').value;
+        var email2 = document.getElementById('repeatEmail').value;
+
+        if (email1 !== email2) {
+            alert('Emailaddressen zijn niet hetzelfde, probeer het opnieuw.');
+        }
+    }
+
     $(document).ready(function () {
         $("#saveButton").on("click", function () {
+
+            if (!validateEmails()){
+                return;
+            }
 
             if (!validatePasswords()) {
                 return;
@@ -278,28 +295,28 @@ $fields = array(
                             alert("Het ingevoerde e-mailadres is al in gebruik");
                         }
                         else {
-                        var myForm = $("#registerForm");
-                        myForm.hide();
+                            var myForm = $("#registerForm");
+                            myForm.hide();
 
-                        var successMessage = $("#successMessageRegister");
-                        successMessage.show();
+                            var successMessage = $("#successMessageRegister");
+                            successMessage.show();
 
-                        var MyCard = $("#registrationCard")
+                            var MyCard = $("#registrationCard")
                             var MyContainer = $("#RegisterPageContainer")
 
                             MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                    }
-                },
+                        }
+                    },
                     error: function (xhr, status, error) {
                         alert("An error occurred: " + error);
                         console.error(xhr);
                         console.error(status);
                     }
                 });
-    } else {
+            } else {
 
-        $("#registerForm")[0].reportValidity();
-    }
+                $("#registerForm")[0].reportValidity();
+            }
         });
     });
 </script>
