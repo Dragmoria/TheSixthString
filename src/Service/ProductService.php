@@ -55,6 +55,10 @@ class ProductService extends BaseDatabaseService {
         return $model;
     }
 
+    public function getAmountInStockForProduct(int $productId): int {
+        return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
+    }
+
     private function buildFilteredQuery(string &$query, array &$params, ProductFilterModel $model): void {
         if(!is_null($model->categoryId)) {
             $categoryIds = $this->getAllChildCategoriesForParent($model->categoryId);

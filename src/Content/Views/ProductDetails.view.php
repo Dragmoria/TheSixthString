@@ -90,7 +90,7 @@ $reviewAverage = 0;
                     <h2><?= $product->brand->name ?? "Onbekend merk" ?></h2>
                 </div>
                 <div class="col-12">
-                    <a class="text-sixth-beige" href="#product-reviews">Gemiddelde
+                    <a class="text-sixth-yellow" href="#product-reviews">Gemiddelde
                         beoordeling: <?= $product->reviewAverage ?> / 5
                         (<?= count($product->reviews) ?> beoordelingen)</a>
                 </div>
@@ -209,7 +209,12 @@ $reviewAverage = 0;
             if(response.success) {
                 window.location.href = '/ShoppingCart';
             } else {
-                alert('Product toevoegen mislukt');
+                var message = response.message;
+                if(response.message == '') {
+                    response.message = 'Product toevoegen mislukt';
+                }
+
+                alert(message);
             }
         });
     });

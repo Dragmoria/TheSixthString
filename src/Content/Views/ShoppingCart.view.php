@@ -51,7 +51,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a class="text-decoration-none"
+                                                    <a class="text-decoration-none text-sixth-yellow"
                                                        href="/Product/<?= $shoppingCartItem->product->id ?>">
                                                         <strong><?= $shoppingCartItem->product->name ?></strong>
                                                     </a>
@@ -59,26 +59,25 @@
                                                     <small>Artikelcode: <?= $shoppingCartItem->product->sku ?></small>
                                                 </td>
                                                 <td>
-                                                    <select class="form-select w-auto sixth-select">
+                                                    <select class="form-select w-auto sixth-select" data-product-id="<?= $shoppingCartItem->product->id ?>"
+                                                            onchange="changeQuantity(this)">
                                                         <?php
-                                                        //TODO: max amount voor product ophalen?
-
-                                                        for ($i = 1; $i <= 10; $i++) {
+                                                        for ($i = 1; $i <= $shoppingCartItem->product->amountInStock; $i++) {
                                                             ?>
-                                                            <option <?= $shoppingCartItem->quantity == $i ? "selected": "" ?> value="<?= $i ?>"><?= $i ?></option>
+                                                            <option <?= $shoppingCartItem->quantity == $i ? "selected" : "" ?>
+                                                                    value="<?= $i ?>"><?= $i ?></option>
                                                             <?php
                                                         }
                                                         ?>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <?php
-                                                    //TODO: voor number_format de bestaande functie gebruiken (komt uit branch categorie_pagina)
-                                                    ?>
-
-                                                    €<?= number_format($shoppingCartItem->product->unitPrice, 2, ",", ".") ?></td>
-                                                <td>€<?= number_format($shoppingCartItem->totalPriceIncludingTax, 2, ",", ".") ?></td>
-                                                <td><span class="cursor-pointer" data-item-id="<?= $shoppingCartItem->id ?>" onclick="deleteShoppingCartItem(this)">X</span></td>
+                                                    <?= formatPrice($shoppingCartItem->product->unitPrice) ?></td>
+                                                <td>
+                                                    <?= formatPrice($shoppingCartItem->totalPriceIncludingTax) ?></td>
+                                                <td><span class="cursor-pointer"
+                                                          data-item-id="<?= $shoppingCartItem->id ?>"
+                                                          onclick="deleteShoppingCartItem(this)">X</span></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -99,22 +98,21 @@
                             <div class="row">
                                 <div class="col-12 d-flex justify-content-between">
                                     <span>Subtotaal (inclusief BTW)</span>
-                                    <span>€<?= number_format($data->totalPriceIncludingTax, 2, ",", ".") ?></span>
+                                    <span><?= formatPrice($data->totalPriceIncludingTax) ?></span>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
                                     <span>Verzendkosten</span>
                                     <span>gratis</span>
                                 </div>
                                 <div class="col-12">
-                                    <hr />
+                                    <hr/>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
                                     <span><strong>Totaalprijs (inclusief BTW)</strong></span>
-                                    <span>€<?= number_format($data->totalPriceIncludingTax, 2, ",", ".") ?></span>
+                                    <span><?= formatPrice($data->totalPriceIncludingTax) ?></span>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <?php
-                                    //TODO: button styling! (en ook h1's en card backgrounds!)
                                     ?>
                                     <button class="btn btn-primary rounded-4 sixth-button">Bestellen</button>
                                 </div>
@@ -132,16 +130,36 @@
 <script>
     function deleteShoppingCartItem(element) {
         var deleteConfirmed = confirm('Weet je zeker dat je dit product wilt verwijderen?');
-        if(deleteConfirmed) {
+        if (deleteConfirmed) {
             var id = $(element).data('item-id');
 
-            $.post('/ShoppingCart/DeleteItem', { "id": id }, function(response) {
-                if(response.success) {
+            $.post('/ShoppingCart/DeleteItem', {"id": id}, function (response) {
+                if (response.success) {
                     window.location.reload();
                 } else {
                     alert('Product verwijderen mislukt');
                 }
             });
         }
+    }
+
+    function changeQuantity(element) {
+        var productId = $(element).data('product-id');
+
+        $.post('/ShoppingCart/ChangeQuantity', {
+            "productId": productId,
+            "quantity": $(element).val()
+        }, function (response) {
+            if (response.success) {
+                window.location.href = '/ShoppingCart';
+            } else {
+                var message = response.message;
+                if (response.message == '') {
+                    response.message = 'Aantal wijzigen mislukt';
+                }
+
+                alert(message);
+            }
+        });
     }
 </script>

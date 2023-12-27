@@ -22,6 +22,10 @@
     color: var(--sixth-beige) !important;
   }
 
+.text-sixth-yellow {
+  color: var(--sixth-yellow) !important;
+}
+
   .nav-button {
     background-color: var(--sixth-yellow) !important;
     border-color: var(--sixth-yellow) !important; 

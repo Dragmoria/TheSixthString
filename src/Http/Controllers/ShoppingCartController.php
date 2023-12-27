@@ -8,6 +8,7 @@ use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Service\ProductService;
 use Service\ShoppingCartService;
 
 class ShoppingCartController extends Controller {
@@ -39,12 +40,52 @@ class ShoppingCartController extends Controller {
         $productId = $postBody["productId"];
         $quantity = $postBody["quantity"];
 
-        $result = new \stdClass();
-        $result->success = Application::resolve(ShoppingCartService::class)->addItem(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $productId, $quantity);
-
         $response = new JsonResponse();
+        $result = new \stdClass();
+
+        $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
+        if($result->success) {
+            $result->success = Application::resolve(ShoppingCartService::class)->addItem(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $productId, $quantity);
+        }
+
         $response->setBody((array)$result);
 
         return $response;
+    }
+
+    public function changeQuantity(): ?Response {
+        $postBody = $this->currentRequest->postObject->body();
+
+        $productId = $postBody["productId"];
+        $quantity = $postBody["quantity"];
+
+        $response = new JsonResponse();
+        $result = new \stdClass();
+
+        $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
+        if($result->success) {
+            //TODO: zowel id als sessionuserguid ophalen (guid moet nog ergens worden gezet?)
+            $result->success = Application::resolve(ShoppingCartService::class)->changeQuantity(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $productId, $quantity);
+        }
+
+        $response->setBody((array)$result);
+        return $response;
+    }
+
+    private function validateProductAmountValidAndAvailable(int $productId, int $quantity, \stdClass &$resultObject): void {
+        $resultObject->success = true;
+
+        if($quantity <= 0) {
+            $resultObject->success = false;
+            $resultObject->message = "Kies een geldig aantal";
+
+            return;
+        }
+
+        $amountInStock = Application::resolve(ProductService::class)->getAmountInStockForProduct($productId);
+
+        $isChosenAmountInStock = $amountInStock >= $quantity;
+        $resultObject->success = $isChosenAmountInStock;
+        $resultObject->message = !$isChosenAmountInStock ? "Gekozen aantal is niet op voorraad, aantal beschikbaar: $amountInStock" : "";
     }
 }

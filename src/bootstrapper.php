@@ -106,6 +106,7 @@ $router->get('/ControlPanel/Appointments/GetAppointments', [AppointmentsControll
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
+$router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
 
 $_SESSION["user"] = ["role" => Role::Admin];
 
