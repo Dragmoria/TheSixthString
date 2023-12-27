@@ -36,6 +36,8 @@ class CoreRouter implements Router
      */
     protected function addRoute(RequestTypes $method, string $uri, array $callback): Router
     {
+        $uri = strtolower($uri);
+
         $methodType = $method->value;
 
         $this->routes[$methodType][$uri] = ["callback" => $callback, "middlewares" => []];
@@ -114,7 +116,7 @@ class CoreRouter implements Router
     public function route(Request $request): void
     {
         $methodType = $request->method()->value;
-        $uri = $request->path();
+        $uri = strtolower($request->path());
 
         foreach ($this->routes[$methodType] as $pattern => $route) {
             // will replace the possible dynamic part of a route with a regex so we can match it with the given url

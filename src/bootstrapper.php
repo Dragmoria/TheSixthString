@@ -12,8 +12,10 @@ use Http\Controllers\HomeController;
 use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
+use Http\Controllers\ControlPanel\AppointmentsController;
 use http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
+use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
 use Http\Controllers\Mailcontroller;
@@ -33,6 +35,7 @@ use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
 use Service\ReviewService;
+use Service\TryoutScheduleService;
 use Service\UserService;
 use Service\MailService;
 
@@ -58,6 +61,9 @@ $container->registerClass(BrandService::class)->asSingleton();
 $container->registerClass(MailService::class);
 $container->registerClass(RandomLinkService::class);
 $container->registerClass(ActivateService::class);
+$container->registerClass(TryoutScheduleService::class)->asSingleton();
+
+
 
 
 
@@ -66,13 +72,6 @@ $router = Application::getRouter();
 
 // Add routes below here.
 
-$router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
-$router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-$router->get('/ControlPanel/Statistics', [StatisticsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
-$router->get('/ControlPanel/Accounts/GetUsersTableData', [ManageAccountsController::class, 'getUsersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-$router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-$router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
-$router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/Register', [RegisterController::class, 'register']);
 $router->get('/Login', [LoginController::class, 'loginPage']);
 $router->put('/Account', [LoginController::class, 'validateLogin']);
@@ -86,6 +85,19 @@ $router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPasswor
 $router->put('/', [RegisterController::class, 'put']);
 $router->post('/RegisterSucces', [RegisterController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
+$router->get('/', [IndexController::class, 'show']);
+$router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Product', [ProductController::class, 'index']);
+$router->get('/Product/{id}', [ProductController::class, 'details']);
+$router->get('/Mail', [MailController::class, 'mail']);
+
+
+$router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
+$router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->get('/ControlPanel/Accounts/GetUsersTableData', [ManageAccountsController::class, 'getUsersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->patch('/ControlPanel/Accounts/UpdateUser', [ManageAccountsController::class, 'updateUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->put('/ControlPanel/Accounts/AddUser', [ManageAccountsController::class, 'addUser'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
+$router->patch('/ControlPanel/Accounts/ResetPassword', [ManageAccountsController::class, 'resetPassword'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/ControlPanel/ManageCoupons', [ManageCouponsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageCoupons/GetCouponsTableData', [ManageCouponsController::class, 'getCouponsTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->patch('/ControlPanel/ManageCoupons/UpdateCoupon', [ManageCouponsController::class, 'updateCoupon'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
@@ -97,10 +109,11 @@ $router->patch('/ControlPanel/ManageBrands/UpdateBrand', [ManageBrandsController
 $router->put('/ControlPanel/ManageBrands/AddBrand', [ManageBrandsController::class, 'addBrand'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageCategories', [ManageCategoriesController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageCategories/GetCategoriesTableData', [ManageCategoriesController::class, 'getCategoriesTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
-$router->get('/', [IndexController::class, 'show']);
-$router->get('/Category', [CategoryController::class, 'index']);
-$router->get('/Product', [ProductController::class, 'index']);
-$router->get('/Product/{id}', [ProductController::class, 'details']);
+$router->get('/ControlPanel/Statistics', [StatisticsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
+
+
+$router->get('/ControlPanel/Appointments', [AppointmentsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/Appointments/GetAppointments', [AppointmentsController::class, 'getAppointments'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/Mail', [MailController::class, 'mail']);
 $router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
 $router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
