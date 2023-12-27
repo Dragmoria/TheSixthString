@@ -34,6 +34,8 @@ class BaseDatabaseService {
                 } elseif (is_bool($param)) {
                     $types .= 'i';
                     $param = (int) $param; // Convert boolean to integer
+                } else if(is_null($param)) {
+                  $types .= 's';
                 } else {
                     throw new \Exception('Invalid parameter type: ' . gettype($param));
                 }

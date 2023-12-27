@@ -57,7 +57,7 @@ class ShoppingCartService extends BaseDatabaseService {
 
         $shoppingCartItemExists = $this->executeQuery("select (count(id) > 0) as itemExists from shoppingcartitem where shoppingCartId = ? and productId = ?", [$shoppingCartEntity->id, $productId])[0]->itemExists;
         if((bool)$shoppingCartItemExists) {
-            return $this->executeQuery("update shoppingcartitem set quantity = quantity + ? where shoppingCartId = ? and productId = ?", [$quantity, $shoppingCartEntity->id, $productId]);
+            return $this->executeQuery("update shoppingcartitem item inner join product prod on prod.id = item.productId set quantity = least(prod.amountInStock, quantity + ?) where shoppingCartId = ? and productId = ?", [$quantity, $shoppingCartEntity->id, $productId]);
         }
 
         return $this->executeQuery("insert into shoppingcartitem (shoppingCartId, productId, quantity) values (?,?,?)", [$shoppingCartEntity->id, $productId, $quantity]);

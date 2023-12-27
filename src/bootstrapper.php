@@ -109,6 +109,8 @@ $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem'
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
 
 $_SESSION["user"] = ["role" => Role::Admin];
+$_SESSION["user"]["id"] = 1;
+$_SESSION["sessionUserGuid"] = "aa03fb5e-fe78-4802-85f9-ad2a4106c349"; //TODO: deze moet worden gezet als deze nog niet in de sessie staat, bij elke request checken in middleware?
 
 // Run the application.
 Application::run();

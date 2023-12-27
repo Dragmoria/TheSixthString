@@ -18,7 +18,7 @@
             if (is_null($data)) {
                 ?>
                 <p class="text-sixth-beige">Er zijn nog geen producten aan de winkelwagen toegevoegd, klik <a
-                            class="text-decoration-none" href="/Category">hier</a> om verder te winkelen</p>
+                            class="text-decoration-none text-sixth-yellow" href="/Category">hier</a> om verder te winkelen</p>
                 <?php
             } else {
                 ?>

@@ -15,7 +15,7 @@ class ShoppingCartController extends Controller {
     public function index(): ?Response {
         $response = new ViewResponse();
 
-        $data = Application::resolve(ShoppingCartService::class)->getShoppingCartContent(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349");
+        $data = Application::resolve(ShoppingCartService::class)->getShoppingCartContent($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"]);
 
         $response->setBody(view(VIEWS_PATH . 'ShoppingCart.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
 
@@ -27,7 +27,7 @@ class ShoppingCartController extends Controller {
         $shoppingCartItemId = $postBody["id"];
 
         $result = new \stdClass();
-        $result->success = Application::resolve(ShoppingCartService::class)->deleteItem(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $shoppingCartItemId);
+        $result->success = Application::resolve(ShoppingCartService::class)->deleteItem($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $shoppingCartItemId);
 
         $response = new JsonResponse();
         $response->setBody((array)$result);
@@ -45,7 +45,7 @@ class ShoppingCartController extends Controller {
 
         $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
         if($result->success) {
-            $result->success = Application::resolve(ShoppingCartService::class)->addItem(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $productId, $quantity);
+            $result->success = Application::resolve(ShoppingCartService::class)->addItem($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
         }
 
         $response->setBody((array)$result);
@@ -64,8 +64,7 @@ class ShoppingCartController extends Controller {
 
         $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
         if($result->success) {
-            //TODO: zowel id als sessionuserguid ophalen (guid moet nog ergens worden gezet?)
-            $result->success = Application::resolve(ShoppingCartService::class)->changeQuantity(1, "aa03fb5e-fe78-4802-85f9-ad2a4106c349", $productId, $quantity);
+            $result->success = Application::resolve(ShoppingCartService::class)->changeQuantity($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
         }
 
         $response->setBody((array)$result);
