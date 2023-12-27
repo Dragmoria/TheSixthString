@@ -107,10 +107,11 @@ $reviewAverage = 0;
                         <?php
                         if ($product->amountInStock > 0) {
                             ?>
-                            <form method="post" action="/ShoppingCart/AddToCart">
+                            <form id="add-product-form" action="#">
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select">
+                                        <input type="hidden" name="productId" value="<?= $product->id ?>" />
+                                        <select class="form-select sixth-select" name="quantity">
                                             <?php
                                             for ($i = 1; $i <= $product->amountInStock; $i++) {
                                                 ?>
@@ -121,9 +122,7 @@ $reviewAverage = 0;
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary sixth-button rounded-4">Toevoegen aan
-                                            winkelwagen
-                                        </button>
+                                        <button class="btn btn-primary sixth-button rounded-4" type="submit">Toevoegen aan winkelwagen</button>
                                     </div>
                                 </div>
                             </form>
@@ -182,23 +181,36 @@ $reviewAverage = 0;
             <p>...</p>
         </div>
 
-        <script>
-            function selectImage(element) {
-                toggleMediaVisibility(element);
+<script>
+    function selectImage(element) {
+        toggleMediaVisibility(element);
 
-                $('#main-product-image').attr('src', element.src);
+        $('#main-product-image').attr('src', element.src);
+    }
+
+    function toggleMediaVisibility(element) {
+        $('.product-thumbnail').removeClass('mb-3');
+        $('#product-video-thumbnail').removeClass('mb-3');
+        $(element).addClass('mb-3');
+
+        if ($(element).data('type') != $('#media-container').data('type-shown')) {
+            $('#main-product-image').toggleClass('d-none');
+            $('#product-video').toggleClass('d-none');
+        }
+
+        $('#media-container').data('type-shown', $(element).data('type'));
+    }
+
+    $('#add-product-form').on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = $(e.currentTarget).serializeArray();
+        $.post('/ShoppingCart/AddItem', formData, function(response) {
+            if(response.success) {
+                window.location.href = '/ShoppingCart';
+            } else {
+                alert('Product toevoegen mislukt');
             }
-
-            function toggleMediaVisibility(element) {
-                $('.product-thumbnail').removeClass('mb-3');
-                $('#product-video-thumbnail').removeClass('mb-3');
-                $(element).addClass('mb-3');
-
-                if ($(element).data('type') != $('#media-container').data('type-shown')) {
-                    $('#main-product-image').toggleClass('d-none');
-                    $('#product-video').toggleClass('d-none');
-                }
-
-                $('#media-container').data('type-shown', $(element).data('type'));
-            }
-        </script>
+        });
+    });
+</script>

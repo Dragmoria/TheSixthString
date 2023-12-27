@@ -40,9 +40,9 @@ function buildCategoryList($category, int $index): void
         </a>
       </li>
       <li class="nav-item me-5">
-        <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+        <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button" href="/ShoppingCart">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
-        </button>
+        </a>
       </li>
     </ul>
   </div>
@@ -63,9 +63,9 @@ function buildCategoryList($category, int $index): void
       <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;" href="/ShoppingCart">
         <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
-      </button>
+      </a>
     </div>
     <!-- Hamburger Menu Button -->
     <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

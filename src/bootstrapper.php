@@ -18,6 +18,7 @@ use Http\Controllers\IndexController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
+use Http\Controllers\ShoppingCartController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -32,6 +33,7 @@ use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\ReviewService;
 use Service\TryoutScheduleService;
+use Service\ShoppingCartService;
 use Service\UserService;
 
 
@@ -54,10 +56,7 @@ $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
-
-
-
-
+$container->registerClass(ShoppingCartService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -104,7 +103,11 @@ $router->get('/ControlPanel/Statistics', [StatisticsController::class, 'show'])-
 $router->get('/ControlPanel/Appointments', [AppointmentsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/Appointments/GetAppointments', [AppointmentsController::class, 'getAppointments'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 
-//$_SESSION["user"] = ["role" => Role::Admin];
+$router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
+$router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
+$router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
+
+$_SESSION["user"] = ["role" => Role::Admin];
 
 // Run the application.
 Application::run();

@@ -59,3 +59,23 @@
     width: 100%;
     filter: drop-shadow(5px 29px 40px #000000);
   }
+
+  .bg-sixth-black {
+    background-color: var(--sixth-black);
+  }
+
+.sixth-button, .sixth-button:active, .sixth-button:hover, .sixth-button:focus {
+  background-color:var(--sixth-yellow) !important;
+  border-color:var(--sixth-yellow) !important;
+  box-shadow: 0 0 0 0.2rem var(--sixth-yellow) !important;
+}
+
+.sixth-select, .sixth-select:focus {
+  background-color: var(--sixth-beige);
+  border-color: var(--sixth-beige);
+  box-shadow: 0 0 0 0.2rem var(--sixth-beige);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
