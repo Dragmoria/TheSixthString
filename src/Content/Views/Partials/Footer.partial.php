@@ -66,7 +66,7 @@
 
         <!-- Logo -->
         <div class="col-md-3">
-            <img src="/images/logo-big.svg" alt="Logo" class="img-fluid">
+            <img src="\images/logo-big.svg" alt="Logo" class="img-fluid">
         </div>
 
         <div class="col">

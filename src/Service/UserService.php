@@ -44,6 +44,8 @@ class UserService extends BaseDatabaseService
         return $model;
     }
 
+
+
     public function getUsersByRole(Role $role): ?array
     {
         $query = 'SELECT * FROM user WHERE role = ?';
@@ -135,6 +137,59 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
+    public function changePersonalInfo(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `firstName` = ?, `insertion` = ?, `lastName` = ?, `dateOfBirth` = ?, `gender` = ? WHERE id = ?;";
+
+        $user = $updateUser->convertToEntity();
+
+        $params = [
+            $user->firstName,
+            $user->insertion,
+            $user->lastName,
+            $user->dateOfBirth,
+            $user->gender,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+        return $result !== false;
+    }
+
+    public function ChangePasswordUser(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `passwordHash` = ? WHERE id = ?;";
+
+        $user = $updateUser;
+
+        $params = [
+            $user->passwordHash,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result !== false;
+    }
+
+    public function ChangePasswordAndEmailUser(UserModel $updateUser): bool
+    {
+        $query = "UPDATE user SET `emailAddress` = ?, `passwordHash` = ?, `active` = ? WHERE id = ?;";
+
+        $user = $updateUser;
+
+        $params = [
+            $user->emailAddress,
+            $user->passwordHash,
+            $user->active,
+            $user->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result !== false;
+    }
+
     private function getById(int $id): ?User
     {
         $query = 'SELECT * FROM user WHERE id = ? LIMIT 1';
@@ -158,6 +213,13 @@ class UserService extends BaseDatabaseService
         // Assuming the query returns only one user
         return $result[0];
     }
+
+
+
+
+
+
+
 
     
 }

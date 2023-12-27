@@ -45,23 +45,30 @@ class LoginController extends Controller
 
 
         if (isset($user)) {
-            if (password_verify($postBody["password"], $user->passwordHash)) {
-                $_SESSION["user"] = [
-                    "id" => $user->id,
-                    "role" => $user->role
-                ];
-                redirect("/Account");
+            if ($user->active === true) {
+                if (password_verify($postBody["password"], $user->passwordHash)) {
+                    $_SESSION["user"] = [
+                        "id" => $user->id,
+                        "role" => $user->role,
+                        "firstname" => $user->firstName
+                    ];
+                    redirect("/Account");
+                } else {
+                    $errorCheck = true;
+                }
             } else {
-                $postObject->flash();
-                $postObject->flashPostError('error', "block");
-                redirect("/Login");
+                $errorCheck = true;
             }
         } else {
+            $errorCheck = true;
+        }
+
+
+        if ($errorCheck === true) {
             $postObject->flash();
             $postObject->flashPostError('error', "block");
             redirect("/Login");
         }
-
     }
 
 }
