@@ -269,7 +269,9 @@ $fields = array(
 
         if (email1 !== email2) {
             alert('Emailaddressen zijn niet hetzelfde, probeer het opnieuw.');
+            return false;
         }
+        return true;
     }
 
     $(document).ready(function () {

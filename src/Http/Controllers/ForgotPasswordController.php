@@ -1,6 +1,8 @@
 <?php
 namespace Http\Controllers;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
@@ -13,6 +15,8 @@ use Service\ResetpasswordService;
 use Service\RandomLinkService;
 use Service\MailService;
 use EmailTemplates\ResetPasswordTemplate;
+use EmailTemplates\MailTemplate;
+
 
 
 
@@ -51,14 +55,13 @@ class ForgotPasswordController extends Controller
             $resetPasswordService = Application::resolve(ResetpasswordService::class);
             $createdLink = $resetPasswordService->newResetpassword($newResetPasswordModel);
 
-            $test = Application::resolve(MailService::class);
-            $sender = "noreply@thesixthstring.store";
-            $reciever = $postBody['email'];
-            $password = "JarneKompier123!";
-            $displayname = "no-reply@thesixthstring.store";
-            $body = $this->ResetPasswordTemplate($randomLink);
-            $subject = "Wachtwoord herstellen";
-            $test->SendMail($sender, $reciever, $password, $displayname, $body,$subject);
+            $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ResetPasswordTemplate.php', [
+                'gebruiker' => $user->firstName,
+                'token' => $randomLink
+            ]);
+
+            $mail = new Mail($postBody['email'],"wachtwoord herstellen", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+            $mail->send();
 
             $Response = new TextResponse();
             $Response->setBody('Sent');

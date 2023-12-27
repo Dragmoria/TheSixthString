@@ -21,9 +21,9 @@ class ResetPasswordController extends Controller
     {
         $Response = new ViewResponse();
 
-
         $resetPasswordService = Application::resolve(ResetpasswordService::class);
-        $result = $resetPasswordService->getResetpasswordByLink($urlData["dynamicLink"]);
+        $result = $resetPasswordService->getResetpasswordByLink($urlData["dynamiclink"]);
+
 
         if (!isset($result)) {
             $Response->setStatusCode(HTTPStatusCodes::NOT_FOUND);
@@ -41,7 +41,7 @@ class ResetPasswordController extends Controller
                 return $Response;
             } else {
                 $_SESSION["user"] = [
-                    "link" => $urlData["dynamicLink"]
+                    "link" => $urlData["dynamiclink"]
                 ];
 
                 $user = $user->firstName;

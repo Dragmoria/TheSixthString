@@ -1,6 +1,10 @@
 <?php
+
 namespace Http\Controllers;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\Enums\Role;
 use lib\enums\Gender;
 use lib\enums\Country;
@@ -22,21 +26,20 @@ class MailController extends Controller
     {
         $Response = new ViewResponse();
         $Response->setBody(view(VIEWS_PATH . 'Mail.view.php', [])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
-        $test = Application::resolve(MailService::class);
-        $sender = "noreply@thesixthstring.store";
-        $password = "JarneKompier123!";
-        $displayname = "no-reply@thesixthstring.store";
-        $test->test($sender,$password,$displayname);
+        // $test->test();
+
+        $mailTemplate = new MailTemplate(MAIL_TEMPLATES . 'ResetPasswordTemplate.php', ["token" => "14984938948302948023984"]);
+
+
+        $mail = new Mail('j.kompier@hotmail.nl', 'Test mail', $mailTemplate, MailFrom::NOREPLY, "noreply sixth string");
+        $mail->send();
+
 
         return $Response;
     }
 
 
-    public function sendEmail(): ?Response{
-
-
-
+    public function sendEmail(): ?Response
+    {
     }
 }
-
-

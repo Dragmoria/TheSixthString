@@ -337,7 +337,7 @@ $fields = array(
               </form>
               <form id="ChangeEmailAndPassword" style="display: <? echo !empty($updatedinfo) ? "block" : "none" ?>;">
                 <div class="row ms-3 me-3 mt-5 justify-content-center text-center">
-                  <h4 style=color:#EFE3C4>Wachtwoord wijzigen</h4>
+                  <h4 style=color:#EFE3C4>Wachtwoord en/of e-mail wijzigen</h4>
                 </div>
                 <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
                   <div class="col-4">
@@ -365,7 +365,7 @@ $fields = array(
                       <button type="button" id="saveChangePasswordAndEmailButton"
                         name="saveChangePasswordAndEmailButton"
                         class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
-                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
+                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord/e-mail wijzigen</button>
                     </div>
                   </div>
                 </div>
@@ -518,7 +518,7 @@ $fields = array(
             url: "/Account",
             type: "POST",
             success: function (response) {
-              window.location.href = "/Login"
+              console.log(response);
             },
             error: function (xhr, status, error) {
               console.error(xhr);

@@ -1,6 +1,9 @@
 <?php
 namespace Http\Controllers;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\Enums\Role;
 use lib\enums\Gender;
 use lib\enums\Country;
@@ -135,15 +138,14 @@ class AccountPageController extends Controller
             $ActivateService = Application::resolve(ActivateService::class);
             $result = $ActivateService->newActivationLink($updateUser);
 
+            $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [
+                'gebruiker' => $createdUser->firstName,
+                'token' => $randomLink
+            ]);
 
-            $mail = Application::resolve(MailService::class);
-            $sender = "noreply@thesixthstring.store";
-            $reciever = $updateUser->emailAddress;
-            $password = "JarneKompier123!";
-            $displayname = "no-reply@thesixthstring.store";
-            $subject = "Account activeren";
-            $body = $this->ActivateLink($updateUser->firstName, $randomLink);
-            $mail->SendMail($sender, $reciever, $password, $displayname, $body, $subject);
+            $mail = new Mail($postBody['email'],"Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+            $mail->send();
+            return $result;
         }
 
 

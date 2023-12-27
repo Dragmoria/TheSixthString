@@ -1,6 +1,9 @@
 <?php
 namespace Http\Controllers;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\Enums\Role;
 use lib\enums\Gender;
 use lib\enums\Country;
@@ -85,15 +88,13 @@ class RegisterController extends Controller
                 $ActivateService = Application::resolve(ActivateService::class);
                 $result = $ActivateService->newActivationLink($newUserModel);
 
-                $mail = Application::resolve(MailService::class);
-                $sender = "noreply@thesixthstring.store";
-                $reciever = $newUserModel->emailAddress;
-                $password = "JarneKompier123!";
-                $displayname = "no-reply@thesixthstring.store";
-                $subject = "Account activeren";
-                $body = $this->ActivateLink($newUserModel->firstName, $randomLink);
-                $mail->SendMail($sender, $reciever, $password, $displayname, $body, $subject);
-
+                $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [
+                    'gebruiker' => $createdUser->firstName,
+                    'token' => $randomLink
+                ]);
+    
+                $mail = new Mail($newUserModel->emailAddress,"Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+                $mail->send();
                 return $result;
             } else {
                 $Response = new TextResponse();
@@ -114,7 +115,7 @@ class RegisterController extends Controller
     {
         $Response = new ViewResponse();
         $ActivateService = Application::resolve(ActivateService::class);
-        $userModel = $ActivateService->getUserByLink($urlData["dynamicLink"]);
+        $userModel = $ActivateService->getUserByLink($urlData["dynamiclink"]);
 
         $userModel->active = true;
 
@@ -134,17 +135,7 @@ class RegisterController extends Controller
 
 
 
-    public function ActivateLink($gebruiker, $token)
-    {
-
-        $body = "<h1>goedendag </h1> " . $gebruiker .
-            "<p>
-            Klik op de link om je account te activeren:
-            <a href=http://localhost:8080/Activate/" . $token . ">Account activeren</a>
-            </p>";
-        return $body;
-
-    }
+ 
 
 
 

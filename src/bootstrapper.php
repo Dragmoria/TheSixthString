@@ -18,7 +18,6 @@ use Http\Controllers\IndexController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
-use Http\Controllers\Mailcontroller;
 use Http\Controllers\ResetPasswordController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
