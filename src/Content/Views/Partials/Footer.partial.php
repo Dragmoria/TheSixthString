@@ -5,18 +5,10 @@
     <div class="row mx-3 my-5">
         <div class="col">
         </div>
-        <!-- Categorien -->
+        <!-- Categorieën -->
         <div class="col">
-            <h5 style="color: var(--sixth-yellow);">Categorien</h5>
-            <ul class="list-unstyled text-sixth-beige">
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-                <p class="m-0" href="#">Category 1</p>
-            </ul>
+            <h5 style="color: var(--sixth-yellow);"><a href="/Category" class="text-decoration-none text-sixth-yellow">Categorieën</a></h5>
+            <?php echo component(\Http\Controllers\Components\CategoryListComponent::class); ?>
         </div>
 
         <!-- Service -->

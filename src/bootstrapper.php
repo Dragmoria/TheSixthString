@@ -75,6 +75,7 @@ $router->post('/RegisterSucces', [RegisterController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->get('/Mail', [MailController::class, 'mail']);

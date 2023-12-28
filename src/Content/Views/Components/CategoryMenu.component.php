@@ -12,7 +12,7 @@
 
         <?php
         foreach($categories as $category) {
-            buildCategoryList($category, 0);
+            buildCategoryMenu($category, 0);
             ?>
             <div class="dropdown-divider"></div>
         <?php

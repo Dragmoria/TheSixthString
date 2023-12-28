@@ -1,10 +1,10 @@
 <?php
-function buildCategoryList($category, int $index): void
+function buildCategoryMenu($category, int $index): void
 { //used in CategoryMenu.component.php
-  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
+  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
 
   foreach ($category->children as $childCategory) {
-    buildCategoryList($childCategory, ++$index);
+      buildCategoryMenu($childCategory, ++$index);
   }
 }
 ?>
