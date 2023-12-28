@@ -18,14 +18,13 @@
             <a class="dropdown-item" href="/Category">Alles tonen</a>
             <div class="dropdown-divider"></div>
 
-            <?php
-            foreach ($categories as $category) {
-                buildCategoryList($category, 0);
-                ?>
-                <div class="dropdown-divider"></div>
-                <?php
-            }
+        <?php
+        foreach($categories as $category) {
+            buildCategoryMenu($category, 0);
             ?>
-        </div>
-    </li>
-</div>
+            <div class="dropdown-divider"></div>
+        <?php
+        }
+        ?>
+    </div>
+</li>

@@ -1,10 +1,10 @@
 <?php
-function buildCategoryList($category, int $index): void
+function buildCategoryMenu($category, int $index): void
 { //used in CategoryMenu.component.php
-  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category?id=' . $category->id . '">' . $category->name . '</a>';
+  echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
 
   foreach ($category->children as $childCategory) {
-    buildCategoryList($childCategory, ++$index);
+      buildCategoryMenu($childCategory, ++$index);
   }
 }
 ?>
@@ -63,9 +63,9 @@ function buildCategoryList($category, int $index): void
       }
       ?>
       <li class="nav-item me-5">
-        <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+        <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button" href="/ShoppingCart">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
-        </button>
+        </a>
       </li>
     </ul>
   </div>
@@ -88,10 +88,9 @@ function buildCategoryList($category, int $index): void
         style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
-        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;" href="/ShoppingCart">
         <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
-      </button>
+      </a>
     </div>
     <!-- Hamburger Menu Button -->
     <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

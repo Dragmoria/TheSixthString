@@ -39,7 +39,7 @@ foreach ($categories as $category) {
             ?>
             <div class="col-6 col-md-4">
                 <a class="card bg-sixth-beige rounded-4 mb-4 text-decoration-none"
-                   href="/Category?id=<?= $category->id ?>">
+                   href="/Category/<?= $category->id ?>">
                     <img class="card-img-top rounded-4 thumbnail category-thumbnail"
                          src="<?= $category->media->thumbnail->url ?? "" ?>"
                          alt="Category image">

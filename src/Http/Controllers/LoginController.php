@@ -7,6 +7,7 @@ use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Routers\HTTPStatusCodes;
+use Service\ShoppingCartService;
 use Service\UserService;
 
 class LoginController extends Controller
@@ -52,6 +53,9 @@ class LoginController extends Controller
                         "role" => $user->role,
                         "firstname" => $user->firstName
                     ];
+
+                    Application::resolve(ShoppingCartService::class)->mergeCarts($user->id, $_SESSION["sessionUserGuid"]);
+
                     redirect("/Account");
                 } else {
                     $errorCheck = true;

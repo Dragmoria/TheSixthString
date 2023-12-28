@@ -40,10 +40,10 @@ class ProductController extends Controller {
         return $response;
     }
 
-    public function details($id): ?Response {
+    public function details($data): ?Response {
         $response = new ViewResponse();
 
-        $productDetails = Application::resolve(ProductService::class)->getProductDetails((int)$id);
+        $productDetails = Application::resolve(ProductService::class)->getProductDetails((int)$data["id"]);
 
         $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
             [

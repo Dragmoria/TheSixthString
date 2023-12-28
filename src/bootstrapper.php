@@ -19,6 +19,7 @@ use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
 use Http\Controllers\ResetPasswordController;
+use Http\Controllers\ShoppingCartController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 use Lib\EnvUtility\EnvHandler;
@@ -35,6 +36,7 @@ use Service\ResetpasswordService;
 use Service\RandomLinkService;
 use Service\ReviewService;
 use Service\TryoutScheduleService;
+use Service\ShoppingCartService;
 use Service\UserService;
 use Service\MailService;
 
@@ -61,10 +63,7 @@ $container->registerClass(MailService::class);
 $container->registerClass(RandomLinkService::class);
 $container->registerClass(ActivateService::class);
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
-
-
-
-
+$container->registerClass(ShoppingCartService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -86,6 +85,7 @@ $router->post('/RegisterSucces', [RegisterController::class, 'post']);
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
+$router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->get('/Mail', [MailController::class, 'mail']);
@@ -120,7 +120,14 @@ $router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswor
 $router->get('/Activate/{dynamicLink}', [RegisterController::class, 'Activate']);
 
 
-//$_SESSION["user"] = ["role" => Role::Admin];UpdatePassword
+$router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
+$router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
+$router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
+$router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
+
+if(!isset($_SESSION["sessionUserGuid"])) {
+    $_SESSION["sessionUserGuid"] = getGUID();
+}
 
 // Run the application.
 Application::run();
