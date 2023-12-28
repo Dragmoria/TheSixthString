@@ -34,11 +34,34 @@ function buildCategoryMenu($category, int $index): void
         echo '</li>';
       }
       ?>
+      <?php
+      // when user is logged in, a drop down menu is showing on "hover-over" else just a regular Href:/Account.
+      if (isset($_SESSION["user"]["id"])) {
+        echo '
+      <div class="dropdown custom-dropdown">
+        <form id="logoutForm" method="POST" action="/Account">
+          <li class="nav-item mx-3">
+            <button type="submit"
+              class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+              <img src="/images/account-icon.png" alt="Account" width="17" height="17">
+            </button>
+            <div class="dropdown-menu start-0" style="margin-left: -85px;" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/Account">Account pagina</a>
+              <!-- Use JavaScript to submit the form when the dropdown item is clicked -->
+              <a class="dropdown-item" href="/#" onclick="document.getElementById(\'logoutForm\').submit();">Uitloggen</a>
+            </div>
+          </li>
+        </form>
+      </div>';
+      } else {
+        echo '
       <li class="nav-item mx-3">
         <a href="/Account" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
           <img src="/images/account-icon.png" alt="Account" width="17" height="17">
         </a>
-      </li>
+      </li>';
+      }
+      ?>
       <li class="nav-item me-5">
         <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button" href="/ShoppingCart">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
@@ -53,14 +76,16 @@ function buildCategoryMenu($category, int $index): void
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none" style="background-color:var(--sixth-brown) !important;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
+  style="background-color:var(--sixth-brown) !important;">
   <div class="container-fluid px-0 pt-3">
     <!-- Logo and Search Bar on the left -->
     <a class="navbar-brand pt-0 mx-3" href="#">
       <img src="/images/logo-small.svg" alt="Your Logo">
     </a>
     <div class="d-flex ms-auto">
-      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+      <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
       <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;" href="/ShoppingCart">
@@ -68,14 +93,15 @@ function buildCategoryMenu($category, int $index): void
       </a>
     </div>
     <!-- Hamburger Menu Button -->
-    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Links and Buttons on the right -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
         <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
-        <li class="nav-item">
+        <li class="nav-item">`
           <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
         </li>
         <li class="nav-item">

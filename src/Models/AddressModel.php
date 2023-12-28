@@ -46,7 +46,7 @@ class AddressModel
         $model->housenumberExtension = $entity->housenumberExtension;
         $model->zipCode = $entity->zipCode;
         $model->city = $entity->city;
-        $model->country = Country::Netherlands->value;
+        $model->country = $entity->country;
         $model->active = $entity->active;
         $model->type = $entity->type;
 

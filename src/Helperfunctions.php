@@ -52,7 +52,7 @@ function currentRole(): ?Role
     if (isset($_SESSION["user"]["role"])) {
         return $_SESSION["user"]["role"];
     }
-
+ 
     return null;
 }
 

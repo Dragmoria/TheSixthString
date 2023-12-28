@@ -11,7 +11,7 @@ class ResetpasswordModel
     }
 
     public int $id = 0;
-    public UserModel $user;
+    public int $userId = 0;
     public string $link = "";
     public \DateTime $validUntil;
 
@@ -21,8 +21,10 @@ class ResetpasswordModel
 
         $model = new ResetpasswordModel();
         $model->id = $entity->id;
+        $model->userId = $entity->userId;
         $model->link = $entity->link;
         $model->validUntil = new \DateTime($entity->validUntil);
+        
 
         return $model;
     }
@@ -30,10 +32,15 @@ class ResetpasswordModel
     public function convertToEntity(): Resetpassword
     {
         $entity = new Resetpassword();
+        
+        $entity->id = $this->id;
+        $entity->userId = $this->userId;
         $entity->link = $this->link;
         $entity->validUntil = $this->validUntil->format('Y-m-d');
-        $entity->userId = $this->user->id;
+
 
         return $entity;
     }
 }
+
+

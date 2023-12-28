@@ -25,6 +25,7 @@ class UserModel
     public Gender $gender;
     public bool $active;
     public \DateTime $createdOn;
+    public ?string $activationLink;
 
 
 
@@ -43,10 +44,11 @@ class UserModel
         $model->insertion = $entity->insertion;
         $model->lastName = $entity->lastName;
         $model->dateOfBirth = new \DateTime($entity->dateOfBirth);
-        $model->gender = Gender::Unknown;
-        $model->active = false;
+        $model->gender = Gender::from($entity->gender);
+        $model->active = $entity->active;
         $model->createdOn = new \DateTime($entity->createdOn);
-
+        $model->activationLink = $entity->activationLink;
+  
         return $model;
     }
 
@@ -65,6 +67,7 @@ class UserModel
         $entity->gender = $this->gender->value;
         $entity->active = $this->active;
         $entity->createdOn = $this->createdOn->format('Y-m-d H:i:s');
+        $entity->activationLink = $this->activationLink;
 
         return $entity;
     }
