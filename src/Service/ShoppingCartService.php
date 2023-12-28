@@ -55,6 +55,27 @@ class ShoppingCartService extends BaseDatabaseService {
             $shoppingCartEntity = $this->getShoppingCartByUser($userId, $sessionUserGuid);
         }
 
+        return $this->executeAddOrUpdateShoppingCartItemQuery($shoppingCartEntity, $productId, $quantity);
+    }
+
+    public function mergeCarts(int $userId, string $sessionUserGuid): void {
+        $cartByUserId = $this->executeQuery("select * from shoppingcart where userId = ?", [$userId], ShoppingCart::class)[0] ?? null;
+        $cartBySessionUserGuid = $this->executeQuery("select * from shoppingcart where sessionUserGuid = ?", [$sessionUserGuid], ShoppingCart::class)[0] ?? null;
+
+        if(is_null($cartByUserId) && !is_null($cartBySessionUserGuid)) {
+            $this->executeQuery("update shoppingcart set userId = ? where sessionUserGuid = ?", [$userId, $sessionUserGuid]);
+        } else if(!is_null($cartByUserId) && !is_null($cartBySessionUserGuid) && $cartByUserId->id != $cartBySessionUserGuid->id) {
+            $itemsForCartByUserGuid = $this->executeQuery("select * from shoppingcartitem where shoppingCartId = ?", [$cartBySessionUserGuid->id], ShoppingCartItem::class);
+            foreach($itemsForCartByUserGuid as $item) {
+                $this->executeAddOrUpdateShoppingCartItemQuery($cartByUserId, $item->productId, $item->quantity);
+            }
+
+            $this->executeQuery("delete from shoppingcart where id = ?", [$cartBySessionUserGuid->id]);
+            $this->executeQuery("update shoppingcart set sessionUserGuid = ? where id = ?", [$sessionUserGuid, $cartByUserId->id]);
+        }
+    }
+
+    private function executeAddOrUpdateShoppingCartItemQuery(ShoppingCart $shoppingCartEntity, int $productId, int $quantity): bool {
         $shoppingCartItemExists = $this->executeQuery("select (count(id) > 0) as itemExists from shoppingcartitem where shoppingCartId = ? and productId = ?", [$shoppingCartEntity->id, $productId])[0]->itemExists;
         if((bool)$shoppingCartItemExists) {
             return $this->executeQuery("update shoppingcartitem item inner join product prod on prod.id = item.productId set quantity = least(prod.amountInStock, quantity + ?) where shoppingCartId = ? and productId = ?", [$quantity, $shoppingCartEntity->id, $productId]);
@@ -83,8 +104,6 @@ class ShoppingCartService extends BaseDatabaseService {
         $params = [];
 
         $this->constructUserIdSessionUserGuidQueryString($userId, $sessionUserGuid, $query, $params);
-
-        //TODO: als er een userId aanwezig is, ook checken of er voor de sessionUserGuid een winkelwagen aanwezig is; zo ja, dan deze producten overzetten naar winkelwagen voor userId? en de cart voor sessionUserGuid verwijderen?
 
         return $this->executeQuery($query, $params, ShoppingCart::class)[0] ?? null;
     }

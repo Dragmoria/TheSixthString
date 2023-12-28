@@ -1,10 +1,3 @@
-<?php
-//TODO 1: wat als de user niet is ingelogd, een winkelwagentje met producten heeft en dan inlogt? wat gebeurt er met de toegevoegde producten?
-//TODO 1: bij het openen van de winkelwagen na het inloggen, check of er ook een winkelwagen bestaat voor de sessionUserGuid; zo ja, dan deze producten aan winkelwagen voor userId toevoegen?
-
-//TODO 2:
-?>
-
 <style>
     .cart-product-thumbnail {
         max-width: 10vh;

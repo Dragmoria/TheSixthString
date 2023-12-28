@@ -15,7 +15,7 @@ class ShoppingCartController extends Controller {
     public function index(): ?Response {
         $response = new ViewResponse();
 
-        $data = Application::resolve(ShoppingCartService::class)->getShoppingCartContent($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"]);
+        $data = Application::resolve(ShoppingCartService::class)->getShoppingCartContent($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"]);
 
         $response->setBody(view(VIEWS_PATH . 'ShoppingCart.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
 
