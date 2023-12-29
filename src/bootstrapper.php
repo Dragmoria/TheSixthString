@@ -31,6 +31,7 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\OrderService;
 use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
@@ -64,6 +65,7 @@ $container->registerClass(RandomLinkService::class);
 $container->registerClass(ActivateService::class);
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
+$container->registerClass(OrderService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -110,7 +112,6 @@ $router->get('/ControlPanel/ManageCategories', [ManageCategoriesController::clas
 $router->get('/ControlPanel/ManageCategories/GetCategoriesTableData', [ManageCategoriesController::class, 'getCategoriesTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/Statistics', [StatisticsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
 
-
 $router->get('/ControlPanel/Appointments', [AppointmentsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/Appointments/GetAppointments', [AppointmentsController::class, 'getAppointments'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/Mail', [MailController::class, 'mail']);
@@ -124,6 +125,8 @@ $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
+
+$router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment']); //->middleware(isLoggedIn::class);
 
 if(!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();

@@ -75,6 +75,15 @@ class ShoppingCartService extends BaseDatabaseService {
         }
     }
 
+    public function getShoppingCartByUser(?int $userId, string $sessionUserGuid): ?ShoppingCart {
+        $query = "select * from shoppingcart where ";
+        $params = [];
+
+        $this->constructUserIdSessionUserGuidQueryString($userId, $sessionUserGuid, $query, $params);
+
+        return $this->executeQuery($query, $params, ShoppingCart::class)[0] ?? null;
+    }
+
     private function executeAddOrUpdateShoppingCartItemQuery(ShoppingCart $shoppingCartEntity, int $productId, int $quantity): bool {
         $shoppingCartItemExists = $this->executeQuery("select (count(id) > 0) as itemExists from shoppingcartitem where shoppingCartId = ? and productId = ?", [$shoppingCartEntity->id, $productId])[0]->itemExists;
         if((bool)$shoppingCartItemExists) {
@@ -97,15 +106,6 @@ class ShoppingCartService extends BaseDatabaseService {
         }
 
         $model->getTotalPriceIncludingTax();
-    }
-
-    private function getShoppingCartByUser(?int $userId, string $sessionUserGuid): ?ShoppingCart {
-        $query = "select * from shoppingcart where ";
-        $params = [];
-
-        $this->constructUserIdSessionUserGuidQueryString($userId, $sessionUserGuid, $query, $params);
-
-        return $this->executeQuery($query, $params, ShoppingCart::class)[0] ?? null;
     }
 
     private function constructUserIdSessionUserGuidQueryString(?int $userId, string $sessionUserGuid, string &$query, array &$params): void {
