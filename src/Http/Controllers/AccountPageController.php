@@ -82,6 +82,7 @@ class AccountPageController extends Controller
         $userservice = Application::resolve(UserService::class);
         $createdUser = $userservice->changePersonalInfo($updateUser);
 
+        
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user, 1);
 
@@ -93,10 +94,8 @@ class AccountPageController extends Controller
         $address->country = !empty($postBody['country']) ? Country::fromString($postBody['country'])->value : $address->country; 
         $address->type = 1;
 
-
         $updateAddressService = Application::resolve(AddressService::class);
         $updatedAddress = $updateAddressService->updateAddress($address);
-        
 
     }
 

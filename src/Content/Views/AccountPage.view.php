@@ -89,7 +89,7 @@
   .toggle-eye {
     position: absolute;
     top: 50%;
-    left: 250px;
+    left: 242px;
     transform: translateY(-50%);
     cursor: pointer;
   }
@@ -142,7 +142,7 @@ $fields = array(
       <div class="row">
         <div class="col-2 ms-5">
           <div id="fixedButtonsContainer" class="fixed-buttons">
-            <button type="submit" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
+            <button type="button" id="logoutButton" class="btn btn-primary bg-beige-color w-100"
               style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Uitloggen</button>
             <button type="button" id="infoButton" class=" mt-3 btn btn-primary bg-beige-color w-100"
               style="background-color:#FCB716;border-color:#FCB716" name="logoutButton">Persoonlijke gegevens</button>
@@ -154,11 +154,13 @@ $fields = array(
         </div>
         <div class="col-1 text-center">
           <div class="d-flex">
-            <div class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 720px; margin: auto;"></div>
+            <div id="line" class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 800px; margin: auto;">
+            </div>
           </div>
         </div>
         <div class="col-8 ">
-          <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+          <div id="accountCard" class="card bg-card-custom d-inline-block"
+            style="position: relative; margin-top: 0px;display: flex;">
             <div class="card-body">
               <div id="nameCard" class="card ms-4 mt-4 me-4"
                 style="background-color: #EFE3C4; position: relative; width: 120vh; height: 25vh;">
@@ -181,7 +183,7 @@ $fields = array(
                     <h5 style=color:#EFE3C4>Persoonlijke gegevens</h5>
                   </div>
                   <div class="col-4 mt-5 ms-1">
-                    <h5 style=color:#EFE3C4>Cadeaubonnen</h5>
+                    <h5 style=color:#EFE3C4>Laatste bestelling</h5>
                   </div>
                 </div>
                 <div class="row">
@@ -202,14 +204,14 @@ $fields = array(
                       <div class="row">
                         <div class="col ms-3">
                           <p style=color:#FFFFFF class="mb-0">
-                            <? echo $street . " " . $housenumber . (isset($housenumberextension) ? $housenumberextension : "") ?>
+                            <? echo (isset($street) ? $street : "") . " " . (isset($housenumber) ? $housenumber : "") . (isset($housenumberextension) ? $housenumberextension : "") ?>
                           </p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col ms-3">
                           <p style=color:#FFFFFF class="mb-4">
-                            <? echo $zipcode . " " . $city ?>
+                            <? echo (isset($zipcode) ? $zipcode : "" ) . " " . (isset($city) ? $city : "") ?>
                           </p>
                         </div>
                       </div>
@@ -235,34 +237,6 @@ $fields = array(
                   </div>
                   <div class="col-6">
                     <div id="giftCard" class="card ms-4 mt-3 me-4 w-90" style="background-color: #000; height: 33vh;">
-                      <div class="row">
-                        <div class="col ms-3 mt-4">
-                          <h5 class="col-6" style=color:#FFFFFF class="mt-3">U heeft nog
-                            <? echo "€51,23" ?> tegoed.
-                          </h5>
-                          <p class="col-5" style=color:#FFFFFF>Als u afrekent wordt dit automatisch gebruikt.</p>
-                        </div>
-                      </div>
-                      <div id="specialIconContainerGift" style="position: absolute; top: -5%; left: 65%;">
-                        <i class="bi bi-gift-fill custom-icon-InsideCard-size"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-6 mt-5 ms-5">
-                      <h5 style=color:#EFE3C4>Laatste bestelling</h5>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <div id="orderCard" class="card ms-4 mt-3 me-4 w-90"
-                        style="background-color: #000; height: 33vh;">
-                        <div class="text-center">
-                          <div class="d-flex ms-3 mt-4">
-
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -339,7 +313,15 @@ $fields = array(
                 <div class="row ms-3 me-3 mt-5 justify-content-center text-center">
                   <h4 style=color:#EFE3C4>Wachtwoord en/of e-mail wijzigen</h4>
                 </div>
-                <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
+                <div class="row mt-4 ms-3 me-3 mb-5 text-center">
+                  <i>
+                    <p style=color:#EFE3C4>Als u uitsluitend uw wachtwoord wilt wijzigen, hoeft u het e-mailadres
+                      niet opnieuw in te voeren. Indien u echter besluit het e-mailadres te wijzigen, dient u uw
+                      account opnieuw te activeren. Na het aanpassen van het e-mailadres en/of uw wachtwoord,
+                      wordt u automatisch uitgelogd en dient u opnieuw in te loggen.</p>
+                  </i>
+                </div>
+                <div class="row mt-4 ms-3 me-3 mb-1 justify-content-center">
                   <div class="col-4">
                     <input type="email" class="form-control bg-beige-color" id="email" name="email"
                       placeholder="<? echo $email ?>">
@@ -351,6 +333,12 @@ $fields = array(
                       <i class="bs bi-eye-slash-fill toggle-eye"
                         onclick="togglePasswordVisibility('changePassword')"></i>
                     </div>
+                  </div>
+                </div>
+                <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
+                  <div class="col-4">
+                    <input type="email" class="form-control bg-beige-color" id="repeatEmail" name="repeatEmail"
+                      placeholder="<? echo $email ?>">
                   </div>
                   <div class="col-4">
                     <div class="password-container">
@@ -365,7 +353,7 @@ $fields = array(
                       <button type="button" id="saveChangePasswordAndEmailButton"
                         name="saveChangePasswordAndEmailButton"
                         class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
-                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord/e-mail wijzigen</button>
+                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord/e-mail wijzigen *</button>
                     </div>
                   </div>
                 </div>
@@ -389,6 +377,7 @@ $fields = array(
       const orderHistory = accountCard.querySelector("#orderHistory");
       const accountIcon = document.getElementById("accountIcon");
       const changeText = accountCard.querySelector('#InfoUpdatedText');
+
 
       infoForm.style.display = showInfoForm ? "block" : "none";
       changePersonalInfoForm.style.display = showChangePersonalInfo ? "block" : "none";
@@ -444,20 +433,6 @@ $fields = array(
     });
   });
 
-
-  function validatePasswords() {
-    var password1 = document.getElementById('changePassword').value;
-    var password2 = document.getElementById('repeatChangePassword').value;
-
-    if (password1 !== password2) {
-      alert('Passwords do not match. Please try again.');
-      return false;
-    }
-
-    return true;
-  }
-
-
   $(document).ready(function () {
     $("#saveChangeInfoButton").on("click", function () {
       event.preventDefault();
@@ -486,6 +461,35 @@ $fields = array(
     });
   });
 
+  function validatePasswords() {
+    var password1 = document.getElementById('changePassword').value;
+    var password2 = document.getElementById('repeatChangePassword').value;
+
+    if (password1 !== password2) {
+      alert('Wachtwoorden zijn niet hetzelfde, probeer het .');
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateEmails() {
+    var email1 = document.getElementById('email').value;
+    var email2 = document.getElementById('repeatEmail').value;
+
+    if (email1 !== email2) {
+      alert('E-mailadressen zijn niet hetzelfde, probeer het opnieuw.');
+      return false;
+    }
+
+    return true;
+  }
+
+  function isValidEmail(email) {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
   $(document).ready(function () {
     $("#saveChangePasswordAndEmailButton").on("click", function () {
@@ -493,6 +497,17 @@ $fields = array(
 
       if (!validatePasswords()) {
         return;
+      }
+      if (!validateEmails()) {
+        return;
+      }
+
+      const emailAddress = document.getElementById('email').value;
+      if (isValidEmail(emailAddress)) {
+        return true;
+      } else {
+        alert('Het ingevoerde emailadres is niet geldig.');
+        return false;
       }
 
       var email = document.getElementById('email').value;
@@ -518,7 +533,6 @@ $fields = array(
             url: "/Account",
             type: "POST",
             success: function (response) {
-              console.log(response);
             },
             error: function (xhr, status, error) {
               console.error(xhr);
