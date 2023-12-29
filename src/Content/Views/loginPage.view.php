@@ -66,10 +66,10 @@
           <h1 style="color:#EFE3C4">Inloggen</h1>
         </div>
         <div class="ms-5 mt-5">
-          <p style="color:#FF0000;display: <?
+          <b><p style="color:#FF0000;display: <?
           echo $error ?? "none";
           ?>;">ongeldig emailadres of
-            wachtwoord</p>
+            wachtwoord</p></b>
         </div>
         <div class="col-auto ms-5 me-5 mb-4 mt-3">
           <div class="row">

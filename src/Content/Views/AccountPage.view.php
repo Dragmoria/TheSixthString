@@ -360,7 +360,7 @@ $fields = array(
                   </div>
                 </div>
                 <div class="row text-center justify-content-center mt-5">
-                  <i><a href="/AccountDelete" class="text-decoration-none" style="color:#EFE3C4">Account
+                  <i><a data-bs-toggle="modal" href="#myModal" class="text-decoration-none" style="color:#EFE3C4">Account
                       verwijderen</a></i>
                   <div class="line-hyper"></div>
                 </div>
@@ -372,6 +372,31 @@ $fields = array(
     </div>
   </div>
 </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" style="background-color: #2C231E;">
+
+      <!-- Modal Header -->
+      <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
+        <h4 class="modal-title" style=color:#EFE3C4>Account verwijderen</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p1 style=color:#EFE3C4>Weet u zeker dat u uw account wilt verwijderen?</p1>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="border-color: #2C231E;">
+         <button type="button" style="background-color:#FCB716;border-color:#FCB716" class="btn btn-primary rounded-pill bg-beige-color" href="/" id="deleteAccountBtn" data-bs-dismiss="modal">Ja</button>
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716" class="btn btn-primary rounded-pill bg-beige-color" data-bs-dismiss="modal">Nee</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -587,11 +612,11 @@ $fields = array(
 
   $(document).ready(function() {
 
-    $("a[href='/AccountDelete']").on("click", function(event) {
+    $("#deleteAccountBtn").on("click", function(event) {
       event.preventDefault(); 
 
       $.ajax({
-        type: "GET", 
+        type: "POST", 
         url: "/deleteAccount",
         success: function(response) {
           window.location.href = "/AccountDeleted";

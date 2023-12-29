@@ -58,7 +58,7 @@ class AccountPageController extends Controller
 
     public function Logout(): ?Response
     {
-        unset($_SESSION['user']);
+        unset($_SESSION['user']);                                           // loggin out the users and forcing them to the inlog page so they cannot go to pages they shouldnt
         redirect('/Login');
     }
 
@@ -121,19 +121,19 @@ class AccountPageController extends Controller
         $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
 
         $updateUser->emailAddress = $postBody['email'];
-        $updateUser->active = false;
+        $updateUser->active = false;                                        // change the active status to false to reset the activation proces
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->ChangeEmail($updateUser);
+        $createdUser = $userservice->ChangeEmail($updateUser);              // the email is changed in the user table
 
         $randomLinkService = Application::resolve(RandomLinkService::class);
-        $randomLink = $randomLinkService->generateRandomString(32);
+        $randomLink = $randomLinkService->generateRandomString(32);         // random link is generated for activating the account 
 
         $updateUser->id = $user;
-        $updateUser->activationLink = $randomLink;
+        $updateUser->activationLink = $randomLink;                          
 
         $ActivateService = Application::resolve(ActivateService::class);
-        $result = $ActivateService->newActivationLink($updateUser);
+        $result = $ActivateService->newActivationLink($updateUser);         // link is entered into the database to link the account with the randomlink
 
         $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [ 
             'gebruiker' => $createdUser->firstName,
@@ -151,10 +151,8 @@ class AccountPageController extends Controller
         $userservice = Application::resolve(UserService::class);
 
         $userToDelete = $userservice->deleteUser($user);
-
-        $Response = new ViewResponse();
-        $Response->setBody(view(VIEWS_PATH . 'AccountDeleted.view.php', [])->withLayout(MAIN_LAYOUT));
-        return $Response;
+        unset($_SESSION["user"]);
+        return $userToDelete;
         
     }
     
