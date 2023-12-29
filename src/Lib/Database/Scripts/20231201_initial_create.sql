@@ -12,6 +12,7 @@ CREATE TABLE thesixthstring.user(
 	gender int NOT NULL,
 	active bit NOT NULL,
 	createdOn datetime NOT NULL,
+	activationLink varchar(32) null,
     PRIMARY KEY (id)
 );
 
@@ -29,7 +30,7 @@ CREATE TABLE thesixthstring.address(
 	active bit NOT NULL,
 	type int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (userId) REFERENCES user(id)
+    FOREIGN KEY (userId) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 #------------------------------------------------------------------------------------------------------------------------------

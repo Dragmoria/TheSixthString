@@ -235,7 +235,8 @@ $fields = array(
                     <p class="mt-3" style="color:#EFE3C4">We hebben je een e-mail gestuurd met <br> daarin een
                         persoonlijke link.
                         <br> Via deze link kun je je registratie activeren.
-                        <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.
+                        <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox. <br><br> <b> Let
+                            op, pas na activatie kunt u inloggen!</b>
                     </p>
                     <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">sluit deze pagina</a>
                     <div class="line-hyper"></div>
@@ -277,7 +278,7 @@ $fields = array(
     $(document).ready(function () {
         $("#saveButton").on("click", function () {
 
-            if (!validateEmails()){
+            if (!validateEmails()) {
                 return;
             }
 
@@ -297,6 +298,7 @@ $fields = array(
                             alert("Het ingevoerde e-mailadres is al in gebruik");
                         }
                         else {
+                            console.log(response);
                             var myForm = $("#registerForm");
                             myForm.hide();
 

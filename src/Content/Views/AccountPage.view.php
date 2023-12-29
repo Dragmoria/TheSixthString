@@ -68,10 +68,10 @@
   .line-hyper {
     content: "";
     display: block;
-    width: calc(10 * 1.05 * 1em);
+    width: calc(10 * 0.92 * 1em);
     max-width: 100%;
     border-bottom: 0.1em solid #EFE3C4;
-    margin-left: 4.5rem;
+
 
   }
 
@@ -211,7 +211,7 @@ $fields = array(
                       <div class="row">
                         <div class="col ms-3">
                           <p style=color:#FFFFFF class="mb-4">
-                            <? echo (isset($zipcode) ? $zipcode : "" ) . " " . (isset($city) ? $city : "") ?>
+                            <? echo (isset($zipcode) ? $zipcode : "") . " " . (isset($city) ? $city : "") ?>
                           </p>
                         </div>
                       </div>
@@ -323,22 +323,12 @@ $fields = array(
                 </div>
                 <div class="row mt-4 ms-3 me-3 mb-1 justify-content-center">
                   <div class="col-4">
-                    <input type="email" class="form-control bg-beige-color" id="email" name="email"
-                      placeholder="<? echo $email ?>">
-                  </div>
-                  <div class="col-4">
                     <div class="password-container">
                       <input type="password" class="form-control bg-beige-color password-input" id="changePassword"
                         name="changePassword" placeholder="Wachtwoord">
                       <i class="bs bi-eye-slash-fill toggle-eye"
                         onclick="togglePasswordVisibility('changePassword')"></i>
                     </div>
-                  </div>
-                </div>
-                <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
-                  <div class="col-4">
-                    <input type="email" class="form-control bg-beige-color" id="repeatEmail" name="repeatEmail"
-                      placeholder="<? echo $email ?>">
                   </div>
                   <div class="col-4">
                     <div class="password-container">
@@ -348,22 +338,40 @@ $fields = array(
                         onclick="togglePasswordVisibility('repeatChangePassword')"></i>
                     </div>
                   </div>
-                  <div class="row mt-4 ms-3 me-3 mb-5 justify-content-center">
-                    <div class="col-4 text-center">
-                      <button type="button" id="saveChangePasswordAndEmailButton"
-                        name="saveChangePasswordAndEmailButton"
-                        class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
-                        style="background-color:#FCB716;border-color:#FCB716">Wachtwoord/e-mail wijzigen *</button>
-                    </div>
+                  <div class="col-3 mb-1 text-center">
+                    <button type="button" id="saveChangePasswordButton" name="saveChangePasswordButton"
+                      class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
+                      style="background-color:#FCB716;border-color:#FCB716">Wachtwoord wijzigen</button>
                   </div>
                 </div>
-              </form>
+                <div class="row mt-2 ms-3 me-3 mb-1 justify-content-center">
+                  <div class="col-4">
+                    <input type="email" class="form-control bg-beige-color" id="email" name="email"
+                      placeholder="<? echo $email ?>">
+                  </div>
+                  <div class="col-4">
+                    <input type="email" class="form-control bg-beige-color" id="repeatEmail" name="repeatEmail"
+                      placeholder="<? echo $email ?>">
+                  </div>
+                  <div class="col-3 mb-3 text-center">
+                    <button type="button" id="saveChangeEmailButton" name="saveChangeEmailButton"
+                      class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
+                      style="background-color:#FCB716;border-color:#FCB716">E-mailadres wijzigen</button>
+                  </div>
+                </div>
+                <div class="row text-center justify-content-center mt-5">
+                  <i><a href="/AccountDelete" class="text-decoration-none" style="color:#EFE3C4">Account
+                      verwijderen</a></i>
+                  <div class="line-hyper"></div>
+                </div>
             </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <script>
@@ -417,7 +425,7 @@ $fields = array(
   $(document).ready(function () {
     $("#logoutButton").on("click", function () {
       $.ajax({
-        url: "/Account",
+        url: "/logout",
         type: "POST",
         success: function (response) {
 
@@ -473,6 +481,51 @@ $fields = array(
     return true;
   }
 
+  $(document).ready(function () {
+
+    $("#saveChangePasswordButton").on("click", function () {
+      event.preventDefault();
+
+      if (!validatePasswords()) {
+        return;
+      }
+
+      $.ajax({
+        url: "/UpdateUserPassword",
+        type: "POST",
+        data: $("#ChangeEmailAndPassword").serialize(),
+        success: function (response) {
+          $.ajax({
+            url: "/logout",
+            type: "POST",
+            success: function (response) {
+              window.location.href = "/Login";
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr);
+              console.error(status);
+            }
+          });
+        },
+        error: function (xhr, status, error) {
+          console.error(xhr);
+          console.error(status);
+        }
+      });
+    });
+  });
+
+  //-------------Update email script-------------------------------------------
+
+
+  // making sure the entered email is a valid type of email
+  function isValidEmail(email) {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // making sure the emails are the same.
   function validateEmails() {
     var email1 = document.getElementById('email').value;
     var email2 = document.getElementById('repeatEmail').value;
@@ -485,19 +538,11 @@ $fields = array(
     return true;
   }
 
-  function isValidEmail(email) {
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
+  // proces the email change using the undermentioned route in the bootstrapper.php file. this links to a function in the accountpag controller.
   $(document).ready(function () {
-    $("#saveChangePasswordAndEmailButton").on("click", function () {
+    $("#saveChangeEmailButton").on("click", function () {
       event.preventDefault();
 
-      if (!validatePasswords()) {
-        return;
-      }
       if (!validateEmails()) {
         return;
       }
@@ -510,29 +555,17 @@ $fields = array(
         return false;
       }
 
-      var email = document.getElementById('email').value;
-      var oldEmail = '<? echo $email; ?>';
-
-      var additionalData = {
-        key: 'passwordUpdated'
-      };
-
-      if (email !== "") {
-        additionalData.key2 = 'emailUpdated';
-      }
-      var serializedData = $("#ChangeEmailAndPassword").serialize();
-      var combinedData = serializedData + '&' + $.param(additionalData);
-
       $.ajax({
-        url: "/UpdatePasswordAndEmail",
+        url: "/UpdateEmail",
         type: "POST",
-        data: combinedData,
+        data: $("#ChangeEmailAndPassword").serialize(),
         success: function (response) {
           console.log(response);
           $.ajax({
-            url: "/Account",
+            url: "/logout",
             type: "POST",
             success: function (response) {
+              window.location.href = "/Login";
             },
             error: function (xhr, status, error) {
               console.error(xhr);
@@ -543,6 +576,28 @@ $fields = array(
         error: function (xhr, status, error) {
           console.error(xhr);
           console.error(status);
+        }
+      });
+    });
+
+  });
+
+
+  //----------------Account deletion-----------------------------------------------
+
+  $(document).ready(function() {
+
+    $("a[href='/AccountDelete']").on("click", function(event) {
+      event.preventDefault(); 
+
+      $.ajax({
+        type: "GET", 
+        url: "/deleteAccount",
+        success: function(response) {
+          window.location.href = "/AccountDeleted";
+        },
+        error: function(xhr, status, error) {
+          console.error("Error deleting account:", status, error);
         }
       });
     });

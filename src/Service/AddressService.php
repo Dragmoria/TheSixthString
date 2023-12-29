@@ -65,6 +65,19 @@ class AddressService extends BaseDatabaseService
         return $result !== false;
     }
 
+    public function deleteAddress(int $userId): bool
+    {
+
+        $query = "DELETE FROM address WHERE id = ?;";
+
+        $params = [
+            $userId
+        ];
+
+        $result = $this->executeQuery($query, $params);
+        return $result !== false;
+
+    }
     private function getByUserIdAndType(int $userId, int $type): ?Address
     {
         $query = 'SELECT * FROM address WHERE userId = ? AND type = ? LIMIT 1';
