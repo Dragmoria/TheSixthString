@@ -140,4 +140,22 @@ class CategoryService extends BaseDatabaseService
 
         return $result;
     }
+
+    public function updateCategory(SimpleCategoryModel $category): bool
+    {
+        $query = "UPDATE category SET name = ?, description = ?, active = ?, media = ?, parentId = ? WHERE id = ?";
+
+        $params = [
+            $category->name,
+            $category->description,
+            $category->active,
+            json_encode($category->media, JSON_PRETTY_PRINT),
+            $category->parentCategory ?? null,
+            $category->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result;
+    }
 }

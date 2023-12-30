@@ -36,3 +36,4 @@ $router->get('/ControlPanel/Appointments/GetAppointments', [AppointmentsControll
 $router->get('/ControlPanel/ManageCategories', [ManageCategoriesController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageCategories/GetCategoriesTableData', [ManageCategoriesController::class, 'getCategoriesTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->put('/ControlPanel/ManageCategories/AddCategory', [ManageCategoriesController::class, 'addCategory'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->put('/ControlPanel/ManageCategories/UpdateCategory', [ManageCategoriesController::class, 'updateCategory'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);

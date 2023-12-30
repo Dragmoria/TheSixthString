@@ -100,6 +100,69 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal" tabindex="-1" id="editCategoryModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Categorie aanpassen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="was-validated">
+                        <input type="text" id="editId" hidden>
+
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Naam:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="editName" placeholder="Naam" aria-label="EditName" aria-describedby="basic-addon1" required>
+                                <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editParentCategory" class="form-label">Parent categorie:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="editParentCategory" aria-label="EditParentCategory" required>
+                                </select>
+                                <div class="invalid-feedback">Selecteer een optie.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editImage" class="form-label">Image:</label>
+                            <input type="file" class="form-control" id="editImage" accept="image/*" required>
+                            <img id="editImagePreview" src="#" alt="Image Preview" style="display: none; width: 100px; height: 100px;">
+                            <div class="invalid-feedback">Please select an image.</div>
+                        </div>
+
+                        <div>
+                            <label for="editDescription">Example textarea</label>
+                            <textarea class="form-control" id="editDescription" placeholder="Beschrijving" aria-label="EditDescription" aria-describedby="basic-addon1" rows="3" required></textarea>
+                            <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editActive" class="form-label">Actief:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="editActive" aria-label="EditActive" required>
+                                    <option value="active">Actief</option>
+                                    <option value="inactive" selected>Inactief</option>
+                                </select>
+                                <div class="invalid-feedback">Selecteer een optie.</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluit</button>
+                    <button id="editSaveButton" type="button" class="btn btn-primary">Opslaan</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -108,6 +171,10 @@
 
         $("#addImage").change(function() {
             readURL(this);
+        });
+
+        $("#editImage").change(function() {
+            readURL2(this);
         });
     });
 
@@ -118,13 +185,17 @@
         $.get(url + '?' + $.param(params.data)).then(function(res) {
             params.success(res)
 
-            var dropdown = $('#addParentCategory'); // Replace with your dropdown's id
-            dropdown.empty();
+            var dropdownAdd = $('#addParentCategory'); // Replace with your dropdown's id
+            var dropdownEdit = $('#editParentCategory'); // Replace with your dropdown's id
+            dropdownAdd.empty();
+            dropdownEdit.empty();
 
-            dropdown.append($('<option></option>').attr('value', 'none').text('None'));
+            dropdownAdd.append($('<option></option>').attr('value', 'none').text('None'));
+            dropdownEdit.append($('<option></option>').attr('value', 'none').text('None'));
 
             $.each(res, function(i, category) {
-                dropdown.append($('<option></option>').attr('value', category.id).text(category.displayName));
+                dropdownAdd.append($('<option></option>').attr('value', category.id).text(category.displayName));
+                dropdownEdit.append($('<option></option>').attr('value', category.id).text(category.displayName));
             });
         })
     }
@@ -140,6 +211,19 @@
             reader.onload = function(e) {
                 $('#imagePreview').attr('src', e.target.result);
                 $('#imagePreview').show();
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#editImagePreview').attr('src', e.target.result);
+                $('#editImagePreview').show();
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -162,9 +246,52 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log(response);
                 if (response === "Category added") {
                     $('#addCategoryModal').modal('hide');
+                    $('#table').bootstrapTable('refresh');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.edit-btn', function() {
+        var index = $(this).data('index');
+        var row = $('#table').bootstrapTable('getData')[index];
+
+        console.log(row);
+        $('#editId').val(row.id);
+        $('#editName').val(row.name);
+        $('#editDescription').val(row.description);
+        $('#editParentCategory').val(row.parentCategoryId);
+
+        $('#editImagePreview').attr('src', row.thumbnail);
+        $('#editImagePreview').show();
+
+
+        $('#editActive').val(row.active.toLowerCase() === "actief" ? "active" : "inactive");
+
+        $('#editCategoryModal').modal('show');
+    });
+
+    $(document).on('click', '#editSaveButton', function() {
+        var formData = new FormData();
+        formData.append('_method', "PUT");
+        formData.append('editId', $('#editId').val());
+        formData.append('editName', $('#editName').val());
+        formData.append('editDescription', $('#editDescription').val());
+        formData.append('editActive', $('#editActive').val() === "active" ? true : false);
+        formData.append('editParentCategory', $('#editParentCategory').val());
+        formData.append('editImage', $('#editImage')[0].files[0]);
+
+        $.ajax({
+            url: "/ControlPanel/ManageCategories/UpdateCategory",
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response === "Category updated") {
+                    $('#editCategoryModal').modal('hide');
                     $('#table').bootstrapTable('refresh');
                 }
             }

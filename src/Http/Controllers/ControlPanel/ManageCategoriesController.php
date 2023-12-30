@@ -13,10 +13,6 @@ use Models\SimpleCategoryModel;
 use Service\CategoryService;
 use Validators\Validate;
 
-// TODO: add search and pagination from bootstrap table
-// TODO: add edit and delete functionality
-// TODO: vraag @iris of categorieën 3 of meer diep ook werkt
-
 class ManageCategoriesController extends Controller
 {
     public function show(): ?Response
@@ -30,13 +26,34 @@ class ManageCategoriesController extends Controller
 
     public function getCategoriesTableData()
     {
+        $params = $this->currentRequest->urlQueryParams();
+        $search = $params['search'];
+        $offset = $params['offset'];
+        $limit = $params['limit'];
+
         $categoryService = Application::resolve(CategoryService::class);
 
-        $t = $categoryService->getAllCategories();
+        $categories = $categoryService->getAllCategories();
+
+        $categories = $this->convertCategoriesToViewReadable($categories);
+
+        $categoriesJson = [];
+        foreach ($categories as $category) {
+            $categorieJson = (array) $category;
+            unset($categorieJson["media"]);
+
+            // Maak een string van alle velden en kijk of search daar in zit
+            if (stristr(implode(' ', $categorieJson), $search)) {
+                $categoriesJson[] = $categorieJson;
+            }
+        }
+
+        // Apply offset and limit
+        $categoriesJson = array_slice($categoriesJson, $offset, $limit);
 
         $response = new JsonResponse();
 
-        $response->setBody($this->convertCategoriesToViewReadable($t));
+        $response->setBody($categoriesJson);
 
         return $response;
     }
@@ -103,6 +120,97 @@ class ManageCategoriesController extends Controller
         return $response;
     }
 
+    public function updateCategory(): ?Response
+    {
+        $categoryService = Application::resolve(CategoryService::class);
+
+        $postBody = $this->currentRequest->postObject->body();
+        $postBody["editFiles"] = $this->currentRequest->postObject->files();
+        $errors = $this->validateUpdateCategory($postBody);
+
+        if (count($errors) > 0) {
+            $response = new JsonResponse();
+            $response->setBody($errors);
+            return $response;
+        }
+
+        $toUpdateCategory = $categoryService->getById((int)$postBody['editId']);
+
+        $toUpdateCategory->name = $postBody['editName'];
+        $toUpdateCategory->description = $postBody['editDescription'];
+        $toUpdateCategory->active = $postBody['editActive'] === "true";
+
+        if ($postBody['editParentCategory'] !== "none") {
+            $toUpdateCategory->parentCategory = $categoryService->getById((int)$postBody['editParentCategory']);
+        }
+
+        if (isset($postBody["editFiles"]["editImage"])) {
+            $file = $postBody["editFiles"]["editImage"];
+
+            $fileName = uniqid() . "-" . basename($file["name"]);
+
+            $targetDir = BASE_PATH . "/public/images/categories/";
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            $targetFile = $targetDir . $fileName;
+
+            // Move the uploaded file to the target directory
+            if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+                // Add an error message if the file couldn't be saved
+                $errors[] = ["field" => "editFiles", "message" => "Failed to save file: " . $file["name"]];
+            } else {
+                $json = json_encode([
+                    "thumbnail" => [
+                        "title" => "",
+                        "url" => "/images/categories/" . $fileName,
+                    ],
+                    "mainImage" => null,
+                    "video" => null,
+                    "secondaryImages" => array()
+                ], JSON_PRETTY_PRINT);
+
+                $toUpdateCategory->media = MediaModel::convertToModel($json);
+            }
+        }
+
+        $success = $categoryService->updateCategory($toUpdateCategory);
+
+        $response = new TextResponse();
+
+        $response->setBody($success ? "Category updated" : "Category not updated");
+
+        return $response;
+    }
+
+    private function validateUpdateCategory($body): array
+    {
+        $errors = [];
+
+        if (!Validate::notEmpty($body["editId"])) {
+            $errors[] = ["field" => "editId", "message" => "Id mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["editName"])) {
+            $errors[] = ["field" => "editName", "message" => "Naam mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["editDescription"])) {
+            $errors[] = ["field" => "editDescription", "message" => "Beschrijving mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["editActive"])) {
+            $errors[] = ["field" => "editActive", "message" => "Actief mag niet leeg zijn."];
+        }
+
+        if (!isset($body["editFiles"]["editImage"])) {
+            $errors[] = ["field" => "editImage", "message" => "Image mag niet leeg zijn."];
+        }
+
+        return $errors;
+    }
+
     private function validateAddCategory($body): array
     {
         $errors = [];
@@ -134,6 +242,8 @@ class ManageCategoriesController extends Controller
             $categoryJson['displayName'] = $this->getCategoryName($category);
             $categoryJson['active'] = $category->active ? "Actief" : "Inactief";
             $categoryJson['thumbnail'] = $category->media === null ? "Geen" : $category->media->thumbnail->url;
+            $categoryJson['parentCategory'] = $category->parentCategory === null ? "none" : $this->getCategoryName($category->parentCategory);
+            $categoryJson["parentCategoryId"] = $category->parentCategory === null ? "none" : $category->parentCategory->id;
             $categories[] = $categoryJson;
         }
 
