@@ -9,3 +9,4 @@ composer.lock
 /src/App/Runtime/*
 /src/app/.env
 .vs
+/src/public/images/categories/*
