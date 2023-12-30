@@ -45,6 +45,19 @@ class ReviewService extends BaseDatabaseService
         $entity = $this->getById($input->id);
     }
 
+    public function amountToBeReviewed(): int
+    {
+        $query = 'select count(*) as amount from review where status = ?'; //. ReviewStatus::ToBeReviewed->value;
+
+        $params = [ReviewStatus::ToBeReviewed->value];;
+
+        $result = $this->executeQuery($query, $params, Review::class);
+
+        $c = count($result);
+
+        return $c;
+    }
+
     public function denyReview(int $id): bool
     {
         $review = $this->getById($id);

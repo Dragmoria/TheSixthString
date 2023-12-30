@@ -4,10 +4,12 @@ namespace Service;
 
 use Lib\Database\DatabaseContext;
 
-class BaseDatabaseService {
+class BaseDatabaseService
+{
     private DatabaseContext $_dbContext;
 
-    function __construct() {
+    function __construct()
+    {
         $this->_dbContext = new DatabaseContext();
     }
 
@@ -34,8 +36,8 @@ class BaseDatabaseService {
                 } elseif (is_bool($param)) {
                     $types .= 'i';
                     $param = (int) $param; // Convert boolean to integer
-                } else if(is_null($param)) {
-                  $types .= 's';
+                } else if (is_null($param)) {
+                    $types .= 's';
                 } else {
                     throw new \Exception('Invalid parameter type: ' . gettype($param));
                 }
@@ -70,11 +72,12 @@ class BaseDatabaseService {
         }
     }
 
-    public function query(string $query, int $result_mode = MYSQLI_STORE_RESULT): \mysqli_result|bool {
+    public function query(string $query, int $result_mode = MYSQLI_STORE_RESULT): \mysqli_result|bool
+    {
         $db = $this->_dbContext->connect();
         try {
             return $db->query($query, $result_mode);
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         } finally {
             $db->close();
