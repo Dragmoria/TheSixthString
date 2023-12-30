@@ -8,12 +8,14 @@ use Lib\Enums\Role;
 use lib\enums\Gender;
 use lib\enums\Country;
 use Lib\MVCCore\Controller;
+use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
 use Models\UserModel;
 use Service\AddressService;
+use Service\OrderService;
 use Service\UserService;
 use Models\AddressModel;
 use Service\RandomLinkService;
@@ -163,6 +165,20 @@ class AccountPageController extends Controller
         return $Response;
         
     }
+
+    public function RetrievingOrderHistory(): ?JsonResponse
+    {
+        $userId = $_SESSION["user"]["id"];
+        $orderService = Application::resolve(OrderService::class);
+        $orders = $orderService->getOrdersById($userId);
+        
+        
+
+        $JsonResponse = new JsonResponse();
+        $JsonResponse->setBody($orders);
+        return $JsonResponse;
+    }
+
 }
 
 

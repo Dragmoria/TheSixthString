@@ -30,6 +30,7 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\OrderService;
 use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
@@ -57,9 +58,10 @@ $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
-$container->registerClass(MailService::class);
-$container->registerClass(RandomLinkService::class);
-$container->registerClass(ActivateService::class);
+$container->registerClass(MailService::class)->asSingleton();
+$container->registerClass(RandomLinkService::class)->asSingleton();
+$container->registerClass(ActivateService::class)->asSingleton();
+$container->registerClass(OrderService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 
 
@@ -93,15 +95,15 @@ $router->post('/UpdateUserPassword', [AccountPageController::class, 'updateUserP
 $router->post('/UpdateEmail', [AccountPageController::class, 'updateEmail']);
 $router->post('/deleteAccount', [AccountPageController::class, 'deleteAccount']);
 $router->get('/AccountDeleted', [AccountPageController::class, 'DeleteFinished']);
+$router->post('/RetrievingOrderHistory', [AccountPageController::class, 'RetrievingOrderHistory']);
 
-
-
+$router->get('/Mail', [MailController::class, 'mail']);
 
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
-$router->get('/Mail', [MailController::class, 'mail']);
+
 
 
 $router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);

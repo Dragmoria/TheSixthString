@@ -83,7 +83,8 @@
   .password-input {}
 
   .mt-Title-AccountCard {
-    margin-top: 4rem;
+    margin-top: 4.05rem;
+    margin-left: 4rem;
   }
 
   .toggle-eye {
@@ -98,8 +99,8 @@
     font-size: 8.2rem;
     /* Adjust the size as needed */
     color: #1C1713;
-    top: -82px;
-    left: 175px;
+    top: -80px;
+    left: 180px;
 
   }
 
@@ -108,6 +109,41 @@
     /* Adjust the size as needed */
     color: #EFE3C4;
 
+  }
+
+  .order-divider {
+    position: relative;
+    height: 0.2em;
+    background-color: transparent;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 90%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, #EFE3C4, transparent);
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+
+    .order-border {
+      content: "";
+      display: block;
+      width: calc(10 * 6.5 * 1em);
+      max-width: 100%;
+      border-bottom: 0.1em solid #EFE3C4;
+    }
+
+
+  }
   }
 </style>
 
@@ -165,7 +201,7 @@ $fields = array(
               <div id="nameCard" class="card ms-4 mt-4 me-4"
                 style="background-color: #EFE3C4; position: relative; width: 120vh; height: 25vh;">
                 <div class="text-center">
-                  <div class="d-flex ms-4 mt-Title-AccountCard">
+                  <div class="d-flex mt-Title-AccountCard">
                     <h1 id="titleText" style=" color: #2C231E;">Hallo
                       <? echo $user; ?>
                     </h1>
@@ -245,6 +281,11 @@ $fields = array(
               <form id="orderHistory" style="display: none;">
                 <div class="row text-center mt-5">
                   <h4 style=color:#EFE3C4>Bestelgeschiedenis</h4>
+                </div>
+                <div class="row justify-content-center mt-5">
+                </div>
+                <div class="row mt-2">
+                  <div id="orderHistoryContainer"></div>
                 </div>
               </form>
               <!-- start change info tab -->
@@ -360,7 +401,8 @@ $fields = array(
                   </div>
                 </div>
                 <div class="row text-center justify-content-center mt-5">
-                  <i><a data-bs-toggle="modal" href="#myModal" class="text-decoration-none" style="color:#EFE3C4">Account
+                  <i><a data-bs-toggle="modal" href="#myModal" class="text-decoration-none"
+                      style="color:#EFE3C4">Account
                       verwijderen</a></i>
                   <div class="line-hyper"></div>
                 </div>
@@ -392,8 +434,11 @@ $fields = array(
 
       <!-- Modal footer -->
       <div class="modal-footer" style="border-color: #2C231E;">
-         <button type="button" style="background-color:#FCB716;border-color:#FCB716" class="btn btn-primary rounded-pill bg-beige-color" href="/" id="deleteAccountBtn" data-bs-dismiss="modal">Ja</button>
-        <button type="button" style="background-color:#FCB716;border-color:#FCB716" class="btn btn-primary rounded-pill bg-beige-color" data-bs-dismiss="modal">Nee</button>
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716"
+          class="btn btn-primary rounded-pill bg-beige-color" href="/" id="deleteAccountBtn"
+          data-bs-dismiss="modal">Ja</button>
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716"
+          class="btn btn-primary rounded-pill bg-beige-color" data-bs-dismiss="modal">Nee</button>
       </div>
     </div>
   </div>
@@ -446,7 +491,46 @@ $fields = array(
     });
   });
 
+  //--------------Getting orderhistory from database----------------------------------------
+  $(document).ready(function () {
+    $("#orderHistoryButton").on("click", function () {
+      event.preventDefault();
+      $.ajax({
+        url: "/RetrievingOrderHistory",
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
 
+          console.log(response);
+          updateOrderHistoryForm(response)
+        },
+        error: function (xhr, status, error) {
+
+          console.error(xhr);
+          console.error(status);
+        }
+      });
+    });
+  });
+
+  function updateOrderHistoryForm(orderHistoryData) {
+    const orderHistoryContainer = document.getElementById('orderHistoryContainer');
+    orderHistoryContainer.innerHTML = '';
+
+    orderHistoryData.forEach(function (order) {
+      const orderDate = new Date(order.createdOn.date);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = orderDate.toLocaleDateString('nl-NL', options);
+      const orderTotal = order.orderTotal
+      const taxTotal = order.orderTax / 100
+      const finalTotal = orderTotal * (1 + taxTotal)
+
+      const orderElement = document.createElement('div');
+      orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6><div class="row justify-content-center mt-5 mb-4"><div class="order-divider"></div></div>`;
+      orderHistoryContainer.appendChild(orderElement);
+    });
+  }
+  //--------------Logging out---------------------------------------------------------------
   $(document).ready(function () {
     $("#logoutButton").on("click", function () {
       $.ajax({
@@ -465,6 +549,8 @@ $fields = array(
       });
     });
   });
+
+  //---------------saving regular info changed----------------------------------------------
 
   $(document).ready(function () {
     $("#saveChangeInfoButton").on("click", function () {
@@ -493,6 +579,8 @@ $fields = array(
       });
     });
   });
+
+  //-----------------save changed passwords--------------------------------------------------
 
   function validatePasswords() {
     var password1 = document.getElementById('changePassword').value;
@@ -540,7 +628,7 @@ $fields = array(
     });
   });
 
-  //-------------Update email script-------------------------------------------
+  //-------------Update email script-----------------------------------------------------------
 
 
   // making sure the entered email is a valid type of email
@@ -563,7 +651,7 @@ $fields = array(
     return true;
   }
 
-  // proces the email change using the undermentioned route in the bootstrapper.php file. this links to a function in the accountpag controller.
+  //----------------------save email change-----------------------------------------------------
   $(document).ready(function () {
     $("#saveChangeEmailButton").on("click", function () {
       event.preventDefault();
@@ -608,20 +696,20 @@ $fields = array(
   });
 
 
-  //----------------Account deletion-----------------------------------------------
+  //----------------Account deletion--------------------------------------------------------
 
-  $(document).ready(function() {
+  $(document).ready(function () {
 
-    $("#deleteAccountBtn").on("click", function(event) {
-      event.preventDefault(); 
+    $("#deleteAccountBtn").on("click", function (event) {
+      event.preventDefault();
 
       $.ajax({
-        type: "POST", 
+        type: "POST",
         url: "/deleteAccount",
-        success: function(response) {
+        success: function (response) {
           window.location.href = "/AccountDeleted";
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error deleting account:", status, error);
         }
       });
