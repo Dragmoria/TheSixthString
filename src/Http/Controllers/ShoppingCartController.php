@@ -77,7 +77,7 @@ class ShoppingCartController extends Controller {
     }
 
     public function startPayment(): ?Response {
-        $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"] ?? 1, "");
+        $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"], "");
 
         //TODO!
 //        $couponUsed = Application::resolve(CouponService::class)->getCouponByCode();
@@ -91,8 +91,6 @@ class ShoppingCartController extends Controller {
         //$postBody = $this->currentRequest->postObject->body();
         //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::Manual;
         //$result->success &= handlePayment met mollie
-
-        //TODO: mail versturen naar klant en webshop
 
         $response->setBody((array)$result);
         return $response;

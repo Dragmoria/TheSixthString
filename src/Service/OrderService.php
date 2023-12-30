@@ -2,6 +2,9 @@
 
 namespace Service;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\Database\Entity\Coupon;
 use Lib\Database\Entity\Order;
 use Lib\Database\Entity\ShoppingCart;
@@ -36,6 +39,7 @@ class OrderService extends BaseDatabaseService {
 
             if($result) {
                 $this->executeQuery("delete from shoppingcart where id = ?", [$shoppingCart->id]);
+                $this->sendOrderConfirmation($createdOrderEntity->id, $shoppingCart->userId);
             }
         } catch(\Exception $ex) {
             $this->executeQuery("update product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id set prod.amountInStock = prod.amountInStock + cartitem.quantity where cartitem.shoppingCartId = ?", [$shoppingCart->id]);
@@ -87,5 +91,15 @@ class OrderService extends BaseDatabaseService {
         $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$coupon->id]);
 
         return max($result, 0);
+    }
+
+    private function sendOrderConfirmation(int $orderId, int $userId): void {
+        $mailtemplateCustomer = new MailTemplate(MAIL_TEMPLATES . 'OrderConfirmationCustomer.php', [
+            'url' => "https://www.thesixthstring.store/Account"
+        ]);
+
+        $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;
+        $mail = new Mail($userEmail,"Bestelbevestiging #$orderId", $mailtemplateCustomer, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+        $mail->send();
     }
 }
