@@ -3,12 +3,19 @@
 namespace Http\Controllers\ControlPanel;
 
 use Lib\Enums\Role;
+use Lib\MVCCore\Application;
 use Lib\MVCCore\Component;
+use Service\ReviewService;
 
 class SidebarComponent implements Component
 {
     public function get(?array $data): string
     {
+        $reviewService = Application::resolve(ReviewService::class);
+
+        $amountToBeReviewed = ""; //$reviewService->amountToBeReviewed();
+
+
         $currentRole = currentRole();
 
         $buttons = [
@@ -52,7 +59,7 @@ class SidebarComponent implements Component
                 "path" => "/ControlPanel/ModerateReviews",
                 "enabled" => $currentRole->hasRightsOf(Role::Manager),
                 "text" => "Moderate reviews",
-                "notifications" => ""
+                "notifications" => $amountToBeReviewed
             ],
             [
                 "path" => "/ControlPanel/OrderManagement",
