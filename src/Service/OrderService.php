@@ -6,6 +6,7 @@ use Lib\Database\Entity\Coupon;
 use Lib\Database\Entity\Order;
 use Lib\Database\Entity\ShoppingCart;
 use Lib\Enums\AddressType;
+use Lib\Enums\CouponType;
 use Lib\Enums\OrderItemStatus;
 use Lib\Enums\PaymentStatus;
 use Lib\Enums\ShippingStatus;
@@ -13,24 +14,15 @@ use Lib\Helpers\TaxHelper;
 
 class OrderService extends BaseDatabaseService {
     public function createOrderWithOrderItems(ShoppingCart $shoppingCart, ?Coupon $couponUsed): bool {
-        //TODO: (niet vergeten: bij aanklikken 'Bestellen' ook een redirect naar login als de gebruiker nog niet is ingelogd!)
-        // laatste controle of er echt wel genoeg voorraad is, dit bij het laden van de pagina doen!
-        // V product.amountInStock aanpassen met aantal uit de bestelling
-        // V Order maken, OrderItems maken
-        // V ShoppingCart verwijderen(, vanuit controller ShoppingCartService aanroepen?)
-        // e-mail met bestellingsoverzicht sturen, zowel naar klant als naar webshop
-
         $allProductsAvailable = $this->executeQuery("select (count(prod.id) = 0) as allAvailable from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where (cartitem.quantity > prod.amountInStock or prod.active = ?) and cartitem.shoppingCartId = ?", [0, $shoppingCart->id])[0]->allAvailable;
-        if(!(bool)$allProductsAvailable) {
-            return false;
-        }
+        if(!(bool)$allProductsAvailable) return false;
 
         try {
             $this->executeQuery("update product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id set prod.amountInStock = prod.amountInStock - cartitem.quantity where cartitem.shoppingCartId = ?", [$shoppingCart->id]);
 
-            //TODO! totaal en verwerken coupon
-            $orderTotal = 10;
-            $orderTax = TaxHelper::calculateTax($orderTotal);
+            $orderTotal = 0;
+            $orderTax = 0;
+            $this->setOrderTotalAndTax($orderTotal, $orderTax, $shoppingCart, $couponUsed);
 
             $shippingAddressId = $this->getAddressIdByType($shoppingCart->userId, AddressType::Shipping);
             $invoiceAddressId = $this->getAddressIdByType($shoppingCart->userId, AddressType::Invoice);
@@ -54,6 +46,13 @@ class OrderService extends BaseDatabaseService {
         return $result;
     }
 
+    private function setOrderTotalAndTax(int &$orderTotal, int &$orderTax, ShoppingCart $shoppingCart, ?Coupon $couponUsed): void {
+        $orderTotal = (float)$this->executeQuery("select sum(prod.unitPrice) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
+        $orderTotalInclTaxAndCouponUsed = $this->calculateCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
+        $orderTotal = round(TaxHelper::calculatePriceExcludingTax($orderTotalInclTaxAndCouponUsed), 2);
+        $orderTax = round(TaxHelper::calculateTax($orderTotal), 2);
+    }
+
     private function getAddressIdByType(int $userId, AddressType $type): int {
         return $this->executeQuery("select id from address where userId = ? and type = ?", [$userId, $type->value])[0]->id;
     }
@@ -68,5 +67,25 @@ class OrderService extends BaseDatabaseService {
             where cartitem.shoppingCartId = ?
 ";
         return $this->executeQuery($createOrderItemsQuery, [$orderId, OrderItemStatus::Sent->value, $shoppingCartId]);
+    }
+
+    private function calculateCouponDiscount(?Coupon $coupon, float $totalPriceInclTax): float {
+        if(is_null($coupon)) return $totalPriceInclTax;
+
+        $result = 0;
+        switch($coupon->type) {
+            case CouponType::Amount->value:
+                $result = $totalPriceInclTax - $coupon->value;
+                break;
+            case CouponType::Percentage->value:
+                $result = $totalPriceInclTax - ($totalPriceInclTax * ($coupon->value / 100));
+                break;
+            default:
+                return $totalPriceInclTax;
+        }
+
+        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$coupon->id]);
+
+        return max($result, 0);
     }
 }
