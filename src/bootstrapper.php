@@ -126,7 +126,7 @@ $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'delet
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
 
-$router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment']); //->middleware(isLoggedIn::class);
+$router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
 
 if(!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();

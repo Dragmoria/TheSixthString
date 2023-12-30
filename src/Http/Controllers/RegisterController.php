@@ -71,7 +71,7 @@ class RegisterController extends Controller
                     $newAddressModel->zipCode = $postBody['zipcode'];
                     $newAddressModel->city = $postBody['city'];
                     $newAddressModel->country = Country::fromString($postBody['country'])->value;
-                    $newAddressModel->active = false;
+                    $newAddressModel->active = true;
                     $newAddressModel->type = $AddressType;
                     $addressService = Application::resolve(AddressService::class);
                     $createdAddress = $addressService->createAddress($newAddressModel);

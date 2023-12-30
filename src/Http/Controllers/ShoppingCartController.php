@@ -2,6 +2,8 @@
 
 namespace Http\Controllers;
 
+use Lib\Database\Entity\Coupon;
+use Lib\Enums\CouponType;
 use Lib\Enums\PaymentMethod;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Controller;
@@ -9,6 +11,7 @@ use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Service\CouponService;
 use Service\OrderService;
 use Service\ProductService;
 use Service\ShoppingCartService;
@@ -76,14 +79,20 @@ class ShoppingCartController extends Controller {
     public function startPayment(): ?Response {
         $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"] ?? 1, "");
 
+        //TODO!
+//        $couponUsed = Application::resolve(CouponService::class)->getCouponByCode();
+        $couponUsed = null;
+
         $response = new JsonResponse();
         $result = new \stdClass();
-        $result->success = Application::resolve(OrderService::class)->createOrderWithOrderItems($shoppingCart, null);
+        $result->success = Application::resolve(OrderService::class)->createOrderWithOrderItems($shoppingCart, $couponUsed);
 
         //TODO: betaling afhandelen
         //$postBody = $this->currentRequest->postObject->body();
         //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::Manual;
         //$result->success &= handlePayment met mollie
+
+        //TODO: mail versturen naar klant en webshop
 
         $response->setBody((array)$result);
         return $response;

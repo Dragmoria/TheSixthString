@@ -54,7 +54,7 @@ class OrderService extends BaseDatabaseService {
     }
 
     private function getAddressIdByType(int $userId, AddressType $type): int {
-        return $this->executeQuery("select id from address where userId = ? and type = ?", [$userId, $type->value])[0]->id;
+        return $this->executeQuery("select id from address where userId = ? and type = ? and active = ?", [$userId, $type->value, 1])[0]->id;
     }
 
     private function handleCreateOrderItems(int $shoppingCartId, int $orderId): bool {
