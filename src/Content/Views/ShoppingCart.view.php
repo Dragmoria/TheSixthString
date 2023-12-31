@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-3" id="cart-content">
             <?php
             if (is_null($data)) {
                 ?>
@@ -107,7 +107,7 @@
                                 <div class="col-12 mt-3">
                                     <?php
                                     ?>
-                                    <button class="btn btn-primary rounded-4 sixth-button">Bestellen</button>
+                                    <button class="btn btn-primary rounded-4 sixth-button" onclick="startPayment()">Bestellen</button>
                                 </div>
                             </div>
                         </div>
@@ -152,6 +152,17 @@
                 }
 
                 alert(message);
+            }
+        });
+    }
+
+    function startPayment() {
+        $.post('/ShoppingCart/StartPayment', function(response) {
+            if(response.success) {
+                $('#cart-content').html('<p class="text-sixth-beige">Bestellen gelukt! Je ontvangt binnen enkele minuten een e-mail met het overzicht van je bestelling. ' +
+                    'Klik <a class="text-decoration-none text-sixth-yellow" href="/Account">hier</a> om naar je besteloverzicht te gaan.</p>');
+            } else {
+                alert("Er is iets misgegaan, controleer je bestelling en probeer het opnieuw of neem contact met ons op");
             }
         });
     }

@@ -12,4 +12,8 @@ class TaxHelper {
     public static function calculatePriceExcludingTax(float $priceInclTax): float {
         return $priceInclTax / (1 + Constants::TAX_PERCENTAGE / 100);
     }
+
+    public static function calculateTax(float $price): float {
+        return $price * (Constants::TAX_PERCENTAGE / 100);
+    }
 }

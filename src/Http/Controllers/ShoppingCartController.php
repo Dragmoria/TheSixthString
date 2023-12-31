@@ -2,12 +2,17 @@
 
 namespace Http\Controllers;
 
+use Lib\Database\Entity\Coupon;
+use Lib\Enums\CouponType;
+use Lib\Enums\PaymentMethod;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Service\CouponService;
+use Service\OrderService;
 use Service\ProductService;
 use Service\ShoppingCartService;
 
@@ -27,7 +32,7 @@ class ShoppingCartController extends Controller {
         $shoppingCartItemId = $postBody["id"];
 
         $result = new \stdClass();
-        $result->success = Application::resolve(ShoppingCartService::class)->deleteItem($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $shoppingCartItemId);
+        $result->success = Application::resolve(ShoppingCartService::class)->deleteItem($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"], $shoppingCartItemId);
 
         $response = new JsonResponse();
         $response->setBody((array)$result);
@@ -45,7 +50,7 @@ class ShoppingCartController extends Controller {
 
         $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
         if($result->success) {
-            $result->success = Application::resolve(ShoppingCartService::class)->addItem($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
+            $result->success = Application::resolve(ShoppingCartService::class)->addItem($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
         }
 
         $response->setBody((array)$result);
@@ -64,8 +69,28 @@ class ShoppingCartController extends Controller {
 
         $this->validateProductAmountValidAndAvailable($productId, $quantity, $result);
         if($result->success) {
-            $result->success = Application::resolve(ShoppingCartService::class)->changeQuantity($_SESSION["user"]->id ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
+            $result->success = Application::resolve(ShoppingCartService::class)->changeQuantity($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"], $productId, $quantity);
         }
+
+        $response->setBody((array)$result);
+        return $response;
+    }
+
+    public function startPayment(): ?Response {
+        $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"], "");
+
+        //TODO!
+//        $couponUsed = Application::resolve(CouponService::class)->getCouponByCode();
+        $couponUsed = null;
+
+        $response = new JsonResponse();
+        $result = new \stdClass();
+        $result->success = Application::resolve(OrderService::class)->createOrderWithOrderItems($shoppingCart, $couponUsed);
+
+        //TODO: betaling afhandelen
+        //$postBody = $this->currentRequest->postObject->body();
+        //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::Manual;
+        //$result->success &= handlePayment met mollie
 
         $response->setBody((array)$result);
         return $response;

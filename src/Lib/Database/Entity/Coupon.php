@@ -2,6 +2,8 @@
 
 namespace Lib\Database\Entity;
 
+use Lib\Enums\CouponType;
+
 class Coupon extends SaveableObject {
     public function __construct() {
         parent::__construct("coupon");
@@ -15,5 +17,5 @@ class Coupon extends SaveableObject {
     public int $usageAmount = 0;
     public ?int $maxUsageAmount = null;
     public bool $active = false;
-    public int $type = 0; //default is CouponType::Amount (= 0)
+    public int $type = CouponType::Amount->value;
 }

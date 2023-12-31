@@ -20,6 +20,7 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\OrderService;
 use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
@@ -53,6 +54,7 @@ $container->registerClass(RandomLinkService::class);
 $container->registerClass(ActivateService::class);
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
+$container->registerClass(OrderService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -93,7 +95,9 @@ $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'delet
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
 
-if (!isset($_SESSION["sessionUserGuid"])) {
+$router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
+
+if(!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();
 }
 

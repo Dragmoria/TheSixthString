@@ -24,3 +24,5 @@ VALUES ('Categorie 1', 'Dit is een hoofdcategorie', null, 1);
 
 insert into category (name, description, parentId, active)
 VALUES ('Subcategorie 1', 'Dit is een subcategorie van hoofdcategorie 1', 1, 1);
+
+insert into coupon (name, code, value, startDate, active, usageAmount, type) values ('test', 'test123', 50, '2023-12-30', 1, 0, 0);
