@@ -1,10 +1,12 @@
 <?php
 
+use Http\Controllers\AcceptCookiesController;
 use Http\Controllers\CategoryController;
 use Http\Controllers\HomeController;
 use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
+use Http\Controllers\Components\AcceptCookiesComponent;
 use http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\Mailcontroller;
@@ -111,7 +113,11 @@ $router->post('/ShoppingCart/RemoveCoupon', [ShoppingCartController::class, 'rem
 
 $router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
 
-if(!isset($_SESSION["sessionUserGuid"])) {
+$router->post('/accept-cookies', [AcceptCookiesController::class, 'acceptCookies']);
+
+// unset($_SESSION['accept-cookies']);
+
+if (!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();
 }
 
