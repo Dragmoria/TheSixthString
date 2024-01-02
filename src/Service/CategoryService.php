@@ -94,11 +94,19 @@ class CategoryService extends BaseDatabaseService
         }
     }
 
-    public function getAllCategories(): ?array
+    public function getAllCategories(?bool $active = null): ?array
     {
-        $query = "select * from category order by parentId";
+        if ($active !== null) {
+            $query = "select * from category where active = ? order by parentId";
+            $params = [$active];
+        } else {
+            $query = "select * from category order by parentId";
+            $params = [];
+        }
 
-        $results = $this->executeQuery($query, [], Category::class);
+        //$query = "select * from category order by parentId";
+
+        $results = $this->executeQuery($query, $params, Category::class);
 
 
         $models = [];

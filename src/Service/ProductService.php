@@ -9,14 +9,18 @@ use Lib\Database\Entity\Review;
 use Lib\Enums\ReviewStatus;
 use Lib\Enums\SortType;
 use Lib\Helpers\TaxHelper;
+use Models\AdminProductFilterModel;
 use Models\BrandModel;
 use Models\CategoryModel;
+use Models\CustomerProductFilterModel;
 use Models\ProductFilterModel;
 use Models\ProductModel;
 use Models\ReviewModel;
 
-class ProductService extends BaseDatabaseService {
-    public function getProducts(ProductFilterModel $model): array {
+class ProductService extends BaseDatabaseService
+{
+    public function getProducts(CustomerProductFilterModel $model): array
+    {
         $query = "select id, name, recommendedUnitPrice, unitPrice, media from product where active = ?";
         $params = [1];
 
@@ -24,29 +28,30 @@ class ProductService extends BaseDatabaseService {
         $entities = $this->executeQuery($query, $params, Product::class);
 
         $models = array();
-        foreach($entities as $entity) {
+        foreach ($entities as $entity) {
             $models[] = ProductModel::convertToModel($entity);
         }
 
         return $models;
     }
 
-    public function getProductDetails(int $id): ProductModel {
+    public function getProductDetails(int $id): ProductModel
+    {
         $productEntity = $this->executeQuery("select * from product where id = ?", [$id], Product::class)[0];
         $model = ProductModel::convertToModel($productEntity);
 
-        if(!is_null($productEntity->brandId)) {
+        if (!is_null($productEntity->brandId)) {
             $brandEntity = $this->executeQuery("select * from brand where id = ?", [$productEntity->brandId], Brand::class)[0];
             $model->brand = BrandModel::convertToModel($brandEntity);
         }
 
-        if(!is_null($productEntity->categoryId)) {
+        if (!is_null($productEntity->categoryId)) {
             $categoryEntity = $this->executeQuery("select * from category where id = ?", [$productEntity->categoryId], Category::class)[0];
             $model->category = CategoryModel::convertToModel($categoryEntity);
         }
 
         $reviewEntities = $this->executeQuery("select rev.* from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productEntity->id], Review::class);
-        foreach($reviewEntities as $reviewEntity) {
+        foreach ($reviewEntities as $reviewEntity) {
             $model->reviews[] = ReviewModel::convertToModel($reviewEntity);
         }
 
@@ -55,12 +60,14 @@ class ProductService extends BaseDatabaseService {
         return $model;
     }
 
-    public function getAmountInStockForProduct(int $productId): int {
+    public function getAmountInStockForProduct(int $productId): int
+    {
         return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
     }
 
-    private function buildFilteredQuery(string &$query, array &$params, ProductFilterModel $model): void {
-        if(!is_null($model->categoryId)) {
+    private function buildFilteredQuery(string &$query, array &$params, CustomerProductFilterModel $model): void
+    {
+        if (!is_null($model->categoryId)) {
             $categoryIds = $this->getAllChildCategoriesForParent($model->categoryId);
             $categoryIds[] = $model->categoryId;
 
@@ -68,7 +75,7 @@ class ProductService extends BaseDatabaseService {
             $params = array_merge($params, $categoryIds);
         }
 
-        if(!is_null($model->brandId)) {
+        if (!is_null($model->brandId)) {
             $query .= " and brandId = ?";
             $params[] = $model->brandId;
         }
@@ -83,8 +90,9 @@ class ProductService extends BaseDatabaseService {
         $query .= " order by " . $this->getSortOrder($model->sortOrder);
     }
 
-    private function getSortOrder(SortType $sortType): string {
-        switch($sortType) {
+    private function getSortOrder(SortType $sortType): string
+    {
+        switch ($sortType) {
             case SortType::PriceAsc:
                 return "unitPrice asc";
             case SortType::PriceDesc:
@@ -98,15 +106,58 @@ class ProductService extends BaseDatabaseService {
         }
     }
 
-    private function getAllChildCategoriesForParent(int $parentId): array {
+    private function getAllChildCategoriesForParent(int $parentId): array
+    {
         $query = "with recursive cte as ( select cat.id, cat.name, cat.parentId from category cat union all select c.id,c.name, cat.parentId from category cat inner join cte c on c.parentId = cat.Id) select c.id from cte c where parentId = $parentId";
         $queryResult = $this->query($query)->fetch_all(MYSQLI_ASSOC);
 
         $childIds = array();
-        foreach($queryResult as $item) {
+        foreach ($queryResult as $item) {
             $childIds[] = (int)$item["id"];
         }
 
         return $childIds;
+    }
+
+    public function getAllProducts(AdminProductFilterModel $filters): ?array
+    {
+        $query = "select * from product where 1=1";
+        $params = [];
+
+        if (!is_null($filters->categoryId)) {
+            $query .= " AND categoryId = ?";
+            $params[] = $filters->categoryId;
+        }
+
+        if (!is_null($filters->brandId)) {
+            $query .= " AND brandId = ?";
+            $params[] = $filters->brandId;
+        }
+
+        if (!is_null($filters->sku)) {
+            $query .= " AND sku LIKE ?";
+            $params[] = '%' . $filters->sku . '%';
+        }
+
+        if (!is_null($filters->active)) {
+            $query .= " AND active = ?";
+            $params[] = $filters->active;
+        }
+
+        if (!is_null($filters->name)) {
+            $query .= " AND name LIKE ?";
+            $params[] = '%' . $filters->name . '%';
+        }
+
+        $query .= " order by name";
+
+        $entities = $this->executeQuery($query, $params, Product::class);
+
+        $models = [];
+        foreach ($entities as $entity) {
+            $models[] = ProductModel::convertToModel($entity);
+        }
+
+        return $models;
     }
 }
