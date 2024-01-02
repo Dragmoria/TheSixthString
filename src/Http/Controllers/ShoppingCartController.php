@@ -20,8 +20,7 @@ class ShoppingCartController extends Controller {
     public function index(): ?Response {
         $response = new ViewResponse();
 
-        $data = Application::resolve(ShoppingCartService::class)->getShoppingCartContent($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"]);
-
+        $data = $this->getShoppingCartContent(null);
         $response->setBody(view(VIEWS_PATH . 'ShoppingCart.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
 
         return $response;
@@ -76,12 +75,25 @@ class ShoppingCartController extends Controller {
         return $response;
     }
 
+    public function paymentView(): ?Response {
+        $response = new ViewResponse();
+
+        $data = $this->getShoppingCartContent(null);
+        if(is_null($data)) {
+            redirect('/ShoppingCart');
+        }
+
+        $response->setBody(view(VIEWS_PATH . 'ShoppingCartPayment.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
+
+        return $response;
+    }
+
     public function startPayment(): ?Response {
         $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"], "");
 
-        //TODO!
-//        $couponUsed = Application::resolve(CouponService::class)->getCouponByCode();
-        $couponUsed = null;
+        $couponService = Application::resolve(CouponService::class);
+        $couponUsed = $couponService->getCouponByCode($_SESSION["couponApplied"]);
+        if(!$couponService->verifyCoupon($couponUsed)) $couponUsed = null;
 
         $response = new JsonResponse();
         $result = new \stdClass();
@@ -89,11 +101,57 @@ class ShoppingCartController extends Controller {
 
         //TODO: betaling afhandelen
         //$postBody = $this->currentRequest->postObject->body();
-        //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::Manual;
+        //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::PayLater;
         //$result->success &= handlePayment met mollie
+
+        $this->removeCoupon();
 
         $response->setBody((array)$result);
         return $response;
+    }
+
+    public function processCoupon(): ?Response {
+        $postBody = $this->currentRequest->postObject->body();
+
+        $response = new JsonResponse();
+        $result = new \stdClass();
+
+        $couponService = Application::resolve(CouponService::class);
+        $coupon = $couponService->getCouponByCode($postBody["code"]);
+        $result->success = $couponService->verifyCoupon($coupon);
+        if($result->success) {
+            $shoppingCartData = $this->getShoppingCartContent($coupon);
+            $totalPriceInclTaxWithDiscount = Application::resolve(OrderService::class)->calculateTotalPriceInclTaxWithCouponDiscount($coupon, $shoppingCartData->totalPriceIncludingTax);
+
+            $result->discount = formatPrice($shoppingCartData->totalPriceIncludingTax - $totalPriceInclTaxWithDiscount);
+            $result->adjustedTotal = formatPrice($totalPriceInclTaxWithDiscount);
+
+            $_SESSION["couponApplied"] = $postBody["code"];
+        }
+
+        $response->setBody((array)$result);
+        return $response;
+    }
+
+    public function removeCoupon(): void {
+        $_SESSION["couponApplied"] = null;
+    }
+
+    private function getShoppingCartContent(?Coupon $coupon) {
+        $result = Application::resolve(ShoppingCartService::class)->getShoppingCartContent($_SESSION["user"]["id"] ?? null, $_SESSION["sessionUserGuid"]);
+        if(is_null($result)) return null;
+        $result->totalPriceIncludingTaxCouponApplied = $result->totalPriceIncludingTax;
+
+        if(is_null($coupon) && isset($_SESSION["couponApplied"])) {
+            $couponService = Application::resolve(CouponService::class);
+            $coupon = $couponService->getCouponByCode($_SESSION["couponApplied"]);
+
+            if($couponService->verifyCoupon($coupon)) {
+                $result->totalPriceIncludingTaxCouponApplied = Application::resolve(OrderService::class)->calculateTotalPriceInclTaxWithCouponDiscount($coupon, $result->totalPriceIncludingTax);
+            }
+        }
+
+        return $result;
     }
 
     private function validateProductAmountValidAndAvailable(int $productId, int $quantity, \stdClass &$resultObject): void {

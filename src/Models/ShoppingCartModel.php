@@ -7,6 +7,7 @@ use Lib\Database\Entity\ShoppingCart;
 class ShoppingCartModel {
     public array $items = array();
     public float $totalPriceIncludingTax = 0;
+    public float $totalPriceIncludingTaxCouponApplied = 0;
 
     public static function convertToModel(?ShoppingCart $entity): ?ShoppingCartModel {
         if($entity->isEmptyObject()) return null;
