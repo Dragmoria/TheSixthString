@@ -83,3 +83,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.bg-sixth-beige, .bg-sixth-beige:focus {
+  background-color: var(--sixth-beige);
+}

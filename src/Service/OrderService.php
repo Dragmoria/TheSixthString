@@ -52,7 +52,9 @@ class OrderService extends BaseDatabaseService {
 
     private function setOrderTotalAndTax(int &$orderTotal, int &$orderTax, ShoppingCart $shoppingCart, ?Coupon $couponUsed): void {
         $orderTotal = (float)$this->executeQuery("select sum(prod.unitPrice) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
-        $orderTotalInclTaxAndCouponUsed = $this->calculateCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
+        $orderTotalInclTaxAndCouponUsed = $this->calculateTotalPriceInclTaxWithCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
+        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$couponUsed->id]);
+
         $orderTotal = round(TaxHelper::calculatePriceExcludingTax($orderTotalInclTaxAndCouponUsed), 2);
         $orderTax = round(TaxHelper::calculateTax($orderTotal), 2);
     }
@@ -73,7 +75,7 @@ class OrderService extends BaseDatabaseService {
         return $this->executeQuery($createOrderItemsQuery, [$orderId, OrderItemStatus::Sent->value, $shoppingCartId]);
     }
 
-    private function calculateCouponDiscount(?Coupon $coupon, float $totalPriceInclTax): float {
+    public function calculateTotalPriceInclTaxWithCouponDiscount(?Coupon $coupon, float $totalPriceInclTax): float {
         if(is_null($coupon)) return $totalPriceInclTax;
 
         $result = 0;
@@ -87,8 +89,6 @@ class OrderService extends BaseDatabaseService {
             default:
                 return $totalPriceInclTax;
         }
-
-        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$coupon->id]);
 
         return max($result, 0);
     }
