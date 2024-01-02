@@ -59,6 +59,18 @@ class ProductService extends BaseDatabaseService {
         return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
     }
 
+    public function getSuggestedProducts(string $search): array {
+        $productEntities = $this->executeQuery("select id, name, unitPrice from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
+
+        $models = array();
+
+        foreach($productEntities as $productEntity) {
+            $models[] = ProductModel::convertToModel($productEntity);
+        }
+
+        return $models;
+    }
+
     private function buildFilteredQuery(string &$query, array &$params, ProductFilterModel $model): void {
         if(!is_null($model->categoryId)) {
             $categoryIds = $this->getAllChildCategoriesForParent($model->categoryId);
@@ -71,6 +83,11 @@ class ProductService extends BaseDatabaseService {
         if(!is_null($model->brandId)) {
             $query .= " and brandId = ?";
             $params[] = $model->brandId;
+        }
+
+        if(!is_null($model->search)) {
+            $query .= " and name like ?";
+            $params[] = "%$model->search%";
         }
 
         $query .= " and amountInStock " . ($model->isInStock ? "> ?" : "= ?");

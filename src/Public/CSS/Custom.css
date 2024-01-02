@@ -26,6 +26,10 @@
   color: var(--sixth-yellow) !important;
 }
 
+.text-sixth-black {
+  color: var(--sixth-black) !important;
+}
+
   .nav-button {
     background-color: var(--sixth-yellow) !important;
     border-color: var(--sixth-yellow) !important; 
