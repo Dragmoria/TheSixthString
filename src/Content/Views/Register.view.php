@@ -274,8 +274,18 @@ $fields = array(
         return true;
     }
 
+    function isInteger(value) {
+    return /^\d+$/.test(value);
+}
+
     $(document).ready(function () {
         $("#saveButton").on("click", function () {
+
+            var huisnummer = $("#housenumber").val();
+            if (!isInteger(huisnummer)) {
+                alert("Voer een geldig huisnummer in aub.");
+                return;
+            }
 
             if (!validateEmails()) {
                 return;
