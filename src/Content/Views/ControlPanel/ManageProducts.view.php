@@ -12,45 +12,54 @@
         #addProductButton {
             margin-left: 10px;
         }
+
+        .carousel-image {
+            height: 300px;
+            object-fit: contain;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            width: 100%;
+        }
     </style>
 
     <div id="edit" style="display: none;">
     </div>
 
     <div id="add">
-        <div>
-            <button type="button" id="backToMain" class="btn px-5 btn-primary">
+        <div class="mx-auto" style="width: 100%;">
+            <button type="button" id="backToMain" class="btn px-5 btn-primary" style="width: 100%;">
                 Back
             </button>
         </div>
-        <div class="card mx-auto" style="width: 80%">
+        <div class="card mx-auto" style="width: 100%">
             <div class="card-header d-flex justify-content-center">
                 <h4>Nieuw product</h4>
             </div>
             <div class="card-body">
                 <div>
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addName">Name</label>
                         <div class="input-group">
                             <input type="text" id="addName" class="form-control" placeholder="Name">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addSubtitle">Subtitle</label>
                         <div class="input-group">
                             <input type="text" id="addSubtitle" class="form-control" placeholder="Subtitle">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addDescription">Description</label>
                         <div class="input-group">
                             <textarea type="text" id="addDescription" class="form-control" placeholder="Description"></textarea>
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="status">Status</label>
                         <select id="status" class="form-select">
                             <option value="null" selected>Select Status</option>
@@ -59,94 +68,255 @@
                         </select>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addStock">Stock</label>
                         <div class="input-group">
                             <input type="number" id="addStock" class="form-control" placeholder="Stock" step="1" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addStock">Demo stock</label>
                         <div class="input-group">
                             <input type="number" id="addDemoStock" class="form-control" placeholder="Demo stock" step="1" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addStock">Prijs</label>
                         <div class="input-group">
                             <input type="number" id="addPrice" class="form-control" placeholder="Prijs" step="0.01" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addStock">Aanbevolen prijs</label>
                         <div class="input-group">
                             <input type="number" id="addRecommendedPrice" class="form-control" placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addSubtitle">Sku</label>
                         <div class="input-group">
                             <input type="text" id="addSku" class="form-control" placeholder="Sku">
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addCategory">Category</label>
                         <select id="addCategory" class="form-select category">
                             <option value="null" selected>Select Category</option>
                         </select>
                     </div>
 
-                    <div class="">
+                    <div class="mb-3">
                         <label for="addBrand">Brand</label>
                         <select id="addBrand" class="form-select brand" required>
                             <option value="" selected>Select Brand</option>
                         </select>
                     </div>
 
-                    <div>
+                    <div class="mb-3">
                         <input type="file" id="addThumbnail" style="display: none;" accept="image/*">
-                        <button type="button" id="uploadButton" class="btn px-5 btn-primary w-100">Thumbnail image</button>
-                        <div id="thumbnailPreview"></div>
+                        <button type="button" id="addThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail image</button>
+                        <div id="thumbnailPreview" hidden></div>
                     </div>
 
-                    <div>
+                    <div class="mb-3">
                         <input type="file" id="addMainImage" style="display: none;" accept="image/*">
-                        <button type="button" id="uploadButton" class="btn px-5 btn-primary w-100">Main image</button>
-                        <div id="mainImagePreview"></div>
+                        <button type="button" id="addMainImageBtn" class="btn px-5 btn-primary w-100">Main image</button>
+                        <div id="mainImagePreview" hidden></div>
                     </div>
 
-                    <div>
+                    <script>
+                        $(document).on('click', '#addThumbnailBtn', function(event) {
+                            $(event.target).siblings('#addThumbnail').click();
+                        });
+
+                        $('#addThumbnail').on('change', function() {
+                            var file = this.files[0];
+                            var reader = new FileReader();
+
+                            $('#thumbnailPreview').removeAttr('hidden');
+
+                            reader.onload = function(e) {
+                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                $('#thumbnailPreview').empty().append(img);
+                            };
+
+                            reader.readAsDataURL(file);
+                        });
+
+                        $(document).on('click', '#addMainImageBtn', function(event) {
+                            $(event.target).siblings('#addMainImage').click();
+                        });
+
+                        $('#addMainImage').on('change', function() {
+                            var file = this.files[0];
+                            var reader = new FileReader();
+
+                            $('#mainImagePreview').removeAttr('hidden');
+
+                            reader.onload = function(e) {
+                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                $('#mainImagePreview').empty().append(img);
+                            };
+
+                            reader.readAsDataURL(file);
+                        });
+                    </script>
+
+                    <div class="mb-3">
                         <input type="file" id="addProductImages" style="display: none;" accept="image/*" multiple>
-                        <button type="button" id="uploadButton" class="btn px-5 btn-primary w-100">Product images</button>
-                        <div id="productImagesPreview" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner" style="height: 100px"></div>
-                            <a class="carousel-control-prev" href="#productImagesPreview" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#productImagesPreview" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                        <button type="button" class="btn px-5 btn-primary w-100 uploadButton">Product images</button>
+                        <div id="productImagesPreview" hidden>
+                            <button id="removeItemButton" type="button" class="btn px-5 btn-secondairy">
+                                X
+                            </button>
+                            <div id="productCarousel" style="height: 300px" class="carousel slide">
+                                <div class="carousel-inner" style="background-color: black">
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" style="color: black;" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" style="color: black;" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="">
+                    <script>
+                        $(document).on('click', '.uploadButton', function(event) {
+                            $(event.target).siblings('#addProductImages').click();
+                        });
+
+                        var addSelectedFiles = [];
+
+                        $('#addProductImages').on('change', function() {
+                            var files = this.files;
+                            addSelectedFiles = addSelectedFiles.concat(Array.from(files));
+                            var carouselInner = $('#productCarousel .carousel-inner');
+
+                            $('#productImagesPreview').removeAttr('hidden');
+                            // Clear the carousel
+                            carouselInner.empty();
+
+                            for (var i = 0; i < addSelectedFiles.length; i++) {
+                                var file = addSelectedFiles[i];
+                                var reader = new FileReader();
+
+                                reader.onload = function(e) {
+                                    var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                    var item = $('<div>').addClass('carousel-item').append(img);
+
+                                    // Make the first item active
+                                    if (carouselInner.children().length === 0) {
+                                        item.addClass('active');
+                                    }
+
+                                    carouselInner.append(item);
+                                };
+
+                                reader.readAsDataURL(file);
+                            }
+                            $('#addProductImages').val('');
+                        });
+
+                        $('#removeItemButton').on('click', function() {
+                            var activeCarouselItem = $('#productCarousel .carousel-item.active');
+                            activeCarouselItem.remove();
+                            var index = activeCarouselItem.index();
+
+
+                            addSelectedFiles.splice(index, 1);
+
+                            // If there are no more carousel items, hide the carousel
+                            if ($('#productCarousel .carousel-item').length == 0) {
+                                $('#productImagesPreview').attr('hidden', 'true');
+                            }
+                            // If there are still carousel items, make the first one active
+                            else {
+                                $('#productCarousel .carousel-item').first().addClass('active');
+                            }
+                        });
+                    </script>
+
+                    <div class="mb-3">
                         <label for="addVideo">Youtube video url</label>
                         <div class="input-group">
                             <input type="text" id="addVideo" class="form-control" placeholder="Youtube video url">
                         </div>
+                        <div id="videoPreview"></div>
+
+                        <script>
+                            $('#addVideo').on('input', function() {
+                                var url = $(this).val();
+                                var videoId = url.split('v=')[1];
+                                var ampersandPosition = videoId.indexOf('&');
+                                if (ampersandPosition != -1) {
+                                    videoId = videoId.substring(0, ampersandPosition);
+                                }
+
+                                $('#videoPreview').html('<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                            });
+                        </script>
                     </div>
+
+                    <button id="submitProduct" type="button" class="btn px-5 btn-primary">
+                        Save
+                    </button>
+
+                    <script>
+                        $('#submitProduct').on('click', function(e) {
+                            e.preventDefault();
+
+                            var productData = {
+                                name: $('#addName').val(),
+                                subtitle: $('#addSubtitle').val(),
+                                description: $('#addDescription').val(),
+                                status: $('#status').val(),
+                                stock: $('#addStock').val(),
+                                demoStock: $('#addDemoStock').val(),
+                                price: $('#addPrice').val(),
+                                recommendedPrice: $('#addRecommendedPrice').val(),
+                                sku: $('#addSku').val(),
+                                category: $('#addCategory').val(),
+                                brand: $('#addBrand').val(),
+                                thumbnail: $('#addThumbnail').prop('files')[0],
+                                mainImage: $('#addMainImage').prop('files')[0],
+                                productImages: addSelectedFiles,
+                                video: $('#addVideo').val()
+                            };
+
+                            var formData = new FormData();
+                            for (var key in productData) {
+                                if (key === 'productImages') {
+                                    for (var i = 0; i < productData[key].length; i++) {
+                                        formData.append(key + '[]', productData[key][i]);
+                                    }
+                                } else {
+                                    formData.append(key, productData[key]);
+                                }
+                            }
+
+                            $.ajax({
+                                url: '/ControlPanel/Products/AddProduct',
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                    // Handle the response from the server
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
-        </div>
-        <div class="d-flex flex-column">
-
         </div>
     </div>
 
@@ -204,7 +374,7 @@
         </div>
 
 
-        <div style="min-height: 460px; visibility: hidden" id="tablecontainer">
+        <div style="min-height: 460px; overflow-y: hidden; visibility: hidden" id="tablecontainer">
             <table class="table" id="table" data-toggle="table" data-height="460" data-ajax="fetchProducts" data-side-pagination="server" data-pagination="true">
                 <thead>
                     <tr>
@@ -355,35 +525,4 @@
             }
         });
     }
-
-    $('#uploadButton').on('click', function() {
-        $('#addProductImages').click();
-    });
-
-    $('#addProductImages').on('change', function() {
-        var files = this.files;
-        var carouselInner = $('#productImagesPreview .carousel-inner');
-
-        // Clear the carousel
-        carouselInner.empty();
-
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                var img = $('<img>').attr('src', e.target.result).addClass('d-block w-100');
-                var item = $('<div>').addClass('carousel-item').append(img);
-
-                // Make the first item active
-                if (carouselInner.children().length === 0) {
-                    item.addClass('active');
-                }
-
-                carouselInner.append(item);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    });
 </script>
