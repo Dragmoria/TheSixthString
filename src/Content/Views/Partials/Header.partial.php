@@ -3,8 +3,9 @@ function buildCategoryMenu($category, int $index): void
 { 
   echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
 
+    ++$index;
   foreach ($category->children as $childCategory) {
-      buildCategoryMenu($childCategory, ++$index);
+      buildCategoryMenu($childCategory, $index);
   }
 }
 ?>

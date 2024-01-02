@@ -68,7 +68,7 @@
                                                     <?= formatPrice($shoppingCartItem->product->unitPrice) ?></td>
                                                 <td>
                                                     <?= formatPrice($shoppingCartItem->totalPriceIncludingTax) ?></td>
-                                                <td><span class="cursor-pointer"
+                                                <td><span class="cursor-pointer text-danger"
                                                           data-item-id="<?= $shoppingCartItem->id ?>"
                                                           onclick="deleteShoppingCartItem(this)">X</span></td>
                                             </tr>
@@ -84,34 +84,9 @@
                             ?>
                         </div>
                     </div>
-
-                    <div class="col-12 col-md-4">
-                        <div class="card rounded-4 p-2 bg-sixth-black text-sixth-beige">
-                            <h1 class="text-sixth-beige">Totaal</h1>
-                            <div class="row">
-                                <div class="col-12 d-flex justify-content-between">
-                                    <span>Subtotaal (inclusief BTW)</span>
-                                    <span><?= formatPrice($data->totalPriceIncludingTax) ?></span>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between">
-                                    <span>Verzendkosten</span>
-                                    <span>gratis</span>
-                                </div>
-                                <div class="col-12">
-                                    <hr/>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between">
-                                    <span><strong>Totaalprijs (inclusief BTW)</strong></span>
-                                    <span><?= formatPrice($data->totalPriceIncludingTax) ?></span>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <?php
-                                    ?>
-                                    <button class="btn btn-primary rounded-4 sixth-button" onclick="startPayment()">Bestellen</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    echo component(\Http\Controllers\Components\ShoppingCartTotalComponent::class, (array)$data);
+                    ?>
                 </div>
                 <?php
             }
@@ -152,17 +127,6 @@
                 }
 
                 alert(message);
-            }
-        });
-    }
-
-    function startPayment() {
-        $.post('/ShoppingCart/StartPayment', function(response) {
-            if(response.success) {
-                $('#cart-content').html('<p class="text-sixth-beige">Bestellen gelukt! Je ontvangt binnen enkele minuten een e-mail met het overzicht van je bestelling. ' +
-                    'Klik <a class="text-decoration-none text-sixth-yellow" href="/Account">hier</a> om naar je besteloverzicht te gaan.</p>');
-            } else {
-                alert("Er is iets misgegaan, controleer je bestelling en probeer het opnieuw of neem contact met ons op");
             }
         });
     }

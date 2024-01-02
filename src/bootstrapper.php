@@ -102,9 +102,12 @@ $router->get('/Product/{id}', [ProductController::class, 'details']);
 
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
+$router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);
 $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);
+$router->post('/ShoppingCart/ProcessCoupon', [ShoppingCartController::class, 'processCoupon']);
+$router->post('/ShoppingCart/RemoveCoupon', [ShoppingCartController::class, 'removeCoupon']);
 
 $router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
 
