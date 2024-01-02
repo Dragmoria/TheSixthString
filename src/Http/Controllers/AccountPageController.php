@@ -66,26 +66,26 @@ class AccountPageController extends Controller
 
     public function updateInfo(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);                     
 
-        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                          //changing all the information the user has entered.
-        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                        //any field that is left empty will be reassigned its own value.
+        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                          
+        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                        
         $updateUser->lastName = !empty($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
         $updateUser->dateOfBirth = !empty($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
         $updateUser->gender = !empty($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->changePersonalInfo($updateUser);       // entering all the details, that are supposed to go into the `user` table, into the database.
+        $createdUser = $userservice->changePersonalInfo($updateUser);       
 
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user, 1);
 
-        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;                            //changing all the information the user has entered.
-        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        //any field that is left empty will be reassigned its own value.
+        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;                            
+        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        
         $address->housenumber = !empty($postBody['housenumber']) ? $postBody['housenumber'] : $address->housenumber;
         $address->housenumberExtension = !empty($postBody['addition']) ? $postBody['addition'] : $address->housenumberExtension;
         $address->city = !empty($postBody['city']) ? $postBody['city'] : $address->city;
@@ -93,16 +93,16 @@ class AccountPageController extends Controller
         $address->type = 1;
 
         $updateAddressService = Application::resolve(AddressService::class);
-        $updatedAddress = $updateAddressService->updateAddress($address);       // entering all the details, that are supposed to go into the `address` table, into the database.
+        $updatedAddress = $updateAddressService->updateAddress($address);       
     }
 
     public function updateUserPassword(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details.
+        $postBody = $this->currentRequest->getPostObject()->body();         
+        $user = $_SESSION["user"]["id"];                                    
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);                     
 
         $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
 
@@ -110,43 +110,42 @@ class AccountPageController extends Controller
         $createdUser = $userservice->ChangePasswordUser($updateUser);
 
         $Response = new TextResponse();
-        $Response->setBody('PasswordUpdated');                              // setting a response because Ajax expects it.
+        $Response->setBody('PasswordUpdated');                              
         return $Response;
     }
 
     public function updateEmail(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details.
+        $postBody = $this->currentRequest->getPostObject()->body();         
+        $user = $_SESSION["user"]["id"];                                    
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);                     
 
         $updateUser->emailAddress = $postBody['email'];
-        $updateUser->active = false;                                        // change the active status to false to reset the activation proces
+        $updateUser->active = false;                                        
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->ChangeEmail($updateUser);              // the email is changed in the user table
+        $createdUser = $userservice->ChangeEmail($updateUser);              
 
         $randomLinkService = Application::resolve(RandomLinkService::class);
-        $randomLink = $randomLinkService->generateRandomString(32);         // random link is generated for activating the account 
+        $randomLink = $randomLinkService->generateRandomString(32);         
 
         $updateUser->id = $user;
         $updateUser->activationLink = $randomLink;                          
 
         $ActivateService = Application::resolve(ActivateService::class);
-        $result = $ActivateService->newActivationLink($updateUser);         // link is entered into the database to link the account with the randomlink
+        $result = $ActivateService->newActivationLink($updateUser);         
 
         $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [ 
             'gebruiker' => $createdUser->firstName,
-            'token' => $randomLink                                          // filling the template with all the important data.
+            'token' => $randomLink                                         
         ]);
 
         $mail = new Mail($postBody['email'], "Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
-        return $result;                                                     // setting a response because Ajax expects it.
+        return $result;                                                    
     }
-
     public function deleteAccount(): ?Response
     {
         $user = $_SESSION["user"]["id"];
