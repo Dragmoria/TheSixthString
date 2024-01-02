@@ -492,17 +492,18 @@ $fields = array(
   });
 
   //--------------Getting orderhistory from database----------------------------------------
+
   $(document).ready(function () {
     $("#orderHistoryButton").on("click", function () {
       event.preventDefault();
       $.ajax({
         url: "/RetrievingOrderHistory",
         type: "POST",
-        dataType: "json",
+        // dataType: "json",
         success: function (response) {
 
           console.log(response);
-          updateOrderHistoryForm(response)
+          updateOrderHistoryForm(response.orders, response.Addresses)
         },
         error: function (xhr, status, error) {
 
@@ -513,7 +514,7 @@ $fields = array(
     });
   });
 
-  function updateOrderHistoryForm(orderHistoryData) {
+  function updateOrderHistoryForm(orderHistoryData, addressData) {
     const orderHistoryContainer = document.getElementById('orderHistoryContainer');
     orderHistoryContainer.innerHTML = '';
 
@@ -521,12 +522,23 @@ $fields = array(
       const orderDate = new Date(order.createdOn.date);
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = orderDate.toLocaleDateString('nl-NL', options);
-      const orderTotal = order.orderTotal
-      const taxTotal = order.orderTax / 100
-      const finalTotal = orderTotal * (1 + taxTotal)
-
+      const orderTotal = order.orderTotal;
+      const taxTotal = order.orderTax / 100;
+      const finalTotal = orderTotal * (1 + taxTotal);
+      const searchStr = order.id + " shippingAddress";
+      const addressArray = addressData[searchStr];
       const orderElement = document.createElement('div');
-      orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6><div class="row justify-content-center mt-5 mb-4"><div class="order-divider"></div></div>`;
+      orderElement.classList.add('ms-5', 'me-5');
+      const extensionHandle = addressArray.housenumberExtension;
+      orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> 
+      <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6> 
+      <br> <p6 style=color:#EFE3C4>Afleveradres: </p6>
+      <br> <p6 style=color:#EFE3C4>${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
+      <br> <p6 style=color:#EFE3C4>${addressArray.zipCode}, ${addressArray.city}</p6>
+      <div class="col text-end me-3">
+      <i><u style=color:#EFE3C4><p6 style=color:#EFE3C4>See more</p6></u></i>
+      </div>
+      <div class="row justify-content-center mt-2 mb-4"><div class="order-divider"></div></div>`;
       orderHistoryContainer.appendChild(orderElement);
     });
   }
