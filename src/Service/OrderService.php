@@ -14,6 +14,7 @@ use Lib\Enums\OrderItemStatus;
 use Lib\Enums\PaymentStatus;
 use Lib\Enums\ShippingStatus;
 use Lib\Helpers\TaxHelper;
+use Models\OrderModel;
 
 class OrderService extends BaseDatabaseService {
     public function createOrderWithOrderItems(ShoppingCart $shoppingCart, ?Coupon $couponUsed): bool {
@@ -101,5 +102,21 @@ class OrderService extends BaseDatabaseService {
         $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;
         $mail = new Mail($userEmail,"Bestelbevestiging #$orderId", $mailtemplateCustomer, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
+    }
+
+    public function getOrdersById(int $userId): ?array
+    {
+        $query = "SELECT * FROM `order` WHERE userId = ? ORDER BY createdOn DESC;";
+        $params = [$userId];
+
+        $result = $this->executeQuery($query, $params, Order::class);
+
+        $models = [];
+        foreach ($result as $entity) {
+            array_push($models, OrderModel::convertToModel($entity));
+        }
+
+        if (count($models) === 0) return null;
+        return $models;
     }
 }

@@ -13,3 +13,4 @@ class Resetpassword extends SaveableObject
     public string $link = "";
     public string $validUntil = "";
 }
+

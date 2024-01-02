@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <style>
   body {
-    
     background-color: #2C231E;
   }
 
@@ -57,68 +56,64 @@
     cursor: pointer;
   }
 </style>
-
-
-<div class="container d-flex mb-5 mt-5 justify-content-center">
-  <div class="card p-1 bg-card-custom w-40 d-inline-block">
-    <form method="POST" action="/Account">
-      <input hidden name="_method" value="PUT" />
-      <div class="ms-5 mt-3">
-        <h2 style="color:#EFE3C4">Sixth</h2>
-        <h1 style="color:#EFE3C4">Inloggen</h1>
-      </div>
-      <div class="ms-5 mt-5">
-        <p style="color:#FF0000;display: <?
+<div class="header-custom">
+  <div class="container d-flex mb-5 justify-content-center">
+    <div class="card p-1 bg-card-custom w-40 d-inline-block mt-5">
+      <form method="POST" action="/Account">
+        <input hidden name="_method" value="PUT" />
+        <div class="ms-5 mt-3">
+          <h2 style="color:#EFE3C4">Sixth</h2>
+          <h1 style="color:#EFE3C4">Inloggen</h1>
+        </div>
+        <div class="ms-5 mt-5">
+          <b><p style="color:#FF0000;display: <?
           echo $error ?? "none";
-         ?>;">ongeldig emailadres of
-          wachtwoord</p>
-      </div>
-      <div class="col-auto ms-5 me-5 mb-4 mt-3">
-        <div class="row">
-          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email"
-            value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email" placeholder="E-mailadres"
-            required></input>
+          ?>;">ongeldig emailadres of
+            wachtwoord</p></b>
         </div>
-      </div>
-      <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
-        <div class="row">
-          <input type="password" class="form-control custom-input-height bg-beige-color password-input"
-            value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password" name="password"
-            placeholder="Wachtwoord" required>
-          <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
-        </div>
-      </div>
-      <div class="col-auto mt-1 me-1">
-        <div class="row">
-          <div class="col-12 mb-5 text-center">
-            <a href="/ForgotPassword" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
-            <div class="line-hyper"></div>
+        <div class="col-auto ms-5 me-5 mb-4 mt-3">
+          <div class="row">
+            <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email"
+              value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email" placeholder="E-mailadres"
+              required></input>
           </div>
         </div>
-      </div>
-      <div class="col-12 ms-5 mb-5 me-5 form">
-        <div class="row">
-          <div class="col-auto">
-            <a href="/Register" id="registerButton" 
-              class="btn btn-primary rounded-pill form-check bg-beige-color"
-              style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Register">Registreren</a>
-          </div>
-          <div class="col-auto">
-            <button type="submit" id="loginButton" 
-              class="btn btn-primary rounded-pill form-check bg-beige-color"
-              style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Login">Inloggen</button>
+        <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
+          <div class="row">
+            <input type="password" class="form-control custom-input-height bg-beige-color password-input"
+              value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password" name="password"
+              placeholder="Wachtwoord" required>
+            <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
           </div>
         </div>
-    </form>
+        <div class="col-auto mt-1 me-1">
+          <div class="row">
+            <div class="col-12 mb-5 text-center">
+              <a href="/ForgotPassword" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
+              <div class="line-hyper"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 ms-5 mb-5 me-5 form">
+          <div class="row">
+            <div class="col-auto">
+              <a href="/Register" id="registerButton" class="btn btn-primary rounded-pill form-check bg-beige-color"
+                style="width: min-content;background-color:#FCB716;border-color:#FCB716"
+                value="Register">Registreren</a>
+            </div>
+            <div class="col-auto">
+              <button type="submit" id="loginButton" class="btn btn-primary rounded-pill form-check bg-beige-color"
+                style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Login">Inloggen</button>
+            </div>
+          </div>
+      </form>
+    </div>
   </div>
 </div>
 
 
 
-
 <script>
-
-
 
   document.addEventListener('DOMContentLoaded', function () {
     // Get the password input elements

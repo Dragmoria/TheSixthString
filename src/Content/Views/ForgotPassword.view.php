@@ -81,7 +81,7 @@ $randomLink = ""
       data: $("#ForgotPasswordForm").serialize(),
       success: function (response) {
         document.getElementById('successMessage').style.display = 'block';
-        document.querySelector('form').style.display = 'none';
+        document.getElementById('ForgotPasswordForm').style.display = 'none';
       },
       error: function (xhr, status, error) {
         alert("An error occurred: " + error);

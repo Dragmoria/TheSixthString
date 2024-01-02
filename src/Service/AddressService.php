@@ -18,6 +18,17 @@ class AddressService extends BaseDatabaseService
         return $model;
     }
 
+    public function getAddressById(int $id): ?AddressModel
+    {
+        $address = $this->getById($id);
+
+        if ($address === null)
+            return null;
+        $model = AddressModel::convertToModel($address);
+
+        return $model;
+    }
+
     public function createAddress(AddressModel $input): ?AddressModel
     {
         $query = "INSERT INTO address (`userId`, `street`, `housenumber`, `housenumberExtension`, `zipCode`, `city`, `country`, `active`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -65,6 +76,31 @@ class AddressService extends BaseDatabaseService
         return $result !== false;
     }
 
+    public function deleteAddress(int $userId): bool
+    {
+
+        $query = "DELETE FROM address WHERE id = ?;";
+
+        $params = [
+            $userId
+        ];
+
+        $result = $this->executeQuery($query, $params);
+        return $result !== false;
+
+    }
+    private function getById(int $id): ?Address
+    {
+        $query = 'SELECT * FROM address WHERE id = ? LIMIT 1';
+        $params = [$id];
+
+        $result = $this->executeQuery($query, $params, Address::class);
+
+        if (count($result) === 0)
+            return null;
+        // Assuming the query returns only one user
+        return $result[0];
+    }
     private function getByUserIdAndType(int $userId, int $type): ?Address
     {
         $query = 'SELECT * FROM address WHERE userId = ? AND type = ? LIMIT 1';
