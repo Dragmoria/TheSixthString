@@ -1,6 +1,6 @@
 <?php
 function buildCategoryMenu($category, int $index): void
-{ //used in CategoryMenu.component.php
+{ 
   echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
 
     ++$index;
@@ -35,12 +35,8 @@ function buildCategoryMenu($category, int $index): void
         echo '</li>';
       }
       ?>
-      <?php
-      // when user is logged in, a drop down menu is showing on "hover-over" else just a regular Href:/Account.
-      if (isset($_SESSION["user"]["id"])) {
-        echo '
       <div class="dropdown custom-dropdown">
-        <form id="logoutForm" method="POST" action="/Account">
+        <form id="logoutForm" method="POST" action="/LogOut">
           <li class="nav-item mx-3">
             <button type="submit"
               class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
@@ -48,21 +44,16 @@ function buildCategoryMenu($category, int $index): void
             </button>
             <div class="dropdown-menu start-0" style="margin-left: -85px;" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="/Account">Account pagina</a>
-              <!-- Use JavaScript to submit the form when the dropdown item is clicked -->
-              <a class="dropdown-item" href="/#" onclick="document.getElementById(\'logoutForm\').submit();">Uitloggen</a>
+              <? if (isset($_SESSION['user'])) { echo '
+              <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById(\'logoutForm\').submit();">Uitloggen</a>';
+              } else {
+                echo '<a class="dropdown-item" href="/Login">Inloggen</a>';
+              }
+              ?>
             </div>
           </li>
         </form>
-      </div>';
-      } else {
-        echo '
-      <li class="nav-item mx-3">
-        <a href="/Account" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
-          <img src="/images/account-icon.png" alt="Account" width="17" height="17">
-        </a>
-      </li>';
-      }
-      ?>
+      </div>
       <li class="nav-item me-5">
         <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button" href="/ShoppingCart">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">

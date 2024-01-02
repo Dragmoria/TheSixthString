@@ -129,7 +129,7 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="container-fluid d-flex mb-5 justify-content-center">
+<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center">
     <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
@@ -137,8 +137,7 @@ $fields = array(
                     <div class="col-auto mt-4 mb-3">
                         <h1 style="color:#EFE3C4">Registratie</h1>
                         <?= $spacer . $spacer ?>
-                        <h3 style="color:#EFE3C4">Persoonlijke gegevens</h3>
-                        <div class="spacer"></div>
+                        <h3 class="mb-3" style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
                             <div class="col-auto form-check form-check-inline">
@@ -214,9 +213,8 @@ $fields = array(
                             </div>
                         </div>
                     <? endforeach; ?>
-                    <div class="spacer"></div>
                     <div class="row">
-                        <div class="col-lg-12 col-xl-12 col-sm-12 mb-3 mb-2 ms-1 text-center ">
+                        <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
                             <button type="button" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
@@ -235,7 +233,9 @@ $fields = array(
                     <p class="mt-3" style="color:#EFE3C4">We hebben je een e-mail gestuurd met <br> daarin een
                         persoonlijke link.
                         <br> Via deze link kun je je registratie activeren.
-                        <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox.
+                        <br> <br> Je ontvangt de mail binnen enkele minuten.<br> Of bekijk je spam inbox. <br><br> <b>
+                            Let
+                            op, pas na activatie kunt u inloggen!</b>
                     </p>
                     <a href="/Login" class="text-decoration-none" style="color:#EFE3C4">sluit deze pagina</a>
                     <div class="line-hyper"></div>
@@ -274,10 +274,20 @@ $fields = array(
         return true;
     }
 
+    function isInteger(value) {
+    return /^\d+$/.test(value);
+}
+
     $(document).ready(function () {
         $("#saveButton").on("click", function () {
 
-            if (!validateEmails()){
+            var huisnummer = $("#housenumber").val();
+            if (!isInteger(huisnummer)) {
+                alert("Voer een geldig huisnummer in aub.");
+                return;
+            }
+
+            if (!validateEmails()) {
                 return;
             }
 
@@ -297,6 +307,7 @@ $fields = array(
                             alert("Het ingevoerde e-mailadres is al in gebruik");
                         }
                         else {
+                            console.log(response);
                             var myForm = $("#registerForm");
                             myForm.hide();
 

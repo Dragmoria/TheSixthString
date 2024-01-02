@@ -14,7 +14,6 @@ use Service\UserService;
 
 
 
-
 class ResetPasswordController extends Controller
 {
     public function ResetPassword($urlData): ?Response
@@ -23,7 +22,6 @@ class ResetPasswordController extends Controller
 
         $resetPasswordService = Application::resolve(ResetpasswordService::class);
         $result = $resetPasswordService->getResetpasswordByLink($urlData["dynamiclink"]);
-
 
         if (!isset($result)) {
             $Response->setStatusCode(HTTPStatusCodes::NOT_FOUND);

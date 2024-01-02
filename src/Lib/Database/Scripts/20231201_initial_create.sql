@@ -12,6 +12,7 @@ CREATE TABLE thesixthstring.user(
 	gender int NOT NULL,
 	active bit NOT NULL,
 	createdOn datetime NOT NULL,
+	activationLink varchar(32) null,
     PRIMARY KEY (id)
 );
 
@@ -72,6 +73,27 @@ CREATE TABLE thesixthstring.coupon(
 );
 
 #------------------------------------------------------------------------------------------------------------------------------
+-- CREATE TABLE thesixthstring.order (
+--     id INT AUTO_INCREMENT NOT NULL,
+--     userId INT NULL,
+--     orderTotal DECIMAL(18, 2) NOT NULL,
+--     orderTax DECIMAL(18, 2) NOT NULL,
+--     couponId INT NULL,
+--     shippingAddressId INT NULL,
+--     invoiceAddressId INT NULL,
+--     paymentStatus INT NOT NULL,
+--     shippingStatus INT NOT NULL,
+--     createdOn DATETIME NOT NULL,
+--     PRIMARY KEY (id),
+--     FOREIGN KEY (userId) REFERENCES user(id) ON DELETE SET NULL,
+--     FOREIGN KEY (couponId) REFERENCES coupon(id) ON DELETE SET NULL,
+--     FOREIGN KEY (shippingAddressId) REFERENCES address(id) ON DELETE SET NULL,
+--     FOREIGN KEY (invoiceAddressId) REFERENCES address(id) ON DELETE SET NULL
+-- );
+
+
+
+
 
 CREATE TABLE thesixthstring.order(
 	id int AUTO_INCREMENT NOT NULL,

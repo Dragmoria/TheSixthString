@@ -49,12 +49,13 @@ $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
-$container->registerClass(MailService::class);
-$container->registerClass(RandomLinkService::class);
-$container->registerClass(ActivateService::class);
+$container->registerClass(MailService::class)->asSingleton();
+$container->registerClass(RandomLinkService::class)->asSingleton();
+$container->registerClass(ActivateService::class)->asSingleton();
+$container->registerClass(OrderService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
-$container->registerClass(OrderService::class)->asSingleton();
+
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -64,30 +65,40 @@ $router = Application::getRouter();
 require_once BASE_PATH . 'Routes/ControlPanel.php';
 
 $router->get('/Register', [RegisterController::class, 'register']);
+$router->post('/RegisterValidate', [RegisterController::class, 'saveRegistery']);
+$router->get('/Activate/{dynamicLink}', [RegisterController::class, 'Activate']);
+$router->post('/RegisterSucces', [RegisterController::class, 'post']);
+
 $router->get('/Login', [LoginController::class, 'loginPage']);
 $router->put('/Account', [LoginController::class, 'validateLogin']);
+
+$router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
+$router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPassword']);
+
+$router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
+$router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
+
 $router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
 $router->post('/Account', [AccountPageController::class, 'Logout']);
-$router->post('/LogOut', [AccountPageController::class, 'Logout']);
+$router->post('/logout', [AccountPageController::class, 'Logout']);
 $router->post('/UpdateInfo', [AccountPageController::class, 'updateInfo']);
-$router->post('/UpdatePasswordAndEmail', [AccountPageController::class, 'updatePasswordAndEmail']);
-$router->post('/RegisterValidate', [RegisterController::class, 'saveRegistery']);
-$router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPassword']);
-$router->put('/', [RegisterController::class, 'put']);
-$router->post('/RegisterSucces', [RegisterController::class, 'post']);
-$router->get('/', [IndexController::class, 'show']);
+$router->post('/UpdateUserPassword', [AccountPageController::class, 'updateUserPassword']);
+$router->post('/UpdateEmail', [AccountPageController::class, 'updateEmail']);
+$router->post('/deleteAccount', [AccountPageController::class, 'deleteAccount']);
+$router->get('/AccountDeleted', [AccountPageController::class, 'DeleteFinished']);
+$router->post('/RetrievingOrderHistory', [AccountPageController::class, 'RetrievingOrderHistory']);
+
+$router->get('/Mail', [MailController::class, 'mail']);
+
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
-$router->get('/Mail', [MailController::class, 'mail']);
 
-$router->get('/Mail', [MailController::class, 'mail']);
-$router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
-$router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRandomURL']);
-$router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
-$router->get('/Activate/{dynamicLink}', [RegisterController::class, 'Activate']);
+
+
+
 
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
