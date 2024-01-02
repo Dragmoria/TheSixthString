@@ -13,7 +13,7 @@
                                 <h5>Cadeaukaart/kortingscode invoeren</h5>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <input id="coupon-input" type="text" class="form-control w-auto" />
+                                        <input id="coupon-input" type="text" class="form-control w-auto bg-sixth-beige" />
                                     </div>
                                     <div class="col-auto">
                                         <button type="button" onclick="processCoupon()" class="btn btn-primary sixth-button rounded-4">Activeren</button>

@@ -123,7 +123,7 @@ class ShoppingCartController extends Controller {
             $shoppingCartData = $this->getShoppingCartContent($coupon);
             $totalPriceInclTaxWithDiscount = Application::resolve(OrderService::class)->calculateTotalPriceInclTaxWithCouponDiscount($coupon, $shoppingCartData->totalPriceIncludingTax);
 
-            $result->discount = formatPrice($shoppingCartData->totalPriceIncludingTax - $totalPriceInclTaxWithDiscount);
+            $result->discount = "-" . formatPrice($shoppingCartData->totalPriceIncludingTax - $totalPriceInclTaxWithDiscount);
             $result->adjustedTotal = formatPrice($totalPriceInclTaxWithDiscount);
 
             $_SESSION["couponApplied"] = $postBody["code"];
