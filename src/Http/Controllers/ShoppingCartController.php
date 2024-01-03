@@ -13,6 +13,7 @@ use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Service\CouponService;
 use Service\OrderService;
+use Service\PaymentService;
 use Service\ProductService;
 use Service\ShoppingCartService;
 
@@ -89,6 +90,8 @@ class ShoppingCartController extends Controller {
     }
 
     public function startPayment(): ?Response {
+        $postBody = $this->currentRequest->postObject->body();
+
         $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"], "");
 
         $couponService = Application::resolve(CouponService::class);
@@ -97,16 +100,43 @@ class ShoppingCartController extends Controller {
 
         $response = new JsonResponse();
         $result = new \stdClass();
-        $result->success = Application::resolve(OrderService::class)->createOrderWithOrderItems($shoppingCart, $couponUsed);
 
-        //TODO: betaling afhandelen
-        //$postBody = $this->currentRequest->postObject->body();
-        //$paymentType = $postBody["paymentMethod"] ?? PaymentMethod::PayLater;
-        //$result->success &= handlePayment met mollie
+        $orderService = Application::resolve(OrderService::class);
+        $result->success = $orderService->createOrderWithOrderItems($shoppingCart, $couponUsed);
 
         $this->removeCoupon();
 
+        $paymentService = Application::resolve(PaymentService::class);
+        $createdOrderId = $orderService->getLastCreatedOrderIdForUser($shoppingCart->userId);
+
+        $paymentMethod = PaymentMethod::fromString($postBody["paymentMethod"]);
+        $paymentId = null;
+        if($postBody["paymentMethod"] != PaymentMethod::PayLater->name) {
+            $payment = $paymentService->createPayment($createdOrderId, $paymentMethod);
+            $paymentId = $payment->id;
+            $result->paymentUrl = $payment->getCheckoutUrl();
+        }
+
+        $paymentService->createOrderPayment($createdOrderId, $paymentMethod, $paymentId);
+
+        $_SESSION["paymentOrderId"] = $createdOrderId;
+
         $response->setBody((array)$result);
+        return $response;
+    }
+
+    public function finishPayment(): ?Response {
+        //TODO: paymentstatus zelf ophalen adhv de paymentId?
+
+        $payment = Application::resolve(PaymentService::class)->getPaymentByOrderId($_SESSION["paymentOrderId"]);
+        dumpDie(json_encode($payment));
+
+        //TODO: get last order for user, then get orderpayment for this order and update the paymentDate if paid
+
+        //TODO: toegang tot deze functie alleen toestaan vanaf het mollie-domein?
+
+        $response = new ViewResponse();
+
         return $response;
     }
 

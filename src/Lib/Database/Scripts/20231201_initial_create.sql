@@ -156,6 +156,7 @@ CREATE TABLE thesixthstring.orderpayment(
 	orderId int NOT NULL,
 	method int NOT NULL,
 	paymentDate datetime NULL,
+    paymentId text NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (orderId) REFERENCES `order`(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
