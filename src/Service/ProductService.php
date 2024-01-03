@@ -60,7 +60,7 @@ class ProductService extends BaseDatabaseService {
     }
 
     public function getSuggestedProducts(string $search): array {
-        $productEntities = $this->executeQuery("select id, name, unitPrice from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
+        $productEntities = $this->executeQuery("select id, name from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
 
         $models = array();
 
