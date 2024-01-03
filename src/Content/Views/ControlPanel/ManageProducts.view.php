@@ -287,7 +287,8 @@
 
                             var formData = new FormData();
                             for (var key in productData) {
-                                if (key === 'addProductImages') {
+                                console.log(key);
+                                if (key === 'productImages') {
                                     for (var i = 0; i < productData[key].length; i++) {
                                         formData.append(key + '[]', productData[key][i]);
                                     }

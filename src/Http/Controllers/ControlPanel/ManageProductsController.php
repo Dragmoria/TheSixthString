@@ -23,6 +23,52 @@ class ManageProductsController extends Controller
         return $response;
     }
 
+    public function addProduct(): ?Response
+    {
+        $postBody = $this->currentRequest->postObject->body();
+        $postBody["addFiles"] = $this->currentRequest->postObject->files();
+        $errors = $this->validateAddProduct($postBody);
+
+        if (count($errors) > 0) {
+            $response = new JsonResponse();
+            $response->setBody($errors);
+            return $response;
+        }
+
+        dumpDie($postBody);
+    }
+
+    private function validateAddProduct($body): ?array
+    {
+        // TODO: Implement validateAddProduct() method.
+        return [];
+    }
+
+    public function editProduct(): ?Response
+    {
+        $postBody = $this->currentRequest->postObject->body();
+        $postBody["addFiles"] = $this->currentRequest->postObject->files();
+        $errors = $this->validateEditProduct($postBody);
+
+        if (count($errors) > 0) {
+            $response = new JsonResponse();
+            $response->setBody($errors);
+            return $response;
+        }
+
+        // TODO: Implement editProduct() method.
+        // Make sure to check for files that have not been changed
+        // Deleting can be skipped just dont add them to the json in the db
+        // If a file that was already in the json was posted with some key it should be kept but not saved again
+        // If it is a new file add it to the json aswell and save it to the images folder
+    }
+
+    private function validateEditProduct($body): ?array
+    {
+        // TODO: Implement validateEditProduct() method.
+        return [];
+    }
+
     public function getBrands(): ?Response
     {
         $brandService = Application::resolve(BrandService::class);

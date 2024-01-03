@@ -1,0 +1,1 @@
+INSERT INTO thesixthstring.coupon (id, name, code, value, startDate, endDate, usageAmount, maxUsageAmount, active, type) VALUES (1, 'Coupon1', 'NEWYEARS', 10.00, '2024-01-01 00:00:00', '2024-01-31 00:00:00', 0, 100, true, 0);

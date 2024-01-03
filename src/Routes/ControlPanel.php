@@ -50,3 +50,4 @@ $router->get('/ControlPanel/ManageProducts', [ManageProductsController::class, '
 $router->get('/ControlPanel/ManageProducts/GetBrands', [ManageProductsController::class, 'getBrands'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageProducts/GetCategories', [ManageProductsController::class, 'getCategories'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/ManageProducts/GetProductsTableData', [ManageProductsController::class, 'getProductsTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->post('/ControlPanel/Products/AddProduct', [ManageProductsController::class, 'addProduct'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
