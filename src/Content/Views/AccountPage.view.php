@@ -416,29 +416,47 @@ $fields = array(
 </div>
 </div>
 
-<!-- The Modal -->
+<!-- Account deletion Modal -->
 <div class="modal fade" id="myModal">
   <div class="modal-dialog modal-md">
     <div class="modal-content" style="background-color: #2C231E;">
 
-      <!-- Modal Header -->
       <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
         <h4 class="modal-title" style=color:#EFE3C4>Account verwijderen</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p1 style=color:#EFE3C4>Weet u zeker dat u uw account wilt verwijderen?</p1>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer" style="border-color: #2C231E;">
         <button type="button" style="background-color:#FCB716;border-color:#FCB716"
           class="btn btn-primary rounded-pill bg-beige-color" href="/" id="deleteAccountBtn"
           data-bs-dismiss="modal">Ja</button>
         <button type="button" style="background-color:#FCB716;border-color:#FCB716"
           class="btn btn-primary rounded-pill bg-beige-color" data-bs-dismiss="modal">Nee</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Order Modal -->
+<div class="modal fade" id="OrderModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color: #2C231E;">
+
+      <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
+        <h4 class="modal-title" style=color:#EFE3C4>Order:  </h4>
+      </div>
+
+      <div class="modal-body">
+        <p1 style=color:#EFE3C4>hallo</p1>
+      </div>
+
+      <div class="modal-footer" style="border-color: #2C231E;">
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716"
+          class="btn btn-primary rounded-pill bg-beige-color" href="/" id="closeOrderButton"
+          data-bs-dismiss="modal">Sluiten</button>
       </div>
     </div>
   </div>
@@ -499,16 +517,11 @@ $fields = array(
       $.ajax({
         url: "/RetrievingOrderHistory",
         type: "POST",
-        // dataType: "json",
+        dataType: "json",
         success: function (response) {
-
-          console.log(response);
           updateOrderHistoryForm(response.orders, response.Addresses)
         },
         error: function (xhr, status, error) {
-
-          console.error(xhr);
-          console.error(status);
         }
       });
     });
@@ -536,12 +549,43 @@ $fields = array(
       <br> <p6 style=color:#EFE3C4>${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
       <br> <p6 style=color:#EFE3C4>${addressArray.zipCode}, ${addressArray.city}</p6>
       <div class="col text-end me-3">
-      <i><u style=color:#EFE3C4><p6 style=color:#EFE3C4>See more</p6></u></i>
+      <i><u style=color:#EFE3C4><a href="#" id="${order.id}" data-number="${order.id}" class="OrderModalButton text-decoration-none" style=color:#EFE3C4>See more</a></u></i>
       </div>
       <div class="row justify-content-center mt-2 mb-4"><div class="order-divider"></div></div>`;
       orderHistoryContainer.appendChild(orderElement);
     });
   }
+
+  $(document).on('click', '#orderHistoryContainer .OrderModalButton', function(event) {
+    event.preventDefault();
+
+    var additionalData = {
+        Order: $(this).data('number')
+      };
+
+      var Data = $.param(additionalData);
+    $.ajax({
+      url: '/GetOrderOverview',
+      method: 'POST',
+      data: Data,
+      // dataType: 'json',
+      success: function(response) {
+        console.log(response);
+        // Assuming the response is an array like: { "key1": "value1", "key2": "value2" }
+
+        // Assign values to JavaScript variables
+        var value1 = response.Order
+
+        // Update the modal content
+        $('#OrderModal .modal-title').html('Bestelnummer: ' + value1);
+        $('#orderModalContent').html();
+
+        // Show the modal
+        $('#OrderModal').modal('show');
+      }
+    });
+  });
+
   //--------------Logging out---------------------------------------------------------------
   $(document).ready(function () {
     $("#logoutButton").on("click", function () {

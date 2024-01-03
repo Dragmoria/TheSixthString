@@ -87,6 +87,10 @@ $router->post('/UpdateEmail', [AccountPageController::class, 'updateEmail']);
 $router->post('/deleteAccount', [AccountPageController::class, 'deleteAccount']);
 $router->get('/AccountDeleted', [AccountPageController::class, 'DeleteFinished']);
 $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'RetrievingOrderHistory']);
+$router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
+$router->post('/HeartBeat', [AccountPageController::class, 'HeartBeat']);
+
+
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
@@ -95,11 +99,6 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
-
-
-
-
-
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);

@@ -32,10 +32,10 @@ class AccountPageController extends Controller
 
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserById($_SESSION["user"]["id"]);         // getting the user model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
-        
-        if (!isset($user)){
+
+        if (!isset($user)) {
             redirect("/Login");
-        }  
+        }
 
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user->id, 1);       // getting the address model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
@@ -66,26 +66,26 @@ class AccountPageController extends Controller
 
     public function updateInfo(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();
-        $user = $_SESSION["user"]["id"];
+        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
+        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     
+        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
 
-        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                          
-        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                        
+        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                          //changing all the information the user has entered.
+        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                        //any field that is left empty will be reassigned its own value.
         $updateUser->lastName = !empty($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
         $updateUser->dateOfBirth = !empty($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
         $updateUser->gender = !empty($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->changePersonalInfo($updateUser);       
+        $createdUser = $userservice->changePersonalInfo($updateUser);       // entering all the details, that are supposed to go into the `user` table, into the database.
 
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user, 1);
 
-        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;                            
-        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        
+        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;                            //changing all the information the user has entered.
+        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        //any field that is left empty will be reassigned its own value.
         $address->housenumber = !empty($postBody['housenumber']) ? $postBody['housenumber'] : $address->housenumber;
         $address->housenumberExtension = !empty($postBody['addition']) ? $postBody['addition'] : $address->housenumberExtension;
         $address->city = !empty($postBody['city']) ? $postBody['city'] : $address->city;
@@ -93,16 +93,16 @@ class AccountPageController extends Controller
         $address->type = 1;
 
         $updateAddressService = Application::resolve(AddressService::class);
-        $updatedAddress = $updateAddressService->updateAddress($address);       
+        $updatedAddress = $updateAddressService->updateAddress($address);
     }
 
     public function updateUserPassword(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         
-        $user = $_SESSION["user"]["id"];                                    
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     
+        $updateUser = $userservice->getUserById($user);
 
         $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
 
@@ -110,42 +110,43 @@ class AccountPageController extends Controller
         $createdUser = $userservice->ChangePasswordUser($updateUser);
 
         $Response = new TextResponse();
-        $Response->setBody('PasswordUpdated');                              
+        $Response->setBody('PasswordUpdated');
         return $Response;
     }
 
     public function updateEmail(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         
-        $user = $_SESSION["user"]["id"];                                    
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     
+        $updateUser = $userservice->getUserById($user);
 
         $updateUser->emailAddress = $postBody['email'];
-        $updateUser->active = false;                                        
+        $updateUser->active = false;
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->ChangeEmail($updateUser);              
+        $createdUser = $userservice->ChangeEmail($updateUser);
 
         $randomLinkService = Application::resolve(RandomLinkService::class);
-        $randomLink = $randomLinkService->generateRandomString(32);         
+        $randomLink = $randomLinkService->generateRandomString(32);
 
         $updateUser->id = $user;
-        $updateUser->activationLink = $randomLink;                          
+        $updateUser->activationLink = $randomLink;
 
         $ActivateService = Application::resolve(ActivateService::class);
-        $result = $ActivateService->newActivationLink($updateUser);         
+        $result = $ActivateService->newActivationLink($updateUser);
 
-        $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [ 
+        $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [
             'gebruiker' => $createdUser->firstName,
-            'token' => $randomLink                                         
+            'token' => $randomLink
         ]);
 
         $mail = new Mail($postBody['email'], "Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
-        return $result;                                                    
+        return $result;
     }
+
     public function deleteAccount(): ?Response
     {
         $user = $_SESSION["user"]["id"];
@@ -155,15 +156,15 @@ class AccountPageController extends Controller
         unset($_SESSION["user"]);
 
         return $userToDelete;
-        
+
     }
-    
+
     public function DeleteFinished(): ?Response
     {
         $Response = new ViewResponse();
         $Response->setBody(view(VIEWS_PATH . 'AccountDeleted.view.php', [])->withLayout(MAIN_LAYOUT));
         return $Response;
-        
+
     }
 
     public function RetrievingOrderHistory(): ?JsonResponse
@@ -179,13 +180,32 @@ class AccountPageController extends Controller
             $shippingInfo[$orderModel->id . " shippingAddress"] = $addressService->getAddressById($orderModel->shippingAddressId);
             $shippingInfo[$orderModel->id . " invoiceAddress"] = $addressService->getAddressById($orderModel->invoiceAddressId);
         }
-        $response = ["orders" => $orders,"Addresses" => $shippingInfo];
+        $response = ["orders" => $orders, "Addresses" => $shippingInfo];
         $JsonResponse = new JsonResponse();
         $JsonResponse->setBody($response);
         return $JsonResponse;
     }
 
-    
+
+    public function GetOrderOverview(): ?Response
+    {
+        $postBody = $this->currentRequest->getPostObject()->body();
+
+        $response = ["Order" => $postBody['Order']];
+        $JsonResponse = new JsonResponse();
+        $JsonResponse->setBody($response);
+        return $JsonResponse;
+    }
+
+    public function HeartBeat()
+    {
+        unset($_SESSION['user']);
+        echo 'LOGGED_OUT';
+        exit;
+
+    }
+
+
 
 }
 
