@@ -41,7 +41,7 @@ date_default_timezone_set('Europe/Amsterdam'); // Replace 'Europe/Amsterdam' wit
 $container = Container::getInstance();
 // Register some services here. Supports singleton and transient services.
 $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(function () {
-    return new EnvHandler(BASE_PATH . '/.env');
+    return new EnvHandler(BASE_PATH . '.env');
 });
 $container->registerClass(AddressService::class)->asSingleton();
 $container->registerClass(ReviewService::class)->asSingleton();
