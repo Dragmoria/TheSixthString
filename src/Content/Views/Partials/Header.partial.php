@@ -21,8 +21,8 @@ function buildCategoryMenu($category, int $index): void
         <div class="dropdown">
             <div class="d-flex">
                 <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
-                       placeholder="Zoeken..." onkeyup="searchSuggested(this)"/>
-                <span class="input-group-text border-0 bg-transparent" id="search-addon" onclick="executeSearch()">
+                       placeholder="Zoek een product" data-target-dropdown="suggested-results" onkeyup="searchSuggested(this)" />
+                <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                      class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -124,8 +124,19 @@ function buildCategoryMenu($category, int $index): void
     <!-- Search Bar -->
     <div class="container-fluid px-3 my-3 justify-content-center align-items-center">
         <div class="input-group">
-            <input class="custom-form-control rounded-pill" type="search" placeholder="Zoek een product"
-                   aria-label="Search">
+            <div class="dropdown">
+                <div class="d-flex">
+                    <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
+                           placeholder="Zoek een product" data-target-dropdown="suggested-results-sm" onkeyup="searchSuggested(this)" />
+                    <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+                </div>
+                </span>
+                <ul id="suggested-results-sm" class="dropdown-menu"></ul>
+            </div>
         </div>
     </div>
 
@@ -142,16 +153,17 @@ function buildCategoryMenu($category, int $index): void
         searchTimer = setTimeout(function () {
             if ($(element).val().length > 3) {
                 $.post('/Product/GetSuggestedProducts', {search: $(element).val()}, function (response) {
-                    $('#suggested-results li').remove();
+                    var dropdownId = '#' + $(element).data('target-dropdown');
+                    $(dropdownId + ' li').remove();
                     $.each(response.products, function (i, el) {
                         var suggestedProduct = '<li class="p-2"><a class="text-decoration-none text-sixth-black" href="/Product/' + el.id + '">' + el.name + '</a></li>';
-                        $('#suggested-results').append(suggestedProduct);
+                        $(dropdownId).append(suggestedProduct);
                     });
 
-                    $('#suggested-results').dropdown('toggle');
+                    $(dropdownId).dropdown('show');
                 });
             }
-        }, 1000);
+        }, 750);
     }
 
     function executeSearch() {
