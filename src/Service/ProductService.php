@@ -153,9 +153,34 @@ class ProductService extends BaseDatabaseService
 
         $entities = $this->executeQuery($query, $params, Product::class);
 
+
+        $brands = [];
+        $categories = [];
+
+
         $models = [];
         foreach ($entities as $entity) {
-            $models[] = ProductModel::convertToModel($entity);
+            $model = ProductModel::convertToModel($entity);
+
+            if (!is_null($entity->brandId)) {
+                if (!array_key_exists($entity->brandId, $brands)) {
+                    $brandEntity = $this->executeQuery("select * from brand where id = ?", [$entity->brandId], Brand::class)[0];
+                    $brands[$entity->brandId] = BrandModel::convertToModel($brandEntity);
+                }
+
+                $model->brand = $brands[$entity->brandId];
+            }
+
+            if (!is_null($entity->categoryId)) {
+                if (!array_key_exists($entity->categoryId, $categories)) {
+                    $categoryEntity = $this->executeQuery("select * from category where id = ?", [$entity->categoryId], Category::class)[0];
+                    $categories[$entity->categoryId] = CategoryModel::convertToModel($categoryEntity);
+                }
+
+                $model->category = $categories[$entity->categoryId];
+            }
+
+            $models[] = $model;
         }
 
         return $models;
