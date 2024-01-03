@@ -155,6 +155,11 @@ function buildCategoryMenu($category, int $index): void
                 $.post('/Product/GetSuggestedProducts', {search: $(element).val()}, function (response) {
                     var dropdownId = '#' + $(element).data('target-dropdown');
                     $(dropdownId + ' li').remove();
+
+                    if(response.products.length <= 0) {
+                        $(dropdownId).append('<li class="p-2">Geen producten gevonden</li>');
+                    }
+
                     $.each(response.products, function (i, el) {
                         var suggestedProduct = '<li class="p-2"><a class="text-decoration-none text-sixth-black" href="/Product/' + el.id + '">' + el.name + '</a></li>';
                         $(dropdownId).append(suggestedProduct);
@@ -165,6 +170,10 @@ function buildCategoryMenu($category, int $index): void
             }
         }, 750);
     }
+
+    $(document).on('click',function(){
+        $('.dropdown-menu').removeClass('show');
+    });
 
     function executeSearch() {
         window.location.href = '/Product?search=' + $('#product-search').val();
