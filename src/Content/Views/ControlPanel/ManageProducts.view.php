@@ -106,7 +106,7 @@
                     <div class="mb-3">
                         <label for="addBrand">Brand</label>
                         <select id="addBrand" class="form-select brand" required>
-                            <option value="" selected>Select Brand</option>
+                            <option value="null" selected>Select Brand</option>
                         </select>
                     </div>
 
@@ -329,15 +329,19 @@
                                 $('#addBrand').val('null');
                                 $('#addVideo').val('');
 
+                                $('#addThumbnail').val('');
+                                $('#addMainImage').val('');
 
-                                $('#addMainImagePreview').attr('hidden');
+                                document.getElementById('addMainImagePreview').setAttribute('hidden', 'true');
                                 $('#addMainImagePreview').empty()
 
-                                $('#addThumbnailPreview').attr('hidden');
+                                document.getElementById('addThumbnailPreview').setAttribute('hidden', 'true');
                                 $('#addThumbnailPreview').empty()
 
-                                $('#addProductCarousel').attr('hidden');
+                                document.getElementById('addProductImagesPreview').setAttribute('hidden', 'true');
                                 $('#addProductCarousel .carousel-inner').empty();
+
+                                $('#addVideoPreview').html('');
 
                                 addSelectedFiles = [];
                             }
@@ -752,10 +756,50 @@
                                 processData: false,
                                 contentType: false,
                                 success: function(response) {
-                                    // Handle the response from the server
+                                    if (response.success) {
+                                        clearEditProductForm();
+                                        alert("product aangepast");
+                                        $('#edit').hide();
+                                        $('#main').show();
+                                        $('#table').bootstrapTable('refresh');
+                                    } else {
+                                        console.log(response.message);
+                                    }
                                 }
                             });
                         });
+
+                        function clearEditProductForm() {
+                            $('#editId').val('');
+                            $('#editName').val('');
+                            $('#editSubtitle').val('');
+                            $('#editDescription').val('');
+                            $('#editStatus').val('null');
+                            $('#editStock').val('');
+                            $('#editDemoStock').val('');
+                            $('#editPrice').val('');
+                            $('#editRecommendedPrice').val('');
+                            $('#editSku').val('');
+                            $('#editCategory').val('null');
+                            $('#editBrand').val('null');
+                            $('#editVideo').val('');
+
+                            $('#editThumbnail').val('');
+                            $('#editMainImage').val('');
+
+                            document.getElementById('editMainImagePreview').setAttribute('hidden', 'true');
+                            $('#editMainImagePreview').empty()
+
+                            document.getElementById('editThumbnailPreview').setAttribute('hidden', 'true');
+                            $('#editThumbnailPreview').empty()
+
+                            document.getElementById('editProductImagesPreview').setAttribute('hidden', 'true');
+                            $('#editProductCarousel .carousel-inner').empty();
+
+                            $('#editVideoPreview').html('');
+
+                            addSelectedFiles = [];
+                        }
                     </script>
                 </div>
             </div>
@@ -768,8 +812,12 @@
         var index = $(this).data('index');
         var row = $('#table').bootstrapTable('getData')[index];
 
+        clearEditProductForm();
+
         var carouselInner = $('#editProductCarousel .carousel-inner');
         editSelectedFiles = [];
+        console.log(editSelectedFiles);
+        console.log(row.media);
 
         row.media.secondaryImages.forEach(element => {
             editSelectedFiles.push({
@@ -802,8 +850,6 @@
         } catch (e) {
             console.log(e);
         }
-
-        console.log(row)
 
         $('#editId').val(row.id);
         $('#editName').val(row.name);

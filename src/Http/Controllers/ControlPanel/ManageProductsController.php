@@ -408,6 +408,9 @@ class ManageProductsController extends Controller
         foreach ($products as $product) {
             $product->unitPrice = round($product->unitPrice, 2);
             $product->recommendedUnitPrice = round($product->recommendedUnitPrice, 2);
+            if (!empty($product->media->secondaryImages)) {
+                array_shift($product->media->secondaryImages);
+            }
             $productJson = (array) $product;
             if ($productJson['media'] !== null) {
                 $productJson['thumbnail'] = $product->media->thumbnail->url;

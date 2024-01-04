@@ -213,4 +213,42 @@ class ProductService extends BaseDatabaseService
 
         return $result;
     }
+
+    public function updateProduct(ProductModel $model): bool
+    {
+        $query = "UPDATE product SET
+        name = ?,
+        subtitle = ?,
+        description = ?,
+        active = ?,
+        amountInStock = ?,
+        demoAmountInStock = ?,
+        unitPrice = ?,
+        recommendedUnitPrice = ?,
+        sku = ?,
+        brandId = ?,
+        categoryId = ?,
+        media = ?
+        WHERE id = ?";
+
+        $params = [
+            $model->name,
+            $model->subtitle,
+            $model->description,
+            $model->active,
+            $model->amountInStock,
+            $model->demoAmountInStock,
+            TaxHelper::calculatePriceExcludingTax($model->unitPrice),
+            TaxHelper::calculatePriceExcludingTax($model->recommendedUnitPrice),
+            $model->sku,
+            $model->brand->id,
+            $model->category->id,
+            json_encode($model->media, JSON_PRETTY_PRINT),
+            $model->id
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result;
+    }
 }
