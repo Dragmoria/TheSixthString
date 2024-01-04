@@ -54,7 +54,6 @@ class ManageProductsController extends Controller
             $newProduct->recommendedUnitPrice = $postBody['recommendedPrice'];
             $newProduct->sku = $postBody['sku'];
 
-            //dumpDie($newProduct);
             $brand = new BrandModel();
             $brand->id = (int)$postBody['brand'];
             $newProduct->brand = $brand;
@@ -352,8 +351,85 @@ class ManageProductsController extends Controller
 
     private function validateEditProduct($body): ?array
     {
-        // TODO: Implement validateEditProduct() method.
-        return [];
+        $errors = [];
+
+        if (!Validate::notEmpty($body["name"])) {
+            $errors[] = ["field" => "name", "message" => "Naam mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["subtitle"])) {
+            $errors[] = ["field" => "subtitle", "message" => "Subtitle mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["description"])) {
+            $errors[] = ["field" => "description", "message" => "Beschrijving mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["status"])) {
+            $errors[] = ["field" => "status", "message" => "Status mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["stock"])) {
+            $errors[] = ["field" => "stock", "message" => "Stock mag niet leeg zijn."];
+        } else {
+            if (!Validate::isNumber($body["stock"])) {
+                $errors[] = ["field" => "stock", "message" => "Stock moet een nummer zijn."];
+            }
+        }
+
+        if (!Validate::notEmpty($body["demoStock"])) {
+            $errors[] = ["field" => "demoStock", "message" => "Demo stock mag niet leeg zijn."];
+        } else {
+            if (!Validate::isNumber($body["demoStock"])) {
+                $errors[] = ["field" => "demoStock", "message" => "Demo stock moet een nummer zijn."];
+            }
+        }
+
+        if (!Validate::notEmpty($body["price"])) {
+            $errors[] = ["field" => "price", "message" => "Prijs mag niet leeg zijn."];
+        } else {
+            if (!Validate::isNumber($body["price"])) {
+                $errors[] = ["field" => "price", "message" => "Prijs moet een nummer zijn."];
+            }
+        }
+
+        if (!Validate::notEmpty($body["recommendedPrice"])) {
+            $errors[] = ["field" => "recommendedPrice", "message" => "Aanbevolen prijs mag niet leeg zijn."];
+        } else {
+            if (!Validate::isNumber($body["recommendedPrice"])) {
+                $errors[] = ["field" => "recommendedPrice", "message" => "Aanbevolen prijs moet een nummer zijn."];
+            }
+        }
+
+        if (!Validate::notEmpty($body["sku"])) {
+            $errors[] = ["field" => "sku", "message" => "Sku mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["brand"])) {
+            $errors[] = ["field" => "brand", "message" => "Brand mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["category"])) {
+            $errors[] = ["field" => "category", "message" => "Categorie mag niet leeg zijn."];
+        }
+
+        if (!Validate::notEmpty($body["video"])) {
+            $errors[] = ["field" => "video", "message" => "Video mag niet leeg zijn."];
+        }
+
+        if (!isset($body['addFiles']['thumbnail']) && $body['oldThumbnail'] === "undefined") {
+            $errors[] = ["field" => "thumbnail", "message" => "Thumbnail mag niet leeg zijn."];
+        }
+
+        if (!isset($body['addFiles']['mainImage']) && $body['oldMainImage'] === "undefined") {
+            $errors[] = ["field" => "mainImage", "message" => "Main image mag niet leeg zijn."];
+        }
+
+        if (!isset($body['addFiles']['editProductImages']) && $body['oldProductImages'] === "") {
+            $errors[] = ["field" => "productImages", "message" => "Product images mag niet leeg zijn."];
+        }
+
+        return $errors;
     }
 
     public function getBrands(): ?Response
