@@ -62,7 +62,7 @@ class AccountPageController extends Controller
 
     public function Logout(): ?Response
     {
-        unset($_SESSION['user']);                                           // loggin out the users and forcing them to the inlog page so they cannot go to pages they shouldnt
+        unset($_SESSION['user']);                                         // loggin out the users and forcing them to the inlog page so they cannot go to pages they shouldnt
         redirect('/Login');
     }
 

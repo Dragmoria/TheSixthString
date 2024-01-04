@@ -2,12 +2,12 @@
 
 
 function buildCategoryMenu($category, int $index): void
-{ 
+{
   echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
 
-    ++$index;
+  ++$index;
   foreach ($category->children as $childCategory) {
-      buildCategoryMenu($childCategory, $index);
+    buildCategoryMenu($childCategory, $index);
   }
 }
 ?>
@@ -42,13 +42,14 @@ function buildCategoryMenu($category, int $index): void
       <div class="dropdown custom-dropdown">
         <form id="logoutForm" method="POST" action="/LogOut">
           <li class="nav-item mx-3">
-            <button type="submit"
-              class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button">
+            <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button"
+              href="/Account">
               <img src="/images/account-icon.png" alt="Account" width="17" height="17">
-            </button>
+            </a>
             <div class="dropdown-menu start-0" style="margin-left: -85px;" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="/Account">Account pagina</a>
-              <? if (isset($_SESSION['user'])) { echo '
+              <? if (isset($_SESSION['user'])) {
+                echo '
               <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById(\'logoutForm\').submit();">Uitloggen</a>';
               } else {
                 echo '<a class="dropdown-item" href="/Login">Inloggen</a>';
@@ -59,7 +60,8 @@ function buildCategoryMenu($category, int $index): void
         </form>
       </div>
       <li class="nav-item me-5">
-        <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button" href="/ShoppingCart">
+        <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center nav-button"
+          href="/ShoppingCart">
           <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
         </a>
       </li>
@@ -84,7 +86,9 @@ function buildCategoryMenu($category, int $index): void
         style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
         <img src="/images/account-icon.png" alt="Account" width="17" height="17">
       </button>
-      <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;" href="/ShoppingCart">
+      <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+        style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;"
+        href="/ShoppingCart">
         <img src="/images/basket-icon.png" alt="Mand" width="17" height="17">
       </a>
     </div>
