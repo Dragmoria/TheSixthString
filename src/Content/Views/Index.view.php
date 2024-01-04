@@ -14,18 +14,18 @@
 <div class="container-fluid g-0">
     <div class="row g-0" style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; height:100vh;">
         <div class="col d-flex justify-content-center align-items-center text-center">
-            Test
+            <?php include VIEWS_PATH . 'Components\ProductCard.component.php'; ?>
         </div>
     </div>
 </div>
 
-<!--- About & Discover --->
+<!--- About & Discover --->D
 <div class="container-fluid g-0">
     <div style="background-color: var(--sixth-beige);">
         <div style="background-color: var(--sixth-brown); min-height: 100vh; border-top-left-radius: 20vmin;">
             <div class="row g-0 py-5 justify-content-center align-items-center">
                 <div class="col-6 d-flex justify-content-center align-items-center" style="color: var(--sixth-beige);">
-                    <div style="max-width:80%;">
+                    <div style="max-width:70%;">
                         <p class="h3">Ontdekt The Sixth String</p>
                         <p class="fs-5">Waar muzikale magie begint. Van klassieke akoestieken tot elektrische krachtpatsers, vind
                             de perfecte gitaar die jouw unieke verhaal vertelt. Onze virtuele winkel biedt niet alleen
@@ -45,7 +45,7 @@
                     <img src="images/about-image.jpg" alt="Your Logo" style="max-width:80%;">
                 </div>
                 <div class="col-6 d-flex justify-content-center align-items-center" style="color: var(--sixth-beige);">
-                    <div style="max-width:80%;">
+                    <div style="max-width:70%;">
                         <p class="h3">Maar wie zijn wij eigenlijk?</p>
                         <p class="fs-5">Met onze wortels diep verankerd in de dynamische wereld van muziek, beheren we met trots
                             zowel fysieke winkels als een online platform in de Benelux.

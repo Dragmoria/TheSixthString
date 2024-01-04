@@ -14,8 +14,8 @@ function buildCategoryMenu($category, int $index): void
 
 
 
-<!-- Navbar Large `scr`eens -->
-<nav class="navbar navbar-expand-lg sticky-top flex-column py-0 d-none d-lg-block">
+<!-- Navbar Large screens -->
+<nav class="navbar navbar-expand-lg fixed-top flex-column py-0 d-none d-lg-block">
     <div class="container-fluid px-0 py-2">
         <!-- Logo -->
         <a class="navbar-brand pt-0 mx-5" href="/">
@@ -83,12 +83,21 @@ function buildCategoryMenu($category, int $index): void
     </div>
 
     <!-- KPI Bar -->
-    <div class="container-fluid kpi-bar"></div>
+    <div class="container-fluid kpi-bar align-items-center justify-content-center">
+        <img src="/images/kpi-sending.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Gratis verzending vanaf € 100,-</p>
+        <img src="/images/kpi-time.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Voor 23:00 besteld, morgen in huis!</p>
+        <img src="/images/kpi-warranty.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">30 dagen “niet-goed-geld-terug” garantie</p>
+        <img src="/images/kpi-service.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">3 jaar garantie van Sixth</p>
+    </div>
 
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top flex-column py-0 d-lg-none"
      style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
