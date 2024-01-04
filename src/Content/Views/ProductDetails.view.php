@@ -40,9 +40,10 @@ $reviewAverage = 0;
                          alt="main product image"/>
                     <?php
                     if (($product->media->video->title ?? null) != null) {
+                        $videoUrl = str_replace("/watch?v=", "/embed/", $product->media->video->url);
                         ?>
                         <iframe id="product-video" class="d-none w-100 rounded" width="560" height="315"
-                                src="<?= $product->media->video->url ?>"
+                                src="<?= $videoUrl ?>"
                                 title="<?= $product->media->video->title ?>"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
