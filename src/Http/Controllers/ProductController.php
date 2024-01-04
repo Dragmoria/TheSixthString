@@ -43,7 +43,9 @@ class ProductController extends Controller {
     public function details($data): ?Response {
         $response = new ViewResponse();
 
-        $productDetails = Application::resolve(ProductService::class)->getProductDetails((int)$data["id"]);
+        $productService = Application::resolve(ProductService::class);
+        $productService->setProductVisited((int)$data["id"], $_SESSION["sessionUserGuid"]);
+        $productDetails = $productService->getProductDetails((int)$data["id"]);
 
         $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
             [
