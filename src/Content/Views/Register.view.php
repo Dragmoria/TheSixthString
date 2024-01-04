@@ -321,7 +321,6 @@ $fields = array(
                         }
                     },
                     error: function (xhr, status, error) {
-                        alert("An error occurred: " + error);
                         console.error(xhr);
                         console.error(status);
                     }
