@@ -2,8 +2,6 @@
 
 namespace Models;
 
-
-use Lib\Database\Entity\User;
 use Lib\Database\Entity\Order;
 use Lib\Enums\MolliePaymentStatus;
 use Models\AddressModel;
