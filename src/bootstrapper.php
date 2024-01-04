@@ -102,6 +102,7 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
+$router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);

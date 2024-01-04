@@ -33,6 +33,10 @@ nav {
   height: 40px !important;
 }
 
+.text-sixth-black {
+  color: var(--sixth-black) !important;
+}
+
 .footer-button {
   background-color: var(--sixth-beige) !important;
   border-color: var(--sixth-beige) !important;
