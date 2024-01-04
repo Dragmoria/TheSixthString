@@ -1,4 +1,6 @@
 <?php
+
+
 function buildCategoryMenu($category, int $index): void
 {
     echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
@@ -10,7 +12,9 @@ function buildCategoryMenu($category, int $index): void
 }
 ?>
 
-<!-- Navbar Large screens -->
+
+
+<!-- Navbar Large `scr`eens -->
 <nav class="navbar navbar-expand-lg sticky-top flex-column py-0 d-none d-lg-block">
     <div class="container-fluid px-0 py-2">
         <!-- Logo -->

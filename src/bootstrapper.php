@@ -1,11 +1,13 @@
 <?php
 
+use Http\Controllers\AcceptCookiesController;
 use Http\Controllers\CategoryController;
 use Http\Controllers\HomeController;
 use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
-use http\Controllers\ForgotPasswordController;
+use Http\Controllers\Components\AcceptCookiesComponent;
+use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
@@ -20,6 +22,7 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\OrderItemService;
 use Service\OrderService;
 use Service\ProductService;
 use Service\ResetpasswordService;
@@ -39,7 +42,7 @@ date_default_timezone_set('Europe/Amsterdam'); // Replace 'Europe/Amsterdam' wit
 $container = Container::getInstance();
 // Register some services here. Supports singleton and transient services.
 $container->registerClass(EnvHandler::class)->asSingleton()->setResolver(function () {
-    return new EnvHandler(BASE_PATH . '/.env');
+    return new EnvHandler(BASE_PATH . '.env');
 });
 $container->registerClass(AddressService::class)->asSingleton();
 $container->registerClass(ReviewService::class)->asSingleton();
@@ -55,7 +58,7 @@ $container->registerClass(ActivateService::class)->asSingleton();
 $container->registerClass(OrderService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
-
+$container->registerClass(OrderItemService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -87,6 +90,10 @@ $router->post('/UpdateEmail', [AccountPageController::class, 'updateEmail']);
 $router->post('/deleteAccount', [AccountPageController::class, 'deleteAccount']);
 $router->get('/AccountDeleted', [AccountPageController::class, 'DeleteFinished']);
 $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'RetrievingOrderHistory']);
+$router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
+$router->post('/LogOutPulse', [AccountPageController::class, 'LogOutPulse']);
+
+
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
@@ -107,7 +114,11 @@ $router->post('/ShoppingCart/RemoveCoupon', [ShoppingCartController::class, 'rem
 
 $router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
 
-if(!isset($_SESSION["sessionUserGuid"])) {
+$router->post('/accept-cookies', [AcceptCookiesController::class, 'acceptCookies']);
+
+// unset($_SESSION['accept-cookies']);
+
+if (!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();
 }
 

@@ -59,6 +59,10 @@ class ProductService extends BaseDatabaseService {
         return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
     }
 
+    public function setProductVisited(int $productId, string $sessionUserGuid): void {
+        $this->executeQuery("insert into visitedproduct (productId, date, sessionUserGuid) values (?,?,?)", [$productId, ((array)new \DateTime())['date'], $sessionUserGuid]);
+    }
+
     public function getSuggestedProducts(string $search): array {
         $productEntities = $this->executeQuery("select id, name from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
 
@@ -126,4 +130,22 @@ class ProductService extends BaseDatabaseService {
 
         return $childIds;
     }
+
+    public function getProductsByOrderId(int $orderId): ?array
+    {
+        $query = "SELECT prod.* from `product` prod INNER JOIN `orderitem` item ON item.productId = prod.id WHERE item.orderId = ? ORDER BY createdOn DESC;";
+        $params = [$orderId];
+
+        $result = $this->executeQuery($query, $params, Product::class);
+
+        $models = [];
+        foreach ($result as $entity) {
+            array_push($models, ProductModel::convertToModel($entity));
+        }
+
+        if (count($models) === 0) return null;
+        return $models;
+    }
+
+    
 }

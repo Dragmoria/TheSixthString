@@ -2,14 +2,9 @@
 
 namespace Models;
 
-
-use Lib\Database\Entity\User;
 use Lib\Database\Entity\Order;
-use Models\AddressModel;
-use Lib\Enums\Gender;
-use Lib\Enums\Role;
 use Lib\Enums\PaymentStatus;
-use lib\Enums\ShippingStatus;
+use Lib\Enums\ShippingStatus;
 
 class OrderModel
 {

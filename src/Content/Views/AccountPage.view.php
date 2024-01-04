@@ -1,8 +1,22 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
+<?
+$user = $firstname;
+
+$fields = array(
+  'Voornaam' => array('name' => 'firstname', 'placeholder' => $firstname),
+  'Tussenvoegsel' => array('name' => 'middlename', 'placeholder' => $addition),
+  'Achternaam' => array('name' => 'lastname', 'placeholder' => $lastname),
+  'Postcode' => array('name' => 'zipcode', 'placeholder' => $zipcode),
+  'Huisnummer' => array('name' => 'housenumber', 'placeholder' => $housenumber),
+  'Toevoeging' => array('name' => 'addition', 'placeholder' => $housenumberextension),
+  'Straat' => array('name' => 'street', 'placeholder' => $street),
+  'Plaats' => array('name' => 'city', 'placeholder' => $city),
+  'Telefoonnummer' => array('name' => 'phonenumber', 'placeholder' => 'Telefoonnummer'),
+);
+?>
+
 <script>
-
-
   function togglePasswordVisibility(passwordName) {
     var passwordInput = document.getElementById(passwordName);
 
@@ -123,7 +137,7 @@
       top: 0;
       width: 90%;
       height: 100%;
-      background: linear-gradient(to right, transparent, #EFE3C4, transparent);
+      background: linear-gradient(to right, transparent, rgba(239, 227, 196, 0.4), transparent);
     }
 
     &::before {
@@ -141,32 +155,47 @@
       max-width: 100%;
       border-bottom: 0.1em solid #EFE3C4;
     }
-
-
   }
+
+  .Modal-order-divider {
+    position: relative;
+    height: 0.1em;
+    background-color: transparent;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 90%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(239, 227, 196, 0.3), transparent);
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+
+    .order-border {
+      content: "";
+      display: block;
+      width: calc(10 * 6.5 * 1em);
+      max-width: 100%;
+      border-bottom: 0.1em solid #EFE3C4;
+    }
   }
+
+  .custom-modal-width {
+    width: 60%;
+    margin-top: 20vh;
+    max-width: none;
+  }
+
 </style>
-
-<?
-$user = $firstname;
-
-$fields = array(
-  'Voornaam' => array('name' => 'firstname', 'placeholder' => $firstname),
-  'Tussenvoegsel' => array('name' => 'middlename', 'placeholder' => $addition),
-  'Achternaam' => array('name' => 'lastname', 'placeholder' => $lastname),
-  'Postcode' => array('name' => 'zipcode', 'placeholder' => $zipcode),
-  'Huisnummer' => array('name' => 'housenumber', 'placeholder' => $housenumber),
-  'Toevoeging' => array('name' => 'addition', 'placeholder' => $housenumberextension),
-  'Straat' => array('name' => 'street', 'placeholder' => $street),
-  'Plaats' => array('name' => 'city', 'placeholder' => $city),
-  'Telefoonnummer' => array('name' => 'phonenumber', 'placeholder' => 'Telefoonnummer'),
-);
-?>
-
-
-
-
-
 
 
 <div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
@@ -190,14 +219,14 @@ $fields = array(
         </div>
         <div class="col-1 text-center">
           <div class="d-flex">
-            <div id="line" class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 800px; margin: auto;">
+            <div id="line" class="vertical-line" style="border-left: 3px solid #EFE3C4; height: 600px; margin: auto;">
             </div>
           </div>
         </div>
         <div class="col-8 ">
           <div id="accountCard" class="card bg-card-custom d-inline-block"
             style="position: relative; margin-top: 0px;display: flex;">
-            <div class="card-body">
+            <div class="card-body" style="height: 600px; overflow-y: scroll;">
               <div id="nameCard" class="card ms-4 mt-4 me-4"
                 style="background-color: #EFE3C4; position: relative; width: 120vh; height: 25vh;">
                 <div class="text-center">
@@ -416,29 +445,47 @@ $fields = array(
 </div>
 </div>
 
-<!-- The Modal -->
+<!-- Account deletion Modal -->
 <div class="modal fade" id="myModal">
   <div class="modal-dialog modal-md">
     <div class="modal-content" style="background-color: #2C231E;">
 
-      <!-- Modal Header -->
       <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
         <h4 class="modal-title" style=color:#EFE3C4>Account verwijderen</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p1 style=color:#EFE3C4>Weet u zeker dat u uw account wilt verwijderen?</p1>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer" style="border-color: #2C231E;">
         <button type="button" style="background-color:#FCB716;border-color:#FCB716"
           class="btn btn-primary rounded-pill bg-beige-color" href="/" id="deleteAccountBtn"
           data-bs-dismiss="modal">Ja</button>
         <button type="button" style="background-color:#FCB716;border-color:#FCB716"
           class="btn btn-primary rounded-pill bg-beige-color" data-bs-dismiss="modal">Nee</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Order Modal -->
+<div class="modal fade" id="OrderModal">
+  <div class="modal-dialog modal-lg custom-modal-width">
+    <div class="modal-content" style="background-color: #2C231E;">
+
+      <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
+        <h4 class="modal-title" style=color:#EFE3C4>Order: </h4>
+      </div>
+
+      <div class="modal-body">
+        <div id="ProductsBody"></div>
+      </div>
+
+      <div class="modal-footer" style="border-color: #2C231E;">
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716"
+          class="btn btn-primary rounded-pill bg-beige-color" href="/" id="closeOrderButton"
+          data-bs-dismiss="modal">Sluiten</button>
       </div>
     </div>
   </div>
@@ -499,16 +546,11 @@ $fields = array(
       $.ajax({
         url: "/RetrievingOrderHistory",
         type: "POST",
-        // dataType: "json",
+        dataType: "json",
         success: function (response) {
-
-          console.log(response);
           updateOrderHistoryForm(response.orders, response.Addresses)
         },
         error: function (xhr, status, error) {
-
-          console.error(xhr);
-          console.error(status);
         }
       });
     });
@@ -527,21 +569,94 @@ $fields = array(
       const finalTotal = orderTotal * (1 + taxTotal);
       const searchStr = order.id + " shippingAddress";
       const addressArray = addressData[searchStr];
+      const extensionHandle = addressArray.housenumberExtension;
       const orderElement = document.createElement('div');
       orderElement.classList.add('ms-5', 'me-5');
-      const extensionHandle = addressArray.housenumberExtension;
+
       orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> 
       <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6> 
       <br> <p6 style=color:#EFE3C4>Afleveradres: </p6>
       <br> <p6 style=color:#EFE3C4>${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
       <br> <p6 style=color:#EFE3C4>${addressArray.zipCode}, ${addressArray.city}</p6>
       <div class="col text-end me-3">
-      <i><u style=color:#EFE3C4><p6 style=color:#EFE3C4>See more</p6></u></i>
+      <i><u style=color:#EFE3C4><a href="#" id="${order.id}" data-number="${order.id}"class="OrderModalButton text-decoration-none" style=color:#EFE3C4>See more</a></u></i>
       </div>
       <div class="row justify-content-center mt-2 mb-4"><div class="order-divider"></div></div>`;
+
       orderHistoryContainer.appendChild(orderElement);
     });
   }
+
+  $(document).on('click', '#orderHistoryContainer .OrderModalButton', function (event) {
+    event.preventDefault();
+
+    var additionalData = {
+      Order: $(this).data('number')
+    };
+
+    var Data = $.param(additionalData);
+    $.ajax({
+      url: '/GetOrderOverview',
+      method: 'POST',
+      data: Data,
+      // dataType: 'json',
+      success: function (response) {
+        console.log(response);
+
+        var value1 = response.orderId;
+        var ProductBody = document.getElementById('ProductsBody');
+        var ProductDetails = response.Products;
+        var orderItems = response.orderItems;
+        
+        console.log(ProductDetails);
+        ProductBody.innerHTML = '';
+
+        $('#OrderModal .modal-title').html('Bestelnummer: ' + value1);
+
+
+ProductDetails.forEach(function (detail, index) {
+  const ProductBodyElement = document.createElement('div');
+  let ProductAmount = 0;
+  orderItems.forEach(function (orderItem) {
+    if (detail.id === orderItem.productId) {
+      ProductAmount = orderItem.quantity;
+    }
+  });
+
+  var TotalPrice = detail.unitPrice * ProductAmount;
+
+  const isFirstIteration = index === 0;
+
+  ProductBodyElement.innerHTML =
+    `<div class="row">
+      <div class="text-center col-2 me-5">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
+        <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
+      </div>
+      <div class="text-center col-2 me-3">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
+        <p6 style=color:#EFE3C4>${detail.sku}</p6>
+      </div>
+      <div class="text-center col-2 me-3">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
+        <p6 style=color:#EFE3C4>${ProductAmount}</p6>
+      </div>
+      <div class="text-center col-2">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
+        <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
+      </div>
+      <div class="mt-3 mb-2 Modal-order-divider"></div>
+    </div>`;
+
+  ProductBody.appendChild(ProductBodyElement);
+});
+
+    // Show the modal
+    $('#OrderModal').modal('show');
+  }
+    });
+  });
+
   //--------------Logging out---------------------------------------------------------------
   $(document).ready(function () {
     $("#logoutButton").on("click", function () {

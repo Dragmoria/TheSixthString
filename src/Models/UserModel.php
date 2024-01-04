@@ -4,7 +4,6 @@ namespace Models;
 
 
 use Lib\Database\Entity\User;
-use Models\AddressModel;
 use Lib\Enums\Gender;
 use Lib\Enums\Role;
 
