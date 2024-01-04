@@ -57,4 +57,4 @@ insert into coupon (name, code, value, startDate, active, usageAmount, type) val
 
 ##
 
-insert into paymentprovider (name, apiKey, apiSecret, active) values ('mollie_test', 'pfl_n9bVYJvoSS', 'test_TDPs7gUApfjVJxS92mUbgA96y6TxDB', 1)
+insert into paymentprovider (name, apiKey, apiSecret, active) values ('mollie_test', 'pfl_n9bVYJvoSS', 'test_H5R3c6ek3QypnQsNw3kCGmPgGr8WPT', 1)
