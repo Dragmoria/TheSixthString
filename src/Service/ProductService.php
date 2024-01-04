@@ -109,4 +109,22 @@ class ProductService extends BaseDatabaseService {
 
         return $childIds;
     }
+
+    public function getProductsByOrderId(int $orderId): ?array
+    {
+        $query = "SELECT prod.* from `product` prod INNER JOIN `orderitem` item ON item.productId = prod.id WHERE item.orderId = ? ORDER BY createdOn DESC;";
+        $params = [$orderId];
+
+        $result = $this->executeQuery($query, $params, Product::class);
+
+        $models = [];
+        foreach ($result as $entity) {
+            array_push($models, ProductModel::convertToModel($entity));
+        }
+
+        if (count($models) === 0) return null;
+        return $models;
+    }
+
+    
 }

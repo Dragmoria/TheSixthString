@@ -15,7 +15,9 @@ use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
 use Models\UserModel;
 use Service\AddressService;
+use Service\OrderItemService;
 use Service\OrderService;
+use Service\ProductService;
 use Service\UserService;
 use Models\AddressModel;
 use Service\RandomLinkService;
@@ -191,13 +193,18 @@ class AccountPageController extends Controller
     {
         $postBody = $this->currentRequest->getPostObject()->body();
 
-        $response = ["Order" => $postBody['Order']];
+        $productservice = Application::resolve(ProductService::class);
+        $products = $productservice->getProductsByOrderId($postBody['Order']);
+        $orderItemservice = Application::resolve(OrderItemService::class);
+        $orderItems = $orderItemservice->getOrderItemByOrderId($postBody['Order']);
+
+        $response = ["orderId" => $postBody['Order'], "Products" => $products,"orderItems" => $orderItems];
         $JsonResponse = new JsonResponse();
         $JsonResponse->setBody($response);
         return $JsonResponse;
     }
 
-    public function HeartBeat()
+    public function LogOutPulse()
     {
         unset($_SESSION['user']);
         echo 'LOGGED_OUT';
