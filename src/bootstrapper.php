@@ -22,6 +22,7 @@ use Service\AddressService;
 use Service\BrandService;
 use Service\CategoryService;
 use Service\CouponService;
+use Service\OrderItemService;
 use Service\OrderService;
 use Service\ProductService;
 use Service\ResetpasswordService;
@@ -57,7 +58,7 @@ $container->registerClass(ActivateService::class)->asSingleton();
 $container->registerClass(OrderService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
-
+$container->registerClass(OrderItemService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -89,6 +90,10 @@ $router->post('/UpdateEmail', [AccountPageController::class, 'updateEmail']);
 $router->post('/deleteAccount', [AccountPageController::class, 'deleteAccount']);
 $router->get('/AccountDeleted', [AccountPageController::class, 'DeleteFinished']);
 $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'RetrievingOrderHistory']);
+$router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
+$router->post('/LogOutPulse', [AccountPageController::class, 'LogOutPulse']);
+
+
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
@@ -97,11 +102,6 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
-
-
-
-
-
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);

@@ -15,7 +15,9 @@ use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
 use Models\UserModel;
 use Service\AddressService;
+use Service\OrderItemService;
 use Service\OrderService;
+use Service\ProductService;
 use Service\UserService;
 use Models\AddressModel;
 use Service\RandomLinkService;
@@ -32,10 +34,10 @@ class AccountPageController extends Controller
 
         $userservice = Application::resolve(UserService::class);
         $user = $userservice->getUserById($_SESSION["user"]["id"]);         // getting the user model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
-        
-        if (!isset($user)){
+
+        if (!isset($user)) {
             redirect("/Login");
-        }  
+        }
 
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user->id, 1);       // getting the address model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
@@ -93,16 +95,16 @@ class AccountPageController extends Controller
         $address->type = 1;
 
         $updateAddressService = Application::resolve(AddressService::class);
-        $updatedAddress = $updateAddressService->updateAddress($address);       // entering all the details, that are supposed to go into the `address` table, into the database.
+        $updatedAddress = $updateAddressService->updateAddress($address);
     }
 
     public function updateUserPassword(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details.
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);
 
         $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
 
@@ -110,41 +112,41 @@ class AccountPageController extends Controller
         $createdUser = $userservice->ChangePasswordUser($updateUser);
 
         $Response = new TextResponse();
-        $Response->setBody('PasswordUpdated');                              // setting a response because Ajax expects it.
+        $Response->setBody('PasswordUpdated');
         return $Response;
     }
 
     public function updateEmail(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details.
+        $postBody = $this->currentRequest->getPostObject()->body();
+        $user = $_SESSION["user"]["id"];
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);
 
         $updateUser->emailAddress = $postBody['email'];
-        $updateUser->active = false;                                        // change the active status to false to reset the activation proces
+        $updateUser->active = false;
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->ChangeEmail($updateUser);              // the email is changed in the user table
+        $createdUser = $userservice->ChangeEmail($updateUser);
 
         $randomLinkService = Application::resolve(RandomLinkService::class);
-        $randomLink = $randomLinkService->generateRandomString(32);         // random link is generated for activating the account 
+        $randomLink = $randomLinkService->generateRandomString(32);
 
         $updateUser->id = $user;
-        $updateUser->activationLink = $randomLink;                          
+        $updateUser->activationLink = $randomLink;
 
         $ActivateService = Application::resolve(ActivateService::class);
-        $result = $ActivateService->newActivationLink($updateUser);         // link is entered into the database to link the account with the randomlink
+        $result = $ActivateService->newActivationLink($updateUser);
 
-        $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [ 
+        $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [
             'gebruiker' => $createdUser->firstName,
-            'token' => $randomLink                                          // filling the template with all the important data.
+            'token' => $randomLink
         ]);
 
         $mail = new Mail($postBody['email'], "Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
-        return $result;                                                     // setting a response because Ajax expects it.
+        return $result;
     }
 
     public function deleteAccount(): ?Response
@@ -156,15 +158,15 @@ class AccountPageController extends Controller
         unset($_SESSION["user"]);
 
         return $userToDelete;
-        
+
     }
-    
+
     public function DeleteFinished(): ?Response
     {
         $Response = new ViewResponse();
         $Response->setBody(view(VIEWS_PATH . 'AccountDeleted.view.php', [])->withLayout(MAIN_LAYOUT));
         return $Response;
-        
+
     }
 
     public function RetrievingOrderHistory(): ?JsonResponse
@@ -180,13 +182,37 @@ class AccountPageController extends Controller
             $shippingInfo[$orderModel->id . " shippingAddress"] = $addressService->getAddressById($orderModel->shippingAddressId);
             $shippingInfo[$orderModel->id . " invoiceAddress"] = $addressService->getAddressById($orderModel->invoiceAddressId);
         }
-        $response = ["orders" => $orders,"Addresses" => $shippingInfo];
+        $response = ["orders" => $orders, "Addresses" => $shippingInfo];
         $JsonResponse = new JsonResponse();
         $JsonResponse->setBody($response);
         return $JsonResponse;
     }
 
-    
+
+    public function GetOrderOverview(): ?Response
+    {
+        $postBody = $this->currentRequest->getPostObject()->body();
+
+        $productservice = Application::resolve(ProductService::class);
+        $products = $productservice->getProductsByOrderId($postBody['Order']);
+        $orderItemservice = Application::resolve(OrderItemService::class);
+        $orderItems = $orderItemservice->getOrderItemByOrderId($postBody['Order']);
+
+        $response = ["orderId" => $postBody['Order'], "Products" => $products,"orderItems" => $orderItems];
+        $JsonResponse = new JsonResponse();
+        $JsonResponse->setBody($response);
+        return $JsonResponse;
+    }
+
+    public function LogOutPulse()
+    {
+        unset($_SESSION['user']);
+        echo 'LOGGED_OUT';
+        exit;
+
+    }
+
+
 
 }
 
