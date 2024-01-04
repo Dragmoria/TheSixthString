@@ -7,7 +7,7 @@ use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use Http\Controllers\Components\AcceptCookiesComponent;
-use http\Controllers\ForgotPasswordController;
+use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
