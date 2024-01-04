@@ -1,4 +1,4 @@
-<div class="container-fluid flex-column" style="background-color: var(--sixth-brown);">
+<div class="container-fluid flex-column" style="background-color: var(--sixth-black);">
     <div style="height: 5vh;">
     </div>
 
@@ -69,6 +69,6 @@
     </div>
 </div>
 <!-- Copyright Bar -->
-<div class="container-fluid d-flex justify-content-center align-items-center text-sixth-beige" style="height: 50px; background-color: var(--sixth-black); opacity: 0.6;">
-    <p class="m-0" style="opacity: 0.6;">Algemene Copyright © The Sixth String 2023 / Alle prijzen zijn inclusief 21% BTW, tenzij anders vermeld</p>
+<div class="container-fluid d-flex justify-content-center align-items-center text-sixth-beige" style="height: 50px; background-color: #000000; font-size: 10px; opacity: 0.6;">
+    <p class="m-0">Algemene Copyright © The Sixth String 2023 / Alle prijzen zijn inclusief 21% BTW, tenzij anders vermeld</p>
 </div>
