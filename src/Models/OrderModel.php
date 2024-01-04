@@ -4,7 +4,7 @@ namespace Models;
 
 use Lib\Database\Entity\Order;
 use Lib\Enums\PaymentStatus;
-use lib\Enums\ShippingStatus;
+use Lib\Enums\ShippingStatus;
 
 class OrderModel
 {
