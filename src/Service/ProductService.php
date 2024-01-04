@@ -59,6 +59,10 @@ class ProductService extends BaseDatabaseService {
         return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
     }
 
+    public function setProductVisited(int $productId, string $sessionUserGuid): void {
+        $this->executeQuery("insert into visitedproduct (productId, date, sessionUserGuid) values (?,?,?)", [$productId, ((array)new \DateTime())['date'], $sessionUserGuid]);
+    }
+
     private function buildFilteredQuery(string &$query, array &$params, ProductFilterModel $model): void {
         if(!is_null($model->categoryId)) {
             $categoryIds = $this->getAllChildCategoriesForParent($model->categoryId);
