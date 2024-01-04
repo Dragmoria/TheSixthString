@@ -95,7 +95,9 @@ class RegisterController extends Controller
     
                 $mail = new Mail($newUserModel->emailAddress,"Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
                 $mail->send();
-                return $result;
+                $Response = new TextResponse();
+                $Response->setBody('UserCreated');
+                return $Response;
             } else {
                 $Response = new TextResponse();
                 $Response->setBody('UserExists');
