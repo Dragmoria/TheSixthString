@@ -3,13 +3,12 @@
 namespace Http\Controllers;
 
 use Lib\Database\Entity\Coupon;
-use Lib\Enums\CouponType;
+use Lib\Enums\MolliePaymentStatus;
 use Lib\Enums\PaymentMethod;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
-use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Service\CouponService;
 use Service\OrderService;
@@ -112,7 +111,7 @@ class ShoppingCartController extends Controller {
         $paymentMethod = PaymentMethod::fromString($postBody["paymentMethod"]);
         $paymentId = null;
         if($postBody["paymentMethod"] != PaymentMethod::PayLater->name) {
-            $payment = $paymentService->createPayment($createdOrderId, $paymentMethod);
+            $payment = $paymentService->createPayment($createdOrderId, strtolower($paymentMethod->toString()));
             $paymentId = $payment->id;
             $result->paymentUrl = $payment->getCheckoutUrl();
         }
@@ -120,22 +119,71 @@ class ShoppingCartController extends Controller {
         $paymentService->createOrderPayment($createdOrderId, $paymentMethod, $paymentId);
 
         $_SESSION["paymentOrderId"] = $createdOrderId;
+        $_SESSION["paymentSendUnpaidMail"] = true;
 
         $response->setBody((array)$result);
         return $response;
     }
 
+    public function doPayment($data): void {
+        $orderId = (int)$data["orderid"];
+
+        $isUserOrder = Application::resolve(OrderService::class)->isUserOrder($orderId, $_SESSION["user"]["id"]);
+        if(!$isUserOrder) {
+            redirect('/');
+        }
+
+        $paymentService = Application::resolve(PaymentService::class);
+        $isPaid = $paymentService->isOrderPaid($orderId, $_SESSION["user"]["id"]);
+        if($isPaid) {
+            redirect("/ShoppingCart/FinishPayment");
+        }
+
+        $payment = $paymentService->getPaymentByOrderId($orderId);
+        if($payment->status != MolliePaymentStatus::Open->value) {
+            $payment = $paymentService->createPayment($orderId, $payment->method);
+            $paymentService->updateOrderPayment($orderId, $payment->id);
+        }
+
+        $_SESSION["paymentOrderId"] = $orderId;
+        $_SESSION["paymentSendUnpaidMail"] = false;
+
+        redirect($payment->getCheckoutUrl());
+    }
+
     public function finishPayment(): ?Response {
-        //TODO: paymentstatus zelf ophalen adhv de paymentId?
-
-        $payment = Application::resolve(PaymentService::class)->getPaymentByOrderId($_SESSION["paymentOrderId"]);
-        dumpDie(json_encode($payment));
-
-        //TODO: get last order for user, then get orderpayment for this order and update the paymentDate if paid
-
-        //TODO: toegang tot deze functie alleen toestaan vanaf het mollie-domein?
-
         $response = new ViewResponse();
+        if(is_null($_SESSION["paymentOrderId"])) {
+            redirect('/');
+        }
+
+        $paymentService = Application::resolve(PaymentService::class);
+        $payment = $paymentService->getPaymentByOrderId($_SESSION["paymentOrderId"]);
+        $paymentStatus = MolliePaymentStatus::fromString($payment->status);
+
+        if($paymentStatus == MolliePaymentStatus::Paid) {
+            $paymentService->setOrderPaymentPaid($_SESSION["paymentOrderId"]);
+
+            $response->setBody(view(VIEWS_PATH . 'FinishPayment.view.php', [
+                'message' => 'Bedankt voor je betaling, je bestelling zal zo snel mogelijk worden verwerkt.'
+            ])->withLayout(MAIN_LAYOUT));
+            return $response;
+        }
+
+        $viewMessage = '';
+        if((bool)$_SESSION["paymentSendUnpaidMail"]) {
+            $paymentService->sendPaymentUnsuccessfulMail($_SESSION["paymentOrderId"], $_SESSION["user"]["id"]);
+            $viewMessage = 'Betaling niet gelukt. Je ontvangt een e-mail met daarin een betaallink, probeer het hiermee opnieuw.';
+        } else {
+            $viewMessage = 'Betaling niet gelukt, probeer het later opnieuw of neem contact met ons op.';
+        }
+
+
+
+        $_SESSION["paymentOrderId"] = null;
+        $_SESSION["paymentSendUnpaidMail"] = null;
+
+        $response->setBody(view(VIEWS_PATH . 'FinishPayment.view.php', ['message' => $viewMessage])->withLayout(MAIN_LAYOUT));
 
         return $response;
     }

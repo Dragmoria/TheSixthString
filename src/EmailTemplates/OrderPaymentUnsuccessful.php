@@ -1,0 +1,1 @@
+De betaling is niet gelukt. Klik <a href="<?= $url ?>">hier</a> om een nieuwe betaling te starten.

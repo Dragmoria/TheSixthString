@@ -114,6 +114,8 @@ $router->post('/ShoppingCart/RemoveCoupon', [ShoppingCartController::class, 'rem
 
 $router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
 $router->get('/ShoppingCart/FinishPayment', [ShoppingCartController::class, 'finishPayment'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/DoPayment/{orderid}', [ShoppingCartController::class, 'doPayment'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/PaymentFinished', [ShoppingCartController::class, 'doPayment'])->middleware(isLoggedIn::class);
 
 $router->post('/accept-cookies', [AcceptCookiesController::class, 'acceptCookies']);
 

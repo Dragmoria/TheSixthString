@@ -56,10 +56,16 @@
             alert('Kies eerst een betaalmethode');
             return;
         }
-        startPayment();
+        startPayment(e);
     });
 
-    function startPayment() {
+    function startPayment(e) {
+        if($(e.currentTarget).hasClass('disabled')) {
+            return;
+        }
+
+        $(e.currentTarget).addClass('disabled');
+
         $.post('/ShoppingCart/StartPayment', { paymentMethod: $('#payment-method').val() }, function(response) {
             if(response.success) {
                 if(response.paymentUrl != undefined && response.paymentUrl != null && response.paymentUrl != '') {
