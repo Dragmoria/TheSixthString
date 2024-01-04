@@ -111,7 +111,7 @@ $reviewAverage = 0;
                             <form id="add-product-form" action="#">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="hidden" name="productId" value="<?= $product->id ?>" />
+                                        <input type="hidden" name="productId" value="<?= $product->id ?>"/>
                                         <select class="form-select sixth-select" name="quantity">
                                             <?php
                                             for ($i = 1; $i <= $product->amountInStock; $i++) {
@@ -123,7 +123,8 @@ $reviewAverage = 0;
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary sixth-button rounded-4" type="submit">Toevoegen aan winkelwagen</button>
+                                        <button class="btn btn-primary sixth-button rounded-4" type="submit">Toevoegen aan winkelwagen
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -146,7 +147,56 @@ $reviewAverage = 0;
     </div>
     <div class="row mt-5">
         <div class="col-12 col-md-6" id="product-reviews">
-            <h2>Reviews</h2>
+            <h2 class="d-flex justify-content-between">Reviews
+                <?php
+                if ($canWriteReview) {
+                    ?>
+                    <button class="btn btn-primary sixth-button rounded-4" data-bs-toggle="modal"
+                            data-bs-target="#add-review-modal">Schrijf een review
+                    </button>
+                    <?php
+                }
+                ?>
+            </h2>
+            <?php
+            if ($canWriteReview) {
+                ?>
+                <div class="modal" id="add-review-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-sixth-black">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Review schrijven</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form id="review-form">
+                                    <div class="mb-3">
+                                        <label for="rating" class="form-label">Beoordeling (1 t/m 5)</label>
+                                        <input type="range" id="rating" name="rating" required class="form-range" min="1" max="5" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Titel *</label>
+                                        <input type="text" id="title" name="title" required class="form-control bg-sixth-beige" maxlength="255" placeholder="Voer een titel in..." />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">Inhoud *</label>
+                                        <textarea id="content" name="content" required class="form-control bg-sixth-beige" placeholder="Schrijf een review..." rows="5"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary sixth-button" onclick="createReview()">Verzenden</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Sluiten</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
             <?php
             if (count($product->reviews) <= 0) {
                 ?>
@@ -182,41 +232,63 @@ $reviewAverage = 0;
             <p>...</p>
         </div>
 
-<script>
-    function selectImage(element) {
-        toggleMediaVisibility(element);
+        <script>
+            function selectImage(element) {
+                toggleMediaVisibility(element);
 
-        $('#main-product-image').attr('src', element.src);
-    }
+                $('#main-product-image').attr('src', element.src);
+            }
 
-    function toggleMediaVisibility(element) {
-        $('.product-thumbnail').removeClass('mb-3');
-        $('#product-video-thumbnail').removeClass('mb-3');
-        $(element).addClass('mb-3');
+            function toggleMediaVisibility(element) {
+                $('.product-thumbnail').removeClass('mb-3');
+                $('#product-video-thumbnail').removeClass('mb-3');
+                $(element).addClass('mb-3');
 
-        if ($(element).data('type') != $('#media-container').data('type-shown')) {
-            $('#main-product-image').toggleClass('d-none');
-            $('#product-video').toggleClass('d-none');
-        }
-
-        $('#media-container').data('type-shown', $(element).data('type'));
-    }
-
-    $('#add-product-form').on('submit', function(e) {
-        e.preventDefault();
-
-        var formData = $(e.currentTarget).serializeArray();
-        $.post('/ShoppingCart/AddItem', formData, function(response) {
-            if(response.success) {
-                window.location.href = '/ShoppingCart';
-            } else {
-                var message = response.message;
-                if(response.message == '') {
-                    response.message = 'Product toevoegen mislukt';
+                if ($(element).data('type') != $('#media-container').data('type-shown')) {
+                    $('#main-product-image').toggleClass('d-none');
+                    $('#product-video').toggleClass('d-none');
                 }
 
-                alert(message);
+                $('#media-container').data('type-shown', $(element).data('type'));
             }
-        });
-    });
-</script>
+
+            $('#add-product-form').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = $(e.currentTarget).serializeArray();
+                $.post('/ShoppingCart/AddItem', formData, function (response) {
+                    if (response.success) {
+                        window.location.href = '/ShoppingCart';
+                    } else {
+                        var message = response.message;
+                        if (response.message == '') {
+                            response.message = 'Product toevoegen mislukt';
+                        }
+
+                        alert(message);
+                    }
+                });
+            });
+
+            function createReview() {
+                var formData = $('#review-form').serializeArray();
+                if(!document.getElementById('review-form').reportValidity()) {
+                    return;
+                }
+
+                formData.push({ name: "productId", value: <?= $product->id ?> });
+
+                $.post('/Product/CreateReview', formData, function(response) {
+                    if(response.success) {
+                        window.location.reload();
+                    } else {
+                        var message = response.message;
+                        if (response.message == '') {
+                            response.message = 'Review schrijven mislukt';
+                        }
+
+                        alert(message);
+                    }
+                });
+            }
+        </script>
