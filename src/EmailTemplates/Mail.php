@@ -60,6 +60,12 @@ class Mail
         $mail->Body    = $this->body;
         $mail->AltBody = $this->altBody ?? "";
 
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            exit;
+        }
+
         return $mail->send();
     }
 }
