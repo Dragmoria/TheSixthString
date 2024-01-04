@@ -153,16 +153,23 @@ class ShoppingCartController extends Controller {
 
     public function finishPayment(): ?Response {
         $response = new ViewResponse();
-        if(is_null($_SESSION["paymentOrderId"])) {
-            redirect('/');
+
+        $paymentOrderId = $_SESSION["paymentOrderId"];
+        $paymentSendUnpaidMail = $_SESSION["paymentSendUnpaidMail"];
+
+        if(is_null($paymentOrderId)) {
+            redirect('/Account');
         }
 
+        $_SESSION["paymentOrderId"] = null;
+        $_SESSION["paymentSendUnpaidMail"] = null;
+
         $paymentService = Application::resolve(PaymentService::class);
-        $payment = $paymentService->getPaymentByOrderId($_SESSION["paymentOrderId"]);
+        $payment = $paymentService->getPaymentByOrderId($paymentOrderId);
         $paymentStatus = MolliePaymentStatus::fromString($payment->status);
 
         if($paymentStatus == MolliePaymentStatus::Paid) {
-            $paymentService->setOrderPaymentPaid($_SESSION["paymentOrderId"]);
+            $paymentService->setOrderPaymentPaid($paymentOrderId);
 
             $response->setBody(view(VIEWS_PATH . 'FinishPayment.view.php', [
                 'message' => 'Bedankt voor je betaling, je bestelling zal zo snel mogelijk worden verwerkt.'
@@ -171,17 +178,12 @@ class ShoppingCartController extends Controller {
         }
 
         $viewMessage = '';
-        if((bool)$_SESSION["paymentSendUnpaidMail"]) {
-            $paymentService->sendPaymentUnsuccessfulMail($_SESSION["paymentOrderId"], $_SESSION["user"]["id"]);
+        if((bool)$paymentSendUnpaidMail) {
+            $paymentService->sendPaymentUnsuccessfulMail($paymentOrderId, $_SESSION["user"]["id"]);
             $viewMessage = 'Betaling niet gelukt. Je ontvangt een e-mail met daarin een betaallink, probeer het hiermee opnieuw.';
         } else {
             $viewMessage = 'Betaling niet gelukt, probeer het later opnieuw of neem contact met ons op.';
         }
-
-
-
-        $_SESSION["paymentOrderId"] = null;
-        $_SESSION["paymentSendUnpaidMail"] = null;
 
         $response->setBody(view(VIEWS_PATH . 'FinishPayment.view.php', ['message' => $viewMessage])->withLayout(MAIN_LAYOUT));
 
