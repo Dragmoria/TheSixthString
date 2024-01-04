@@ -287,7 +287,6 @@
 
                             var formData = new FormData();
                             for (var key in productData) {
-                                console.log(key);
                                 if (key === 'productImages') {
                                     for (var i = 0; i < productData[key].length; i++) {
                                         formData.append(key + '[]', productData[key][i]);
@@ -304,9 +303,44 @@
                                 processData: false,
                                 contentType: false,
                                 success: function(response) {
-                                    // Handle the response from the server
+                                    if (response.success) {
+                                        clearAddProductForm();
+                                        alert("product toegevoegd");
+                                        $('#add').hide();
+                                        $('#main').show();
+                                        $('#table').bootstrapTable('refresh');
+                                    } else {
+                                        console.log(response.message);
+                                    }
                                 }
                             });
+
+                            function clearAddProductForm() {
+                                $('#addName').val('');
+                                $('#addSubtitle').val('');
+                                $('#addDescription').val('');
+                                $('#addStatus').val('null');
+                                $('#addStock').val('');
+                                $('#addDemoStock').val('');
+                                $('#addPrice').val('');
+                                $('#addRecommendedPrice').val('');
+                                $('#addSku').val('');
+                                $('#addCategory').val('null');
+                                $('#addBrand').val('null');
+                                $('#addVideo').val('');
+
+
+                                $('#addMainImagePreview').attr('hidden');
+                                $('#addMainImagePreview').empty()
+
+                                $('#addThumbnailPreview').attr('hidden');
+                                $('#addThumbnailPreview').empty()
+
+                                $('#addProductCarousel').attr('hidden');
+                                $('#addProductCarousel .carousel-inner').empty();
+
+                                addSelectedFiles = [];
+                            }
                         });
                     </script>
                 </div>
@@ -403,10 +437,11 @@
             </div>
             <div class="card-body">
                 <div>
+                    <input type="hidden" id="editId">
                     <div class="mb-3">
-                        <label for="editName">Name</label>
+                        <label for="editName">Naam</label>
                         <div class="input-group">
-                            <input type="text" id="editName" class="form-control" placeholder="Name">
+                            <input type="text" id="editName" class="form-control" placeholder="Naam">
                         </div>
                     </div>
 
@@ -418,9 +453,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="editDescription">Description</label>
+                        <label for="editDescription">Beschrijving</label>
                         <div class="input-group">
-                            <textarea type="text" id="editDescription" class="form-control" placeholder="Description"></textarea>
+                            <textarea type="text" id="editDescription" class="form-control" placeholder="Beschrijving"></textarea>
                         </div>
                     </div>
 
@@ -652,9 +687,52 @@
                         $('#editSubmitProduct').on('click', function(e) {
                             e.preventDefault();
 
-                            var productData = {
 
+                            let newProductImages = [];
+                            let oldProductImages = [];
+
+                            editSelectedFiles.forEach(element => {
+                                if (element.old) {
+                                    oldProductImages.push(element.url);
+                                } else {
+                                    newProductImages.push(element);
+                                }
+                            });
+
+                            let thumbnail;
+                            if ($('#editThumbnail').prop('files')[0] === undefined) {
+                                thumbnail = $('#editThumbnailPreview img').attr('src');
+                            }
+
+                            let mainImage;
+                            if ($('#editMainImage').prop('files')[0] === undefined) {
+                                mainImage = $('#editMainImagePreview img').attr('src');
+                            }
+
+
+                            var productData = {
+                                id: $('#editId').val(),
+                                name: $('#editName').val(),
+                                subtitle: $('#editSubtitle').val(),
+                                description: $('#editDescription').val(),
+                                status: $('#editStatus').val(),
+                                stock: $('#editStock').val(),
+                                demoStock: $('#editDemoStock').val(),
+                                price: $('#editPrice').val(),
+                                recommendedPrice: $('#editRecommendedPrice').val(),
+                                sku: $('#editSku').val(),
+                                category: $('#editCategory').val(),
+                                brand: $('#editBrand').val(),
+                                oldThumbnail: thumbnail,
+                                thumbnail: $('#editThumbnail').prop('files')[0],
+                                oldMainImage: mainImage,
+                                mainImage: $('#editMainImage').prop('files')[0],
+                                editProductImages: newProductImages,
+                                oldProductImages: oldProductImages,
+                                video: $('#editVideo').val()
                             };
+
+
 
                             var formData = new FormData();
                             for (var key in productData) {
@@ -668,7 +746,7 @@
                             }
 
                             $.ajax({
-                                url: '/ControlPanel/Products/EditProduct',
+                                url: '/ControlPanel/Products/UpdateProduct',
                                 type: 'POST',
                                 data: formData,
                                 processData: false,
@@ -705,12 +783,14 @@
         }
         $('#editProductImagesPreview').removeAttr('hidden');
 
+        $('#editThumbnail').val('');
         $('#editThumbnailPreview').removeAttr('hidden');
 
         $('#editThumbnailPreview').empty().append(
             $('<img>').attr('src', row.media.thumbnail.url).addClass('d-block carousel-image')
         );
 
+        $('#editMainImage').val('');
         $('#editMainImagePreview').removeAttr('hidden');
 
         $('#editMainImagePreview').empty().append(
@@ -723,14 +803,17 @@
             console.log(e);
         }
 
+        console.log(row)
+
+        $('#editId').val(row.id);
         $('#editName').val(row.name);
         $('#editSubtitle').val(row.subtitle);
         $('#editDescription').val(row.description);
         $('#editStatus').val(row.active ? "Active" : "Inactive");
         $('#editStock').val(row.amountInStock);
-        $('#editDemoStock').val(row.amountInDemoStock);
+        $('#editDemoStock').val(row.demoAmountInStock);
         $('#editPrice').val(row.unitPrice);
-        $('#editRecommendedPrice').val(row.recommendedPrice);
+        $('#editRecommendedPrice').val(row.recommendedUnitPrice);
         $('#editSku').val(row.sku);
         $('#editCategory').val(row.category.id);
         $('#editBrand').val(row.brand.id);

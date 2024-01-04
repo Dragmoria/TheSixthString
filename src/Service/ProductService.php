@@ -185,4 +185,32 @@ class ProductService extends BaseDatabaseService
 
         return $models;
     }
+
+    public function addProduct(ProductModel $model): bool
+    {
+        $query = "INSERT INTO product
+        (name, subtitle, description, active, amountInStock, demoAmountInStock, unitPrice, recommendedUnitPrice, sku, brandId, categoryId, media, createdOn)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $params = [
+            $model->name,
+            $model->subtitle,
+            $model->description,
+            $model->active,
+            $model->amountInStock,
+            $model->demoAmountInStock,
+            TaxHelper::calculatePriceExcludingTax($model->unitPrice),
+            TaxHelper::calculatePriceExcludingTax($model->recommendedUnitPrice),
+            $model->sku,
+            $model->brand->id,
+            $model->category->id,
+            json_encode($model->media, JSON_PRETTY_PRINT),
+            date("Y-m-d H:i:s")
+        ];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result;
+    }
 }
