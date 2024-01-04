@@ -63,6 +63,7 @@ class Mail
         if (!$mail->send()) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
+            error_log($mail->ErrorInfo);
             exit;
         }
 
