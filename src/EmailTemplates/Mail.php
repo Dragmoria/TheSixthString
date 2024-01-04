@@ -71,7 +71,7 @@ class Mail
         return $mail->send();*/
 
         $mail = new PHPMailer();
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
