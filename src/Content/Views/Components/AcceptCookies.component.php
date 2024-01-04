@@ -12,7 +12,7 @@
     }
 
     .cookie-modal-content {
-        background-color: #fefefe;
+        background-color: #EFE3C4;
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
@@ -21,15 +21,19 @@
 </style>
 
 <div id="cookieModal" class="cookie-modal">
-    <div class="cookie-modal-content">
+    <div class="cookie-modal-content card">
         <h2>Cookies op onze website</h2>
-        <p>Wij gebruiken cookies om ervoor te zorgen dat we u de beste ervaring op onze website bieden. Als u doorgaat zonder uw instellingen te wijzigen, gaan we ervan uit dat u alle cookies op de website ontvangt.</p>
-        <button id="acceptCookies">Accept</button>
+        <p>Wij gebruiken cookies om ervoor te zorgen dat we u de beste ervaring op onze website bieden. Als u doorgaat
+            zonder uw instellingen te wijzigen, gaan we ervan uit dat u alle cookies op de website ontvangt.</p>
+        <div class="col-12 text-center">
+            <button class="col-2 rounded-pill"
+                style="background-color:#FCB716;border-color:#FCB716" id="acceptCookies">Accept</button>
+        </div>
     </div>
 </div>
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
         var modal = document.getElementById('cookieModal');
         var acceptButton = document.getElementById('acceptCookies');
 
@@ -37,7 +41,7 @@
         modal.style.display = "block";
 
         // When the user clicks on the "Accept" button, close the modal
-        acceptButton.onclick = function() {
+        acceptButton.onclick = function () {
             modal.style.display = "none";
             $.ajax({
                 url: '/accept-cookies',
@@ -45,7 +49,7 @@
                 data: {
                     'accept': true
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                 }
             });
