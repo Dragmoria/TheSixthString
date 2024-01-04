@@ -39,7 +39,7 @@ class Mail
     }
 
     public function send(): bool
-    {
+    {/*
         $mail = new PHPMailer();
         $mail->isSMTP();
         $mail->SMTPDebug  = 2;                   //Send using SMTP
@@ -67,6 +67,29 @@ class Mail
             error_log($mail->ErrorInfo);
             exit;
         }
+
+        return $mail->send();*/
+
+        $mail = new PHPMailer();
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = $this->from->value;                     //SMTP username
+        $mail->Password   = $this->password;                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+        //Mail versturen settings
+        $mail->setFrom($mail->Username, $this->name);
+        $mail->addAddress($this->to);     //Add a recipient
+        $mail->addReplyTo('info@thesixthstring.store', 'Information');
+
+
+        $mail->isHTML(true);
+        $mail->Subject = $this->subject;
+        $mail->Body    = $this->body;
+        $mail->AltBody = $this->altBody ?? "";
 
         return $mail->send();
     }
