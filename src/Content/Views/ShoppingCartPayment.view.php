@@ -56,22 +56,24 @@
             alert('Kies eerst een betaalmethode');
             return;
         }
-        startPayment();
+        startPayment(e);
     });
 
-    $('#payment-method').on('change', function() {
-        var selectedMethod = $(this).val();
-        if(selectedMethod != '<?= \Lib\Enums\PaymentMethod::PayLater->name ?>') {
-            alert('Deze betaalmethode wordt momenteel niet ondersteund');
-            $(this).val('');
+    function startPayment(e) {
+        if($(e.currentTarget).hasClass('disabled')) {
+            return;
         }
-    });
 
-    function startPayment() {
-        $.post('/ShoppingCart/StartPayment', function(response) {
+        $(e.currentTarget).addClass('disabled');
+
+        $.post('/ShoppingCart/StartPayment', { paymentMethod: $('#payment-method').val() }, function(response) {
             if(response.success) {
-                $('#cart-content').html('<p class="text-sixth-beige">Bestellen gelukt! Je ontvangt binnen enkele minuten een e-mail met het overzicht van je bestelling. ' +
-                    'Klik <a class="text-decoration-none text-sixth-yellow" href="/Account">hier</a> om naar je besteloverzicht te gaan.</p>');
+                if(response.paymentUrl != undefined && response.paymentUrl != null && response.paymentUrl != '') {
+                    window.location.href = response.paymentUrl;
+                } else {
+                    $('#cart-content').html('<p class="text-sixth-beige">Bestellen gelukt! Je ontvangt binnen enkele minuten een e-mail met het overzicht van je bestelling. ' +
+                        'Klik <a class="text-decoration-none text-sixth-yellow" href="/Account">hier</a> om naar je besteloverzicht te gaan.</p>');
+                }
             } else {
                 alert("Er is iets misgegaan, controleer je bestelling en probeer het opnieuw of neem contact met ons op");
             }
