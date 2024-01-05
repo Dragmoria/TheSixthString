@@ -104,7 +104,7 @@ class Mail
     {
         $apiKey = $this->envHandler->getEnv('MAIL_API_KEY');
 
-        $timestamp = time(); // unix timestamp
+        $timestamp = time() - 35; // unix timestamp
 
         $data = $apiKey . "::" . $timestamp;
 
