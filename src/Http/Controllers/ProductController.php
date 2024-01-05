@@ -79,6 +79,10 @@ class ProductController extends Controller {
     }
 
     public function createReview(): ?Response {
+        if(!isset($_SESSION["user"])) {
+            redirect('/Login');
+        }
+
         $postBody = $this->currentRequest->postObject->body();
         $productId = (int)$postBody["productId"];
 

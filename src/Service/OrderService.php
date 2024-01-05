@@ -130,5 +130,12 @@ class OrderService extends BaseDatabaseService {
         $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;
         $mail = new Mail($userEmail,"Bestelbevestiging #$orderId", $mailtemplateCustomer, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
+
+        $mailtemplateStore = new MailTemplate(MAIL_TEMPLATES . 'OrderConfirmationStore.php', [
+            'url' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/ControlPanel/OrderManagement"
+        ]);
+
+        $storeMail = new Mail("admin@thesixthstring.store","Nieuwe bestelling #$orderId", $mailtemplateStore, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+        $storeMail->send();
     }
 }

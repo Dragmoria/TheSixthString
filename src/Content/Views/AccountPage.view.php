@@ -599,8 +599,6 @@ $fields = array(
       data: Data,
       // dataType: 'json',
       success: function (response) {
-        console.log(response);
-
         var value1 = response.orderId;
         var ProductBody = document.getElementById('ProductsBody');
         var ProductDetails = response.Products;
@@ -639,9 +637,13 @@ ProductDetails.forEach(function (detail, index) {
         ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
         <p6 style=color:#EFE3C4>${ProductAmount}</p6>
       </div>
-      <div class="text-center col-2">
+<div class="text-center col-2">
         ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
-        <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
+        <p6 style=color:#EFE3C4>€${detail.unitPrice.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
+      </div>
+      <div class="text-center col-2">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Totaalprijs: </h5>' : ''}
+        <p6 style=color:#EFE3C4>€${TotalPrice.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
       </div>
       <div class="mt-3 mb-2 Modal-order-divider"></div>
     </div>`;
