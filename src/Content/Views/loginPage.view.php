@@ -41,9 +41,7 @@
     position: relative;
 
   }
-
-  .password-input {}
-
+  
   .toggle-eye {
     position: absolute;
     top: 50%;

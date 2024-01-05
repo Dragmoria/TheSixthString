@@ -14,7 +14,7 @@
 <div class="container-fluid g-0">
     <div class="row g-0" style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; height:100vh;">
         <div class="col d-flex justify-content-center align-items-center text-center">
-            <?php include VIEWS_PATH . 'Components\ProductCard.component.php'; ?>
+            test
         </div>
     </div>
 </div>

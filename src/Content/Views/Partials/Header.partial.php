@@ -97,7 +97,7 @@ function buildCategoryMenu($category, int $index): void
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top flex-column py-0 d-lg-none"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
      style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
