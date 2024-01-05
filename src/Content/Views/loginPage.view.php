@@ -19,8 +19,8 @@
   .card-custom {
     background-color: var(--sixth-black);
     border-radius: 2rem;
-    min-width: 25vw;
-    width: 35vw;
+    min-width: 500px;
+    max-width: 35vw;
   }
 
   .custom-input-height {
@@ -88,11 +88,11 @@
       <div class="row mb-5">
         <div class="col"></div>
         <div class="col d-flex justify-content-center align-items-center">
-          <a href="/Register" id="registerButton" class="btn btn-primary rounded-pill form-check fw-bold"
+          <a href="/Register" id="registerButton" class="btn btn-primary form-check fw-bold"
             style="width: min-content; background-color:var(--sixth-yellow); border-color:var(--sixth-yellow); color: var(--sixth-black);" value="Register">Registreren</a>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-          <button type="submit" id="loginButton" class="btn btn-primary rounded-pill form-check fw-bold"
+          <button type="submit" id="loginButton" class="btn btn-primary form-check fw-bold"
             style="width: min-content; background-color:var(--sixth-yellow); border-color:var(--sixth-yellow); color: var(--sixth-black);" value="Login">Inloggen</button>
         </div>
         <div class="col"></div>

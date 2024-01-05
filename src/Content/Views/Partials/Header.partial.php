@@ -157,7 +157,16 @@ function buildCategoryMenu($category, int $index): void
     </div>
 
     <!-- KPI Bar -->
-    <div class="container-fluid" style="height: 15px; background-color: var(--sixth-yellow);"></div>
+    <div class="container-fluid kpi-bar align-items-center justify-content-center">
+        <img src="/images/kpi-sending.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Gratis verzending vanaf € 100,-</p>
+        <img src="/images/kpi-time.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Voor 23:00 besteld, morgen in huis!</p>
+        <img src="/images/kpi-warranty.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">30 dagen “niet-goed-geld-terug” garantie</p>
+        <img src="/images/kpi-service.png" alt="Sending" style="height: 70%;">
+        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">3 jaar garantie van Sixth</p>
+    </div>
 
 </nav>
 
