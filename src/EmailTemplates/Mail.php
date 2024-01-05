@@ -104,7 +104,7 @@ class Mail
     {
         $apiKey = $this->envHandler->getEnv('MAIL_API_KEY');
 
-        $encryptKey = $this->envHandler->getEnv('637f45808aa51ac009b842c4a8d714f8');
+        $encryptKey = $this->envHandler->getEnv('MAIL_API_ENCRYPTKEY');
 
         return openssl_encrypt($apiKey, 'AES-128-ECB', $encryptKey);
     }
