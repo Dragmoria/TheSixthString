@@ -101,7 +101,7 @@ function buildCategoryMenu($category, int $index): void
      style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
-        <a class="navbar-brand pt-0 mx-3" href="#">
+        <a class="navbar-brand pt-0 mx-3" href="/">
             <img src="/images/logo-small.svg" alt="Your Logo">
         </a>
         <div class="d-flex ms-auto">
@@ -137,9 +137,9 @@ function buildCategoryMenu($category, int $index): void
     <!-- Search Bar -->
     <div class="container-fluid px-3 my-3 justify-content-center align-items-center">
         <div class="input-group">
-            <div class="dropdown">
-                <div class="d-flex">
-                    <input type="text" id="product-search-small" class="form-control w-auto bg-sixth-beige rounded-4"
+            <div class="dropdown w-100">
+                <div class="d-flex w-100">
+                    <input type="text" id="product-search-small" class="form-control bg-sixth-beige rounded-4"
                         placeholder="Zoek een product" data-target-dropdown="suggested-results-sm"
                         onkeyup="searchSuggested(this)" />
                     <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
@@ -148,6 +148,7 @@ function buildCategoryMenu($category, int $index): void
                             <path
                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                         </svg>
+                    </span>
                 </div>
                 </span>
                 <ul id="suggested-results-sm" class="dropdown-menu"></ul>
