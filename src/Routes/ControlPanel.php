@@ -52,3 +52,5 @@ $router->get('/ControlPanel/ManageProducts/GetCategories', [ManageProductsContro
 $router->get('/ControlPanel/ManageProducts/GetProductsTableData', [ManageProductsController::class, 'getProductsTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->post('/ControlPanel/Products/AddProduct', [ManageProductsController::class, 'addProduct'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->post('/ControlPanel/Products/UpdateProduct', [ManageProductsController::class, 'updateProduct'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+
+$router->get('/TestSomething/TestMail', [ControlPanelController::class, 'testMail']);

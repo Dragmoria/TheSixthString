@@ -10,9 +10,9 @@ class ResetpasswordModel
     {
     }
 
-    public int $id = 0;
-    public int $userId = 0;
-    public string $link = "";
+    public int $id;
+    public int $userId;
+    public string $link;
     public \DateTime $validUntil;
 
     public static function convertToModel(?Resetpassword $entity): ?ResetpasswordModel
@@ -20,6 +20,7 @@ class ResetpasswordModel
         if ($entity->isEmptyObject()) return null;
 
         $model = new ResetpasswordModel();
+        
         $model->id = $entity->id;
         $model->userId = $entity->userId;
         $model->link = $entity->link;
@@ -42,5 +43,6 @@ class ResetpasswordModel
         return $entity;
     }
 }
+
 
 

@@ -26,12 +26,11 @@ class LoginController extends Controller
             ->setBody(view(VIEWS_PATH . 'loginPage.view.php', [
                 'oldValueEmail' => $oldValueEmail,
                 'oldValuePassword' => $oldValuePassword,
-                'error' => $error,
-                'success' => $postObject->getPostSuccess('textfield')
+                'error' => $error
             ])->withLayout(MAIN_LAYOUT));
 
         $postObject->flush();
-        unset($_SESSION['error'], $_SESSION['success']);
+        unset($_SESSION['error']);
         return $Response;
     }
 

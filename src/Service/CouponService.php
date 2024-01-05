@@ -85,4 +85,20 @@ class CouponService extends BaseDatabaseService
 
         return $result;
     }
+
+    public function getCouponByCode(?string $code): ?Coupon {
+        if(is_null($code)) return null;
+        return $this->executeQuery("select * from coupon where code = ? limit 1", [$code], Coupon::class)[0] ?? null;
+    }
+
+    public function verifyCoupon(?Coupon $coupon): bool {
+        if(is_null($coupon) || !$coupon->active) return false;
+        if(!is_null($coupon->maxUsageAmount) && $coupon->maxUsageAmount >= $coupon->usageAmount) return false;
+
+        $currentDateTime = ((array)new \DateTime())['date'];
+        if(!is_null($coupon->endDate) && $coupon->endDate < $currentDateTime) return false;
+        if($coupon->startDate > $currentDateTime) return false;
+
+        return true;
+    }
 }

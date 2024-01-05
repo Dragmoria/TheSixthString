@@ -137,6 +137,7 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
+
     public function changePersonalInfo(UserModel $updateUser): bool
     {
         $query = "UPDATE user SET `firstName` = ?, `insertion` = ?, `lastName` = ?, `dateOfBirth` = ?, `gender` = ? WHERE id = ?;";
@@ -172,15 +173,14 @@ class UserService extends BaseDatabaseService
         return $result !== false;
     }
 
-    public function ChangePasswordAndEmailUser(UserModel $updateUser): bool
+    public function ChangeEmailUser(UserModel $updateUser): bool
     {
-        $query = "UPDATE user SET `emailAddress` = ?, `passwordHash` = ?, `active` = ? WHERE id = ?;";
+        $query = "UPDATE user SET `emailAddress` = ?, `active` = ? WHERE id = ?;";
 
         $user = $updateUser;
 
         $params = [
             $user->emailAddress,
-            $user->passwordHash,
             $user->active,
             $user->id
         ];
@@ -188,6 +188,21 @@ class UserService extends BaseDatabaseService
         $result = $this->executeQuery($query, $params);
 
         return $result !== false;
+    }
+
+
+    public function deleteUser(int $deleteUser): bool
+    {
+
+        $query = "DELETE FROM user WHERE id = ?;";
+
+        $params = [
+            $deleteUser
+        ];
+
+        $result = $this->executeQuery($query, $params);
+        return $result !== false;
+
     }
 
     private function getById(int $id): ?User

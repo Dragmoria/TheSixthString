@@ -1,7 +1,7 @@
 <?php
 
 namespace Lib\Database\Entity;
-use lib\Enums\Country;
+use Lib\Enums\Country;
 
 class Address extends SaveableObject {
     public function __construct() {
