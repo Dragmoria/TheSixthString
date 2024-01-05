@@ -1,4 +1,0 @@
-INSERT INTO thesixthstring.`order` (id, userId, orderTotal, orderTax, couponId, shippingAddressId, invoiceAddressId, paymentStatus, shippingStatus, createdOn) VALUES (1, 1, 111.00, 23.31, null, 1, 2, 0, 0, '2023-12-30 22:20:24');
-INSERT INTO thesixthstring.`order` (id, userId, orderTotal, orderTax, couponId, shippingAddressId, invoiceAddressId, paymentStatus, shippingStatus, createdOn) VALUES (2, 1, 111.00, 23.31, null, 1, 2, 0, 0, '2023-12-30 22:23:39');
-INSERT INTO thesixthstring.`order` (id, userId, orderTotal, orderTax, couponId, shippingAddressId, invoiceAddressId, paymentStatus, shippingStatus, createdOn) VALUES (3, 1, 111.00, 23.31, null, 1, 2, 0, 0, '2023-12-30 22:25:45');
-INSERT INTO thesixthstring.`order` (id, userId, orderTotal, orderTax, couponId, shippingAddressId, invoiceAddressId, paymentStatus, shippingStatus, createdOn) VALUES (4, 1, 111.00, 23.31, null, 1, 2, 0, 0, '2023-12-30 22:28:51');

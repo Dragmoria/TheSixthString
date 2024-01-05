@@ -18,7 +18,7 @@ function buildCategoryMenu($category, int $index): void
         <a class="navbar-brand pt-0 mx-5" href="/">
             <img src="/images/logo-small.svg" alt="Sixth" width="60px">
         </a>
-        
+
         <!-- Search Bar -->
         <div class="dropdown">
             <div class="d-flex">
@@ -48,7 +48,7 @@ function buildCategoryMenu($category, int $index): void
             <?php
             if (currentRole() !== null && currentRole()->hasRightsOf(Lib\Enums\Role::Analyst)) {
                 echo '<li class="nav-item">';
-                echo '<a class="nav-link text-sixth-beige" href="/ControlPanel">Control panel</a>';
+                echo '<a class="nav-link text-sixth-beige" href="/ControlPanel/Statistics">Control panel</a>';
                 echo '</li>';
             }
             ?>
@@ -98,7 +98,7 @@ function buildCategoryMenu($category, int $index): void
 
 <!-- Navbar Mobile -->
 <nav class="navbar navbar-expand-lg nav-sm navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
-     style="background-color:var(--sixth-brown) !important;">
+    style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
         <a class="navbar-brand pt-0 mx-3" href="/">

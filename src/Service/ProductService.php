@@ -13,7 +13,6 @@ use Models\AdminProductFilterModel;
 use Models\BrandModel;
 use Models\CategoryModel;
 use Models\CustomerProductFilterModel;
-use Models\ProductFilterModel;
 use Models\ProductModel;
 use Models\ReviewModel;
 
@@ -56,8 +55,14 @@ class ProductService extends BaseDatabaseService
         }
 
         $reviewAverage = $this->executeQuery("select sum(rev.rating) / count(rev.id) as reviewAverage from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productEntity->id])[0]->reviewAverage;
-        $model->reviewAverage = round((float)$reviewAverage, 1);
+        $model->reviewAverage = round((float) $reviewAverage, 1);
         return $model;
+    }
+
+
+    public function setProductVisited(int $productId, string $sessionUserGuid): void
+    {
+        $this->executeQuery("insert into visitedproduct (productId, date, sessionUserGuid) values (?,?,?)", [$productId, ((array) new \DateTime())['date'], $sessionUserGuid]);
     }
 
     public function getAmountInStockForProduct(int $productId): int
@@ -131,7 +136,7 @@ class ProductService extends BaseDatabaseService
 
         $childIds = array();
         foreach ($queryResult as $item) {
-            $childIds[] = (int)$item["id"];
+            $childIds[] = (int) $item["id"];
         }
 
         return $childIds;
@@ -149,7 +154,8 @@ class ProductService extends BaseDatabaseService
             array_push($models, ProductModel::convertToModel($entity));
         }
 
-        if (count($models) === 0) return null;
+        if (count($models) === 0)
+            return null;
         return $models;
     }
 

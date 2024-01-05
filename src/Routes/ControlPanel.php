@@ -1,17 +1,17 @@
 <?php
 
 use Http\Controllers\ControlPanel\ManageAccountsController;
-use Http\Controllers\ControlPanel\ControlPanelController;
 use Http\Controllers\ControlPanel\ManageBrandsController;
 use Http\Controllers\ControlPanel\ManageCategoriesController;
 use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ManageProductsController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\ControlPanel\AppointmentsController;
+use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 
-$router->get('/ControlPanel', [ControlPanelController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Analyst]);
+// TODO: ERROR PAGES FOR USED HTTPSTATUSCODES
 
 // Accounts
 $router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
@@ -53,4 +53,8 @@ $router->get('/ControlPanel/ManageProducts/GetProductsTableData', [ManageProduct
 $router->post('/ControlPanel/Products/AddProduct', [ManageProductsController::class, 'addProduct'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->post('/ControlPanel/Products/UpdateProduct', [ManageProductsController::class, 'updateProduct'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 
-$router->get('/TestSomething/TestMail', [ControlPanelController::class, 'testMail']);
+// Orders
+$router->get('/ControlPanel/OrderManagement', [OrderManagementController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/OrderManagement/GetOrdersTableData', [OrderManagementController::class, 'getOrdersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/OrderManagement/{orderId}', [OrderManagementController::class, 'getOrderDetails'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->post('/ControlPanel/OrderManagement/{orderId}/SetShippingStatus', [OrderManagementController::class, 'setShippingStatus'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);

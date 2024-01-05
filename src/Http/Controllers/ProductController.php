@@ -36,14 +36,15 @@ class ProductController extends Controller
         $filterData->categories = $categories;
         $filterData->brands = $brands;
 
-        $response->setBody(view(
-            VIEWS_PATH . 'Products.view.php',
-            [
-                'products' => $products,
-                'selectedFilters' => $filterModel,
-                'filterData' => $filterData
-            ]
-        )->withLayout(MAIN_LAYOUT));
+        $response->setBody(
+            view(
+                VIEWS_PATH . 'Products.view.php',
+                [
+                    'products' => $products,
+                    'selectedFilters' => $filterModel,
+                    'filterData' => $filterData
+                ]
+            )->withLayout(MAIN_LAYOUT));
 
         return $response;
     }
@@ -53,21 +54,22 @@ class ProductController extends Controller
         $response = new ViewResponse();
 
         $productService = Application::resolve(ProductService::class);
-        $productService->setProductVisited((int)$data["id"], $_SESSION["sessionUserGuid"]);
-        $productDetails = $productService->getProductDetails((int)$data["id"]);
+        $productService->setProductVisited((int) $data["id"], $_SESSION["sessionUserGuid"]);
+        $productDetails = $productService->getProductDetails((int) $data["id"]);
 
         $canWriteReview = false;
         if (isset($_SESSION["user"])) {
-            $canWriteReview = $this->canWriteReview((int)$data["id"]);
+            $canWriteReview = $this->canWriteReview((int) $data["id"]);
         }
 
-        $response->setBody(view(
-            VIEWS_PATH . 'ProductDetails.view.php',
-            [
-                "product" => $productDetails,
-                "canWriteReview" => $canWriteReview
-            ]
-        )->withLayout(MAIN_LAYOUT));
+        $response->setBody(
+            view(
+                VIEWS_PATH . 'ProductDetails.view.php',
+                [
+                    "product" => $productDetails,
+                    "canWriteReview" => $canWriteReview
+                ]
+            )->withLayout(MAIN_LAYOUT));
 
         return $response;
     }
@@ -81,23 +83,23 @@ class ProductController extends Controller
 
         $result->products = Application::resolve(ProductService::class)->getSuggestedProducts($postBody["search"]);
 
-        $response->setBody((array)$result);
+        $response->setBody((array) $result);
         return $response;
     }
 
     public function createReview(): ?Response
     {
         $postBody = $this->currentRequest->postObject->body();
-        $productId = (int)$postBody["productId"];
+        $productId = (int) $postBody["productId"];
 
         $response = new JsonResponse();
         $result = new \stdClass();
 
-        if (!$this->canWriteReview((int)$postBody["productId"])) {
+        if (!$this->canWriteReview((int) $postBody["productId"])) {
             $result->success = false;
             $result->message = "Je moet dit product eerst kopen voordat je er een review over kunt schrijven en je kunt maximaal 1 review per product schrijven.";
 
-            $response->setBody((array)$result);
+            $response->setBody((array) $result);
             return $response;
         }
 
@@ -108,47 +110,7 @@ class ProductController extends Controller
 
         $result->success = Application::resolve(ReviewService::class)->createReview($productId, $_SESSION["user"]["id"], $model);
 
-        $response->setBody((array)$result);
-        return $response;
-    }
-
-    public function getSuggestedProducts(): ?Response
-    {
-        $postBody = $this->currentRequest->postObject->body();
-
-        $response = new JsonResponse();
-        $result = new \stdClass();
-
-        $result->products = Application::resolve(ProductService::class)->getSuggestedProducts($postBody["search"]);
-
-        $response->setBody((array)$result);
-        return $response;
-    }
-
-    public function createReview(): ?Response
-    {
-        $postBody = $this->currentRequest->postObject->body();
-        $productId = (int)$postBody["productId"];
-
-        $response = new JsonResponse();
-        $result = new \stdClass();
-
-        if (!$this->canWriteReview((int)$postBody["productId"])) {
-            $result->success = false;
-            $result->message = "Je moet dit product eerst kopen voordat je er een review over kunt schrijven en je kunt maximaal 1 review per product schrijven.";
-
-            $response->setBody((array)$result);
-            return $response;
-        }
-
-        $model = new ReviewModel();
-        $model->rating = $postBody["rating"];
-        $model->title = $postBody["title"];
-        $model->content = $postBody["content"];
-
-        $result->success = Application::resolve(ReviewService::class)->createReview($productId, $_SESSION["user"]["id"], $model);
-
-        $response->setBody((array)$result);
+        $response->setBody((array) $result);
         return $response;
     }
 
@@ -164,11 +126,11 @@ class ProductController extends Controller
         }
 
         if (!empty($urlQueryParams["minprice"])) {
-            $filterModel->minPrice = (int)$urlQueryParams["minprice"];
+            $filterModel->minPrice = (int) $urlQueryParams["minprice"];
         }
 
         if (!empty($urlQueryParams["maxprice"])) {
-            $filterModel->maxPrice = (int)$urlQueryParams["maxprice"];
+            $filterModel->maxPrice = (int) $urlQueryParams["maxprice"];
         }
 
         if (!empty($urlQueryParams["sortorder"])) {
