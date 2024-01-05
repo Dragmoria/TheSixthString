@@ -9,7 +9,6 @@ use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Application;
 use Models\UserModel;
 use Service\ResetpasswordService;
-use Service\RandomLinkService;
 use Service\UserService;
 
 
@@ -38,10 +37,6 @@ class ResetPasswordController extends Controller
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['error' => "LinkExpired"])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             } else {
-                $_SESSION["user"] = [
-                    "link" => $urlData["dynamiclink"]
-                ];
-
                 $user = $user->firstName;
                 $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
@@ -56,6 +51,20 @@ class ResetPasswordController extends Controller
 
         if ($postBody["password"] === $postBody["repeatPassword"]) {
 
+            $password = $postBody["password"];
+            $regexLength = '/.{6,}/';
+            $regexCapital = '/[A-Z]/';
+            $regexRegular = '/[a-z]/';
+            $regexNumber = '/[0-9]/';
+
+            if (!preg_match($regexLength, $password) || !preg_match($regexCapital, $password) || !preg_match($regexRegular, $password) || !preg_match($regexNumber, $password)) {
+                $Response = new TextResponse();
+                $Response->setStatusCode(HTTPStatusCodes::NOT_ACCEPTABLE);
+                $Response->setBody('PasswordIncorrectFormat');
+                return $Response;
+            }
+
+
             $resetPasswordService = Application::resolve(ResetpasswordService::class);
             $Resetpassword = $resetPasswordService->getResetpasswordByLink($_SESSION["user"]["link"]);
 
@@ -68,8 +77,8 @@ class ResetPasswordController extends Controller
                 $UpdateUser->passwordHash = password_hash($postBody['password'], PASSWORD_DEFAULT);
                 $UpdateUser->id = $user->id;
 
-                $updatePassword = $userservice->ChangePasswordUser($UpdateUser);
-                $deleteLink = $resetPasswordService->deleteResetpasswordByUserId($UpdateUser->id);
+                $userservice->ChangePasswordUser($UpdateUser);
+                $resetPasswordService->deleteResetpasswordByUserId($UpdateUser->id);
                 $Response = new TextResponse();
                 $Response->setBody('PasswordUpdated');
                 return $Response;
@@ -78,21 +87,6 @@ class ResetPasswordController extends Controller
 
         }
 
-
-
-
-
-
     }
 
 }
-
-/*
-daar komt dan een array uit
-
-[
-    'dynamicLink' => '02340983298490218490'
-]
-
-zoiets
-*/
