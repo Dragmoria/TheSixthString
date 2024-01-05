@@ -2,6 +2,7 @@
 
 namespace Http\Controllers\ControlPanel;
 
+use EmailTemplates\Mail;
 use EmailTemplates\MailFrom;
 use EmailTemplates\MailTemplate;
 use Lib\Enums\Role;
@@ -28,7 +29,34 @@ class ControlPanelController extends Controller
 
     public function testMail(): ?Response
     {
+        $mailTemplate = new MailTemplate(MAIL_TEMPLATES . "ActivateMail.php", ["token" => "123456789"]);
+
+        $mail = new Mail("j.kompier@hotmail.nl", "Test subject", $mailTemplate, MailFrom::NOREPLY, "Mailer name");
+        $result = $mail->send();
+
+        dump($result);
+
+        $response = new ViewResponse();
+
+        $currentRole = currentRole();
+
+        $response->setBody(view(VIEWS_PATH . 'ControlPanel/ControlPanel.view.php', [
+            "currentRole" => $currentRole->toString()
+        ])->withLayout(MAIN_LAYOUT));
+
+        return $response;
+    }
+    /*
+    public function testMail2(): ?Response
+    {
         $envHandler = Application::getContainer()->resolve(EnvHandler::class);
+
+        $mailTemplate = new MailTemplate(MAIL_TEMPLATES . "ActivateMail.php", ["token" => "123456789"]);
+
+        $mail = new Mail("j.kompier@hotmail.nl", "Test subject", $mailTemplate, MailFrom::NOREPLY, "Mailer name");
+
+        $mail->send();
+
 
         $domain = $envHandler->getEnv('MAIL_SERVER');
 
@@ -71,5 +99,5 @@ class ControlPanelController extends Controller
         ])->withLayout(MAIN_LAYOUT));
 
         return $response;
-    }
+    }*/
 }

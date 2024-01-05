@@ -19,6 +19,7 @@ services:
       - MAIL_PASSWORD_ADMIN=${MAIL_PASSWORD_ADMIN}
       - MAIL_API_KEY=${MAIL_API_KEY}
       - MAIL_SERVER=${MAIL_SERVER}
+      - MAIL_WITH_API=${MAIL_WITH_API}
   db:
     image: mysql:latest
     ports:

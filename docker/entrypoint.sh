@@ -7,5 +7,6 @@ echo "MAIL_PASSWORD_NOREPLY=$MAIL_PASSWORD_NOREPLY" >> /var/www/html/.env
 echo "MAIL_PASSWORD_ADMIN=$MAIL_PASSWORD_ADMIN" >> /var/www/html/.env
 echo "MAIL_API_KEY=$MAIL_API_KEY" >> /var/www/html/.env
 echo "MAIL_SERVER=$MAIL_SERVER" >> /var/www/html/.env
+echo "MAIL_WITH_API=$MAIL_WITH_API" >> /var/www/html/.env
 cat /var/www/html/.env
 exec apache2-foreground
