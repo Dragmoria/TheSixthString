@@ -65,32 +65,13 @@ class ProductService extends BaseDatabaseService
         return $this->executeQuery("select amountInStock from product where id = ?", [$productId])[0]->amountInStock;
     }
 
-    public function setProductVisited(int $productId, string $sessionUserGuid): void {
-        $this->executeQuery("insert into visitedproduct (productId, date, sessionUserGuid) values (?,?,?)", [$productId, ((array)new \DateTime())['date'], $sessionUserGuid]);
-    }
-
-    public function getSuggestedProducts(string $search): array {
+    public function getSuggestedProducts(string $search): array
+    {
         $productEntities = $this->executeQuery("select id, name from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
 
         $models = array();
 
-        foreach($productEntities as $productEntity) {
-            $models[] = ProductModel::convertToModel($productEntity);
-        }
-
-        return $models;
-    }
-
-    public function setProductVisited(int $productId, string $sessionUserGuid): void {
-        $this->executeQuery("insert into visitedproduct (productId, date, sessionUserGuid) values (?,?,?)", [$productId, ((array)new \DateTime())['date'], $sessionUserGuid]);
-    }
-
-    public function getSuggestedProducts(string $search): array {
-        $productEntities = $this->executeQuery("select id, name from product where name like ? and active = ? order by name limit 5", ["%$search%", 1], Product::class);
-
-        $models = array();
-
-        foreach($productEntities as $productEntity) {
+        foreach ($productEntities as $productEntity) {
             $models[] = ProductModel::convertToModel($productEntity);
         }
 
@@ -112,7 +93,7 @@ class ProductService extends BaseDatabaseService
             $params[] = $model->brandId;
         }
 
-        if(!is_null($model->search)) {
+        if (!is_null($model->search)) {
             $query .= " and name like ?";
             $params[] = "%$model->search%";
         }
@@ -171,9 +152,6 @@ class ProductService extends BaseDatabaseService
         if (count($models) === 0) return null;
         return $models;
     }
-
-    
-}
 
     public function getAllProducts(AdminProductFilterModel $filters): ?array
     {
