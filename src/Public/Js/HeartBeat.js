@@ -10,7 +10,7 @@ function handleUserActivity() {
 
 setInterval(function() {
 
-    timer -= 60000;
+    timer -= 1000;
 
     if (timer <= 0) {
         if (userinputCheck === ''){
@@ -29,17 +29,17 @@ setInterval(function() {
         timer = 600000;
     }
     }
-}, 60000); 
+}, 1000); 
 
 
 
-window.addEventListener('unload', function () {
-    $.ajax({
-        url: '/LogOutPulse',
-        method: 'POST',
-        data: { action: 'heartbeat' },
-        success: function(response) {
-            window.location.href = "/Login";
-        }
-    });
-});
+// window.addEventListener('unload', function () {
+//     $.ajax({
+//         url: '/LogOutPulse',
+//         method: 'POST',
+//         data: { action: 'heartbeat' },
+//         success: function(response) {
+//             window.location.href = "/Login";
+//         }
+//     });
+// });

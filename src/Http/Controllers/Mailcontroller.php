@@ -5,20 +5,10 @@ namespace Http\Controllers;
 use EmailTemplates\Mail;
 use EmailTemplates\MailFrom;
 use EmailTemplates\MailTemplate;
-use Lib\Enums\Role;
-use Lib\Enums\Gender;
-use Lib\Enums\Country;
 use Lib\MVCCore\Controller;
-use Lib\MVCCore\Routers\HTTPStatusCodes;
 use Lib\MVCCore\Routers\Responses\Response;
-use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
-use Lib\MVCCore\Application;
-use Models\AddressModel;
-use Models\UserModel;
-use Service\UserService;
-use Service\AddressService;
-use Service\MailService;
+
 
 class MailController extends Controller
 {

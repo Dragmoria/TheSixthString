@@ -3,19 +3,17 @@ namespace Http\Controllers;
 
 use EmailTemplates\Mail;
 use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Lib\MVCCore\Routers\Responses\TextResponse;
 use Lib\MVCCore\Application;
 use Models\ResetpasswordModel;
-use Models\UserModel;
 use Service\UserService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
-use Service\MailService;
-use EmailTemplates\ResetPasswordTemplate;
-use EmailTemplates\MailTemplate;
+
 
 
 
@@ -69,6 +67,7 @@ class ForgotPasswordController extends Controller
 
 
         }
+        
 
 
     }
