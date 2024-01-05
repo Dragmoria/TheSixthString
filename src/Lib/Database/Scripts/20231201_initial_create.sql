@@ -248,7 +248,7 @@ create table thesixthstring.resetpassword
     constraint resetpassword_pk
         unique (link),
     constraint reset_password_user_id_fk
-        FOREIGN KEY (userId) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
+        FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
 );
 
 

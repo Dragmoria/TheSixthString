@@ -168,7 +168,11 @@ $fields = array(
                         </div>
                     <? endforeach; ?>
                     <div class="row">
-                        <i><p style="color:#EFE3C4">* Wachtwoorden moeten ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.</p></i>
+                        <i>
+                            <p style="color:#EFE3C4">* Wachtwoorden moeten ten minste 6 tekens bevatten, inclusief ten
+                                minste 1 hoofdletter, 1 kleine letter en 1 cijfer.</p>
+                        </i>
+                    </div>
                     <div class="row">
                         <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
                             <button type="button" id="saveButton" name="saveButton"
@@ -248,17 +252,17 @@ $fields = array(
             return false;
         }
 
-            var regexLength = /.{6,}/;
-            var regexCapital = /[A-Z]/;
-            var regexRegular = /[a-z]/;
-            var regexNumber = /[0-9]/;
+        var regexLength = /.{6,}/;
+        var regexCapital = /[A-Z]/;
+        var regexRegular = /[a-z]/;
+        var regexNumber = /[0-9]/;
 
-            if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
-                alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
-                return false;
-            }
+        if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
+            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
+            return false;
+        }
 
-            return true;
+        return true;
     }
 
     function validateEmails() {
@@ -311,9 +315,9 @@ $fields = array(
                         var MyContainer = $("#RegisterPageContainer")
 
                         MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                        // }
                     },
                     error: function (xhr, status, error) {
+
                         if (xhr.status === 409) {
                             alert("Het ingevoerde e-mailadres is al in gebruik.");
                         } else if (xhr.status === 400) {
