@@ -32,7 +32,9 @@ class ControlPanelController extends Controller
 
         $domain = $envHandler->getEnv('MAIL_SERVER');
 
-        $secretKey = $envHandler->getEnv('MAIL_API_KEY');
+        $apiKey = $envHandler->getEnv('MAIL_API_KEY');
+
+        $encryptKey = $envHandler->getEnv('637f45808aa51ac009b842c4a8d714f8');
 
         $url = "http://" . $domain . "/SendMail";
 
@@ -42,7 +44,7 @@ class ControlPanelController extends Controller
             'to' => 'j.kompier@hotmail.nl', // The email address to send to
             'from' => MailFrom::NOREPLY->value, // The email address to send from
             'body' => $mailTemplate->render(), // The email body
-            'key' => openssl_encrypt('secret', 'AES-128-ECB', $secretKey) // The encrypted key
+            'key' => openssl_encrypt($apiKey, 'AES-128-ECB', $encryptKey) // The encrypted key
         ];
 
         $ch = curl_init($url);
