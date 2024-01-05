@@ -55,33 +55,8 @@ class OrderService extends BaseDatabaseService {
         return $this->executeQuery("select * from `order` where userId = ? order by id desc limit 1", [$userId], Order::class)[0]->id;
     }
 
-    private function setOrderTotalAndTax(int &$orderTotal, int &$orderTax, ShoppingCart $shoppingCart, ?Coupon $couponUsed): void {
-        $orderTotal = (float)$this->executeQuery("select (sum(prod.unitPrice * cartitem.quantity)) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
-        $orderTotalInclTaxAndCouponUsed = $this->calculateTotalPriceInclTaxWithCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
-        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$couponUsed->id ?? null]);
-
-        $orderTotal = round(TaxHelper::calculatePriceExcludingTax($orderTotalInclTaxAndCouponUsed), 2);
-        $orderTax = round(TaxHelper::calculateTax($orderTotal), 2);
-    }
-
     public function isUserOrder(int $orderId, int $userId): bool {
         return $this->executeQuery("select userId from `order` where id = ?", [$orderId])[0]->userId == $userId;
-    }
-
-    private function getAddressIdByType(int $userId, AddressType $type): int {
-        return $this->executeQuery("select id from address where userId = ? and type = ? and active = ?", [$userId, $type->value, 1])[0]->id;
-    }
-
-    private function handleCreateOrderItems(int $shoppingCartId, int $orderId): bool {
-        $createOrderItemsQuery = "
-            insert into orderitem 
-            (orderId, productId, unitPrice, quantity, status) 
-            select ?, prod.id, prod.unitPrice, cartitem.quantity, ? 
-            from shoppingcartitem cartitem 
-            inner join product prod on prod.id = cartitem.productId 
-            where cartitem.shoppingCartId = ?
-";
-        return $this->executeQuery($createOrderItemsQuery, [$orderId, OrderItemStatus::Sent->value, $shoppingCartId]);
     }
 
     public function calculateTotalPriceInclTaxWithCouponDiscount(?Coupon $coupon, float $totalPriceInclTax): float {
@@ -102,16 +77,6 @@ class OrderService extends BaseDatabaseService {
         return max($result, 0);
     }
 
-    private function sendOrderConfirmation(int $orderId, int $userId): void {
-        $mailtemplateCustomer = new MailTemplate(MAIL_TEMPLATES . 'OrderConfirmationCustomer.php', [
-            'url' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/Account"
-        ]);
-
-        $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;
-        $mail = new Mail($userEmail,"Bestelbevestiging #$orderId", $mailtemplateCustomer, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
-        $mail->send();
-    }
-
     public function getOrdersById(int $userId): ?array
     {
         $query = "SELECT * FROM `order` WHERE userId = ? ORDER BY createdOn DESC;";
@@ -126,5 +91,44 @@ class OrderService extends BaseDatabaseService {
 
         if (count($models) === 0) return null;
         return $models;
+    }
+
+    public function hasBoughtProduct(int $productId, int $userId): bool {
+        return $this->executeQuery("select exists (select item.id from orderitem item inner join `order` ord on ord.id = item.orderId where item.productId = ? and ord.userId = ? limit 1) as hasBought", [$productId, $userId])[0]->hasBought ?? false;
+    }
+
+    private function setOrderTotalAndTax(int &$orderTotal, int &$orderTax, ShoppingCart $shoppingCart, ?Coupon $couponUsed): void {
+        $orderTotal = (float)$this->executeQuery("select (sum(prod.unitPrice * cartitem.quantity)) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
+        $orderTotalInclTaxAndCouponUsed = $this->calculateTotalPriceInclTaxWithCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
+        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$couponUsed->id ?? null]);
+
+        $orderTotal = round(TaxHelper::calculatePriceExcludingTax($orderTotalInclTaxAndCouponUsed), 2);
+        $orderTax = round(TaxHelper::calculateTax($orderTotal), 2);
+    }
+
+    private function getAddressIdByType(int $userId, AddressType $type): int {
+        return $this->executeQuery("select id from address where userId = ? and type = ? and active = ?", [$userId, $type->value, 1])[0]->id;
+    }
+
+    private function handleCreateOrderItems(int $shoppingCartId, int $orderId): bool {
+        $createOrderItemsQuery = "
+            insert into orderitem 
+            (orderId, productId, unitPrice, quantity, status) 
+            select ?, prod.id, prod.unitPrice, cartitem.quantity, ? 
+            from shoppingcartitem cartitem 
+            inner join product prod on prod.id = cartitem.productId 
+            where cartitem.shoppingCartId = ?
+";
+        return $this->executeQuery($createOrderItemsQuery, [$orderId, OrderItemStatus::Sent->value, $shoppingCartId]);
+    }
+
+    private function sendOrderConfirmation(int $orderId, int $userId): void {
+        $mailtemplateCustomer = new MailTemplate(MAIL_TEMPLATES . 'OrderConfirmationCustomer.php', [
+            'url' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/Account"
+        ]);
+
+        $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;
+        $mail = new Mail($userEmail,"Bestelbevestiging #$orderId", $mailtemplateCustomer, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+        $mail->send();
     }
 }

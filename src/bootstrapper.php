@@ -36,7 +36,7 @@ use Service\TryoutScheduleService;
 use Service\ShoppingCartService;
 use Service\UserService;
 use Service\MailService;
-
+use Service\VisitedProductService;
 
 
 Application::initialize();
@@ -64,6 +64,7 @@ $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
 $container->registerClass(OrderItemService::class)->asSingleton();
 $container->registerClass(PaymentService::class)->asSingleton();
+$container->registerClass(VisitedProductService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -111,6 +112,7 @@ $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
+$router->post('/Product/CreateReview', [ProductController::class, 'createReview'])->middleware(isLoggedIn::class);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);

@@ -1,49 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
-<script>
-
-
-    function togglePasswordVisibility(passwordName) {
-
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-</script>
-
-
-
-
-
 <style>
     body {
         background-color: #2C231E;
@@ -203,7 +157,7 @@ $fields = array(
                     <?php endforeach; ?>
                 </div>
                 <div class="row">
-                    <?php foreach (['Wachtwoord' => 'password', 'Herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
+                    <?php foreach (['Wachtwoord *' => 'password', 'Herhalen wachtwoord *' => 'repeatPassword'] as $label => $name): ?>
                         <div class="me-3 col-lg-5 col-xl-5 col-sm-12 mb-3 col-md-8">
                             <div class="password-container">
                                 <input type="password" class="form-control bg-beige-color password-input" id="<?= $name ?>"
@@ -213,6 +167,8 @@ $fields = array(
                             </div>
                         </div>
                     <? endforeach; ?>
+                    <div class="row">
+                        <i><p style="color:#EFE3C4">* Wachtwoorden moeten ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.</p></i>
                     <div class="row">
                         <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
                             <button type="button" id="saveButton" name="saveButton"
@@ -245,9 +201,42 @@ $fields = array(
     </div>
 </div>
 
-
-
 <script>
+
+
+    function togglePasswordVisibility(passwordName) {
+
+        var passwordInput = document.getElementById(passwordName);
+
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var passwordInputs = document.querySelectorAll('.password-input');
+
+
+        passwordInputs.forEach(function (passwordInput) {
+
+            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+            eyeIcon.style.display = 'none';
+
+
+            passwordInput.addEventListener('input', function () {
+
+                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+            });
+
+
+            eyeIcon.addEventListener('mousedown', function () {
+                togglePasswordVisibility(passwordInput.id);
+            });
+        });
+    });
 
     function validatePasswords() {
         var password1 = document.getElementById('password').value;
@@ -259,8 +248,17 @@ $fields = array(
             return false;
         }
 
+            var regexLength = /.{6,}/;
+            var regexCapital = /[A-Z]/;
+            var regexRegular = /[a-z]/;
+            var regexNumber = /[0-9]/;
 
-        return true;
+            if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
+                alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
+                return false;
+            }
+
+            return true;
     }
 
     function validateEmails() {
@@ -275,8 +273,8 @@ $fields = array(
     }
 
     function isInteger(value) {
-    return /^\d+$/.test(value);
-}
+        return /^\d+$/.test(value);
+    }
 
     $(document).ready(function () {
         $("#saveButton").on("click", function () {
@@ -303,26 +301,29 @@ $fields = array(
                     type: "POST",
                     data: $("#registerForm").serialize(),
                     success: function (response) {
-                        if (response === "UserExists") {
-                            alert("Het ingevoerde e-mailadres is al in gebruik");
-                        }
-                        else {
-                            console.log(response);
-                            var myForm = $("#registerForm");
-                            myForm.hide();
+                        var myForm = $("#registerForm");
+                        myForm.hide();
 
-                            var successMessage = $("#successMessageRegister");
-                            successMessage.show();
+                        var successMessage = $("#successMessageRegister");
+                        successMessage.show();
 
-                            var MyCard = $("#registrationCard")
-                            var MyContainer = $("#RegisterPageContainer")
+                        var MyCard = $("#registrationCard")
+                        var MyContainer = $("#RegisterPageContainer")
 
-                            MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                        }
+                        MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
+                        // }
                     },
                     error: function (xhr, status, error) {
-                        console.error(xhr);
-                        console.error(status);
+                        if (xhr.status === 409) {
+                            alert("Het ingevoerde e-mailadres is al in gebruik.");
+                        } else if (xhr.status === 400) {
+                            alert("De ingevoerde wachtwoorden zijn niet hetzelfde.");
+                        } else if (xhr.status === 406) {
+                            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
+                        } else {
+                            console.error(xhr);
+                            console.error(status);
+                        }
                     }
                 });
             } else {

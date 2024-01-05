@@ -33,23 +33,19 @@ class ReviewService extends BaseDatabaseService
         return $models;
     }
 
-    public function createReview(ReviewModel $input): bool
+    public function createReview(int $productId, int $userId, ReviewModel $model): bool
     {
-        //TODO: check of de ingelogde user een orderitem voor dit product heeft, zo ja: review mag aangemaakt worden met als status ReviewStatus::ToBeReviewed (is default, hoeft niet te worden gezet?)
-    }
+        $entity = $model->convertToEntity();
+        $orderItemId = $this->executeQuery("select item.id from orderitem item inner join `order` ord on ord.id = item.orderId where ord.userId = ? and item.productId = ? limit 1", [$userId, $productId])[0]->id;
 
-    public function editReview(ReviewModel $input): bool
-    {
-        //TODO: alleen toestaan als status == ToBeReviewed!
-
-        $entity = $this->getById($input->id);
+        return $this->executeQuery("insert into review (rating, title, content, orderItemId, status, createdOn) values (?,?,?,?,?,?)", [$entity->rating, $entity->title, $entity->content, $orderItemId, $entity->status, $entity->createdOn]);
     }
 
     public function amountToBeReviewed(): int
     {
         $query = 'select count(*) as amount from review where status = ?'; //. ReviewStatus::ToBeReviewed->value;
 
-        $params = [ReviewStatus::ToBeReviewed->value];;
+        $params = [ReviewStatus::ToBeReviewed->value];
 
         $result = $this->executeQuery($query, $params, Review::class);
 
@@ -76,6 +72,13 @@ class ReviewService extends BaseDatabaseService
         $review->status = ReviewStatus::Accepted->value;
 
         return $this->updateReviewStatus($review);
+    }
+
+    public function getWrittenReviewForProductAndUser(int $productId, int $userId): ?ReviewModel {
+        $reviewEntity = $this->executeQuery("select rev.* from review rev inner join orderitem item on item.id = rev.orderItemId inner join `order` ord on ord.id = item.orderId where item.productId = ? and ord.userId = ? limit 1", [$productId, $userId], Review::class)[0] ?? null;
+        if(is_null($reviewEntity)) return null;
+
+        return ReviewModel::convertToModel($reviewEntity);
     }
 
     #region common database methods

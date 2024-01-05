@@ -23,8 +23,12 @@ class Mail
 
     public ?string $altBody;
 
+    private EnvHandler $envHandler;
+
     public function __construct(string $to, string $subject, MailTemplate $body, MailFrom $from, string $mailerName, ?MailTemplate $altBody = null)
     {
+        $this->envHandler = Application::resolve(EnvHandler::class);
+
         $this->to = $to;
         $this->subject = $subject;
         $this->body = $body->render();
@@ -38,11 +42,11 @@ class Mail
         $this->name = $mailerName;
     }
 
-    public function send(): bool
+    private function sendWithoutApi(): bool
     {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->SMTPDebug  = 2;                   //Send using SMTP
+        // $mail->SMTPDebug  = 2;                   //Send using SMTP
         $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = $this->from->value;                     //SMTP username
@@ -62,5 +66,59 @@ class Mail
         $mail->AltBody = $this->altBody ?? "";
 
         return $mail->send();
+    }
+
+    private function sendWithApi(): bool
+    {
+        $domain = $this->envHandler->getEnv('MAIL_SERVER');
+
+        $url = "http://" . $domain . "/SendMail";
+
+        $data = [
+            'to' => $this->to, // The email address to send to
+            'from' => $this->from->value, // The email address to send from
+            'subject' => $this->subject, // The email subject
+            'fromName' => $this->name, // The name to send from
+            'body' => $this->body, // The email body
+            'altBody' => $this->altBody ?? "", // The email body
+            'key' => $this->getEcryptedApiKey() // The encrypted key
+        ];
+
+        $ch = curl_init($url);
+
+        // Set the options for the cURL session
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Execute the cURL session
+        $responseFromMail = curl_exec($ch);
+
+        // Close the cURL session
+        curl_close($ch);
+
+        return $responseFromMail === "success";
+    }
+
+    private function getEcryptedApiKey(): string
+    {
+        $apiKey = $this->envHandler->getEnv('MAIL_API_KEY');
+
+        $timestamp = time(); // unix timestamp
+
+        $data = $apiKey . "::" . $timestamp;
+
+        $encryptKey = $this->envHandler->getEnv('MAIL_API_ENCRYPTKEY');
+
+        return openssl_encrypt($data, 'AES-128-ECB', $encryptKey);
+    }
+
+    public function send(): bool
+    {
+        if (strtolower($this->envHandler->getEnv("MAIL_WITH_API")) === "true") {
+            return $this->sendWithApi();
+        } else {
+            return $this->sendWithoutApi();
+        }
     }
 }

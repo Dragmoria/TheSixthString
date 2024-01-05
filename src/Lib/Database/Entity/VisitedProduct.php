@@ -10,4 +10,7 @@ class VisitedProduct extends SaveableObject {
     public int $productId = 0;
     public string $date = "";
     public string $sessionUserGuid = "";
+
+    //NOTE: this is not a column, it's used in getVisitedProductsForDateRange() to get the amount of unique visitors for each product on a certain date!
+    public int $visitors = 0;
 }

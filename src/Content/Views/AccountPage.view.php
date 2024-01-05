@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
 <?
 $user = $firstname;
 
@@ -16,40 +14,7 @@ $fields = array(
 );
 ?>
 
-<script>
-  function togglePasswordVisibility(passwordName) {
-    var passwordInput = document.getElementById(passwordName);
 
-
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-    } else {
-      passwordInput.type = 'password';
-    }
-  }
-  document.addEventListener('DOMContentLoaded', function () {
-
-    var passwordInputs = document.querySelectorAll('.password-input');
-
-
-    passwordInputs.forEach(function (passwordInput) {
-
-      var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-      eyeIcon.style.display = 'none';
-
-
-      passwordInput.addEventListener('input', function () {
-
-        eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-      });
-
-
-      eyeIcon.addEventListener('mousedown', function () {
-        togglePasswordVisibility(passwordInput.id);
-      });
-    });
-  });
-</script>
 
 <style>
   body {
@@ -194,7 +159,6 @@ $fields = array(
     margin-top: 20vh;
     max-width: none;
   }
-
 </style>
 
 
@@ -492,6 +456,39 @@ $fields = array(
 </div>
 
 <script>
+  function togglePasswordVisibility(passwordName) {
+    var passwordInput = document.getElementById(passwordName);
+
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+
+    var passwordInputs = document.querySelectorAll('.password-input');
+
+
+    passwordInputs.forEach(function (passwordInput) {
+
+      var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+      eyeIcon.style.display = 'none';
+
+
+      passwordInput.addEventListener('input', function () {
+
+        eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+      });
+
+
+      eyeIcon.addEventListener('mousedown', function () {
+        togglePasswordVisibility(passwordInput.id);
+      });
+    });
+  });
+//-----------------Switching tabs-----------------------------------------------------------
   document.addEventListener("DOMContentLoaded", function () {
 
     function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
@@ -601,34 +598,31 @@ $fields = array(
       data: Data,
       // dataType: 'json',
       success: function (response) {
-        console.log(response);
-
         var value1 = response.orderId;
         var ProductBody = document.getElementById('ProductsBody');
         var ProductDetails = response.Products;
         var orderItems = response.orderItems;
-        
-        console.log(ProductDetails);
+
         ProductBody.innerHTML = '';
 
         $('#OrderModal .modal-title').html('Bestelnummer: ' + value1);
 
 
-ProductDetails.forEach(function (detail, index) {
-  const ProductBodyElement = document.createElement('div');
-  let ProductAmount = 0;
-  orderItems.forEach(function (orderItem) {
-    if (detail.id === orderItem.productId) {
-      ProductAmount = orderItem.quantity;
-    }
-  });
+        ProductDetails.forEach(function (detail, index) {
+          const ProductBodyElement = document.createElement('div');
+          let ProductAmount = 0;
+          orderItems.forEach(function (orderItem) {
+            if (detail.id === orderItem.productId) {
+              ProductAmount = orderItem.quantity;
+            }
+          });
 
-  var TotalPrice = detail.unitPrice * ProductAmount;
+          var TotalPrice = detail.unitPrice * ProductAmount;
 
-  const isFirstIteration = index === 0;
+          const isFirstIteration = index === 0;
 
-  ProductBodyElement.innerHTML =
-    `<div class="row">
+          ProductBodyElement.innerHTML =
+            `<div class="row">
       <div class="text-center col-2 me-5">
         ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
         <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
@@ -648,12 +642,12 @@ ProductDetails.forEach(function (detail, index) {
       <div class="mt-3 mb-2 Modal-order-divider"></div>
     </div>`;
 
-  ProductBody.appendChild(ProductBodyElement);
-});
+          ProductBody.appendChild(ProductBodyElement);
+        });
 
-    // Show the modal
-    $('#OrderModal').modal('show');
-  }
+        // Show the modal
+        $('#OrderModal').modal('show');
+      }
     });
   });
 
@@ -695,7 +689,7 @@ ProductDetails.forEach(function (detail, index) {
         type: "POST",
         data: combinedData,
         success: function (response) {
-          console.log(response);
+
           window.location.href = "/Account";
 
         },
@@ -717,7 +711,15 @@ ProductDetails.forEach(function (detail, index) {
       alert('Wachtwoorden zijn niet hetzelfde, probeer het .');
       return false;
     }
+    var regexLength = /.{6,}/;
+    var regexCapital = /[A-Z]/;
+    var regexRegular = /[a-z]/;
+    var regexNumber = /[0-9]/;
 
+    if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
+      alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
+      return false;
+    }
     return true;
   }
 
@@ -800,7 +802,6 @@ ProductDetails.forEach(function (detail, index) {
         type: "POST",
         data: $("#ChangeEmailAndPassword").serialize(),
         success: function (response) {
-          console.log(response);
           $.ajax({
             url: "/logout",
             type: "POST",
