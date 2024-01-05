@@ -97,8 +97,6 @@ class Mail
         // Close the cURL session
         curl_close($ch);
 
-        dump($responseFromMail);
-
         return $responseFromMail === "success";
     }
 

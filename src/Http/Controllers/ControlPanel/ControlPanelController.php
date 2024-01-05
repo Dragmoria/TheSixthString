@@ -34,13 +34,11 @@ class ControlPanelController extends Controller
         $mail = new Mail("j.kompier@hotmail.nl", "Test subject", $mailTemplate, MailFrom::NOREPLY, "Mailer name");
         $result = $mail->send();
 
-        dump($result);
+        //dump($result);
 
         $response = new ViewResponse();
 
-        $response->setBody(view(VIEWS_PATH . 'ControlPanel/ControlPanel.view.php', [
-            "currentRole" => "piet"
-        ])->withLayout(MAIN_LAYOUT));
+        $response->setBody(view(VIEWS_PATH . 'Index.view.php', [])->withLayout(MAIN_LAYOUT));
 
         return $response;
     }
