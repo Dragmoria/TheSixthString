@@ -40,6 +40,9 @@ function buildCategoryMenu($category, int $index): void
         <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
             <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
             <li class="nav-item">
+                <a class="nav-link text-sixth-beige" href="/Product">Producten</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-sixth-beige" href="#">Service</a>
             </li>
             <li class="nav-item">
@@ -90,7 +93,7 @@ function buildCategoryMenu($category, int $index): void
      style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
-        <a class="navbar-brand pt-0 mx-3" href="#">
+        <a class="navbar-brand pt-0 mx-3" href="/">
             <img src="/images/logo-small.svg" alt="Your Logo">
         </a>
         <div class="d-flex ms-auto">
@@ -113,7 +116,10 @@ function buildCategoryMenu($category, int $index): void
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
                 <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
-                <li class="nav-item">`
+                <li class="nav-item">
+                    <a class="nav-link text-sixth-beige" href="/Product">Producten</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
                 </li>
                 <li class="nav-item">

@@ -564,9 +564,7 @@ $fields = array(
       const orderDate = new Date(order.createdOn.date);
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = orderDate.toLocaleDateString('nl-NL', options);
-      const orderTotal = order.orderTotal;
-      const taxTotal = order.orderTax / 100;
-      const finalTotal = orderTotal * (1 + taxTotal);
+      const finalTotal = order.orderTotal + order.orderTax;
       const searchStr = order.id + " shippingAddress";
       const addressArray = addressData[searchStr];
       const extensionHandle = addressArray.housenumberExtension;
@@ -574,7 +572,7 @@ $fields = array(
       orderElement.classList.add('ms-5', 'me-5');
 
       orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> 
-      <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6> 
+      <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
       <br> <p6 style=color:#EFE3C4>Afleveradres: </p6>
       <br> <p6 style=color:#EFE3C4>${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
       <br> <p6 style=color:#EFE3C4>${addressArray.zipCode}, ${addressArray.city}</p6>
