@@ -104,9 +104,13 @@ class Mail
     {
         $apiKey = $this->envHandler->getEnv('MAIL_API_KEY');
 
+        $timestamp = time(); // unix timestamp
+
+        $data = $apiKey . "::" . $timestamp;
+
         $encryptKey = $this->envHandler->getEnv('MAIL_API_ENCRYPTKEY');
 
-        return openssl_encrypt($apiKey, 'AES-128-ECB', $encryptKey);
+        return openssl_encrypt($data, 'AES-128-ECB', $encryptKey);
     }
 
     public function send(): bool
