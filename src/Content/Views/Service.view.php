@@ -13,24 +13,24 @@
 <div class="container-fluid g-0">
     <div class="row g-0" style="height: 30vh;">
         <div class="d-flex justify-content-center align-items-end">
-            <h1 style="color:var(--sixth-yellow);">Service</h1>
+            <h1 style="color:var(--sixth-beige);">Service</h1>
         </div>
     </div>
     <div class="row g-0" style="height: 70vh;">
         <div class="col d-flex justify-content-center align-items-center">
-            <div class="d-flex rounded-rectangle justify-content-center align-items-center">
+            <a href="/Contact" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Contact</h3>
-            </div>
+            </a>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-            <div class="d-flex rounded-rectangle justify-content-center align-items-center">
+            <a href="/Retourneren" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Retourneren</h3>
-            </div>
+            </a>
         </div>
-        <div class="col d-flex justify-content-center align-items-center">
-            <div class="d-flex rounded-rectangle justify-content-center align-items-center">
+        <div class="col d-flex justify-content-center align-items-center"> 
+            <a href="/Garantie" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Garantie</h3>
-            </div>
+            </a>
         </div>
     </div>
 </div>

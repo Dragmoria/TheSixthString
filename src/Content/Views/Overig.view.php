@@ -18,17 +18,17 @@
     </div>
     <div class="row g-0" style="height: 70vh;">
         <div class="col d-flex justify-content-center align-items-center">
-            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center">
+            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Algemene Voorwaarden</h3>
             </a>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center">
+            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Disclaimer</h3>
             </a>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center">
+            <a href="/AlgemeneVoorwaarden" class="d-flex rounded-rectangle justify-content-center align-items-center text-center text-decoration-none">
                 <h3 class="fw-bolder">Privacy Policy</h3>
             </a>
         </div>

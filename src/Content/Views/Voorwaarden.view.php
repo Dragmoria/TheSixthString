@@ -1,15 +1,3 @@
-<style>
-    .rounded-rectangle {
-        border-radius: 15px;
-        background-color: var(--sixth-beige);
-        color: var(--sixth-black);
-        padding: 20px;
-        margin-top: 20px;
-        height: 35vh;
-        width: 80%;
-    }
-</style>
-
 <div class="container-fluid g-0">
     <div class="row g-0" style="height: 30vh;">
         <div class="d-flex justify-content-center align-items-end">

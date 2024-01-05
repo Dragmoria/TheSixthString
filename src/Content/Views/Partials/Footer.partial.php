@@ -21,7 +21,9 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
 
             <!-- Service -->
             <div class="col">
-                <h5 style="color: var(--sixth-yellow);">Service</h5>
+                <h5 style="color: var(--sixth-yellow);">
+                    <a href="/Service" class="text-decoration-none text-sixth-yellow">Service</a>
+                </h5>
                 <ul class="list-unstyled text-sixth-beige">
                     <p class="m-0" href="#">Contact</p>
                     <p class="m-0" href="#">Retourneren</p>
@@ -31,7 +33,9 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
 
             <!-- Overig -->
             <div class="col">
-                <h5 style="color: var(--sixth-yellow);">Overig</h5>
+                <h5 style="color: var(--sixth-yellow);">
+                    <a href="/Overig" class="text-decoration-none text-sixth-yellow">Overig</a>
+                </h5>
                 <ul class="list-unstyled text-sixth-beige">
                     <p class="m-0" href="#">Algemene Voorwaarden</p>
                     <p class="m-0" href="#">Disclaimer</p>
@@ -71,7 +75,9 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
 
             <!-- Logo -->
             <div class="col-md-3">
-                <img src="\images/logo-big.svg" alt="Logo" class="img-fluid">
+                <a href="/">
+                    <img src="\images/logo-big.svg" alt="Logo" class="img-fluid">
+                </a>
             </div>
 
             <div class="col">
@@ -96,19 +102,25 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
 
             <div class="col-12 py-3 d-flex justify-content-center align-items-center"
                 style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
-                <h5 style="color: var(--sixth-yellow);">Categorieën</h5>
+                <h5 style="color: var(--sixth-yellow);">
+                    <a href="/Category" class="text-decoration-none text-sixth-yellow">Categorieën</a>
+                </h5>
             </div>
 
             <!-- Service -->
             <div class="col-12 py-3 d-flex justify-content-center align-items-center"
                 style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
-                <h5 style="color: var(--sixth-yellow);">Service</h5>
+                <h5 style="color: var(--sixth-yellow);">
+                    <a href="/Service" class="text-decoration-none text-sixth-yellow">Service</a>
+                </h5>
             </div>
 
             <!-- Overig -->
             <div class="col-12 py-3 d-flex justify-content-center align-items-center"
                 style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
-                <h5 style="color: var(--sixth-yellow);">Overig</h5>
+                <h5 style="color: var(--sixth-yellow);">
+                    <a href="/Overig" class="text-decoration-none text-sixth-yellow">Overig</a>
+                </h5>
             </div>
 
             <!-- Social Media -->
@@ -141,7 +153,9 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
             <div style="height: 5vh;"></div>
             <!-- Logo -->
             <div class="col-12 d-flex justify-content-center align-items-center">
-                <img src="\images/logo-big.svg" alt="Logo" class="img-fluid" style="max-width: 60%;">
+                <a href="/" style="max-width: 60%;">
+                    <img src="\images/logo-big.svg" alt="Logo" class="img-fluid">
+                </a>
             </div>
             <div style="height: 5vh;"></div>
         </div>
