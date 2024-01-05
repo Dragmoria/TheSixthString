@@ -40,7 +40,7 @@ class ControlPanelController extends Controller
 
         $data = [
             'to' => 'j.kompier@hotmail.nl', // The email address to send to
-            'from' => MailFrom::NOREPLY, // The email address to send from
+            'from' => MailFrom::NOREPLY->value, // The email address to send from
             'body' => $mailTemplate->render(), // The email body
             'key' => openssl_encrypt('secret', 'AES-128-ECB', $secretKey) // The encrypted key
         ];
