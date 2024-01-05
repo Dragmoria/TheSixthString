@@ -46,7 +46,7 @@ class Mail
     {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->SMTPDebug  = 2;                   //Send using SMTP
+        // $mail->SMTPDebug  = 2;                   //Send using SMTP
         $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = $this->from->value;                     //SMTP username
