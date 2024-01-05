@@ -2,6 +2,8 @@
 
 namespace Lib\Database\Entity;
 
+use Lib\Enums\ReviewStatus;
+
 class Review extends SaveableObject
 {
     function __construct() {
@@ -12,6 +14,6 @@ class Review extends SaveableObject
     public string $title = "";
     public string $content = "";
     public int $orderItemId = 0;
-    public int $status = 0; //default is ReviewStatus::ToBeReviewed (= 0)
+    public int $status = ReviewStatus::ToBeReviewed->value;
     public string $createdOn = "";
 }

@@ -36,7 +36,7 @@ class ReviewModel {
         $entity->title = $this->title;
         $entity->content = $this->content;
         $entity->status = $this->status->value;
-        $entity->createdOn = $entity->getCurrentDateAsString('Y-m-d');
+        $entity->createdOn = $entity->getCurrentDateAsString('Y-m-d H:i:s');
 
         return $entity;
     }

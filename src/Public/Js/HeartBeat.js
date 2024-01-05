@@ -10,10 +10,11 @@ function handleUserActivity() {
 
 setInterval(function() {
 
-    timer -= 1000;
+    timer -= 60000;
 
     if (timer <= 0) {
         if (userinputCheck === ''){
+            console.log('heartbeat')
         $.ajax({
             url: '/LogOutPulse',
             method: 'POST',
@@ -29,17 +30,4 @@ setInterval(function() {
         timer = 600000;
     }
     }
-}, 1000); 
-
-
-
-// window.addEventListener('unload', function () {
-//     $.ajax({
-//         url: '/LogOutPulse',
-//         method: 'POST',
-//         data: { action: 'heartbeat' },
-//         success: function(response) {
-//             window.location.href = "/Login";
-//         }
-//     });
-// });
+}, 60000);
