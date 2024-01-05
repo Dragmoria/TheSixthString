@@ -20,7 +20,7 @@ setInterval(function() {
             method: 'POST',
             data: { action: 'heartbeat' },
             success: function(response) {
-                // window.location.href = "/Login";
+                window.location.href = "/Login";
             }
         });
         userinputCheck = "";

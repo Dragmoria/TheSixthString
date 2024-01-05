@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
 <?
 if (isset($succes)) {
     $user = $succes;
@@ -7,43 +5,7 @@ if (isset($succes)) {
 $displayForm1 = empty($error);
 ?>
 
-<script>
-    $("#succesForm").hide();
 
-    function togglePasswordVisibility(passwordName) {
-        console.log("jQuery is defined:", typeof jQuery !== 'undefined');
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-</script>
 
 
 <style>
@@ -172,16 +134,58 @@ $displayForm1 = empty($error);
 
 
 
-
-
 <script>
+    $("#succesForm").hide();
+
+    function togglePasswordVisibility(passwordName) {
+        var passwordInput = document.getElementById(passwordName);
+
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var passwordInputs = document.querySelectorAll('.password-input');
+
+
+        passwordInputs.forEach(function (passwordInput) {
+
+            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
+            eyeIcon.style.display = 'none';
+
+
+            passwordInput.addEventListener('input', function () {
+
+                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
+            });
+
+
+            eyeIcon.addEventListener('mousedown', function () {
+                togglePasswordVisibility(passwordInput.id);
+            });
+        });
+    });
+
 
     function validatePasswords() {
         var password1 = document.getElementById('password').value;
         var password2 = document.getElementById('repeatPassword').value;
 
         if (password1 !== password2) {
-            alert('Passwords do not match. Please try again.');
+            alert('wachtwoorden zijn niet hezelfde, probeer het opnieuw..');
+            return false;
+        }
+        var regexLength = /.{6,}/;
+        var regexCapital = /[A-Z]/;
+        var regexRegular = /[a-z]/;
+        var regexNumber = /[0-9]/;
+
+        if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
+            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
             return false;
         }
 
@@ -203,12 +207,11 @@ $displayForm1 = empty($error);
                     type: "POST",
                     data: $("#ResetPasswordForm").serialize(),
                     success: function (response) {
-                        console.log(response);
                         $("#SuccesForm").show();
                         $("#ResetPasswordForm").hide();
                     },
                     error: function (xhr, status, error) {
-                        alert("An error occurred: " + error);
+
                         console.error(xhr);
                         console.error(status);
                     }
@@ -220,27 +223,3 @@ $displayForm1 = empty($error);
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--.form1 {
-            display: //;
-        }
-        .form2 {
-            display: //<?php echo $displayForm1 ? 'none' : 'block'; ?>;
-        }-->
