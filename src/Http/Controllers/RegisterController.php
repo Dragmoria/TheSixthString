@@ -19,7 +19,6 @@ use Service\ActivateService;
 use Service\UserService;
 use Service\AddressService;
 use Service\RandomLinkService;
-use Service\MailService;
 
 class RegisterController extends Controller
 {

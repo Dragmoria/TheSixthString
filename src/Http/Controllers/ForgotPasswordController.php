@@ -13,7 +13,6 @@ use Models\UserModel;
 use Service\UserService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
-use Service\MailService;
 use EmailTemplates\ResetPasswordTemplate;
 use EmailTemplates\MailTemplate;
 

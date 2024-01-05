@@ -25,7 +25,7 @@
             <div class="col-12 mt-3">
                 <?php
                 ?>
-                <a href="/ShoppingCart/Payment" class="btn btn-primary rounded-4 sixth-button" id="cart-button">Bestellen</a>
+                <a href="/ShoppingCart/PersonalInformation" class="btn btn-primary rounded-4 sixth-button" id="cart-button">Bestellen</a>
             </div>
         </div>
     </div>
