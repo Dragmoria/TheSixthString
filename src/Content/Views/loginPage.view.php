@@ -1,8 +1,4 @@
 <style>
-  body {
-    background-color: #2C231E;
-  }
-
   p {
     font-size: 0.700em;
     /* 14px/16=0.875em */
@@ -21,7 +17,7 @@
   }
 
   .bg-card-custom {
-    background-color: #1C1713;
+    background-color: var(--sixth-black);
   }
 
   .custom-input-height {
@@ -44,9 +40,7 @@
     position: relative;
 
   }
-
-  .password-input {}
-
+  
   .toggle-eye {
     position: absolute;
     top: 50%;
@@ -61,14 +55,16 @@
       <form method="POST" action="/Account">
         <input hidden name="_method" value="PUT" />
         <div class="ms-5 mt-3">
-          <h2 style="color:#EFE3C4">Sixth</h2>
+          <img src="/images/logo-small.svg" alt="Sixth" width="60px">
           <h1 style="color:#EFE3C4">Inloggen</h1>
         </div>
         <div class="ms-5 mt-5">
-          <b><p style="color:#FF0000;display: <?
-          echo $error ?? "none";
-          ?>;">ongeldig emailadres of
-            wachtwoord</p></b>
+          <b>
+            <p style="color:#FF0000;display: <?
+            echo $error ?? "none";
+            ?>;">ongeldig emailadres of
+              wachtwoord</p>
+          </b>
         </div>
         <div class="col-auto ms-5 me-5 mb-4 mt-3">
           <div class="row">
