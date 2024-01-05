@@ -10,9 +10,12 @@ use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Models\MediaElementModel;
 use Models\ProductFilterModel;
+use Models\ReviewModel;
 use Service\BrandService;
 use Service\CategoryService;
+use Service\OrderService;
 use Service\ProductService;
+use Service\ReviewService;
 
 class ProductController extends Controller {
     public function index(): ?Response {
@@ -48,10 +51,15 @@ class ProductController extends Controller {
         $productService->setProductVisited((int)$data["id"], $_SESSION["sessionUserGuid"]);
         $productDetails = $productService->getProductDetails((int)$data["id"]);
 
+        $canWriteReview = false;
+        if(isset($_SESSION["user"])) {
+            $canWriteReview = $this->canWriteReview((int)$data["id"]);
+        }
+
         $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
             [
                 "product" => $productDetails,
-                "previousPage" => ""
+                "canWriteReview" => $canWriteReview
             ]
         )->withLayout(MAIN_LAYOUT));
 
@@ -65,6 +73,32 @@ class ProductController extends Controller {
         $result = new \stdClass();
 
         $result->products = Application::resolve(ProductService::class)->getSuggestedProducts($postBody["search"]);
+
+        $response->setBody((array)$result);
+        return $response;
+    }
+
+    public function createReview(): ?Response {
+        $postBody = $this->currentRequest->postObject->body();
+        $productId = (int)$postBody["productId"];
+
+        $response = new JsonResponse();
+        $result = new \stdClass();
+
+        if(!$this->canWriteReview((int)$postBody["productId"])) {
+            $result->success = false;
+            $result->message = "Je moet dit product eerst kopen voordat je er een review over kunt schrijven en je kunt maximaal 1 review per product schrijven.";
+
+            $response->setBody((array)$result);
+            return $response;
+        }
+
+        $model = new ReviewModel();
+        $model->rating = $postBody["rating"];
+        $model->title = $postBody["title"];
+        $model->content = $postBody["content"];
+
+        $result->success = Application::resolve(ReviewService::class)->createReview($productId, $_SESSION["user"]["id"], $model);
 
         $response->setBody((array)$result);
         return $response;
@@ -97,5 +131,13 @@ class ProductController extends Controller {
         }
 
         return $filterModel;
+    }
+
+    private function canWriteReview(int $productId): bool {
+        $productReviewByUser = Application::resolve(ReviewService::class)->getWrittenReviewForProductAndUser($productId, $_SESSION["user"]["id"]);
+        $canWriteReview = Application::resolve(OrderService::class)->hasBoughtProduct($productId, $_SESSION["user"]["id"]);
+        $canWriteReview &= is_null($productReviewByUser);
+
+        return $canWriteReview;
     }
 }
