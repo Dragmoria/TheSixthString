@@ -17,6 +17,8 @@ services:
       - MYSQL_INTERNAL_PORT=${MYSQL_INTERNAL_PORT}
       - MAIL_PASSWORD_NOREPLY=${MAIL_PASSWORD_NOREPLY}
       - MAIL_PASSWORD_ADMIN=${MAIL_PASSWORD_ADMIN}
+      - MAIL_API_KEY=${MAIL_API_KEY}
+      - MAIL_SERVER=${MAIL_SERVER}
   db:
     image: mysql:latest
     ports:
