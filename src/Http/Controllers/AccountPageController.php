@@ -171,12 +171,13 @@ class AccountPageController extends Controller
 
     public function RetrievingOrderHistory(): ?JsonResponse
     {
+
         $userId = $_SESSION["user"]["id"];
         $orderService = Application::resolve(OrderService::class);
         $orders = $orderService->getOrdersById($userId);
         $addressService = Application::resolve(AddressService::class);
         $shippingInfo = [];
-
+        
         foreach ($orders as $orderModel) {
             // Access the shippingAddressId property directly
             $shippingInfo[$orderModel->id . " shippingAddress"] = $addressService->getAddressById($orderModel->shippingAddressId);

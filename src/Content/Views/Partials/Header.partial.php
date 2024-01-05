@@ -24,7 +24,7 @@ function buildCategoryMenu($category, int $index): void
         <!-- Search Bar -->
         <div class="dropdown">
             <div class="d-flex">
-                <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
+                <input type="text" id="product-search-big" class="form-control w-auto bg-sixth-beige rounded-4"
                        placeholder="Zoek een product" data-target-dropdown="suggested-results" onkeyup="searchSuggested(this)" />
                 <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -129,7 +129,7 @@ function buildCategoryMenu($category, int $index): void
         <div class="input-group">
             <div class="dropdown">
                 <div class="d-flex">
-                    <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
+                    <input type="text" id="product-search-small" class="form-control w-auto bg-sixth-beige rounded-4"
                            placeholder="Zoek een product" data-target-dropdown="suggested-results-sm" onkeyup="searchSuggested(this)" />
                     <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
