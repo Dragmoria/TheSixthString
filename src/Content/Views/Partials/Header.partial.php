@@ -38,7 +38,7 @@ function buildCategoryMenu($category, int $index): void
         <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
             <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
             <li class="nav-item">
-                <a class="nav-link text-sixth-beige" href="#">Service</a>
+                <a class="nav-link text-sixth-beige" href="/Service">Service</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-sixth-beige" href="#">Overig</a>
