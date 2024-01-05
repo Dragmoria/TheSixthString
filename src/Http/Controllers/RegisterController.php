@@ -131,7 +131,7 @@ class RegisterController extends Controller
         $Response = new ViewResponse();
         $ActivateService = Application::resolve(ActivateService::class);
         $userModel = $ActivateService->getUserByLink($urlData["dynamiclink"]);
-
+        
         $userModel->active = true;
 
         $result = $ActivateService->changeActiveStatus($userModel);
