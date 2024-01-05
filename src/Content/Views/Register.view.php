@@ -83,7 +83,7 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center">
+<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center vh-100">
     <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">

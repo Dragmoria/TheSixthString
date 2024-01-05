@@ -9,10 +9,6 @@ $displayForm1 = empty($error);
 
 
 <style>
-    body {
-        background-color: #2C231E;
-    }
-
     .bg-beige-color {
         background-color: #EFE3C4;
         border-color: #EFE3C4
@@ -64,7 +60,7 @@ $displayForm1 = empty($error);
 
 
 
-<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
+<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center vh-100">
     <form style="display: <?php echo $displayForm1 ? 'block' : 'none'; ?>" id="ResetPasswordForm" method="POST"
         action="/Login" onsubmit="handleFormSubmission(event)">
         <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
