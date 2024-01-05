@@ -28,5 +28,8 @@
       "database": "thesixthstring",
       "username": "MYSQL_USER"
     }
-  ]
+  ],
+  "[php]": {
+    "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+  }
 }

@@ -19,7 +19,6 @@ use Service\ActivateService;
 use Service\UserService;
 use Service\AddressService;
 use Service\RandomLinkService;
-use Service\MailService;
 
 class RegisterController extends Controller
 {
@@ -36,6 +35,19 @@ class RegisterController extends Controller
 
         $postBody = $this->currentRequest->getPostObject()->body();
         if ($postBody["password"] === $postBody["repeatPassword"]) {
+
+            $password = $postBody["password"];
+            $regexLength = '/.{6,}/';
+            $regexCapital = '/[A-Z]/';
+            $regexRegular = '/[a-z]/';
+            $regexNumber = '/[0-9]/';
+
+            if (!preg_match($regexLength, $password) || !preg_match($regexCapital, $password) || !preg_match($regexRegular, $password) || !preg_match($regexNumber, $password)) {
+                $Response = new TextResponse();
+                $Response->setStatusCode(HTTPStatusCodes::NOT_ACCEPTABLE);
+                $Response->setBody('PasswordIncorrectFormat');
+                return $Response;
+            }
 
             $userservice = Application::resolve(UserService::class);
             $user = $userservice->getUserByEmail($postBody['email']);
@@ -84,27 +96,28 @@ class RegisterController extends Controller
                 $newUserModel->id = $createdUserId;
                 $newUserModel->activationLink = $randomLink;
 
-
                 $ActivateService = Application::resolve(ActivateService::class);
-                $result = $ActivateService->newActivationLink($newUserModel);
+                $ActivateService->newActivationLink($newUserModel);
 
                 $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ActivateMail.php', [
                     'gebruiker' => $createdUser->firstName,
                     'token' => $randomLink
                 ]);
-    
-                $mail = new Mail($newUserModel->emailAddress,"Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+
+                $mail = new Mail($newUserModel->emailAddress, "Account activeren", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
                 $mail->send();
                 $Response = new TextResponse();
                 $Response->setBody('UserCreated');
                 return $Response;
             } else {
                 $Response = new TextResponse();
+                $Response->setStatusCode(HTTPStatusCodes::CONFLICT);
                 $Response->setBody('UserExists');
                 return $Response;
             }
         } else {
             $Response = new TextResponse();
+            $Response->setStatusCode(HTTPStatusCodes::BAD_REQUEST);
             $Response->setBody('PasswordNotMatching');
             return $Response;
         }
@@ -118,7 +131,7 @@ class RegisterController extends Controller
         $Response = new ViewResponse();
         $ActivateService = Application::resolve(ActivateService::class);
         $userModel = $ActivateService->getUserByLink($urlData["dynamiclink"]);
-
+        
         $userModel->active = true;
 
         $result = $ActivateService->changeActiveStatus($userModel);
@@ -137,7 +150,7 @@ class RegisterController extends Controller
 
 
 
- 
+
 
 
 

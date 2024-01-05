@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <style>
   body {
     background-color: #2C231E;
@@ -84,7 +83,6 @@ $randomLink = ""
         document.getElementById('ForgotPasswordForm').style.display = 'none';
       },
       error: function (xhr, status, error) {
-        alert("An error occurred: " + error);
         console.error(xhr);
         console.error(status);
       }
