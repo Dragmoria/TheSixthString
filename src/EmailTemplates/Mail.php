@@ -97,7 +97,9 @@ class Mail
         // Close the cURL session
         curl_close($ch);
 
-        return $responseFromMail;
+        dump($responseFromMail);
+
+        return $responseFromMail === "success";
     }
 
     private function getEcryptedApiKey(): string
