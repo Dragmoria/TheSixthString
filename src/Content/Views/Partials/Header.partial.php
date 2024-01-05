@@ -41,7 +41,7 @@ function buildCategoryMenu($category, int $index): void
                 <a class="nav-link text-sixth-beige" href="/Service">Service</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-sixth-beige" href="#">Overig</a>
+                <a class="nav-link text-sixth-beige" href="/Overig">Overig</a>
             </li>
             <?php
             if (currentRole() !== null && currentRole()->hasRightsOf(Lib\Enums\Role::Analyst)) {
@@ -123,10 +123,10 @@ function buildCategoryMenu($category, int $index): void
             <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
                 <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
                 <li class="nav-item">`
-                    <a class="nav-link" href="#" style="color: var(--sixth-beige)">Service</a>
+                    <a class="nav-link" href="/Service" style="color: var(--sixth-beige)">Service</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: var(--sixth-beige)">Overig</a>
+                    <a class="nav-link" href="/Overig" style="color: var(--sixth-beige)">Overig</a>
                 </li>
             </ul>
         </div>

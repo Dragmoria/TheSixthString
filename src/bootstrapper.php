@@ -10,6 +10,8 @@ use Http\Controllers\Components\AcceptCookiesComponent;
 use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\ServiceController;
+use Http\Controllers\OverigController;
+use Http\Controllers\VoorwaardenController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
@@ -102,6 +104,8 @@ $router->get('/Mail', [MailController::class, 'mail']);
 
 $router->get('/', [IndexController::class, 'show']);
 $router->get('/Service', [ServiceController::class, 'show']);
+$router->get('/Overig', [OverigController::class, 'show']);
+$router->get('/AlgemeneVoorwaarden', [VoorwaardenController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
