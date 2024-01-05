@@ -33,7 +33,7 @@ use Service\TryoutScheduleService;
 use Service\ShoppingCartService;
 use Service\UserService;
 use Service\MailService;
-
+use Service\VisitedProductService;
 
 
 Application::initialize();
@@ -61,6 +61,7 @@ $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
 $container->registerClass(OrderItemService::class)->asSingleton();
 $container->registerClass(PaymentService::class)->asSingleton();
+$container->registerClass(VisitedProductService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
