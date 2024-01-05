@@ -54,3 +54,7 @@ VALUES (4, 'Testreview', 'Lorem ipsum dolor sit amet, consectetur adipiscing eli
 ##
 
 insert into coupon (name, code, value, startDate, active, usageAmount, type) values ('test', 'test123', 50, '2023-12-30', 1, 0, 0);
+
+##
+
+insert into paymentprovider (name, apiKey, apiSecret, active) values ('mollie_test', 'pfl_n9bVYJvoSS', 'test_H5R3c6ek3QypnQsNw3kCGmPgGr8WPT', 1)

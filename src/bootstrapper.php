@@ -24,6 +24,7 @@ use Service\CategoryService;
 use Service\CouponService;
 use Service\OrderItemService;
 use Service\OrderService;
+use Service\PaymentService;
 use Service\ProductService;
 use Service\ResetpasswordService;
 use Service\RandomLinkService;
@@ -59,6 +60,7 @@ $container->registerClass(OrderService::class)->asSingleton();
 $container->registerClass(TryoutScheduleService::class)->asSingleton();
 $container->registerClass(ShoppingCartService::class)->asSingleton();
 $container->registerClass(OrderItemService::class)->asSingleton();
+$container->registerClass(PaymentService::class)->asSingleton();
 
 $router = Application::getRouter();
 //$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
@@ -102,6 +104,7 @@ $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
+$router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);
@@ -112,6 +115,9 @@ $router->post('/ShoppingCart/ProcessCoupon', [ShoppingCartController::class, 'pr
 $router->post('/ShoppingCart/RemoveCoupon', [ShoppingCartController::class, 'removeCoupon']);
 
 $router->post('/ShoppingCart/StartPayment', [ShoppingCartController::class, 'startPayment'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/FinishPayment', [ShoppingCartController::class, 'finishPayment'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/DoPayment/{orderid}', [ShoppingCartController::class, 'doPayment'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/PaymentFinished', [ShoppingCartController::class, 'doPayment'])->middleware(isLoggedIn::class);
 
 $router->post('/accept-cookies', [AcceptCookiesController::class, 'acceptCookies']);
 

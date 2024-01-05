@@ -10,8 +10,8 @@ use Lib\Database\Entity\Order;
 use Lib\Database\Entity\ShoppingCart;
 use Lib\Enums\AddressType;
 use Lib\Enums\CouponType;
+use Lib\Enums\MolliePaymentStatus;
 use Lib\Enums\OrderItemStatus;
-use Lib\Enums\PaymentStatus;
 use Lib\Enums\ShippingStatus;
 use Lib\Helpers\TaxHelper;
 use Models\OrderModel;
@@ -33,14 +33,14 @@ class OrderService extends BaseDatabaseService {
             $currentDateTime = ((array)new \DateTime())['date'];
 
             $createOrderQuery = "insert into `order` (userId, orderTotal, orderTax, couponId, shippingAddressId, invoiceAddressId, paymentStatus, shippingStatus, createdOn) values (?,?,?,?,?,?,?,?,?)";
-            $result = $this->executeQuery($createOrderQuery, [$shoppingCart->userId, $orderTotal, $orderTax, $couponUsed->id ?? null, $shippingAddressId, $invoiceAddressId, PaymentStatus::AwaitingPayment->value, ShippingStatus::AwaitingShipment->value, $currentDateTime]);
-            $createdOrderEntity = $this->executeQuery("select * from `order` where userId = ? order by id desc limit 1", [$shoppingCart->userId], Order::class)[0];
+            $result = $this->executeQuery($createOrderQuery, [$shoppingCart->userId, $orderTotal, $orderTax, $couponUsed->id ?? null, $shippingAddressId, $invoiceAddressId, MolliePaymentStatus::Open->value, ShippingStatus::AwaitingShipment->value, $currentDateTime]);
+            $createdOrderId = $this->getLastCreatedOrderIdForUser($shoppingCart->userId);
 
-            $result &= $this->handleCreateOrderItems($shoppingCart->id, $createdOrderEntity->id);
+            $result &= $this->handleCreateOrderItems($shoppingCart->id, $createdOrderId);
 
             if($result) {
                 $this->executeQuery("delete from shoppingcart where id = ?", [$shoppingCart->id]);
-                $this->sendOrderConfirmation($createdOrderEntity->id, $shoppingCart->userId);
+                $this->sendOrderConfirmation($createdOrderId, $shoppingCart->userId);
             }
         } catch(\Exception $ex) {
             $this->executeQuery("update product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id set prod.amountInStock = prod.amountInStock + cartitem.quantity where cartitem.shoppingCartId = ?", [$shoppingCart->id]);
@@ -51,13 +51,21 @@ class OrderService extends BaseDatabaseService {
         return $result;
     }
 
+    public function getLastCreatedOrderIdForUser(int $userId): int {
+        return $this->executeQuery("select * from `order` where userId = ? order by id desc limit 1", [$userId], Order::class)[0]->id;
+    }
+
     private function setOrderTotalAndTax(int &$orderTotal, int &$orderTax, ShoppingCart $shoppingCart, ?Coupon $couponUsed): void {
-        $orderTotal = (float)$this->executeQuery("select sum(prod.unitPrice) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
+        $orderTotal = (float)$this->executeQuery("select (sum(prod.unitPrice * cartitem.quantity)) as totalPrice from product prod inner join shoppingcartitem cartitem on cartitem.productId = prod.id where cartitem.shoppingCartId = ?", [$shoppingCart->id])[0]->totalPrice;
         $orderTotalInclTaxAndCouponUsed = $this->calculateTotalPriceInclTaxWithCouponDiscount($couponUsed, TaxHelper::calculatePriceIncludingTax($orderTotal));
-        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$couponUsed->id]);
+        $this->executeQuery("update coupon set usageAmount = usageAmount + 1 where id = ?", [$couponUsed->id ?? null]);
 
         $orderTotal = round(TaxHelper::calculatePriceExcludingTax($orderTotalInclTaxAndCouponUsed), 2);
         $orderTax = round(TaxHelper::calculateTax($orderTotal), 2);
+    }
+
+    public function isUserOrder(int $orderId, int $userId): bool {
+        return $this->executeQuery("select userId from `order` where id = ?", [$orderId])[0]->userId == $userId;
     }
 
     private function getAddressIdByType(int $userId, AddressType $type): int {
@@ -96,7 +104,7 @@ class OrderService extends BaseDatabaseService {
 
     private function sendOrderConfirmation(int $orderId, int $userId): void {
         $mailtemplateCustomer = new MailTemplate(MAIL_TEMPLATES . 'OrderConfirmationCustomer.php', [
-            'url' => "https://www.thesixthstring.store/Account"
+            'url' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/Account"
         ]);
 
         $userEmail = $this->executeQuery("select emailAddress from user where id = ?", [$userId])[0]->emailAddress;

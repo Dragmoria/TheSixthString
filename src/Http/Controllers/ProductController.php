@@ -5,6 +5,7 @@ namespace Http\Controllers;
 use Lib\Enums\SortType;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Controller;
+use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 use Models\MediaElementModel;
@@ -43,7 +44,9 @@ class ProductController extends Controller {
     public function details($data): ?Response {
         $response = new ViewResponse();
 
-        $productDetails = Application::resolve(ProductService::class)->getProductDetails((int)$data["id"]);
+        $productService = Application::resolve(ProductService::class);
+        $productService->setProductVisited((int)$data["id"], $_SESSION["sessionUserGuid"]);
+        $productDetails = $productService->getProductDetails((int)$data["id"]);
 
         $response->setBody(view(VIEWS_PATH . 'ProductDetails.view.php',
             [
@@ -52,6 +55,18 @@ class ProductController extends Controller {
             ]
         )->withLayout(MAIN_LAYOUT));
 
+        return $response;
+    }
+
+    public function getSuggestedProducts(): ?Response {
+        $postBody = $this->currentRequest->postObject->body();
+
+        $response = new JsonResponse();
+        $result = new \stdClass();
+
+        $result->products = Application::resolve(ProductService::class)->getSuggestedProducts($postBody["search"]);
+
+        $response->setBody((array)$result);
         return $response;
     }
 
@@ -75,6 +90,10 @@ class ProductController extends Controller {
 
         if(!empty($urlQueryParams["sortorder"])) {
             $filterModel->sortOrder = SortType::fromString($urlQueryParams["sortorder"]);
+        }
+
+        if(!empty($urlQueryParams["search"])) {
+            $filterModel->search = $urlQueryParams["search"];
         }
 
         return $filterModel;

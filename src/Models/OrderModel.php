@@ -3,8 +3,11 @@
 namespace Models;
 
 use Lib\Database\Entity\Order;
-use Lib\Enums\PaymentStatus;
-use Lib\Enums\ShippingStatus;
+use Lib\Enums\MolliePaymentStatus;
+use Models\AddressModel;
+use Lib\Enums\Gender;
+use Lib\Enums\Role;
+use lib\Enums\ShippingStatus;
 
 class OrderModel
 {
@@ -18,7 +21,7 @@ class OrderModel
     public ?int $couponId;
     public int $shippingAddressId;
     public int $invoiceAddressId;
-    public PaymentStatus $paymentStatus;
+    public MolliePaymentStatus $paymentStatus;
     public ShippingStatus $shippingStatus;
     public \DateTime $createdOn;
 
@@ -38,7 +41,7 @@ class OrderModel
         $model->couponId = $entity->couponId;
         $model->shippingAddressId = $entity->shippingAddressId;
         $model->invoiceAddressId = $entity->invoiceAddressId;
-        $model->paymentStatus = PaymentStatus::from($entity->paymentStatus);
+        $model->paymentStatus = MolliePaymentStatus::from($entity->paymentStatus);
         $model->shippingStatus = ShippingStatus::from($entity->shippingStatus);
         $model->createdOn = new \DateTime($entity->createdOn);
   

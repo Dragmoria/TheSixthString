@@ -2,7 +2,7 @@
 
 namespace Lib\Database\Entity;
 
-use Lib\Enums\PaymentStatus;
+use Lib\Enums\MolliePaymentStatus;
 use Lib\Enums\ShippingStatus;
 
 class Order extends SaveableObject {
@@ -16,7 +16,7 @@ class Order extends SaveableObject {
     public ?int $couponId = null;
     public ?int $shippingAddressId = null;
     public ?int $invoiceAddressId = null;
-    public int $paymentStatus = PaymentStatus::AwaitingPayment->value;
+    public int $paymentStatus = MolliePaymentStatus::Open->value;
     public int $shippingStatus = ShippingStatus::AwaitingShipment->value;
     public string $createdOn = "";
 }
