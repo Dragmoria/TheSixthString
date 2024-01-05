@@ -1,6 +1,4 @@
 <?php
-
-
 function buildCategoryMenu($category, int $index): void
 {
     echo '<a class="dropdown-item" style="padding-left: calc(var(--bs-dropdown-item-padding-x) + 1.5rem * ' . $index . ');" href="/Category/' . $category->id . '">' . $category->name . '</a>';
@@ -13,14 +11,14 @@ function buildCategoryMenu($category, int $index): void
 ?>
 
 
-
 <!-- Navbar Large screens -->
-<nav class="navbar navbar-expand-lg fixed-top flex-column py-0 d-none d-lg-block">
+<nav class="navbar navbar-expand-lg nav-lg fixed-top flex-column py-0 d-none d-lg-block">
     <div class="container-fluid px-0 py-2">
         <!-- Logo -->
         <a class="navbar-brand pt-0 mx-5" href="/">
             <img src="/images/logo-small.svg" alt="Sixth" width="60px">
         </a>
+        
         <!-- Search Bar -->
         <div class="dropdown">
             <div class="d-flex">
@@ -97,7 +95,7 @@ function buildCategoryMenu($category, int $index): void
 </nav>
 
 <!-- Navbar Mobile -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
+<nav class="navbar navbar-expand-lg nav-sm navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
      style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->

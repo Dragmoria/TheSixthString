@@ -94,52 +94,56 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
     <div class="container-fluid flex-column" style="background-color: var(--sixth-black);">
         <div class="row">
 
-            <div class="col-12 py-3 d-flex justify-content-center align-items-center" style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
+            <div class="col-12 py-3 d-flex justify-content-center align-items-center"
+                style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
                 <h5 style="color: var(--sixth-yellow);">Categorieën</h5>
             </div>
 
             <!-- Service -->
-            <div class="col-12 py-3 d-flex justify-content-center align-items-center" style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
+            <div class="col-12 py-3 d-flex justify-content-center align-items-center"
+                style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
                 <h5 style="color: var(--sixth-yellow);">Service</h5>
             </div>
 
             <!-- Overig -->
-            <div class="col-12 py-3 d-flex justify-content-center align-items-center" style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
+            <div class="col-12 py-3 d-flex justify-content-center align-items-center"
+                style="color: var(--sixth-yellow); border-bottom: var(--sixth-brown) 1px solid;">
                 <h5 style="color: var(--sixth-yellow);">Overig</h5>
             </div>
 
             <!-- Social Media -->
             <div class="col-12 py-3" style="border-bottom: var(--sixth-brown) 1px solid;">
-                <h5 class="d-flex justify-content-center align-items-center" style="color: var(--sixth-yellow);">Volg ons</h5>
+                <h5 class="d-flex justify-content-center align-items-center" style="color: var(--sixth-yellow);">Volg
+                    ons</h5>
                 <div class="pt-1 d-flex justify-content-center align-items-center">
-                    <button
+                    <a href="https://www.facebook.com/profile.php?id=61555206815317"
                         class="btn mx-2 btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
                         <img src="\images\social-icons\facebook.png" alt="F" width="17" height="17">
-                    </button>
-                    <button
+                    </a>
+                    <a
                         class="btn mx-2 btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
                         <img src="\images\social-icons\x.png" alt="X" width="17" height="17">
-                    </button>
-                    <button
+                    </a>
+                    <a
                         class="btn mx-2 btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
                         <img src="\images\social-icons\instagram.png" alt="I" width="17" height="17">
-                    </button>
-                    <button
+                    </a>
+                    <a
                         class="btn mx-2 btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
                         <img src="\images\social-icons\youtube.png" alt="Y" width="17" height="17">
-                    </button>
-                    <button
+                    </a>
+                    <a
                         class="btn mx-2 btn-primary rounded-circle d-flex align-items-center justify-content-center footer-button">
                         <img src="\images\social-icons\pintrest.png" alt="P" width="17" height="17">
-                    </button>
+                    </a>
                 </div>
             </div>
-            <div style="height: 5vh;" ></div>
+            <div style="height: 5vh;"></div>
             <!-- Logo -->
             <div class="col-12 d-flex justify-content-center align-items-center">
                 <img src="\images/logo-big.svg" alt="Logo" class="img-fluid" style="max-width: 60%;">
             </div>
-            <div style="height: 5vh;" ></div>
+            <div style="height: 5vh;"></div>
         </div>
     </div>
     <!-- Copyright Bar -->
