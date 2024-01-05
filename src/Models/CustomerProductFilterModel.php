@@ -10,4 +10,5 @@ class CustomerProductFilterModel extends ProductFilterModel
     public ?int $minPrice = 0;
     public ?int $maxPrice = 25000;
     public ?SortType $sortOrder = SortType::PriceAsc;
+    public ?string $search = null;
 }
