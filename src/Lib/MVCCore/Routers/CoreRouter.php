@@ -2,6 +2,8 @@
 
 namespace Lib\MVCCore\Routers;
 
+use Lib\MVCCore\Controller;
+use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\View;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
 
@@ -118,59 +120,168 @@ class CoreRouter implements Router
         $methodType = $request->method()->value;
         $uri = strtolower($request->path());
 
-        foreach ($this->routes[$methodType] as $pattern => $route) {
-            // will replace the possible dynamic part of a route with a regex so we can match it with the given url
-            $pattern = preg_replace('/{([^}]+)}/', '(?<$1>[^/]+)', $pattern);
+        if (!$this->processRoutes($methodType, $uri, $request)) {
+            $this->abort(HTTPStatusCodes::NOT_FOUND);
+        }
+    }
 
-            // preg match will see if the route matches to the given url
-            if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
-                // will get the callback from the route
+    /**
+     * Processes the routes and executes the correct controller.
+     *
+     * @param string $methodType
+     * @param string $uri
+     * @param Request $request
+     * @return bool
+     */
+    private function processRoutes(string $methodType, string $uri, Request $request): bool
+    {
+        foreach ($this->routes[$methodType] as $pattern => $route) {
+            $pattern = $this->replaceDynamicPartOfRoute($pattern);
+
+            list($isMatch, $matches) = $this->routeMatches($pattern, $uri);
+
+            if ($isMatch) {
                 $callback = $route['callback'];
-                // will get the middlewares from the route
                 $middlewares = $route['middlewares'] ?? null;
 
-                // will loop over the middlewares and execute them if there are any
-                if ($middlewares !== null) {
-                    foreach ($middlewares as $middleware) {
-                        // creates the middleware with the given parameters
-                        $middlewareInstance = new $middleware['name']($middleware['parameters']);
-                        // calls the handle method on the middleware
-                        $middlewareResponse = $middlewareInstance->handle();
-                        // if the middleware returns a response we will send it and stop the execution of the route
-                        if ($middlewareResponse !== null) {
-                            $this->abort($middlewareResponse);
-                            return;
-                        }
-                    }
+                if ($this->executeMiddlewares($middlewares)) {
+                    return true;
                 }
 
-                // creates the controller
-                $controller = new $callback[0];
-                // calls the method on the controller
-                $controllerMethod = $callback[1];
+                $controller = $this->createController($callback, $request);
 
-                $controller->setRequest($request);
+                $matches = $this->filterMatches($matches);
+                $controllerReturn = $this->callControllerMethod($controller, $callback[1], $matches);
 
-                $matches = array_intersect_key($matches, array_flip(array_filter(array_keys($matches), 'is_string')));
-                // passes the dynamic parts to the controller
-                $controllerReturn = $controller->$controllerMethod($matches);
-
-                // if the controller returns a response we will send it and stop the execution of the route
-                if ($controllerReturn !== null) {
-                    $controllerReturn->send();
-                    return;
+                if ($this->sendControllerResponse($controllerReturn)) {
+                    return true;
                 }
 
-                $response = $controller->getResponse();
-                // if the controller returns a response we will send it and stop the execution of the route
-                if ($response !== null) {
-                    $response->send();
+                if ($this->sendControllerResponse($controller->getResponse())) {
+                    return true;
                 }
-                return;
             }
         }
-        // if no route is found we will abort the request with a 404
-        $this->abort(HTTPStatusCodes::NOT_FOUND);
+
+        return false;
+    }
+
+    /**
+     * Replaces the dynamic parts of a route with a regex pattern. In other words, replaces {id} with (?<id>[^/]+)
+     *
+     * @param string $pattern
+     * @return string
+     */
+    private function replaceDynamicPartOfRoute(string $pattern): string
+    {
+        return preg_replace('/{([^}]+)}/', '(?<$1>[^/]+)', $pattern);
+    }
+
+    /**
+     * Checks if the given uri matches the given pattern.
+     *
+     * @param string $pattern
+     * @param string $uri
+     * @return array
+     */
+    private function routeMatches(string $pattern, string $uri): array
+    {
+        $matches = [];
+        $isMatch = preg_match('#^' . $pattern . '$#', $uri, $matches);
+        return [$isMatch, $matches];
+    }
+
+    /**
+     * Executes the middlewares for the current route.
+     *
+     * @param array|null $middlewares
+     * @return boolean
+     */
+    private function executeMiddlewares(?array $middlewares): bool
+    {
+        if ($middlewares !== null) {
+            foreach ($middlewares as $middleware) {
+                if ($this->executeMiddleware($middleware)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Executes the given middleware.
+     *
+     * @param array $middleware The fully qualified name of the middleware class. The symbol.
+     * @return bool
+     */
+    private function executeMiddleware(array $middleware): bool
+    {
+        $middlewareInstance = new $middleware['name']($middleware['parameters']);
+        $middlewareResponse = $middlewareInstance->handle();
+
+        if ($middlewareResponse !== null) {
+            $this->abort($middlewareResponse);
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Creates a new controller instance and sets the request object.
+     *
+     * @param array $callback
+     * @param Request $request
+     * @return Controller
+     */
+    private function createController(array $callback, Request $request): Controller
+    {
+        $controller = new $callback[0];
+        $controller->setRequest($request);
+        return $controller;
+    }
+
+    /**
+     * Filters the matches array so it only contains the named matches.
+     *
+     * @param array $matches
+     * @return array
+     */
+    private function filterMatches(array $matches): array
+    {
+        return array_intersect_key($matches, array_flip(array_filter(array_keys($matches), 'is_string')));
+    }
+
+    /**
+     * Calls the method on the controller with the given matches.
+     *
+     * @param Controller $controller
+     * @param string $method
+     * @param array $matches
+     * @return Response|null Could be null if the controller method returns null. It's allowed to return null.
+     */
+    private function callControllerMethod(Controller $controller, string $method, array $matches): ?Response
+    {
+        return $controller->$method($matches);
+    }
+
+    /**
+     * Sends the given response.
+     *
+     * @param Response $response
+     * @return boolean
+     */
+    private function sendControllerResponse(Response $response): bool
+    {
+        if ($response !== null) {
+            $response->send();
+            return true;
+        }
+
+        return false;
     }
 
 
