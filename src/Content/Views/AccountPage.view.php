@@ -455,6 +455,28 @@ $fields = array(
   </div>
 </div>
 
+<!-- Show Returns Modal -->
+<div class="modal fade" id="ReturnOrderModal">
+  <div class="modal-dialog modal-lg custom-modal-width">
+    <div class="modal-content" style="background-color: #2C231E;">
+
+      <div class="modal-header" style="background-color: #1C1713;border-color: #1C1713;">
+        <h4 class="modal-title" style=color:#EFE3C4>Order: </h4>
+      </div>
+
+      <div class="modal-body">
+        <div id="ReturnProductsBody"></div>
+      </div>
+
+      <div class="modal-footer" style="border-color: #2C231E;">
+        <button type="button" style="background-color:#FCB716;border-color:#FCB716"
+          class="btn btn-primary rounded-pill bg-beige-color" href="/" id="closeOrderButton"
+          data-bs-dismiss="modal">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   function togglePasswordVisibility(passwordName) {
     var passwordInput = document.getElementById(passwordName);
@@ -488,7 +510,7 @@ $fields = array(
       });
     });
   });
-//-----------------Switching tabs-----------------------------------------------------------
+  //-----------------Switching tabs-----------------------------------------------------------
   document.addEventListener("DOMContentLoaded", function () {
 
     function toggleFormsAndChangeIcon(showInfoForm, showChangePersonalInfo, showOrderHistory) {
@@ -570,21 +592,40 @@ $fields = array(
       const orderElement = document.createElement('div');
       orderElement.classList.add('ms-5', 'me-5');
 
-      orderElement.innerHTML = `<h6 style=color:#EFE3C4>Bestelnummer: ${order.id} | ${formattedDate}</h6> 
-      <br> <p6 style=color:#EFE3C4>Totaal bedrag: €${finalTotal}</p6> 
-      <br> <p6 style=color:#EFE3C4>Afleveradres: </p6>
-      <br> <p6 style=color:#EFE3C4>${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
-      <br> <p6 style=color:#EFE3C4>${addressArray.zipCode}, ${addressArray.city}</p6>
-      <div class="col text-end me-3">
-      <i><u style=color:#EFE3C4><a href="#" id="${order.id}" data-number="${order.id}"class="OrderModalButton text-decoration-none" style=color:#EFE3C4>See more</a></u></i>
-      </div>
-      <div class="row justify-content-center mt-2 mb-4"><div class="order-divider"></div></div>`;
+
+      orderElement.innerHTML = `<h6 style="color: #EFE3C4">Bestelnummer: ${order.id} | ${formattedDate}</h6>
+  <br> <p6 style="color: #EFE3C4">Totaal bedrag: €${finalTotal}</p6>
+  <br> <p6 style="color: #EFE3C4">Afleveradres: </p6>
+  <br> <p6 style="color: #EFE3C4">${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
+  <br> <p6 style="color: #EFE3C4">${addressArray.zipCode}, ${addressArray.city}</p6>
+  <div class="col text-end me-3">  
+    <i><u style="color: #EFE3C4"><a href="#" id="${order.id}" data-number="${order.id}" class="OrderModalButton text-decoration-none" style="color: #EFE3C4">Details</a></u></i>
+    ${!isDateOlderThan30Days(order.createdOn.date) ? `<a style="color: #EFE3C4"> | </a><i><u style="color: #EFE3C4"><a href="#" data-number="${order.id}" class="ReturnModalButton text-decoration-none" style="color: #EFE3C4">Retourneren</a></u></i>` : ''}
+  </div>
+  <div class="row justify-content-center mt-2 mb-4">
+    <div class="order-divider"></div>
+  </div>`;
 
       orderHistoryContainer.appendChild(orderElement);
     });
   }
 
+
+  function isDateOlderThan30Days(dateString) {
+
+    const inputDate = new Date(dateString);
+    const currentDate = new Date();
+
+    const timeDifference = currentDate - inputDate;
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+    return daysDifference > 30;
+  }
+
+
+//-----------------------------open order details--------------------------------------
   $(document).on('click', '#orderHistoryContainer .OrderModalButton', function (event) {
+
     event.preventDefault();
 
     var additionalData = {
@@ -596,8 +637,9 @@ $fields = array(
       url: '/GetOrderOverview',
       method: 'POST',
       data: Data,
-      // dataType: 'json',
+      dataType: 'json',
       success: function (response) {
+
         var value1 = response.orderId;
         var ProductBody = document.getElementById('ProductsBody');
         var ProductDetails = response.Products;
@@ -618,39 +660,110 @@ $fields = array(
           });
 
           var TotalPrice = detail.unitPrice * ProductAmount;
+          const isFirstIteration = index === 0;
+
+          ProductBodyElement.innerHTML =
+                  `<div class="row">
+                      <div class="text-center col-2 me-5">
+                        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
+                        <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
+                      </div>
+                      <div class="text-center col-2 me-3">
+                        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
+                        <p6 style=color:#EFE3C4>${detail.sku}</p6>
+                      </div>
+                        <div class="text-center col-2 me-3">
+                          ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
+                          <p6 style=color:#EFE3C4>${ProductAmount}</p6>
+                        </div>
+                        <div class="text-center col-2">
+                          ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
+                          <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
+                        </div>
+                        <div class="mt-3 mb-2 Modal-order-divider"></div>
+                        </div>`;
+          ProductBody.appendChild(ProductBodyElement);
+        });
+        $('#OrderModal').modal('show');
+      }
+    });
+  });
+  //-------------------------open returns modal-----------------------------------
+  $(document).on('click', '#orderHistoryContainer .ReturnModalButton', function (event) {
+    event.preventDefault();
+
+    var additionalData = {
+      Order: $(this).data('number')
+    };
+
+    var Data = $.param(additionalData);
+    $.ajax({
+      url: '/GetOrderOverview',
+      method: 'POST',
+      data: Data,
+      dataType: 'json',
+      success: function (response) {
+        var value1 = response.orderId;
+        var ProductBody = document.getElementById('ReturnProductsBody');
+        var ProductDetails = response.Products;
+        var orderItems = response.orderItems;
+
+        ProductBody.innerHTML = '';
+
+        $('#ReturnOrderModal .modal-title').html('Retourneren bestelnummer: ' + value1);
+
+        ProductDetails.forEach(function (detail, index) {
+          const ProductBodyElement = document.createElement('div');
+          let ProductAmount = 0;
+          orderItems.forEach(function (orderItem) {
+            if (detail.id === orderItem.productId) {
+              ProductAmount = orderItem.quantity;
+            }
+          });
+
+          var TotalPrice = detail.unitPrice * ProductAmount;
 
           const isFirstIteration = index === 0;
 
           ProductBodyElement.innerHTML =
             `<div class="row">
-      <div class="text-center col-2 me-5">
-        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
-        <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
-      </div>
-      <div class="text-center col-2 me-3">
-        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
-        <p6 style=color:#EFE3C4>${detail.sku}</p6>
-      </div>
-      <div class="text-center col-2 me-3">
-        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
-        <p6 style=color:#EFE3C4>${ProductAmount}</p6>
-      </div>
-      <div class="text-center col-2">
-        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
-        <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
-      </div>
-      <div class="mt-3 mb-2 Modal-order-divider"></div>
-    </div>`;
+              <div class="text-center col-2 me-5">
+                ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
+                <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
+              </div>
+              <div class="text-center col-2 me-3">
+                ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
+                <p6 style=color:#EFE3C4>${detail.sku}</p6>
+              </div>
+              <div class="text-center col-2 me-3">
+                ${isFirstIteration ? '<h5 style="color: #EFE3C4;">Aantal: </h5>' : ''}
+                ${ProductAmount > 1 ? generateSelectOptions(ProductAmount) : `<p6 style="color: #EFE3C4;">${ProductAmount}</p6>`}
+              </div>
+              <div class="text-center col-2">
+                ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
+                <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
+              </div>
+              <div class="justify-content-center text-center col-2">
+              ${isFirstIteration ? '<h5 style=color:#EFE3C4>Retourneren? </h5>' : ''}
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              </div>
+              <div class="mt-3 mb-2 Modal-order-divider"></div>
+              </div>`;
 
           ProductBody.appendChild(ProductBodyElement);
         });
 
         // Show the modal
-        $('#OrderModal').modal('show');
+        $('#ReturnOrderModal').modal('show');
       }
     });
   });
 
+  function generateSelectOptions(maxValue) {
+    const options = Array.from({ length: maxValue }, (_, index) => index + 1);
+    const selectOptions = options.map(option => `<option value="${option}">${option}</option>`).join('');
+    return `<select>${selectOptions}</select>`;
+  }
   //--------------Logging out---------------------------------------------------------------
   $(document).ready(function () {
     $("#logoutButton").on("click", function () {
@@ -822,7 +935,6 @@ $fields = array(
     });
 
   });
-
 
   //----------------Account deletion--------------------------------------------------------
 
