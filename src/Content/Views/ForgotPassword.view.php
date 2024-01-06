@@ -35,7 +35,7 @@ $randomLink = ""
   ?>
 
 
-<div class="container d-flex mb-5 mt-5 justify-content-center">
+<div class="container d-flex mb-5 mt-5 justify-content-center vh-100">
   <div class="card p-1 bg-card-custom w-40">
     <form id="ForgotPasswordForm" method="POST" action="/wachtwoord-vergeten/sent" onsubmit="handleFormSubmission(event)">
       <div class="ms-5 me-5 mt-3">

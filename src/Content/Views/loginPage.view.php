@@ -5,19 +5,22 @@
   }
 
   .bg-beige-color {
-    background-color: #EFE3C4;
-    border-color: #EFE3C4
+    background-color: var(--sixth-white);
+    border-color: var(--sixth-white);
   }
 
   .bg-beige-color:focus,
   select:focus {
-    border-color: #FCB716;
-    box-shadow: 0 0 0 0.2rem #FCB716;
+    border-color: var(--sixth-yellow);
+    box-shadow: 0 0 0 0.2rem var(--sixth-brown);
 
   }
 
-  .bg-card-custom {
+  .card-custom {
     background-color: var(--sixth-black);
+    border-radius: 2rem;
+    min-width: 500px;
+    max-width: 35vw;
   }
 
   .custom-input-height {
@@ -28,11 +31,9 @@
 
   .line-hyper {
     content: "";
-    display: block;
     width: calc(10 * 1.05 * 1em);
     max-width: 100%;
     border-bottom: 0.1em solid #EFE3C4;
-    margin-left: 4.5rem;
 
   }
 
@@ -40,7 +41,7 @@
     position: relative;
 
   }
-  
+
   .toggle-eye {
     position: absolute;
     top: 50%;
@@ -49,60 +50,54 @@
     cursor: pointer;
   }
 </style>
-<div class="header-custom">
-  <div class="container d-flex mb-5 justify-content-center">
-    <div class="card p-1 bg-card-custom w-40 d-inline-block mt-5">
-      <form method="POST" action="/Account">
-        <input hidden name="_method" value="PUT" />
-        <div class="ms-5 mt-3">
-          <img src="/images/logo-small.svg" alt="Sixth" width="60px">
-          <h1 style="color:#EFE3C4">Inloggen</h1>
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="card p-1 card-custom mt-5">
+    <form method="POST" action="/Account">
+      <input hidden name="_method" value="PUT" />
+      <div class="mx-5 mt-5">
+        <img src="/images/logo-small-beige.svg" alt="Sixth" width="60px">
+        <h1 style="color:#EFE3C4">Inloggen</h1>
+      </div>
+      <div class="ms-5 mt-5">
+        <b>
+          <p style="color:#FF0000;display: <?
+          echo $error ?? "none";
+          ?>;">ongeldig emailadres of
+            wachtwoord</p>
+        </b>
+      </div>
+      <div class="col-auto ms-5 me-5 mb-4 mt-3">
+        <div class="row">
+          <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email"
+            value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email" placeholder="E-mailadres"
+            required></input>
         </div>
-        <div class="ms-5 mt-5">
-          <b>
-            <p style="color:#FF0000;display: <?
-            echo $error ?? "none";
-            ?>;">ongeldig emailadres of
-              wachtwoord</p>
-          </b>
+      </div>
+      <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
+        <div class="row">
+          <input type="password" class="form-control custom-input-height bg-beige-color password-input"
+            value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password" name="password"
+            placeholder="Wachtwoord" required>
+          <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
         </div>
-        <div class="col-auto ms-5 me-5 mb-4 mt-3">
-          <div class="row">
-            <input type="form-check-text" class="form-control custom-input-height bg-beige-color" id="email"
-              value="<?php echo htmlspecialchars($oldValueEmail ?? ''); ?>" name="email" placeholder="E-mailadres"
-              required></input>
-          </div>
+      </div>
+      <div class="row my-5 flex-column align-items-center text-center">
+        <a href="/ForgotPassword" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
+        <div class="line-hyper"></div>
+      </div>
+      <div class="row mb-5">
+        <div class="col"></div>
+        <div class="col d-flex justify-content-center align-items-center">
+          <a href="/Register" id="registerButton" class="btn btn-primary form-check fw-bold"
+            style="width: min-content; background-color:var(--sixth-yellow); border-color:var(--sixth-yellow); color: var(--sixth-black);" value="Register">Registreren</a>
         </div>
-        <div class="password-container col-auto ms-5 me-5 mb-2 mt-2">
-          <div class="row">
-            <input type="password" class="form-control custom-input-height bg-beige-color password-input"
-              value="<?php echo htmlspecialchars($oldValuePassword ?? ''); ?>" id="password" name="password"
-              placeholder="Wachtwoord" required>
-            <i class="bs bi-eye-slash-fill toggle-eye" onclick="togglePasswordVisibility('password')"></i>
-          </div>
+        <div class="col d-flex justify-content-center align-items-center">
+          <button type="submit" id="loginButton" class="btn btn-primary form-check fw-bold"
+            style="width: min-content; background-color:var(--sixth-yellow); border-color:var(--sixth-yellow); color: var(--sixth-black);" value="Login">Inloggen</button>
         </div>
-        <div class="col-auto mt-1 me-1">
-          <div class="row">
-            <div class="col-12 mb-5 text-center">
-              <a href="/ForgotPassword" class="text-decoration-none" style="color:#EFE3C4">Wachtwoord vergeten?</a>
-              <div class="line-hyper"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 ms-5 mb-5 me-5 form">
-          <div class="row">
-            <div class="col-auto">
-              <a href="/Register" id="registerButton" class="btn btn-primary rounded-pill form-check bg-beige-color"
-                style="width: min-content;background-color:#FCB716;border-color:#FCB716"
-                value="Register">Registreren</a>
-            </div>
-            <div class="col-auto">
-              <button type="submit" id="loginButton" class="btn btn-primary rounded-pill form-check bg-beige-color"
-                style="width: min-content;background-color:#FCB716;border-color:#FCB716" value="Login">Inloggen</button>
-            </div>
-          </div>
-      </form>
-    </div>
+        <div class="col"></div>
+      </div>
+    </form>
   </div>
 </div>
 
