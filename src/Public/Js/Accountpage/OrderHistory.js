@@ -22,9 +22,7 @@ $(document).ready(function () {
       const orderDate = new Date(order.createdOn.date);
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = orderDate.toLocaleDateString('nl-NL', options);
-      const orderTotal = order.orderTotal;
-      const taxTotal = order.orderTax / 100;
-      const finalTotal = orderTotal * (1 + taxTotal);
+      const finalTotal = order.orderTotal + order.orderTax;
       const searchStr = order.id + " shippingAddress";
       const addressArray = addressData[searchStr];
       const extensionHandle = addressArray.housenumberExtension;
@@ -33,7 +31,7 @@ $(document).ready(function () {
 
 
       orderElement.innerHTML = `<h6 style="color: #EFE3C4">Bestelnummer: ${order.id} | ${formattedDate}</h6>
-  <br> <p6 style="color: #EFE3C4">Totaal bedrag: €${finalTotal}</p6>
+  <br> <p6 style="color: #EFE3C4">Totaal bedrag: €${finalTotal.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
   <br> <p6 style="color: #EFE3C4">Afleveradres: </p6>
   <br> <p6 style="color: #EFE3C4">${addressArray.street} ${addressArray.housenumber}${extensionHandle}</p6>
   <br> <p6 style="color: #EFE3C4">${addressArray.zipCode}, ${addressArray.city}</p6>
@@ -102,25 +100,30 @@ $(document).ready(function () {
           const isFirstIteration = index === 0;
 
           ProductBodyElement.innerHTML =
-                  `<div class="row">
-                      <div class="text-center col-2 me-5">
-                        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
-                        <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
-                      </div>
-                      <div class="text-center col-2 me-3">
-                        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
-                        <p6 style=color:#EFE3C4>${detail.sku}</p6>
-                      </div>
-                        <div class="text-center col-2 me-3">
-                          ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
-                          <p6 style=color:#EFE3C4>${ProductAmount}</p6>
-                        </div>
-                        <div class="text-center col-2">
-                          ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
-                          <p6 style=color:#EFE3C4>€${TotalPrice}</p6>
-                        </div>
-                        <div class="mt-3 mb-2 Modal-order-divider"></div>
-                        </div>`;
+              `<div class="row">
+      <div class="text-center col-2 me-5">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productnaam: </h5>' : ''}
+        <a style="text-decoration: none;color:#EFE3C4" href="/product/${detail.id}">${detail.name}</a>
+      </div>
+      <div class="text-center col-2 me-3">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Barcode: </h5>' : ''}
+        <p6 style=color:#EFE3C4>${detail.sku}</p6>
+      </div>
+      <div class="text-center col-2 me-3">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Aantal: </h5>' : ''}
+        <p6 style=color:#EFE3C4>${ProductAmount}</p6>
+      </div>
+<div class="text-center col-2">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Productprijs: </h5>' : ''}
+        <p6 style=color:#EFE3C4>€${detail.unitPrice.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
+      </div>
+      <div class="text-center col-2">
+        ${isFirstIteration ? '<h5 style=color:#EFE3C4>Totaalprijs: </h5>' : ''}
+        <p6 style=color:#EFE3C4>€${TotalPrice.toLocaleString('nl-NL', { minimumFractionDigits: 2 })}</p6>
+      </div>
+      <div class="mt-3 mb-2 Modal-order-divider"></div>
+    </div>`;
+
           ProductBody.appendChild(ProductBodyElement);
         });
         $('#OrderModal').modal('show');
