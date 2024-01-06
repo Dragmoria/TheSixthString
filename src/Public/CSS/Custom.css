@@ -14,7 +14,11 @@ body {
   background-color: var(--sixth-brown) !important;
 }
 
-nav {
+.nav-lg {
+  background-color: rgba(44, 35, 30, 0.9) !important;
+}
+
+.nav-sm {
   background-color: var(--sixth-brown) !important;
 }
 
@@ -56,14 +60,14 @@ nav {
 
 .kpi-bar {
   background-color: var(--sixth-yellow);
-  height: 15px;
+  min-height: 15px;
+  height: auto;
 }
 
 .header-custom {
   background: url('../images/header.jpg');
   background-repeat: no-repeat !important;
   background-position: center;
-  height: calc(100vh - 71px);
   width: 100%;
   filter: drop-shadow(0px 0px 50px #000000);
 }

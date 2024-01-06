@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <style>
   body {
     background-color: #2C231E;
@@ -36,7 +35,7 @@ $randomLink = ""
   ?>
 
 
-<div class="container d-flex mb-5 mt-5 justify-content-center">
+<div class="container vh-100 d-flex justify-content-center align-items-center">
   <div class="card p-1 bg-card-custom w-40">
     <form id="ForgotPasswordForm" method="POST" action="/wachtwoord-vergeten/sent" onsubmit="handleFormSubmission(event)">
       <div class="ms-5 me-5 mt-3">
@@ -73,7 +72,7 @@ $randomLink = ""
 <script>
 
   function handleFormSubmission(event) {
-    event.preventDefault();  // Prevent the form from submitting and reloading the page
+    event.preventDefault(); 
 
     $.ajax({
       url: "/CreateRandomURL",
@@ -84,7 +83,6 @@ $randomLink = ""
         document.getElementById('ForgotPasswordForm').style.display = 'none';
       },
       error: function (xhr, status, error) {
-        alert("An error occurred: " + error);
         console.error(xhr);
         console.error(status);
       }

@@ -248,8 +248,37 @@ create table thesixthstring.resetpassword
     constraint resetpassword_pk
         unique (link),
     constraint reset_password_user_id_fk
-        foreign key (userId) references user (id)
+        FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
 );
+
+
+
+#------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE thesixthstring.returnorder(
+	id int AUTO_INCREMENT NOT NULL,
+	orderId int,
+	returnTotal decimal(18, 2) NOT NULL,
+	shippingStatus int NOT NULL,
+	createdOn datetime NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (orderId) REFERENCES `order`(id) ON DELETE SET NULL
+);
+
+
+
+#------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE thesixthstring.returnitem(
+	id int AUTO_INCREMENT NOT NULL,
+	returnOrderId int NOT NULL,
+	productId int NOT NULL,
+	unitPrice decimal(18, 2) NOT NULL,
+	quantity int NOT NULL,
+	status int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (returnOrderId) REFERENCES `returnorder`(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (productId) REFERENCES product(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 
 

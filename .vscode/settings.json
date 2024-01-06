@@ -28,5 +28,8 @@
       "database": "php_docker",
       "username": "php_docker"
     }
-  ]
+  ],
+  "[php]": {
+    "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+  }
 }

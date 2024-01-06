@@ -1,49 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
-<script>
-
-
-    function togglePasswordVisibility(passwordName) {
-
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-</script>
-
-
-
-
-
 <style>
     body {
         background-color: #2C231E;
@@ -75,7 +29,9 @@
 
     .bg-card-custom {
         background-color: #1C1713;
-        width: 60%;
+        border-radius: 2rem;
+        min-width: 500px;
+        max-width: 70%;
     }
 
     .bg-card-succes {
@@ -98,8 +54,6 @@
         margin-left: 5.7rem;
 
     }
-
-    .password-input {}
 
     .toggle-eye {
         position: absolute;
@@ -129,14 +83,14 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center">
-    <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+<div id="RegisterPageContainer" class="d-flex justify-content-center align-items-center" style="margin:20vh 0 20vh 0;">
+    <div id="registrationCard" class="card bg-card-custom d-inline-block px-5" style="position: relative;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
                     <div class="col-auto mt-4 mb-3">
-                        <h1 style="color:#EFE3C4">Registratie</h1>
-                        <?= $spacer . $spacer ?>
+                        <p class="m-0" style="color:#EFE3C4">Nieuw bij the Sixth string?</p>
+                        <h1 class="mb-4" style="color:#EFE3C4">Account registratie</h1>
                         <h3 class="mb-3" style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
@@ -183,13 +137,11 @@ $fields = array(
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
-                        <i>
-                            <p style="color:#EFE3C4">* is verplicht</p>
-                        </i>
-                    </div>
+                    <i>
+                        <p style="color:#EFE3C4">* is verplicht</p>
+                    </i>
                     <div class="spacer"></div>
-                    <div class="col-auto mb-3">
+                    <div class="col-auto my-3">
                         <h2 style="color:#EFE3C4">Inloggegevens</h2>
                     </div>
                     <div class="spacer"></div>
@@ -203,7 +155,7 @@ $fields = array(
                     <?php endforeach; ?>
                 </div>
                 <div class="row">
-                    <?php foreach (['Wachtwoord' => 'password', 'Herhalen wachtwoord' => 'repeatPassword'] as $label => $name): ?>
+                    <?php foreach (['Wachtwoord *' => 'password', 'Herhalen wachtwoord *' => 'repeatPassword'] as $label => $name): ?>
                         <div class="me-3 col-lg-5 col-xl-5 col-sm-12 mb-3 col-md-8">
                             <div class="password-container">
                                 <input type="password" class="form-control bg-beige-color password-input" id="<?= $name ?>"
@@ -214,7 +166,13 @@ $fields = array(
                         </div>
                     <? endforeach; ?>
                     <div class="row">
-                        <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
+                        <i>
+                            <p style="color:#EFE3C4">* Wachtwoorden moeten ten minste 6 tekens bevatten, inclusief ten
+                                minste 1 hoofdletter, 1 kleine letter en 1 cijfer.</p>
+                        </i>
+                    </div>
+                    <div class="row">
+                        <div class="text-center ">
                             <button type="button" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
@@ -226,7 +184,7 @@ $fields = array(
 
 
             <!-- Success message  -->
-            <div class="d-flex justify-content-center col-auto mt-5">
+            <div class="d-flex justify-content-center col-auto mt-5" style="border-radius:2rem;">
                 <div id="successMessageRegister" class="text-center text-start"
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
                     <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
@@ -245,90 +203,5 @@ $fields = array(
     </div>
 </div>
 
-
-
-<script>
-
-    function validatePasswords() {
-        var password1 = document.getElementById('password').value;
-        var password2 = document.getElementById('repeatPassword').value;
-
-
-        if (password1 !== password2) {
-            alert('wachtwoorden zijn niet hezelfde, probeer het opnieuw.');
-            return false;
-        }
-
-
-        return true;
-    }
-
-    function validateEmails() {
-        var email1 = document.getElementById('email').value;
-        var email2 = document.getElementById('repeatEmail').value;
-
-        if (email1 !== email2) {
-            alert('Emailaddressen zijn niet hetzelfde, probeer het opnieuw.');
-            return false;
-        }
-        return true;
-    }
-
-    function isInteger(value) {
-    return /^\d+$/.test(value);
-}
-
-    $(document).ready(function () {
-        $("#saveButton").on("click", function () {
-
-            var huisnummer = $("#housenumber").val();
-            if (!isInteger(huisnummer)) {
-                alert("Voer een geldig huisnummer in aub.");
-                return;
-            }
-
-            if (!validateEmails()) {
-                return;
-            }
-
-            if (!validatePasswords()) {
-                return;
-            }
-
-
-            if ($("#registerForm")[0].checkValidity()) {
-
-                $.ajax({
-                    url: "/RegisterValidate",
-                    type: "POST",
-                    data: $("#registerForm").serialize(),
-                    success: function (response) {
-                        if (response === "UserExists") {
-                            alert("Het ingevoerde e-mailadres is al in gebruik");
-                        }
-                        else {
-                            console.log(response);
-                            var myForm = $("#registerForm");
-                            myForm.hide();
-
-                            var successMessage = $("#successMessageRegister");
-                            successMessage.show();
-
-                            var MyCard = $("#registrationCard")
-                            var MyContainer = $("#RegisterPageContainer")
-
-                            MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr);
-                        console.error(status);
-                    }
-                });
-            } else {
-
-                $("#registerForm")[0].reportValidity();
-            }
-        });
-    });
-</script>
+<script src="/Js/ShowHidePassword.js"></script>
+<script src="/Js/RegisterUser.js"></script>

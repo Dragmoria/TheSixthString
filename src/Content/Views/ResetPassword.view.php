@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
 <?
 if (isset($succes)) {
     $user = $succes;
@@ -7,50 +5,10 @@ if (isset($succes)) {
 $displayForm1 = empty($error);
 ?>
 
-<script>
-    $("#succesForm").hide();
 
-    function togglePasswordVisibility(passwordName) {
-        console.log("jQuery is defined:", typeof jQuery !== 'undefined');
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-</script>
 
 
 <style>
-    body {
-        background-color: #2C231E;
-    }
-
     .bg-beige-color {
         background-color: #EFE3C4;
         border-color: #EFE3C4
@@ -88,8 +46,6 @@ $displayForm1 = empty($error);
 
     }
 
-    .password-input {}
-
     .toggle-eye {
         position: absolute;
         top: 50%;
@@ -102,7 +58,7 @@ $displayForm1 = empty($error);
 
 
 
-<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
+<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center vh-100">
     <form style="display: <?php echo $displayForm1 ? 'block' : 'none'; ?>" id="ResetPasswordForm" method="POST"
         action="/Login" onsubmit="handleFormSubmission(event)">
         <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
@@ -171,76 +127,10 @@ $displayForm1 = empty($error);
 </div>
 
 
-
+<script src="/Js/ShowHidePassword.js"></script>
+<script src="/Js/ResetPassword.js"></script>
 
 
 <script>
-
-    function validatePasswords() {
-        var password1 = document.getElementById('password').value;
-        var password2 = document.getElementById('repeatPassword').value;
-
-        if (password1 !== password2) {
-            alert('Passwords do not match. Please try again.');
-            return false;
-        }
-
-        return true;
-    }
-
-    $(document).ready(function () {
-        $("#updateButton").on("click", function () {
-
-            if (!validatePasswords()) {
-                return;
-            }
-
-
-            if ($("#ResetPasswordForm")[0].checkValidity()) {
-
-                $.ajax({
-                    url: "/UpdatePassword",
-                    type: "POST",
-                    data: $("#ResetPasswordForm").serialize(),
-                    success: function (response) {
-                        console.log(response);
-                        $("#SuccesForm").show();
-                        $("#ResetPasswordForm").hide();
-                    },
-                    error: function (xhr, status, error) {
-                        alert("An error occurred: " + error);
-                        console.error(xhr);
-                        console.error(status);
-                    }
-                });
-            } else {
-
-                $("#ResetPasswordForm")[0].reportValidity();
-            }
-        });
-    });
+    $("#succesForm").hide();
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--.form1 {
-            display: //;
-        }
-        .form2 {
-            display: //<?php echo $displayForm1 ? 'none' : 'block'; ?>;
-        }-->
