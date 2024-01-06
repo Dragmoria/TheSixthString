@@ -56,8 +56,5 @@
     <script src="/Js/Helper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 </body>
-<script>
-    console.log("Hello World");
-</script>
 
 </html>
