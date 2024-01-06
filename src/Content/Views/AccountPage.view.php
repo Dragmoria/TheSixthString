@@ -162,7 +162,7 @@ $fields = array(
 </style>
 
 
-<div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
+<div id="accountPageContainer" class="container-fluid col-12 d-flex mb-5 justify-content-center" style="margin-top:125px;">
   <div id="accountBox">
     <div class="row">
       <div class="col-8 ms-5 mb-4 text-center">

@@ -46,8 +46,6 @@ $displayForm1 = empty($error);
 
     }
 
-    .password-input {}
-
     .toggle-eye {
         position: absolute;
         top: 50%;
