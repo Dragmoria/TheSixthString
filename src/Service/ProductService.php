@@ -25,7 +25,9 @@ class ProductService extends BaseDatabaseService {
 
         $models = array();
         foreach($entities as $entity) {
-            $models[] = ProductModel::convertToModel($entity);
+            $model = ProductModel::convertToModel($entity);
+            $model->reviewAverage = $this->getReviewAverageByProductId($entity->id);
+            $models[] = $model;
         }
 
         return $models;
@@ -50,9 +52,14 @@ class ProductService extends BaseDatabaseService {
             $model->reviews[] = ReviewModel::convertToModel($reviewEntity);
         }
 
-        $reviewAverage = $this->executeQuery("select sum(rev.rating) / count(rev.id) as reviewAverage from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productEntity->id])[0]->reviewAverage;
+        $reviewAverage = $this->getReviewAverageByProductId($productEntity->id);
         $model->reviewAverage = round((float)$reviewAverage, 1);
         return $model;
+    }
+
+    private function getReviewAverageByProductId(int $productId): ?float {
+        return $this->executeQuery("select sum(rev.rating) / count(rev.id) as reviewAverage from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productId])[0]->reviewAverage ?? null;
+
     }
 
     public function getAmountInStockForProduct(int $productId): int {
