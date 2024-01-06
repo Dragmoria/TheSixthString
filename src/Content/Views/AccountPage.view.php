@@ -12,8 +12,8 @@ $fields = array(
   'Plaats' => array('name' => 'city', 'placeholder' => $city),
   'Telefoonnummer' => array('name' => 'phonenumber', 'placeholder' => 'Telefoonnummer'),
 );
-?>
 
+?>
 
 
 <style>
