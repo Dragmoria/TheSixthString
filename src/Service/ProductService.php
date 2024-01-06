@@ -34,7 +34,7 @@ class ProductService extends BaseDatabaseService
         return $models;
     }
 
-    public function getProductDetails(int $id): ProductModel
+    public function getProductDetails(int $id, ?bool $withoutReviews = false): ProductModel
     {
         $productEntity = $this->executeQuery("select * from product where id = ?", [$id], Product::class)[0];
         $model = ProductModel::convertToModel($productEntity);
@@ -47,6 +47,10 @@ class ProductService extends BaseDatabaseService
         if (!is_null($productEntity->categoryId)) {
             $categoryEntity = $this->executeQuery("select * from category where id = ?", [$productEntity->categoryId], Category::class)[0];
             $model->category = CategoryModel::convertToModel($categoryEntity);
+        }
+
+        if ($withoutReviews) {
+            return $model;
         }
 
         $reviewEntities = $this->executeQuery("select rev.* from review rev inner join orderitem item on item.id = rev.orderItemId where rev.status = ? and item.productId = ?", [ReviewStatus::Accepted->value, $productEntity->id], Review::class);

@@ -7,6 +7,7 @@ use Http\Controllers\ControlPanel\ManageCouponsController;
 use Http\Controllers\ControlPanel\ManageProductsController;
 use Http\Controllers\ControlPanel\StatisticsController;
 use Http\Controllers\ControlPanel\AppointmentsController;
+use Http\Controllers\ControlPanel\ModerateReviewsController;
 use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
@@ -58,3 +59,8 @@ $router->get('/ControlPanel/OrderManagement', [OrderManagementController::class,
 $router->get('/ControlPanel/OrderManagement/GetOrdersTableData', [OrderManagementController::class, 'getOrdersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->get('/ControlPanel/OrderManagement/{orderId}', [OrderManagementController::class, 'getOrderDetails'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
 $router->post('/ControlPanel/OrderManagement/{orderId}/SetShippingStatus', [OrderManagementController::class, 'setShippingStatus'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+
+// Reviews
+$router->get('/ControlPanel/ModerateReviews', [ModerateReviewsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->get('/ControlPanel/ModerateReviews/GetReviewsTableData', [ModerateReviewsController::class, 'getReviewsTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
+$router->post('/ControlPanel/ModerateReviews/SetReviewStatus', [ModerateReviewsController::class, 'setReviewStatus'])->middleware(SilentAuthentication::class, ["role" => Role::Manager]);
