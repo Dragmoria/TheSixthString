@@ -261,8 +261,7 @@ CREATE TABLE thesixthstring.returnorder(
 	shippingStatus int NOT NULL,
 	createdOn datetime NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (orderId) REFERENCES `order`(id) ON DELETE SET NULL,
-
+    FOREIGN KEY (orderId) REFERENCES `order`(id) ON DELETE SET NULL
 );
 
 
@@ -270,13 +269,13 @@ CREATE TABLE thesixthstring.returnorder(
 #------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE thesixthstring.returnitem(
 	id int AUTO_INCREMENT NOT NULL,
-	returnorderId int NOT NULL,
+	returnOrderId int NOT NULL,
 	productId int NOT NULL,
 	unitPrice decimal(18, 2) NOT NULL,
 	quantity int NOT NULL,
 	status int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (returnorderId) REFERENCES `returnorder`(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (returnOrderId) REFERENCES `returnorder`(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (productId) REFERENCES product(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

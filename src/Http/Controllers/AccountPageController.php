@@ -21,7 +21,6 @@ use Service\ProductService;
 use Service\UserService;
 use Models\AddressModel;
 use Service\RandomLinkService;
-use Service\MailService;
 use Service\ActivateService;
 
 

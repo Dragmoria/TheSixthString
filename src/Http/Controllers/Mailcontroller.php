@@ -18,7 +18,6 @@ use Models\AddressModel;
 use Models\UserModel;
 use Service\UserService;
 use Service\AddressService;
-use Service\MailService;
 
 class MailController extends Controller
 {
