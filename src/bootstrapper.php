@@ -7,6 +7,7 @@ use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use Http\Controllers\Components\AcceptCookiesComponent;
+use Http\Controllers\ContactFormController;
 use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\ServiceController;
@@ -97,7 +98,8 @@ $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'Retriev
 $router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
 $router->post('/LogOutPulse', [AccountPageController::class, 'LogOutPulse']);
 
-
+$router->get('/Contact', [ContactFormController::class, 'show']);
+$router->post('/ContactForm/Send', [ContactFormController::class, 'send']);
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
