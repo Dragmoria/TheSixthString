@@ -25,9 +25,9 @@
     }
 </style>
 
-<div id="AccountActivated" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center vh-100">
+<div id="AccountActivated" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center align-items-center vh-100">
     <form id="SuccesForm" style="display: block">
-        <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+        <div id="accountCard" class="card py-4 bg-card-custom d-inline-block" style="position: relative; margin-top: 0px; border-radius:2rem;">
             <div class="row text-center">
                 <h1 style=color:#EFE3C4>Gelukt!</h1>
                 <div class="col-12">

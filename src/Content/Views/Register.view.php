@@ -29,7 +29,9 @@
 
     .bg-card-custom {
         background-color: #1C1713;
-        width: 60%;
+        border-radius: 2rem;
+        min-width: 500px;
+        max-width: 70%;
     }
 
     .bg-card-succes {
@@ -52,8 +54,6 @@
         margin-left: 5.7rem;
 
     }
-
-    .password-input {}
 
     .toggle-eye {
         position: absolute;
@@ -83,14 +83,14 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center vh-100">
-    <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+<div id="RegisterPageContainer" class="d-flex justify-content-center align-items-center" style="margin:20vh 0 20vh 0;">
+    <div id="registrationCard" class="card bg-card-custom d-inline-block px-5" style="position: relative;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
                     <div class="col-auto mt-4 mb-3">
-                        <h1 style="color:#EFE3C4">Registratie</h1>
-                        <?= $spacer . $spacer ?>
+                        <p class="m-0" style="color:#EFE3C4">Nieuw bij the Sixth string?</p>
+                        <h1 class="mb-4" style="color:#EFE3C4">Account registratie</h1>
                         <h3 class="mb-3" style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
@@ -137,13 +137,11 @@ $fields = array(
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
-                        <i>
-                            <p style="color:#EFE3C4">* is verplicht</p>
-                        </i>
-                    </div>
+                    <i>
+                        <p style="color:#EFE3C4">* is verplicht</p>
+                    </i>
                     <div class="spacer"></div>
-                    <div class="col-auto mb-3">
+                    <div class="col-auto my-3">
                         <h2 style="color:#EFE3C4">Inloggegevens</h2>
                     </div>
                     <div class="spacer"></div>
@@ -174,7 +172,7 @@ $fields = array(
                         </i>
                     </div>
                     <div class="row">
-                        <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
+                        <div class="text-center ">
                             <button type="button" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
@@ -186,7 +184,7 @@ $fields = array(
 
 
             <!-- Success message  -->
-            <div class="d-flex justify-content-center col-auto mt-5">
+            <div class="d-flex justify-content-center col-auto mt-5" style="border-radius:2rem;">
                 <div id="successMessageRegister" class="text-center text-start"
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
                     <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
