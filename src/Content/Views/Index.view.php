@@ -27,13 +27,22 @@
 <div class="container-fluid g-0">
     <div class="row g-0 d-flex justify-content-center align-items-center"
         style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; height:100vh;">
-        <?php foreach ($products as $product) { ?>
+        <?php
+        $counter = 0;
+        
+        foreach ($products as $product) {
+            if ($counter < 5) {
+                ?>
         <div class="col-2 mx-2">
             <?php
             echo component(\Http\Controllers\Components\ProductCardComponent::class, (array) $product);
             ?>
         </div>
         <?php
+        $counter++;
+            } else {
+                break;
+            }
         }
         ?>
     </div>
