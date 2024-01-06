@@ -4,9 +4,9 @@ namespace Lib\Database\Entity;
 
 use Lib\Enums\OrderItemStatus;
 
-class OrderItem extends SaveableObject {
+class ReturnItem extends SaveableObject {
     public function __construct() {
-        parent::__construct("orderitem");
+        parent::__construct("returnitem");
     }
 
     public int $returnOrderId = 0;

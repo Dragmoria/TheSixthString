@@ -3,33 +3,33 @@
 namespace Models;
 
 
-use Lib\Database\Entity\User;
-use Lib\Database\Entity\OrderItem;
+
+use Lib\Database\Entity\ReturnItem;
 use Lib\Enums\OrderItemStatus;
 
 
-class OrderItemModel
+class ReturnItemModel
 {
     function __construct()
     {
     }
     public int $id;
-    public int $orderId;
+    public int $returnOrderId;
     public int $productId;
-    public float $unitPrice; //without tax; multiply before showing to the customer by using Constants::TAX_PERCENTAGE
+    public float $unitPrice;
     public int $quantity;
     public OrderItemStatus $status;
 
 
 
-    public static function convertToModel(?OrderItem $entity): ?OrderItemModel
+    public static function convertToModel(?ReturnItem $entity): ?ReturnItemModel
     {
         if ($entity->isEmptyObject()) return null;
 
-        $model = new OrderitemModel();
+        $model = new ReturnItemModel();
 
         $model->id = $entity->id;
-        $model->orderId = $entity->orderId;
+        $model->returnOrderId = $entity->returnOrderId;
         $model->productId = $entity->productId;
         $model->unitPrice = $entity->unitPrice;
         $model->quantity = $entity->quantity;
@@ -38,12 +38,12 @@ class OrderItemModel
         return $model;
     }
     
-    public function convertToEntity(): OrderItem
+    public function convertToEntity(): ReturnItem
     {
-        $entity = new OrderItem();
+        $entity = new ReturnItem();
 
         $entity->id = $this->id;
-        $entity->orderId = $this->orderId;
+        $entity->returnOrderId = $this->returnOrderId;
         $entity->productId = $this->productId;
         $entity->unitPrice = $this->unitPrice;
         $entity->quantity = $this->quantity;

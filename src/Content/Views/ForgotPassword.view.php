@@ -72,7 +72,7 @@ $randomLink = ""
 <script>
 
   function handleFormSubmission(event) {
-    event.preventDefault();  // Prevent the form from submitting and reloading the page
+    event.preventDefault(); 
 
     $.ajax({
       url: "/CreateRandomURL",
