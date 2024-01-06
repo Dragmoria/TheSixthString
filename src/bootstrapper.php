@@ -35,7 +35,6 @@ use Service\ReviewService;
 use Service\TryoutScheduleService;
 use Service\ShoppingCartService;
 use Service\UserService;
-use Service\MailService;
 use Service\VisitedProductService;
 
 
@@ -56,7 +55,6 @@ $container->registerClass(ResetpasswordService::class)->asSingleton();
 $container->registerClass(CouponService::class)->asSingleton();
 $container->registerClass(ProductService::class)->asSingleton();
 $container->registerClass(BrandService::class)->asSingleton();
-$container->registerClass(MailService::class)->asSingleton();
 $container->registerClass(RandomLinkService::class)->asSingleton();
 $container->registerClass(ActivateService::class)->asSingleton();
 $container->registerClass(OrderService::class)->asSingleton();
@@ -112,10 +110,11 @@ $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
-$router->post('/Product/CreateReview', [ProductController::class, 'createReview'])->middleware(isLoggedIn::class);
+$router->post('/Product/CreateReview', [ProductController::class, 'createReview']);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
-$router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView']);
+$router->get('/ShoppingCart/PersonalInformation', [ShoppingCartController::class, 'personalInformationView'])->middleware(isLoggedIn::class);
+$router->get('/ShoppingCart/Payment', [ShoppingCartController::class, 'paymentView'])->middleware(isLoggedIn::class);
 $router->post('/ShoppingCart/DeleteItem', [ShoppingCartController::class, 'deleteItem']);
 $router->post('/ShoppingCart/AddItem', [ShoppingCartController::class, 'addItem']);
 $router->post('/ShoppingCart/ChangeQuantity', [ShoppingCartController::class, 'changeQuantity']);

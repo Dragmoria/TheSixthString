@@ -44,7 +44,8 @@ class ProductController extends Controller
                     'selectedFilters' => $filterModel,
                     'filterData' => $filterData
                 ]
-            )->withLayout(MAIN_LAYOUT));
+            )->withLayout(MAIN_LAYOUT)
+        );
 
         return $response;
     }
@@ -69,7 +70,8 @@ class ProductController extends Controller
                     "product" => $productDetails,
                     "canWriteReview" => $canWriteReview
                 ]
-            )->withLayout(MAIN_LAYOUT));
+            )->withLayout(MAIN_LAYOUT)
+        );
 
         return $response;
     }
@@ -89,6 +91,10 @@ class ProductController extends Controller
 
     public function createReview(): ?Response
     {
+        if (!isset($_SESSION["user"])) {
+            redirect('/Login');
+        }
+
         $postBody = $this->currentRequest->postObject->body();
         $productId = (int) $postBody["productId"];
 

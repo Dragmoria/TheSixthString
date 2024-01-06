@@ -1,7 +1,3 @@
-<?php
-$componentFile = \Http\Controllers\Components\CategoryListComponent::class;
-?>
-
 <!-- Footer large screens -->
 <div class="d-none d-lg-block">
     <div class="container-fluid flex-column" style="background-color: var(--sixth-black);">
@@ -16,7 +12,7 @@ $componentFile = \Http\Controllers\Components\CategoryListComponent::class;
                 <h5 style="color: var(--sixth-yellow);">
                     <a href="/Category" class="text-decoration-none text-sixth-yellow">Categorieën</a>
                 </h5>
-                <?php $componentFile ?>
+                <?php echo component(\Http\Controllers\Components\CategoryListComponent::class); ?>
             </div>
 
             <!-- Service -->

@@ -3,6 +3,7 @@
 namespace Http\Controllers;
 
 use Lib\Database\Entity\Coupon;
+use Lib\Enums\AddressType;
 use Lib\Enums\MolliePaymentStatus;
 use Lib\Enums\PaymentMethod;
 use Lib\MVCCore\Application;
@@ -10,6 +11,7 @@ use Lib\MVCCore\Controller;
 use Lib\MVCCore\Routers\Responses\JsonResponse;
 use Lib\MVCCore\Routers\Responses\Response;
 use Lib\MVCCore\Routers\Responses\ViewResponse;
+use Service\AddressService;
 use Service\CouponService;
 use Service\OrderService;
 use Service\PaymentService;
@@ -84,6 +86,30 @@ class ShoppingCartController extends Controller {
         }
 
         $response->setBody(view(VIEWS_PATH . 'ShoppingCartPayment.view.php', ['data' => $data])->withLayout(MAIN_LAYOUT));
+
+        return $response;
+    }
+
+    public function personalInformationView(): ?Response {
+        $response = new ViewResponse();
+
+        $data = $this->getShoppingCartContent(null);
+        if(is_null($data)) {
+            redirect('/ShoppingCart');
+        }
+
+        $addressService = Application::resolve(AddressService::class);
+        $addresses = array();
+
+        foreach(AddressType::cases() as $addressType) {
+            $addresses[] = $addressService->getAddressByUserId($_SESSION["user"]["id"], $addressType->value);
+        }
+
+        $response->setBody(view(VIEWS_PATH . 'ShoppingCartPersonalInformation.view.php', [
+            'fullName' => $_SESSION["user"]["fullname"],
+            'addresses' => $addresses,
+            'data' => $data
+        ])->withLayout(MAIN_LAYOUT));
 
         return $response;
     }

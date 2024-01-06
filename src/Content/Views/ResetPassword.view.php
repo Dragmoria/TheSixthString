@@ -9,10 +9,6 @@ $displayForm1 = empty($error);
 
 
 <style>
-    body {
-        background-color: #2C231E;
-    }
-
     .bg-beige-color {
         background-color: #EFE3C4;
         border-color: #EFE3C4
@@ -50,8 +46,6 @@ $displayForm1 = empty($error);
 
     }
 
-    .password-input {}
-
     .toggle-eye {
         position: absolute;
         top: 50%;
@@ -64,7 +58,7 @@ $displayForm1 = empty($error);
 
 
 
-<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center">
+<div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center vh-100">
     <form style="display: <?php echo $displayForm1 ? 'block' : 'none'; ?>" id="ResetPasswordForm" method="POST"
         action="/Login" onsubmit="handleFormSubmission(event)">
         <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
@@ -133,93 +127,10 @@ $displayForm1 = empty($error);
 </div>
 
 
+<script src="/Js/ShowHidePassword.js"></script>
+<script src="/Js/ResetPassword.js"></script>
+
 
 <script>
     $("#succesForm").hide();
-
-    function togglePasswordVisibility(passwordName) {
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-
-
-    function validatePasswords() {
-        var password1 = document.getElementById('password').value;
-        var password2 = document.getElementById('repeatPassword').value;
-
-        if (password1 !== password2) {
-            alert('wachtwoorden zijn niet hezelfde, probeer het opnieuw..');
-            return false;
-        }
-        var regexLength = /.{6,}/;
-        var regexCapital = /[A-Z]/;
-        var regexRegular = /[a-z]/;
-        var regexNumber = /[0-9]/;
-
-        if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
-            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
-            return false;
-        }
-
-        return true;
-    }
-
-    $(document).ready(function () {
-        $("#updateButton").on("click", function () {
-
-            if (!validatePasswords()) {
-                return;
-            }
-
-
-            if ($("#ResetPasswordForm")[0].checkValidity()) {
-
-                $.ajax({
-                    url: "/UpdatePassword",
-                    type: "POST",
-                    data: $("#ResetPasswordForm").serialize(),
-                    success: function (response) {
-                        $("#SuccesForm").show();
-                        $("#ResetPasswordForm").hide();
-                    },
-                    error: function (xhr, status, error) {
-
-                        console.error(xhr);
-                        console.error(status);
-                    }
-                });
-            } else {
-
-                $("#ResetPasswordForm")[0].reportValidity();
-            }
-        });
-    });
 </script>

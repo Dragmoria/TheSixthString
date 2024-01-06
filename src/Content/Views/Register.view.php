@@ -29,7 +29,9 @@
 
     .bg-card-custom {
         background-color: #1C1713;
-        width: 60%;
+        border-radius: 2rem;
+        min-width: 500px;
+        max-width: 70%;
     }
 
     .bg-card-succes {
@@ -52,8 +54,6 @@
         margin-left: 5.7rem;
 
     }
-
-    .password-input {}
 
     .toggle-eye {
         position: absolute;
@@ -83,14 +83,14 @@ $fields = array(
 
 
 
-<div id="RegisterPageContainer" class="mt-5 container-fluid d-flex mb-3 justify-content-center">
-    <div id="registrationCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+<div id="RegisterPageContainer" class="d-flex justify-content-center align-items-center" style="margin:20vh 0 20vh 0;">
+    <div id="registrationCard" class="card bg-card-custom d-inline-block px-5" style="position: relative;">
         <div class="card-body">
             <form id="registerForm" method="POST" action="/Register" onsubmit="handleFormSubmission(event)">
                 <div class="row">
                     <div class="col-auto mt-4 mb-3">
-                        <h1 style="color:#EFE3C4">Registratie</h1>
-                        <?= $spacer . $spacer ?>
+                        <p class="m-0" style="color:#EFE3C4">Nieuw bij the Sixth string?</p>
+                        <h1 class="mb-4" style="color:#EFE3C4">Account registratie</h1>
                         <h3 class="mb-3" style="color:#EFE3C4">Persoonlijke gegevens</h3>
                         <p style="color:#EFE3C4">Aanhef</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
@@ -137,13 +137,11 @@ $fields = array(
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-auto ms-sm-1 ms-lg-4 ms-xl-4 mb-3 col-md-8">
-                        <i>
-                            <p style="color:#EFE3C4">* is verplicht</p>
-                        </i>
-                    </div>
+                    <i>
+                        <p style="color:#EFE3C4">* is verplicht</p>
+                    </i>
                     <div class="spacer"></div>
-                    <div class="col-auto mb-3">
+                    <div class="col-auto my-3">
                         <h2 style="color:#EFE3C4">Inloggegevens</h2>
                     </div>
                     <div class="spacer"></div>
@@ -174,7 +172,7 @@ $fields = array(
                         </i>
                     </div>
                     <div class="row">
-                        <div class="col-lg-10 col-xl-12 col-sm-12 ms-1 mt-4 text-center ">
+                        <div class="text-center ">
                             <button type="button" id="saveButton" name="saveButton"
                                 class="btn btn-primary rounded-pill form-check form-check-inline bg-beige-color"
                                 style="background-color:#FCB716;border-color:#FCB716">Gegevens opslaan</button>
@@ -186,7 +184,7 @@ $fields = array(
 
 
             <!-- Success message  -->
-            <div class="d-flex justify-content-center col-auto mt-5">
+            <div class="d-flex justify-content-center col-auto mt-5" style="border-radius:2rem;">
                 <div id="successMessageRegister" class="text-center text-start"
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; visibility: visible;color: green; z-index: 1000;">
                     <i class="bi bi-check-circle" style="font-size: 5em;color:#FCB716"></i>
@@ -205,135 +203,5 @@ $fields = array(
     </div>
 </div>
 
-<script>
-
-
-    function togglePasswordVisibility(passwordName) {
-
-        var passwordInput = document.getElementById(passwordName);
-
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-
-        var passwordInputs = document.querySelectorAll('.password-input');
-
-
-        passwordInputs.forEach(function (passwordInput) {
-
-            var eyeIcon = passwordInput.parentElement.querySelector('.toggle-eye');
-            eyeIcon.style.display = 'none';
-
-
-            passwordInput.addEventListener('input', function () {
-
-                eyeIcon.style.display = passwordInput.value.trim() !== '' ? 'block' : 'none';
-            });
-
-
-            eyeIcon.addEventListener('mousedown', function () {
-                togglePasswordVisibility(passwordInput.id);
-            });
-        });
-    });
-
-    function validatePasswords() {
-        var password1 = document.getElementById('password').value;
-        var password2 = document.getElementById('repeatPassword').value;
-
-
-        if (password1 !== password2) {
-            alert('wachtwoorden zijn niet hezelfde, probeer het opnieuw.');
-            return false;
-        }
-
-        var regexLength = /.{6,}/;
-        var regexCapital = /[A-Z]/;
-        var regexRegular = /[a-z]/;
-        var regexNumber = /[0-9]/;
-
-        if (!regexLength.test(password1) || !regexCapital.test(password1) || !regexRegular.test(password1) || !regexNumber.test(password1)) {
-            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
-            return false;
-        }
-
-        return true;
-    }
-
-    function validateEmails() {
-        var email1 = document.getElementById('email').value;
-        var email2 = document.getElementById('repeatEmail').value;
-
-        if (email1 !== email2) {
-            alert('Emailaddressen zijn niet hetzelfde, probeer het opnieuw.');
-            return false;
-        }
-        return true;
-    }
-
-    function isInteger(value) {
-        return /^\d+$/.test(value);
-    }
-
-    $(document).ready(function () {
-        $("#saveButton").on("click", function () {
-
-            var huisnummer = $("#housenumber").val();
-            if (!isInteger(huisnummer)) {
-                alert("Voer een geldig huisnummer in aub.");
-                return;
-            }
-
-            if (!validateEmails()) {
-                return;
-            }
-
-            if (!validatePasswords()) {
-                return;
-            }
-
-
-            if ($("#registerForm")[0].checkValidity()) {
-
-                $.ajax({
-                    url: "/RegisterValidate",
-                    type: "POST",
-                    data: $("#registerForm").serialize(),
-                    success: function (response) {
-                        var myForm = $("#registerForm");
-                        myForm.hide();
-
-                        var successMessage = $("#successMessageRegister");
-                        successMessage.show();
-
-                        var MyCard = $("#registrationCard")
-                        var MyContainer = $("#RegisterPageContainer")
-
-                        MyCard.removeClass("bg-card-custom").addClass("bg-card-succes");
-                    },
-                    error: function (xhr, status, error) {
-
-                        if (xhr.status === 409) {
-                            alert("Het ingevoerde e-mailadres is al in gebruik.");
-                        } else if (xhr.status === 400) {
-                            alert("De ingevoerde wachtwoorden zijn niet hetzelfde.");
-                        } else if (xhr.status === 406) {
-                            alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
-                        } else {
-                            console.error(xhr);
-                            console.error(status);
-                        }
-                    }
-                });
-            } else {
-
-                $("#registerForm")[0].reportValidity();
-            }
-        });
-    });
-</script>
+<script src="/Js/ShowHidePassword.js"></script>
+<script src="/Js/RegisterUser.js"></script>

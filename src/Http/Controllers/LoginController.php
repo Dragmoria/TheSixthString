@@ -50,7 +50,8 @@ class LoginController extends Controller
                     $_SESSION["user"] = [
                         "id" => $user->id,
                         "role" => $user->role,
-                        "firstname" => $user->firstName
+                        "firstname" => $user->firstName,
+                        "fullname" => $user->firstName . (!is_null($user->insertion) ? " " . $user->insertion : "") . " " . $user->lastName
                     ];
 
                     Application::resolve(ShoppingCartService::class)->mergeCarts($user->id, $_SESSION["sessionUserGuid"]);
