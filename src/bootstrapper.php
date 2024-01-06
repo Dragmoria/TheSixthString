@@ -8,11 +8,15 @@ use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use Http\Controllers\Components\AcceptCookiesComponent;
 use Http\Controllers\ControlPanel\AppointmentsController;
+use Http\Controllers\ContactFormController;
 use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\ServiceController;
 use Http\Controllers\OverigController;
 use Http\Controllers\VoorwaardenController;
+use Http\Controllers\GarantieController;
+use Http\Controllers\DisclaimerController;
+use Http\Controllers\PrivacyController;
 use Http\Controllers\Mailcontroller;
 use Http\Middlewares\isLoggedIn;
 use Http\Controllers\ProductController;
@@ -98,7 +102,8 @@ $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'Retriev
 $router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
 $router->post('/LogOutPulse', [AccountPageController::class, 'LogOutPulse']);
 
-
+$router->get('/Contact', [ContactFormController::class, 'show']);
+$router->post('/ContactForm/Send', [ContactFormController::class, 'send']);
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
@@ -106,6 +111,9 @@ $router->get('/', [IndexController::class, 'show']);
 $router->get('/Service', [ServiceController::class, 'show']);
 $router->get('/Overig', [OverigController::class, 'show']);
 $router->get('/AlgemeneVoorwaarden', [VoorwaardenController::class, 'show']);
+$router->get('/Garantie', [GarantieController::class, 'show']);
+$router->get('/Disclaimer', [DisclaimerController::class, 'show']);
+$router->get('/Privacy', [PrivacyController::class, 'show']);
 $router->get('/Category', [CategoryController::class, 'index']);
 $router->get('/Category/{id}', [CategoryController::class, 'index']);
 $router->get('/Product', [ProductController::class, 'index']);

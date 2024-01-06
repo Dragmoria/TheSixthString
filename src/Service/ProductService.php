@@ -16,8 +16,23 @@ use Models\CustomerProductFilterModel;
 use Models\ProductModel;
 use Models\ReviewModel;
 
-class ProductService extends BaseDatabaseService
-{
+class ProductService extends BaseDatabaseService {
+
+    public function getProductsFrontpage(): array
+    {
+        $query = "select * from product order by abs(recommendedUnitPrice - unitPrice) desc limit 5";
+        $params = [];
+
+        $entities = $this->executeQuery($query, $params, Product::class);
+
+        $models = array();
+        foreach ($entities as $entity) {
+            $models[] = ProductModel::convertToModel($entity);
+        }
+
+        return $models;
+    }
+
     public function getProducts(CustomerProductFilterModel $model): array
     {
         $query = "select id, name, recommendedUnitPrice, unitPrice, media from product where active = ?";

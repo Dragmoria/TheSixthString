@@ -1,27 +1,50 @@
-  $(document).ready(function () {
-    $("#saveChangeInfoButton").on("click", function () {
-      event.preventDefault();
+function isInteger(value) {
+  return /^\d+$/.test(value);
+}
 
-      var additionalData = {
-        key: 'infoUpdated'
-      };
+function validateDate() {
+  var selectedDate = document.getElementById('birthdate').value;
+  var minDate = new Date('1900-01-01');
 
-      var serializedData = $("#ChangePersonalInfo").serialize();
-      var combinedData = serializedData + '&' + $.param(additionalData);
+  if (new Date(selectedDate) < minDate) {
+    alert('Selecteer een geldige datum na 01-01-1900');
+    return false;
+  }
+  return true; 
+}
 
-      $.ajax({
-        url: "/UpdateInfo",
-        type: "POST",
-        data: combinedData,
-        success: function (response) {
+$(document).ready(function () {
+  $("#saveChangeInfoButton").on("click", function () {
+    
+    event.preventDefault();
+    
+    var huisnummer = $("#housenumber").val();
+    if (huisnummer !== "") {
+      if (!isInteger(huisnummer)) {
+        alert("Voer een geldig huisnummer in aub.");
+        return;
+      }
+    }
 
-          window.location.href = "/Account";
+    if (!validateDate()){
+      return;
+    }
+  
 
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr);
-          console.error(status);
-        }
-      });
+  
+    $.ajax({
+      url: "/UpdateInfo",
+      type: "POST",
+      data: $("#ChangePersonalInfo").serialize(),
+      success: function (response) {
+
+        window.location.href = "/Account";
+
+      },
+      error: function (xhr, status, error) {
+        console.error(xhr);
+        console.error(status);
+      }
     });
   });
+});

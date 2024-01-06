@@ -32,20 +32,24 @@ class AccountPageController extends Controller
         $Response = new ViewResponse();
 
         $userservice = Application::resolve(UserService::class);
-        $user = $userservice->getUserById($_SESSION["user"]["id"]);         // getting the user model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
+        $user = $userservice->getUserById($_SESSION["user"]["id"]);         
 
         if (!isset($user)) {
             redirect("/Login");
         }
+        $pagetrigger = "";
+        if (!empty($_SESSION["user"]["info"])){
+            $pagetrigger = $_SESSION["user"]["info"];
+        }
 
         $addressService = Application::resolve(AddressService::class);
-        $address = $addressService->getAddressByUserId($user->id, 1);       // getting the address model based on the logged in user. this because we want to fill all the input fields of the "change info" page with current info about this user
+        $address = $addressService->getAddressByUserId($user->id, 1);       
 
         $Response->setBody(view(VIEWS_PATH . 'AccountPage.view.php', [
             'firstname' => $user->firstName,
             'addition' => $user->insertion,
             'lastname' => $user->lastName,
-            'email' => $user->emailAddress,                                 // all these details are used to fill the forms with the data that is currently in the database of this user
+            'email' => $user->emailAddress,                                 
             'street' => $address->street ?? "",
             'housenumber' => $address->housenumber ?? "",
             'housenumberextension' => $address->housenumberExtension ?? "",
@@ -55,38 +59,40 @@ class AccountPageController extends Controller
             'country' => $address->country ?? "",
             'birthdate' => $user->dateOfBirth->format('Y-m-d'),
             'gender' => $user->gender->value,
+            'updatedinfo' => $pagetrigger
         ])->withLayout(MAIN_LAYOUT));
+        unset($_SESSION["user"]["info"]);
         return $Response;
     }
 
     public function Logout(): ?Response
     {
-        unset($_SESSION['user']);                                         // loggin out the users and forcing them to the inlog page so they cannot go to pages they shouldnt
+        unset($_SESSION['user']);                                         
         redirect('/Login');
     }
 
     public function updateInfo(): ?Response
     {
-        $postBody = $this->currentRequest->getPostObject()->body();         // getting all the data from the form that was serialized by the Ajax request in the AccountPage View.
-        $user = $_SESSION["user"]["id"];                                    // getting the user from the Session details
+        $postBody = $this->currentRequest->getPostObject()->body();        
+        $user = $_SESSION["user"]["id"];                                   
 
         $userservice = Application::resolve(UserService::class);
-        $updateUser = $userservice->getUserById($user);                     // getting the correct user based on the ID from the database and return it as a model.
+        $updateUser = $userservice->getUserById($user);     
 
-        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                          //changing all the information the user has entered.
-        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                        //any field that is left empty will be reassigned its own value.
+        $updateUser->firstName = !empty($postBody['firstname']) ? $postBody['firstname'] : $updateUser->firstName;                     
+        $updateUser->insertion = !empty($postBody['middlename']) ? $postBody['middlename'] : $updateUser->insertion;                  
         $updateUser->lastName = !empty($postBody['lastname']) ? $postBody['lastname'] : $updateUser->lastName;
         $updateUser->dateOfBirth = !empty($postBody['birthdate']) ? new \DateTime($postBody['birthdate']) : $updateUser->dateOfBirth;
         $updateUser->gender = !empty($postBody['gender']) ? Gender::fromString($postBody['gender']) : $updateUser->gender;
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->changePersonalInfo($updateUser);       // entering all the details, that are supposed to go into the `user` table, into the database.
+        $userservice->changePersonalInfo($updateUser);      
 
         $addressService = Application::resolve(AddressService::class);
         $address = $addressService->getAddressByUserId($user, 1);
 
-        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;                            //changing all the information the user has entered.
-        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        //any field that is left empty will be reassigned its own value.
+        $address->street = !empty($postBody['street']) ? $postBody['street'] : $address->street;            
+        $address->zipCode = !empty($postBody['zipcode']) ? $postBody['zipcode'] : $address->zipCode;                        
         $address->housenumber = !empty($postBody['housenumber']) ? $postBody['housenumber'] : $address->housenumber;
         $address->housenumberExtension = !empty($postBody['addition']) ? $postBody['addition'] : $address->housenumberExtension;
         $address->city = !empty($postBody['city']) ? $postBody['city'] : $address->city;
@@ -94,7 +100,8 @@ class AccountPageController extends Controller
         $address->type = 1;
 
         $updateAddressService = Application::resolve(AddressService::class);
-        $updatedAddress = $updateAddressService->updateAddress($address);
+        $updateAddressService->updateAddress($address);
+        $_SESSION["user"]["info"] = "display";
     }
 
     public function updateUserPassword(): ?Response
@@ -108,7 +115,7 @@ class AccountPageController extends Controller
         $updateUser->passwordHash = password_hash($postBody['changePassword'], PASSWORD_DEFAULT);
 
         $userservice = Application::resolve(UserService::class);
-        $createdUser = $userservice->ChangePasswordUser($updateUser);
+        $userservice->ChangePasswordUser($updateUser);
 
         $Response = new TextResponse();
         $Response->setBody('PasswordUpdated');

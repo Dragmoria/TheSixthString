@@ -92,7 +92,7 @@ $fields = array(
                         <p class="m-0" style="color:#EFE3C4">Nieuw bij the Sixth string?</p>
                         <h1 class="mb-4" style="color:#EFE3C4">Account registratie</h1>
                         <h3 class="mb-3" style="color:#EFE3C4">Persoonlijke gegevens</h3>
-                        <p style="color:#EFE3C4">Aanhef</p>
+                        <p style="color:#EFE3C4">Aanhef *</p>
                         <?php foreach (\Lib\Enums\Gender::cases() as $gender): ?>
                             <div class="col-auto form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="gender" id="<?= $gender->toString() ?>"
