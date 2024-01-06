@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div clas="col-12 mt-3" id="cart-content">
+        <div clas="col-12 mt-3 mb-3" id="cart-content">
             <div class="row">
                 <div class="col-12 col-md-8">
                     <div class="card rounded-4 p-2 bg-sixth-black text-sixth-beige">

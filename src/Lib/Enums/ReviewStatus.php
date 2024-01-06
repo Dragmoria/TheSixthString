@@ -2,11 +2,23 @@
 
 namespace Lib\Enums;
 
-enum ReviewStatus: int {
+enum ReviewStatus: int
+{
     case ToBeReviewed = 0;
     case Accepted = 1;
     case Denied = 2;
-}
 
-//omzetten vanuit data: $suit =  Suit::from($record['suit']);
-// OF: ReviewStatus::ToBeReviewed->value
+    public function toString(): string
+    {
+        switch ($this->value) {
+            case 0:
+                return "To be reviewed";
+            case 1:
+                return "Accepted";
+            case 2:
+                return "Denied";
+            default:
+                return "Unknown";
+        }
+    }
+}

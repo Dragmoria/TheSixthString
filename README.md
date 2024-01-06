@@ -52,6 +52,7 @@ Dit project bevat de volgende onderdelen:
 - [MVCCore](./Docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
 - [EnvUtility](./Docs/EnvUtility.md) // info over de EnvUtility namespace.
 - [QuickGuide](./Docs/MVCCore/QuickGuide.md) // een quick guide voor het toevoegen van een nieuwe pagina aan de website.
+- [Mailing](./Docs/Mailing.md) // info over het versturen van mails. 
 
 ## Git workflow
 

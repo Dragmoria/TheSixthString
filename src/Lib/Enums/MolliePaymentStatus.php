@@ -33,4 +33,9 @@ enum MolliePaymentStatus: int
                 throw new \InvalidArgumentException("Invalid mollie payment status: $from");
         }
     }
+
+    public function toString(): string
+    {
+        return $this->name;
+    }
 }

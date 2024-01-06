@@ -20,12 +20,6 @@ class SidebarComponent implements Component
 
         $buttons = [
             [
-                "path" => "/ControlPanel",
-                "enabled" => $currentRole->hasRightsOf(Role::Analyst),
-                "text" => "Dashboard",
-                "notifications" => ""
-            ],
-            [
                 "path" => "/ControlPanel/Statistics",
                 "enabled" => $currentRole->hasRightsOf(Role::Analyst),
                 "text" => "Statistieken",
