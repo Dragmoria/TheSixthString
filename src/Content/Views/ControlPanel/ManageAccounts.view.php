@@ -24,7 +24,8 @@
 
     <div>
         <div style="min-height: 460px; visibility: hidden" id="tablecontainer">
-            <table class="table" data-reorderable-rows="true" id="table" data-toggle="table" data-height="460" data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
+            <table class="table" data-reorderable-rows="true" id="table" data-toggle="table" data-height="460"
+                data-ajax="fetchUsers" data-search="true" data-side-pagination="server" data-pagination="true">
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
@@ -43,7 +44,8 @@
             </table>
         </div>
 
-        <button type="button" id="addModalButton" class="btn px-5 btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        <button type="button" id="addModalButton" class="btn px-5 btn-primary" data-bs-toggle="modal"
+            data-bs-target="#addModal">
             Staff account toevoegen
         </button>
     </div>
@@ -60,7 +62,8 @@
                         <div class="mb-3">
                             <label for="newEmail" class="form-label">Email:</label>
                             <div class="input-group">
-                                <input type="email" class="form-control" id="newEmail" placeholder="Email" aria-label="NewEmail" aria-describedby="basic-addon1" required>
+                                <input type="email" class="form-control" id="newEmail" placeholder="Email"
+                                    aria-label="NewEmail" aria-describedby="basic-addon1" required>
                                 <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
@@ -68,7 +71,8 @@
                         <div class="mb-3">
                             <label for="newFirstName" class="form-label">Voornaam:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="newFirstName" placeholder="Voornaam" aria-label="NewFirstName" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="newFirstName" placeholder="Voornaam"
+                                    aria-label="NewFirstName" aria-describedby="basic-addon1" required>
                                 <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
@@ -76,14 +80,16 @@
                         <div class="mb-3">
                             <label for="newInsertion" class="form-label">Tussenvoegsel:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="newInsertion" placeholder="Tussenvoegsel" aria-label="NewInsertion" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" id="newInsertion" placeholder="Tussenvoegsel"
+                                    aria-label="NewInsertion" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="newLastName" class="form-label">Achternaam:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="newLastName" placeholder="Achternaam" aria-label="NewLastName" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="newLastName" placeholder="Achternaam"
+                                    aria-label="NewLastName" aria-describedby="basic-addon1" required>
                                 <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
@@ -91,7 +97,8 @@
                         <div class="mb-3 date" data-provide="datepicker">
                             <label for="newDateOfBirth" class="form-label">Geboortedatum:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="newDateOfBirth" placeholder="Geboortedatum" aria-label="NewDateOfBirth" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="newDateOfBirth" placeholder="Geboortedatum"
+                                    aria-label="NewDateOfBirth" aria-describedby="basic-addon1" required>
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -147,7 +154,8 @@
                         <div class="mb-3">
                             <label for="firstName" class="form-label">Voornaam:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="firstName" placeholder="Voornaam" aria-label="FirstName" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="firstName" placeholder="Voornaam"
+                                    aria-label="FirstName" aria-describedby="basic-addon1" required>
                                 <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
@@ -155,14 +163,16 @@
                         <div class="mb-3">
                             <label for="insertion" class="form-label">Tussenvoegsel:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="insertion" placeholder="Tussenvoegsel" aria-label="Insertion" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" id="insertion" placeholder="Tussenvoegsel"
+                                    aria-label="Insertion" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Achternaam:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="lastName" placeholder="Achternaam" aria-label="LastName" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="lastName" placeholder="Achternaam"
+                                    aria-label="LastName" aria-describedby="basic-addon1" required>
                                 <div class="invalid-feedback">Veld mag niet leeg zijn.</div>
                             </div>
                         </div>
@@ -170,7 +180,8 @@
                         <div class="mb-3 date" data-provide="datepicker">
                             <label for="dateOfBirth" class="form-label">Geboortedatum:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="dateOfBirth" placeholder="Geboortedatum" aria-label="DateOfBirth" aria-describedby="basic-addon1" required>
+                                <input type="text" class="form-control" id="dateOfBirth" placeholder="Geboortedatum"
+                                    aria-label="DateOfBirth" aria-describedby="basic-addon1" required>
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -202,7 +213,7 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#tablecontainer').css('visibility', 'visible');
     });
 
@@ -210,12 +221,12 @@
         // volgens documentatie op https://examples.bootstrap-table.com/#options/table-ajax.html#view-source
         var url = '/ControlPanel/Accounts/GetUsersTableData'
 
-        $.get(url + '?' + $.param(params.data)).then(function(res) {
+        $.get(url + '?' + $.param(params.data)).then(function (res) {
             params.success(res)
         })
     }
 
-    $(document).on('click', '.edit-btn', function() {
+    $(document).on('click', '.edit-btn', function () {
         var index = $(this).data('index');
         var row = $('#table').bootstrapTable('getData')[index];
 
@@ -230,26 +241,26 @@
         $('#editModal').modal('show');
     });
 
-    $(document).on('click', '#resetPasswordButton', function() {
+    $(document).on('click', '#resetPasswordButton', function () {
         var data = {
             _method: 'PATCH',
             id: $('#id').val(),
         };
 
-        $.post('/ControlPanel/Accounts/ResetPassword', data).then(function(response) {
-            if (response === 'Password reset') {
+        $.post('/ControlPanel/Accounts/ResetPassword', data).then(function (response) {
+            if (response.success) {
                 // Close the modal
                 $('#editModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
             } else {
                 // Handle error
-                console.log(response);
+                alert(response.message);
             }
         });
     });
 
-    $(document).on('click', '#saveButton', function() {
+    $(document).on('click', '#saveButton', function () {
         var data = {
             _method: 'PATCH',
             id: $('#id').val(),
@@ -261,18 +272,21 @@
             gender: $('#gender').val()
         };
 
-        $.post('/ControlPanel/Accounts/UpdateUser', data).then(function(response) {
-            if (response === 'User updated') {
+        $.post('/ControlPanel/Accounts/UpdateUser', data).then(function (response) {
+            if (response.success) {
                 // Close the modal
                 $('#editModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
+            } else {
+                // Handle error
+                alert(response.message);
             }
         });
     });
 
 
-    $(document).on('click', '#saveButtonNew', function() {
+    $(document).on('click', '#saveButtonNew', function () {
         var data = {
             _method: 'PUT',
             newEmail: $('#newEmail').val(),
@@ -283,12 +297,22 @@
             newGender: $('#newGender').val(),
         };
 
-        $.post('/ControlPanel/Accounts/AddUser', data).then(function(response) {
-            if (response === 'User added') {
+        $.post('/ControlPanel/Accounts/AddUser', data).then(function (response) {
+            if (response.success) {
                 // Close the modal
                 $('#addModal').modal('hide');
 
+                $('#newEmail').val('');
+                $('#newFirstName').val('');
+                $('#newInsertion').val('');
+                $('#newLastName').val('');
+                $('#newDateOfBirth').val('');
+                $('#newGender').val('Unknown');
+
                 $('#table').bootstrapTable('refresh');
+            } else {
+                // Handle error
+                alert(response.message);
             }
         });
     });

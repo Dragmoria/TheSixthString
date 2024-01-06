@@ -48,7 +48,8 @@
                     <div class="mb-3">
                         <label for="addDescription">Description</label>
                         <div class="input-group">
-                            <textarea type="text" id="addDescription" class="form-control" placeholder="Description"></textarea>
+                            <textarea type="text" id="addDescription" class="form-control"
+                                placeholder="Description"></textarea>
                         </div>
                     </div>
 
@@ -64,28 +65,32 @@
                     <div class="mb-3">
                         <label for="addStock">Stock</label>
                         <div class="input-group">
-                            <input type="number" id="addStock" class="form-control" placeholder="Stock" step="1" onkeydown="preventKeys(event)">
+                            <input type="number" id="addStock" class="form-control" placeholder="Stock" step="1"
+                                onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="addDemoStock">Demo stock</label>
                         <div class="input-group">
-                            <input type="number" id="addDemoStock" class="form-control" placeholder="Demo stock" step="1" onkeydown="preventKeys(event)">
+                            <input type="number" id="addDemoStock" class="form-control" placeholder="Demo stock"
+                                step="1" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="addPrice">Prijs</label>
                         <div class="input-group">
-                            <input type="number" id="addPrice" class="form-control" placeholder="Prijs" step="0.01" onkeydown="preventKeys(event)">
+                            <input type="number" id="addPrice" class="form-control" placeholder="Prijs" step="0.01"
+                                onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="addRecommendedPrice">Aanbevolen prijs</label>
                         <div class="input-group">
-                            <input type="number" id="addRecommendedPrice" class="form-control" placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
+                            <input type="number" id="addRecommendedPrice" class="form-control"
+                                placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
@@ -112,28 +117,30 @@
 
                     <div class="mb-3">
                         <input type="file" id="addThumbnail" style="display: none;" accept="image/*">
-                        <button type="button" id="addThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail image</button>
+                        <button type="button" id="addThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
+                            image</button>
                         <div id="addThumbnailPreview" hidden></div>
                     </div>
 
                     <div class="mb-3">
                         <input type="file" id="addMainImage" style="display: none;" accept="image/*">
-                        <button type="button" id="addMainImageBtn" class="btn px-5 btn-primary w-100">Main image</button>
+                        <button type="button" id="addMainImageBtn" class="btn px-5 btn-primary w-100">Main
+                            image</button>
                         <div id="addMainImagePreview" hidden></div>
                     </div>
 
                     <script>
-                        $(document).on('click', '#addThumbnailBtn', function(event) {
+                        $(document).on('click', '#addThumbnailBtn', function (event) {
                             $(event.target).siblings('#addThumbnail').click();
                         });
 
-                        $('#addThumbnail').on('change', function() {
+                        $('#addThumbnail').on('change', function () {
                             var file = this.files[0];
                             var reader = new FileReader();
 
                             $('#addThumbnailPreview').removeAttr('hidden');
 
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                 $('#addThumbnailPreview').empty().append(img);
                             };
@@ -141,17 +148,17 @@
                             reader.readAsDataURL(file);
                         });
 
-                        $(document).on('click', '#addMainImageBtn', function(event) {
+                        $(document).on('click', '#addMainImageBtn', function (event) {
                             $(event.target).siblings('#addMainImage').click();
                         });
 
-                        $('#addMainImage').on('change', function() {
+                        $('#addMainImage').on('change', function () {
                             var file = this.files[0];
                             var reader = new FileReader();
 
                             $('#addMainImagePreview').removeAttr('hidden');
 
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                 $('#addMainImagePreview').empty().append(img);
                             };
@@ -170,12 +177,16 @@
                             <div id="addProductCarousel" style="height: 300px" class="carousel slide">
                                 <div class="carousel-inner" style="background-color: black">
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#addProductCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" style="color: black;" aria-hidden="true"></span>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#addProductCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" style="color: black;"
+                                        aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#addProductCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" style="color: black;" aria-hidden="true"></span>
+                                <button class="carousel-control-next" type="button" data-bs-target="#addProductCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" style="color: black;"
+                                        aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
                             </div>
@@ -183,13 +194,13 @@
                     </div>
 
                     <script>
-                        $(document).on('click', '.addUploadButton', function(event) {
+                        $(document).on('click', '.addUploadButton', function (event) {
                             $(event.target).siblings('#addProductImages').click();
                         });
 
                         var addSelectedFiles = [];
 
-                        $('#addProductImages').on('change', function() {
+                        $('#addProductImages').on('change', function () {
                             var files = this.files;
                             addSelectedFiles = addSelectedFiles.concat(Array.from(files));
                             var carouselInner = $('#addProductCarousel .carousel-inner');
@@ -202,7 +213,7 @@
                                 var file = addSelectedFiles[i];
                                 var reader = new FileReader();
 
-                                reader.onload = function(e) {
+                                reader.onload = function (e) {
                                     var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                     var item = $('<div>').addClass('carousel-item').append(img);
 
@@ -219,7 +230,7 @@
                             $('#addProductImages').val('');
                         });
 
-                        $('#addRemoveItemButton').on('click', function() {
+                        $('#addRemoveItemButton').on('click', function () {
                             var activeCarouselItem = $('#addProductCarousel .carousel-item.active');
                             activeCarouselItem.remove();
                             var index = activeCarouselItem.index();
@@ -246,7 +257,7 @@
                         <div id="addVideoPreview"></div>
 
                         <script>
-                            $('#addVideo').on('input', function() {
+                            $('#addVideo').on('input', function () {
                                 var url = $(this).val();
                                 var videoId = url.split('v=')[1];
                                 var ampersandPosition = videoId.indexOf('&');
@@ -264,7 +275,7 @@
                     </button>
 
                     <script>
-                        $('#submitProduct').on('click', function(e) {
+                        $('#submitProduct').on('click', function (e) {
                             e.preventDefault();
 
                             var productData = {
@@ -302,7 +313,7 @@
                                 data: formData,
                                 processData: false,
                                 contentType: false,
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         clearAddProductForm();
                                         alert("product toegevoegd");
@@ -362,7 +373,8 @@
                             <div class="input-group">
                                 <input type="text" id="search" class="form-control" placeholder="Search">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="this.parentNode.previousElementSibling.value=''">Clear</button>
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="this.parentNode.previousElementSibling.value=''">Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -393,7 +405,8 @@
                             <div class="input-group">
                                 <input type="text" id="sku" class="form-control" placeholder="SKU">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="this.parentNode.previousElementSibling.value=''">Clear</button>
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="this.parentNode.previousElementSibling.value=''">Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -407,7 +420,8 @@
 
 
         <div style="min-height: 460px; overflow-y: hidden; visibility: hidden" id="tablecontainer">
-            <table class="table" id="table" data-toggle="table" data-height="460" data-ajax="fetchProducts" data-side-pagination="server" data-pagination="true">
+            <table class="table" id="table" data-toggle="table" data-height="460" data-ajax="fetchProducts"
+                data-side-pagination="server" data-pagination="true">
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
@@ -459,7 +473,8 @@
                     <div class="mb-3">
                         <label for="editDescription">Beschrijving</label>
                         <div class="input-group">
-                            <textarea type="text" id="editDescription" class="form-control" placeholder="Beschrijving"></textarea>
+                            <textarea type="text" id="editDescription" class="form-control"
+                                placeholder="Beschrijving"></textarea>
                         </div>
                     </div>
 
@@ -475,28 +490,32 @@
                     <div class="mb-3">
                         <label for="editStock">Stock</label>
                         <div class="input-group">
-                            <input type="number" id="editStock" class="form-control" placeholder="Stock" step="1" onkeydown="preventKeys(event)">
+                            <input type="number" id="editStock" class="form-control" placeholder="Stock" step="1"
+                                onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="editDemoStock">Demo stock</label>
                         <div class="input-group">
-                            <input type="number" id="editDemoStock" class="form-control" placeholder="Demo stock" step="1" onkeydown="preventKeys(event)">
+                            <input type="number" id="editDemoStock" class="form-control" placeholder="Demo stock"
+                                step="1" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="editPrice">Prijs</label>
                         <div class="input-group">
-                            <input type="number" id="editPrice" class="form-control" placeholder="Prijs" step="0.01" onkeydown="preventKeys(event)">
+                            <input type="number" id="editPrice" class="form-control" placeholder="Prijs" step="0.01"
+                                onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="editRecommendedPrice">Aanbevolen prijs</label>
                         <div class="input-group">
-                            <input type="number" id="editRecommendedPrice" class="form-control" placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
+                            <input type="number" id="editRecommendedPrice" class="form-control"
+                                placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
                         </div>
                     </div>
 
@@ -523,28 +542,30 @@
 
                     <div class="mb-3">
                         <input type="file" id="editThumbnail" style="display: none;" accept="image/*">
-                        <button type="button" id="editThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail image</button>
+                        <button type="button" id="editThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
+                            image</button>
                         <div id="editThumbnailPreview" hidden></div>
                     </div>
 
                     <div class="mb-3">
                         <input type="file" id="editMainImage" style="display: none;" accept="image/*">
-                        <button type="button" id="editMainImageBtn" class="btn px-5 btn-primary w-100">Main image</button>
+                        <button type="button" id="editMainImageBtn" class="btn px-5 btn-primary w-100">Main
+                            image</button>
                         <div id="editMainImagePreview" hidden></div>
                     </div>
 
                     <script>
-                        $(document).on('click', '#editThumbnailBtn', function(event) {
+                        $(document).on('click', '#editThumbnailBtn', function (event) {
                             $(event.target).siblings('#editThumbnail').click();
                         });
 
-                        $('#editThumbnail').on('change', function() {
+                        $('#editThumbnail').on('change', function () {
                             var file = this.files[0];
                             var reader = new FileReader();
 
                             $('#editThumbnailPreview').removeAttr('hidden');
 
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                 $('#editThumbnailPreview').empty().append(img);
                             };
@@ -552,17 +573,17 @@
                             reader.readAsDataURL(file);
                         });
 
-                        $(document).on('click', '#editMainImageBtn', function(event) {
+                        $(document).on('click', '#editMainImageBtn', function (event) {
                             $(event.target).siblings('#editMainImage').click();
                         });
 
-                        $('#editMainImage').on('change', function() {
+                        $('#editMainImage').on('change', function () {
                             var file = this.files[0];
                             var reader = new FileReader();
 
                             $('#editMainImagePreview').removeAttr('hidden');
 
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                 $('#editMainImagePreview').empty().append(img);
                             };
@@ -573,7 +594,8 @@
 
                     <div class="mb-3">
                         <input type="file" id="editProductImages" style="display: none;" accept="image/*" multiple>
-                        <button type="button" class="btn px-5 btn-primary w-100 editUploadButton">Product images</button>
+                        <button type="button" class="btn px-5 btn-primary w-100 editUploadButton">Product
+                            images</button>
                         <div id="editProductImagesPreview" hidden>
                             <button id="editRemoveItemButton" type="button" class="btn px-5 btn-secondairy">
                                 X
@@ -581,12 +603,16 @@
                             <div id="editProductCarousel" style="height: 300px" class="carousel slide">
                                 <div class="carousel-inner" style="background-color: black">
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#editProductCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" style="color: black;" aria-hidden="true"></span>
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#editProductCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" style="color: black;"
+                                        aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#editProductCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" style="color: black;" aria-hidden="true"></span>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#editProductCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" style="color: black;"
+                                        aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
                             </div>
@@ -594,7 +620,7 @@
                     </div>
 
                     <script>
-                        $(document).on('click', '.editUploadButton', function(event) {
+                        $(document).on('click', '.editUploadButton', function (event) {
                             $(event.target).siblings('#editProductImages').click();
                         });
 
@@ -614,7 +640,7 @@
                             return item;
                         }
 
-                        $('#editProductImages').on('change', function() {
+                        $('#editProductImages').on('change', function () {
                             var files = this.files;
                             editSelectedFiles = editSelectedFiles.concat(Array.from(files));
                             var carouselInner = $('#editProductCarousel .carousel-inner');
@@ -630,7 +656,7 @@
                                     var file = editSelectedFiles[i];
                                     var reader = new FileReader();
 
-                                    reader.onload = function(e) {
+                                    reader.onload = function (e) {
                                         makeCarouselImage(e.target.result, carouselInner);
                                     };
 
@@ -640,7 +666,7 @@
                             $('#editProductImages').val('');
                         });
 
-                        $('#editRemoveItemButton').on('click', function() {
+                        $('#editRemoveItemButton').on('click', function () {
                             var activeCarouselItem = $('#editProductCarousel .carousel-item.active');
                             activeCarouselItem.remove();
                             var index = activeCarouselItem.index();
@@ -667,7 +693,7 @@
                         <div id="editVideoPreview"></div>
 
                         <script>
-                            $('#editVideo').on('input', function() {
+                            $('#editVideo').on('input', function () {
                                 makeVideoPreview($(this).val(), $('#editVideoPreview'));
                             });
 
@@ -688,7 +714,7 @@
                     </button>
 
                     <script>
-                        $('#editSubmitProduct').on('click', function(e) {
+                        $('#editSubmitProduct').on('click', function (e) {
                             e.preventDefault();
 
 
@@ -755,7 +781,7 @@
                                 data: formData,
                                 processData: false,
                                 contentType: false,
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         clearEditProductForm();
                                         alert("product aangepast");
@@ -808,7 +834,7 @@
 </div>
 
 <script>
-    $(document).on('click', '.edit-btn', function() {
+    $(document).on('click', '.edit-btn', function () {
         var index = $(this).data('index');
         var row = $('#table').bootstrapTable('getData')[index];
 
@@ -816,8 +842,6 @@
 
         var carouselInner = $('#editProductCarousel .carousel-inner');
         editSelectedFiles = [];
-        console.log(editSelectedFiles);
-        console.log(row.media);
 
         row.media.secondaryImages.forEach(element => {
             editSelectedFiles.push({
@@ -887,7 +911,7 @@
         }
         var old = e.target.value;
 
-        e.target.addEventListener("keyup", function(event) {
+        e.target.addEventListener("keyup", function (event) {
             e.target.removeEventListener("keyup", arguments.callee);
 
             if (event.key === "Backspace") {
@@ -905,10 +929,10 @@
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#tablecontainer').css('visibility', 'visible');
 
-        $('#searchButton').click(function() {
+        $('#searchButton').click(function () {
             $('#table').bootstrapTable('refresh');
         });
 
@@ -919,12 +943,12 @@
         LoadCategories();
     });
 
-    $(document).on('click', '#addProductButton', function() {
+    $(document).on('click', '#addProductButton', function () {
         $('#main').hide();
         $('#add').show();
     });
 
-    $(document).on('click', '#backToMain', function() {
+    $(document).on('click', '#backToMain', function () {
         $('#main').show();
         $('#add').hide();
         $('#edit').hide();
@@ -949,7 +973,7 @@
         params.data.status = $('#status').val();
         params.data.sku = $('#sku').val();
 
-        $.get(url + '?' + $.param(params.data)).then(function(res) {
+        $.get(url + '?' + $.param(params.data)).then(function (res) {
             params.success(res)
         })
     }
@@ -958,14 +982,14 @@
         $.ajax({
             url: '/ControlPanel/ManageProducts/GetBrands',
             type: 'GET',
-            success: function(data) {
+            success: function (data) {
                 var brands = data;
                 var brandSelects = $('.brand');
 
-                $.each(brandSelects, function(index, select) {
+                $.each(brandSelects, function (index, select) {
                     var brandSelect = $(select); // Convert the DOM element to a jQuery object
 
-                    $.each(brands, function(index, brand) {
+                    $.each(brands, function (index, brand) {
                         brandSelect.append('<option value="' + brand.id + '">' + brand.name + '</option>');
                     });
                 });
@@ -977,14 +1001,14 @@
         $.ajax({
             url: '/ControlPanel/ManageProducts/GetCategories',
             type: 'GET',
-            success: function(data) {
+            success: function (data) {
                 var categories = data;
                 var categorySelects = $('.category');
 
-                $.each(categorySelects, function(index, select) {
+                $.each(categorySelects, function (index, select) {
                     var categorySelect = $(select); // Convert the DOM element to a jQuery object
 
-                    $.each(categories, function(index, category) {
+                    $.each(categories, function (index, category) {
                         categorySelect.append('<option value="' + category.id + '">' + category.name + '</option>');
                     });
                 });
