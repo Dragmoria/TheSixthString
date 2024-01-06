@@ -37,8 +37,24 @@ function isInteger(value) {
     return /^\d+$/.test(value);
 }
 
+function validateDate() {
+    var selectedDate = document.getElementById('birthdate').value;
+    var minDate = new Date('1900-01-01');
+  
+    if (new Date(selectedDate) < minDate) {
+      alert('Selecteer een geldige datum na 01-01-1900');
+      return false;
+    }
+    return true; 
+  }
+
+
 $(document).ready(function () {
     $("#saveButton").on("click", function () {
+
+        if (!validateDate()){
+            return;
+          }
 
         var huisnummer = $("#housenumber").val();
         if (!isInteger(huisnummer)) {
@@ -82,6 +98,7 @@ $(document).ready(function () {
                     } else if (xhr.status === 406) {
                         alert("Wachtwoord moet ten minste 6 tekens bevatten, inclusief ten minste 1 hoofdletter, 1 kleine letter en 1 cijfer.");
                     } else {
+                        alert("Er is iets fout gegaan, neem contact op met de beheerder.");
                         console.error(xhr);
                         console.error(status);
                     }

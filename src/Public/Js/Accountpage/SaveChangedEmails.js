@@ -26,11 +26,9 @@ function isValidEmail(email) {
       }
 
       const emailAddress = document.getElementById('email').value;
-      if (isValidEmail(emailAddress)) {
-        return true;
-      } else {
+      if (!isValidEmail(emailAddress)) {
         alert('Het ingevoerde emailadres is niet geldig.');
-        return false;
+        return;
       }
 
       $.ajax({
