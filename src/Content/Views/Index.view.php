@@ -25,11 +25,17 @@
 
 <!--- Product Card --->
 <div class="container-fluid g-0">
-    <div class="row g-0"
+    <div class="row g-0 d-flex justify-content-center align-items-center"
         style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; height:100vh;">
-        <div class="col d-flex justify-content-center align-items-center text-center">
-            test
+        <?php foreach ($products as $product) { ?>
+        <div class="col-2 mx-2">
+            <?php
+            echo component(\Http\Controllers\Components\ProductCardComponent::class, (array) $product);
+            ?>
         </div>
+        <?php
+        }
+        ?>
     </div>
 </div>
 
@@ -130,4 +136,3 @@
         </div>
     </div>
 </div>
-
