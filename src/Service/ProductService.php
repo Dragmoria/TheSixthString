@@ -32,7 +32,7 @@ class ProductService extends BaseDatabaseService {
         return $models;
     }
     public function getProducts(ProductFilterModel $model): array {
-        $query = "select id, name, recommendedUnitPrice, unitPrice, media from product where active = ?";
+        $query = "select id, name, recommendedUnitPrice, unitPrice, media, amountInStock from product where active = ?";
         $params = [1];
 
         $this->buildFilteredQuery($query, $params, $model);
