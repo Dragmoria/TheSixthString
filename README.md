@@ -41,13 +41,29 @@ Dit project heeft weinig configuratie nodig. De enige configuratie die nodig is,
     MYSQL_PASSWORD=password
     MYSQL_DATABASE=databaseName
     MYSQL_USER=userName
+
+    MYSQL_DATABASE= # Database naam
+    MYSQL_USER= # Database root gebruikersnaam
+    MYSQL_PASSWORD= # Database root wachtwoord
+    MYSQL_EXTERNAL_PORT= # De poort waarop de database bereikbaar is vanaf de host machine
+    WEB_HTTP_PORT= # De poort waarop de webserver bereikbaar is vanaf de host machine
+    WEB_HTTPS_PORT= # De poort waarop de webserver bereikbaar is vanaf de host machine https
+    PHPMYADMIN_EXTERNAL_PORT= # De poort waarop phpmyadmin bereikbaar is vanaf de host machine
+    MYSQL_INTERNAL_PORT= # De poort waarop de database bereikbaar is vanaf de docker container
+    MYSQL_SERVERNAME= # De naam van de database server ofwel de naam van de docker container vrijwel altijd 'db'
+    # Mail configuration
+    MAIL_PASSWORD_NOREPLY= # Het wachtwoord van het no-reply email adres
+    MAIL_PASSWORD_ADMIN= # Het wachtwoord van het admin email adres
+    MAIL_API_KEY= # De api key van de mail server
+    MAIL_API_ENCRYPTKEY= # De encryptie key van de mail server
+    MAIL_SERVER= # Het ip adres van de externe mail server
+    MAIL_WITH_API= # Of de mail server een api gebruikt
 ```
 
 ## Onderdelen
 
 Dit project bevat de volgende onderdelen:
 - [Generiek](./Docs/Generiek.md) // info over php en wat globale opzet die al zijn gedaan in het project.
-- [Docker](./Docs/Docker.md) // info over de docker setup.
 - [Database](./Docs/Database/Database.md) // info over de database namespace.
 - [MVCCore](./Docs/MVCCore/MVCCore.md) // info over de MVCCore namespace.
 - [EnvUtility](./Docs/EnvUtility.md) // info over de EnvUtility namespace.

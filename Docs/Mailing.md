@@ -1,5 +1,5 @@
 # Mailing 
-> **Leestijd:** 20 minuten
+> **Leestijd:** 5 minuten
 
 ## Inhoudsopgave
 - [Inleiding](#inleiding)
