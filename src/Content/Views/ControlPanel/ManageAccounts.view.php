@@ -249,12 +249,10 @@
 
         $.post('/ControlPanel/Accounts/ResetPassword', data).then(function (response) {
             if (response.success) {
-                // Close the modal
                 $('#editModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
             } else {
-                // Handle error
                 alert(response.message);
             }
         });
@@ -274,12 +272,10 @@
 
         $.post('/ControlPanel/Accounts/UpdateUser', data).then(function (response) {
             if (response.success) {
-                // Close the modal
                 $('#editModal').modal('hide');
 
                 $('#table').bootstrapTable('refresh');
             } else {
-                // Handle error
                 alert(response.message);
             }
         });
@@ -299,7 +295,6 @@
 
         $.post('/ControlPanel/Accounts/AddUser', data).then(function (response) {
             if (response.success) {
-                // Close the modal
                 $('#addModal').modal('hide');
 
                 $('#newEmail').val('');
@@ -311,7 +306,6 @@
 
                 $('#table').bootstrapTable('refresh');
             } else {
-                // Handle error
                 alert(response.message);
             }
         });

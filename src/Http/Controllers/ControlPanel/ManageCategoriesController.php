@@ -42,13 +42,11 @@ class ManageCategoriesController extends Controller
             $categorieJson = (array) $category;
             unset($categorieJson["media"]);
 
-            // Maak een string van alle velden en kijk of search daar in zit
             if (stristr(implode(' ', $categorieJson), $search)) {
                 $categoriesJson[] = $categorieJson;
             }
         }
 
-        // Apply offset and limit
         $categoriesJson = array_slice($categoriesJson, $offset, $limit);
 
         $response = new JsonResponse();
@@ -89,9 +87,7 @@ class ManageCategoriesController extends Controller
 
         $targetFile = $targetDir . $fileName;
 
-        // Move the uploaded file to the target directory
         if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
-            // Add an error message if the file couldn't be saved
             $errors[] = ["field" => "addFiles", "message" => "Failed to save file: " . $file["name"]];
         } else {
             $json = json_encode([
@@ -108,7 +104,7 @@ class ManageCategoriesController extends Controller
         }
 
         if ($postBody['addParentCategory'] !== "none") {
-            $newCategory->parentCategory = $categoryService->getById((int)$postBody['addParentCategory']);
+            $newCategory->parentCategory = $categoryService->getById((int) $postBody['addParentCategory']);
         }
         //json_encode
         $success = $categoryService->addCategory($newCategory);
@@ -134,14 +130,14 @@ class ManageCategoriesController extends Controller
             return $response;
         }
 
-        $toUpdateCategory = $categoryService->getById((int)$postBody['editId']);
+        $toUpdateCategory = $categoryService->getById((int) $postBody['editId']);
 
         $toUpdateCategory->name = $postBody['editName'];
         $toUpdateCategory->description = $postBody['editDescription'];
         $toUpdateCategory->active = $postBody['editActive'] === "true";
 
         if ($postBody['editParentCategory'] !== "none") {
-            $toUpdateCategory->parentCategory = $categoryService->getById((int)$postBody['editParentCategory']);
+            $toUpdateCategory->parentCategory = $categoryService->getById((int) $postBody['editParentCategory']);
         }
 
         if (isset($postBody["editFiles"]["editImage"])) {
@@ -156,9 +152,7 @@ class ManageCategoriesController extends Controller
 
             $targetFile = $targetDir . $fileName;
 
-            // Move the uploaded file to the target directory
             if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
-                // Add an error message if the file couldn't be saved
                 $errors[] = ["field" => "editFiles", "message" => "Failed to save file: " . $file["name"]];
             } else {
                 $json = json_encode([

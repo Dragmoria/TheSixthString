@@ -56,13 +56,11 @@ class ManageAccountsController extends Controller
             $userJson['gender'] = $user->gender->toString();
             unset($userJson['passwordHash']);
 
-            // Maak een string van alle velden en kijk of search daar in zit
             if (stristr(implode(' ', $userJson), $search)) {
                 $usersJson[] = $userJson;
             }
         }
 
-        // Apply offset and limit
         $usersJson = array_slice($usersJson, $offset, $limit);
 
         $response = new JsonResponse();
@@ -204,13 +202,13 @@ class ManageAccountsController extends Controller
     private function randomString(int $charCount): string
     {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        $pass = array();
+        $alphaLength = strlen($alphabet) - 1;
         for ($i = 0; $i < $charCount; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        return implode($pass); //turn the array into a string
+        return implode($pass);
     }
 
     public function validateNewUser($postBody): array

@@ -295,18 +295,14 @@ $reviewAverage = 0;
             </div>
         </div>
         <script>
-            var selectedTimeSlot; // Global variable for the selected time slot
+            var selectedTimeSlot;
 
             $(document).ready(function () {
-                // Handle time slot button click
                 $('.time-slot').click(function () {
-                    // Remove 'selected' class from all buttons
                     $('.time-slot').removeClass('btn-primary').addClass('btn-outline-primary');
 
-                    // Add 'selected' class to clicked button
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
 
-                    // Set the global variable to the selected time slot
                     selectedTimeSlot = $(this).text().trim();
                 });
             });
@@ -328,19 +324,17 @@ $reviewAverage = 0;
                 var selectedDate = event.target.value;
 
                 $.ajax({
-                    url: '/Appointments/GetNotAvailableTimeSlots', // replace with your API endpoint
+                    url: '/Appointments/GetNotAvailableTimeSlots',
                     method: 'GET',
                     data: {
                         productId: <?= $product->id ?>,
                         date: selectedDate
                     },
                     success: function (response) {
-                        // Loop through all the time slot buttons
                         $('.time-slot').each(function () {
                             console.log(response);
                             var timeSlot = $(this).text().trim();
 
-                            // If the time slot is not in the response, disable the button
                             if (response.includes(timeSlot)) {
                                 $(this).prop('disabled', true);
                                 $(this).removeClass('btn-primary').addClass('btn-outline-primary');
@@ -353,7 +347,6 @@ $reviewAverage = 0;
             }
 
             $(document).on('click', '#sendNewTryoutAppointment', function () {
-                // console.log(selectedTimeSlot);
                 var data = {
                     selectedTimeSlot: selectedTimeSlot,
                     productId: <?= $product->id ?>,
@@ -361,7 +354,7 @@ $reviewAverage = 0;
                 }
 
                 $.ajax({
-                    url: '/Appointments/SetNewAppointment', // replace with your API endpoint
+                    url: '/Appointments/SetNewAppointment',
                     method: 'POST',
                     data: data,
                     success: function (response) {

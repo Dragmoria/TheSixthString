@@ -198,8 +198,8 @@
         $.get(url + '?' + $.param(params.data)).then(function (res) {
             params.success(res)
 
-            var dropdownAdd = $('#addParentCategory'); // Replace with your dropdown's id
-            var dropdownEdit = $('#editParentCategory'); // Replace with your dropdown's id
+            var dropdownAdd = $('#addParentCategory');
+            var dropdownEdit = $('#editParentCategory');
             dropdownAdd.empty();
             dropdownEdit.empty();
 
