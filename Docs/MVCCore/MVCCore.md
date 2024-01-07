@@ -38,43 +38,72 @@ De package die we hebben bestaat uit een aantal onderdelen. Ik zal deze onderdel
 
 1. [Application](#application)
 2. [Container](#container)
+
     2.1. [Lifetime](#lifetime)
+
     2.2. [Interface naar class registratie](#interface-naar-class-registratie)
+
     2.3. [Resolver](#resolver)
 3. [Router](#router)
 4. [Redirect](#redirect)
 5. [Request](#request)
+
     5.1. [hasPostData](#haspostdata)
+
     5.2. [getPostData](#getpostdata)
+
     5.3. [path](#path)
+
     5.4. [fullUrl](#fullurl)
+
     5.5. [url](#url)
+
     5.6. [method](#method)
+
     5.7. [hasHeader / allHeaders / header](#hasheader--allheaders--header)
+
     5.8. [hasCookie / allCookies / cookie](#hascookie--allcookies--cookie)
+
     5.9. [urlQueryParams](#urlqueryparams)
+
     5.10. [wantsJson](#wantsjson)
 6. [PostObject](#postobject)
+
     6.1 [Flash](#flash)
+
     6.2 [FlashPostError](#flashposterror)
+
     6.3 [Old](#old)
+
     6.4 [OldBody](#oldbody)
+
     6.5 [OldFiles](#oldfiles)
+
     6.6 [HasPostErrors](#hasposterror)
+
     6.7 [GetPostError](#getposterror)
+
     6.8 [GetPostErros](#getposterrors)
+
     6.9 [Flush](#flush)
+
     6.10 [hasFile](#hasfile)
+
     6.11 [files](#files)
+
     6.12 [body](#body)
+
     6.13 [isAjax](#isajax)
+
     6.14 [isJson](#isjson)
 7. [Response](#response)
 8. [Controller](#controller)
 9. [Middleware](#middleware)
 10. [View](#view)
 11. [Partial / Component](#partial--component)
+
     11.1 [Partial](#partial)
+
     11.2 [Component](#component)
 12. [Model](#model)
 

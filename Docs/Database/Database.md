@@ -1,6 +1,6 @@
 # Database
 
-> **Leestijd:** 20 minuten
+> **Leestijd:** 10 minuten
 
 ## Inleiding
 In dit document worden de aansluiting van de applicatie op de database, de gebruikte structuur van de code en het gebruik in de applicatie besproken.
@@ -54,6 +54,8 @@ class BaseDatabaseService {
     }
 }
 ```
+
+
 De Services overerven van BaseDatabaseService en roepen de function 'query' aan:
 ```PHP
 class CategoryService extends BaseDatabaseService {
@@ -78,6 +80,7 @@ class HomeController extends Controller {
 ```
 
 De volgorde is dus als volgt: Controller => Service (= BaseDatabaseService) => DatabaseContext => database
+
 ## Services
 In een Service stel je je query samen, dit is $query:
 ```PHP
