@@ -10,3 +10,4 @@ composer.lock
 /src/app/.env
 .vs
 /src/public/images/categories/*
+.VSCodeCounter

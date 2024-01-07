@@ -31,333 +31,338 @@
             </div>
             <div class="card-body">
                 <div>
-                    <div class="mb-3">
-                        <label for="addName">Name</label>
-                        <div class="input-group">
-                            <input type="text" id="addName" class="form-control" placeholder="Name">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addSubtitle">Subtitle</label>
-                        <div class="input-group">
-                            <input type="text" id="addSubtitle" class="form-control" placeholder="Subtitle">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addDescription">Description</label>
-                        <div class="input-group">
-                            <textarea type="text" id="addDescription" class="form-control"
-                                placeholder="Description"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addStatus">Status</label>
-                        <select id="addStatus" class="form-select">
-                            <option value="null" selected>Select Status</option>
-                            <option value="Active">Actief</option>
-                            <option value="Inactive">Inactief</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addStock">Stock</label>
-                        <div class="input-group">
-                            <input type="number" id="addStock" class="form-control" placeholder="Stock" step="1"
-                                onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addDemoStock">Demo stock</label>
-                        <div class="input-group">
-                            <input type="number" id="addDemoStock" class="form-control" placeholder="Demo stock"
-                                step="1" onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addPrice">Prijs</label>
-                        <div class="input-group">
-                            <input type="number" id="addPrice" class="form-control" placeholder="Prijs" step="0.01"
-                                onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addRecommendedPrice">Aanbevolen prijs</label>
-                        <div class="input-group">
-                            <input type="number" id="addRecommendedPrice" class="form-control"
-                                placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addSku">Sku</label>
-                        <div class="input-group">
-                            <input type="text" id="addSku" class="form-control" placeholder="Sku">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addCategory">Category</label>
-                        <select id="addCategory" class="form-select category">
-                            <option value="null" selected>Select Category</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="addBrand">Brand</label>
-                        <select id="addBrand" class="form-select brand" required>
-                            <option value="null" selected>Select Brand</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="file" id="addThumbnail" style="display: none;" accept="image/*">
-                        <button type="button" id="addThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
-                            image</button>
-                        <div id="addThumbnailPreview" hidden></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="file" id="addMainImage" style="display: none;" accept="image/*">
-                        <button type="button" id="addMainImageBtn" class="btn px-5 btn-primary w-100">Main
-                            image</button>
-                        <div id="addMainImagePreview" hidden></div>
-                    </div>
-
-                    <script>
-                        $(document).on('click', '#addThumbnailBtn', function (event) {
-                            $(event.target).siblings('#addThumbnail').click();
-                        });
-
-                        $('#addThumbnail').on('change', function () {
-                            var file = this.files[0];
-                            var reader = new FileReader();
-
-                            $('#addThumbnailPreview').removeAttr('hidden');
-
-                            reader.onload = function (e) {
-                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
-                                $('#addThumbnailPreview').empty().append(img);
-                            };
-
-                            reader.readAsDataURL(file);
-                        });
-
-                        $(document).on('click', '#addMainImageBtn', function (event) {
-                            $(event.target).siblings('#addMainImage').click();
-                        });
-
-                        $('#addMainImage').on('change', function () {
-                            var file = this.files[0];
-                            var reader = new FileReader();
-
-                            $('#addMainImagePreview').removeAttr('hidden');
-
-                            reader.onload = function (e) {
-                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
-                                $('#addMainImagePreview').empty().append(img);
-                            };
-
-                            reader.readAsDataURL(file);
-                        });
-                    </script>
-
-                    <div class="mb-3">
-                        <input type="file" id="addProductImages" style="display: none;" accept="image/*" multiple>
-                        <button type="button" class="btn px-5 btn-primary w-100 addUploadButton">Product images</button>
-                        <div id="addProductImagesPreview" hidden>
-                            <button id="addRemoveItemButton" type="button" class="btn px-5 btn-secondairy">
-                                X
-                            </button>
-                            <div id="addProductCarousel" style="height: 300px" class="carousel slide">
-                                <div class="carousel-inner" style="background-color: black">
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#addProductCarousel"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" style="color: black;"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#addProductCarousel"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" style="color: black;"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                    <form class="was-validated">
+                        <div class="mb-3">
+                            <label for="addName">Name</label>
+                            <div class="input-group">
+                                <input type="text" id="addName" class="form-control" placeholder="Name" required>
                             </div>
                         </div>
-                    </div>
 
-                    <script>
-                        $(document).on('click', '.addUploadButton', function (event) {
-                            $(event.target).siblings('#addProductImages').click();
-                        });
+                        <div class="mb-3">
+                            <label for="addSubtitle">Subtitle</label>
+                            <div class="input-group">
+                                <input type="text" id="addSubtitle" class="form-control" placeholder="Subtitle"
+                                    required>
+                            </div>
+                        </div>
 
-                        var addSelectedFiles = [];
+                        <div class="mb-3">
+                            <label for="addDescription">Description</label>
+                            <div class="input-group">
+                                <textarea type="text" id="addDescription" class="form-control" placeholder="Description"
+                                    required></textarea>
+                            </div>
+                        </div>
 
-                        $('#addProductImages').on('change', function () {
-                            var files = this.files;
-                            addSelectedFiles = addSelectedFiles.concat(Array.from(files));
-                            var carouselInner = $('#addProductCarousel .carousel-inner');
+                        <div class="mb-3">
+                            <label for="addStatus">Status</label>
+                            <select id="addStatus" class="form-select" required>
+                                <option value="null" selected>Select Status</option>
+                                <option value="Active">Actief</option>
+                                <option value="Inactive">Inactief</option>
+                            </select>
+                        </div>
 
-                            $('#addProductImagesPreview').removeAttr('hidden');
-                            // Clear the carousel
-                            carouselInner.empty();
+                        <div class="mb-3">
+                            <label for="addStock">Stock</label>
+                            <div class="input-group">
+                                <input type="number" id="addStock" class="form-control" placeholder="Stock" step="1"
+                                    onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
 
-                            for (var i = 0; i < addSelectedFiles.length; i++) {
-                                var file = addSelectedFiles[i];
+                        <div class="mb-3">
+                            <label for="addDemoStock">Demo stock</label>
+                            <div class="input-group">
+                                <input type="number" id="addDemoStock" class="form-control" placeholder="Demo stock"
+                                    step="1" onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addPrice">Prijs</label>
+                            <div class="input-group">
+                                <input type="number" id="addPrice" class="form-control" placeholder="Prijs" step="0.01"
+                                    onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addRecommendedPrice">Aanbevolen prijs</label>
+                            <div class="input-group">
+                                <input type="number" id="addRecommendedPrice" class="form-control"
+                                    placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addSku">Sku</label>
+                            <div class="input-group">
+                                <input type="text" id="addSku" class="form-control" placeholder="Sku" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addCategory">Category</label>
+                            <select id="addCategory" class="form-select category" required>
+                                <option value="null" selected>Select Category</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="addBrand">Brand</label>
+                            <select id="addBrand" class="form-select brand" required>
+                                <option value="null" selected>Select Brand</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" id="addThumbnail" style="display: none;" accept="image/*">
+                            <button type="button" id="addThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
+                                image</button>
+                            <div id="addThumbnailPreview" hidden></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" id="addMainImage" style="display: none;" accept="image/*">
+                            <button type="button" id="addMainImageBtn" class="btn px-5 btn-primary w-100">Main
+                                image</button>
+                            <div id="addMainImagePreview" hidden></div>
+                        </div>
+
+                        <script>
+                            $(document).on('click', '#addThumbnailBtn', function (event) {
+                                $(event.target).siblings('#addThumbnail').click();
+                            });
+
+                            $('#addThumbnail').on('change', function () {
+                                var file = this.files[0];
                                 var reader = new FileReader();
+
+                                $('#addThumbnailPreview').removeAttr('hidden');
 
                                 reader.onload = function (e) {
                                     var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
-                                    var item = $('<div>').addClass('carousel-item').append(img);
-
-                                    // Make the first item active
-                                    if (carouselInner.children().length === 0) {
-                                        item.addClass('active');
-                                    }
-
-                                    carouselInner.append(item);
+                                    $('#addThumbnailPreview').empty().append(img);
                                 };
 
                                 reader.readAsDataURL(file);
-                            }
-                            $('#addProductImages').val('');
-                        });
+                            });
 
-                        $('#addRemoveItemButton').on('click', function () {
-                            var activeCarouselItem = $('#addProductCarousel .carousel-item.active');
-                            activeCarouselItem.remove();
-                            var index = activeCarouselItem.index();
+                            $(document).on('click', '#addMainImageBtn', function (event) {
+                                $(event.target).siblings('#addMainImage').click();
+                            });
 
+                            $('#addMainImage').on('change', function () {
+                                var file = this.files[0];
+                                var reader = new FileReader();
 
-                            addSelectedFiles.splice(index, 1);
+                                $('#addMainImagePreview').removeAttr('hidden');
 
-                            // If there are no more carousel items, hide the carousel
-                            if ($('#addProductCarousel .carousel-item').length == 0) {
-                                $('#addProductImagesPreview').attr('hidden', 'true');
-                            }
-                            // If there are still carousel items, make the first one active
-                            else {
-                                $('#addProductCarousel .carousel-item').first().addClass('active');
-                            }
-                        });
-                    </script>
+                                reader.onload = function (e) {
+                                    var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                    $('#addMainImagePreview').empty().append(img);
+                                };
 
-                    <div class="mb-3">
-                        <label for="addVideo">Youtube video url</label>
-                        <div class="input-group">
-                            <input type="text" id="addVideo" class="form-control" placeholder="Youtube video url">
-                        </div>
-                        <div id="addVideoPreview"></div>
-
-                        <script>
-                            $('#addVideo').on('input', function () {
-                                var url = $(this).val();
-                                var videoId = url.split('v=')[1];
-                                var ampersandPosition = videoId.indexOf('&');
-                                if (ampersandPosition != -1) {
-                                    videoId = videoId.substring(0, ampersandPosition);
-                                }
-
-                                $('#addVideoPreview').html('<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                                reader.readAsDataURL(file);
                             });
                         </script>
-                    </div>
 
-                    <button id="submitProduct" type="button" class="btn px-5 btn-primary">
-                        Save
-                    </button>
+                        <div class="mb-3">
+                            <input type="file" id="addProductImages" style="display: none;" accept="image/*" multiple>
+                            <button type="button" class="btn px-5 btn-primary w-100 addUploadButton">Product
+                                images</button>
+                            <div id="addProductImagesPreview" hidden>
+                                <button id="addRemoveItemButton" type="button" class="btn px-5 btn-secondairy">
+                                    X
+                                </button>
+                                <div id="addProductCarousel" style="height: 300px" class="carousel slide">
+                                    <div class="carousel-inner" style="background-color: black">
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#addProductCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" style="color: black;"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#addProductCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" style="color: black;"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-                    <script>
-                        $('#submitProduct').on('click', function (e) {
-                            e.preventDefault();
-
-                            var productData = {
-                                name: $('#addName').val(),
-                                subtitle: $('#addSubtitle').val(),
-                                description: $('#addDescription').val(),
-                                status: $('#addStatus').val(),
-                                stock: $('#addStock').val(),
-                                demoStock: $('#addDemoStock').val(),
-                                price: $('#addPrice').val(),
-                                recommendedPrice: $('#addRecommendedPrice').val(),
-                                sku: $('#addSku').val(),
-                                category: $('#addCategory').val(),
-                                brand: $('#addBrand').val(),
-                                thumbnail: $('#addThumbnail').prop('files')[0],
-                                mainImage: $('#addMainImage').prop('files')[0],
-                                productImages: addSelectedFiles,
-                                video: $('#addVideo').val()
-                            };
-
-                            var formData = new FormData();
-                            for (var key in productData) {
-                                if (key === 'productImages') {
-                                    for (var i = 0; i < productData[key].length; i++) {
-                                        formData.append(key + '[]', productData[key][i]);
-                                    }
-                                } else {
-                                    formData.append(key, productData[key]);
-                                }
-                            }
-
-                            $.ajax({
-                                url: '/ControlPanel/Products/AddProduct',
-                                type: 'POST',
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function (response) {
-                                    if (response.success) {
-                                        clearAddProductForm();
-                                        alert("product toegevoegd");
-                                        $('#add').hide();
-                                        $('#main').show();
-                                        $('#table').bootstrapTable('refresh');
-                                    } else {
-                                        console.log(response.message);
-                                    }
-                                }
+                        <script>
+                            $(document).on('click', '.addUploadButton', function (event) {
+                                $(event.target).siblings('#addProductImages').click();
                             });
 
-                            function clearAddProductForm() {
-                                $('#addName').val('');
-                                $('#addSubtitle').val('');
-                                $('#addDescription').val('');
-                                $('#addStatus').val('null');
-                                $('#addStock').val('');
-                                $('#addDemoStock').val('');
-                                $('#addPrice').val('');
-                                $('#addRecommendedPrice').val('');
-                                $('#addSku').val('');
-                                $('#addCategory').val('null');
-                                $('#addBrand').val('null');
-                                $('#addVideo').val('');
+                            var addSelectedFiles = [];
 
-                                $('#addThumbnail').val('');
-                                $('#addMainImage').val('');
+                            $('#addProductImages').on('change', function () {
+                                var files = this.files;
+                                addSelectedFiles = addSelectedFiles.concat(Array.from(files));
+                                var carouselInner = $('#addProductCarousel .carousel-inner');
 
-                                document.getElementById('addMainImagePreview').setAttribute('hidden', 'true');
-                                $('#addMainImagePreview').empty()
+                                $('#addProductImagesPreview').removeAttr('hidden');
+                                // Clear the carousel
+                                carouselInner.empty();
 
-                                document.getElementById('addThumbnailPreview').setAttribute('hidden', 'true');
-                                $('#addThumbnailPreview').empty()
+                                for (var i = 0; i < addSelectedFiles.length; i++) {
+                                    var file = addSelectedFiles[i];
+                                    var reader = new FileReader();
 
-                                document.getElementById('addProductImagesPreview').setAttribute('hidden', 'true');
-                                $('#addProductCarousel .carousel-inner').empty();
+                                    reader.onload = function (e) {
+                                        var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                        var item = $('<div>').addClass('carousel-item').append(img);
 
-                                $('#addVideoPreview').html('');
+                                        // Make the first item active
+                                        if (carouselInner.children().length === 0) {
+                                            item.addClass('active');
+                                        }
 
-                                addSelectedFiles = [];
-                            }
-                        });
-                    </script>
+                                        carouselInner.append(item);
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                                $('#addProductImages').val('');
+                            });
+
+                            $('#addRemoveItemButton').on('click', function () {
+                                var activeCarouselItem = $('#addProductCarousel .carousel-item.active');
+                                activeCarouselItem.remove();
+                                var index = activeCarouselItem.index();
+
+
+                                addSelectedFiles.splice(index, 1);
+
+                                // If there are no more carousel items, hide the carousel
+                                if ($('#addProductCarousel .carousel-item').length == 0) {
+                                    $('#addProductImagesPreview').attr('hidden', 'true');
+                                }
+                                // If there are still carousel items, make the first one active
+                                else {
+                                    $('#addProductCarousel .carousel-item').first().addClass('active');
+                                }
+                            });
+                        </script>
+
+                        <div class="mb-3">
+                            <label for="addVideo">Youtube video url</label>
+                            <div class="input-group">
+                                <input type="text" id="addVideo" class="form-control" placeholder="Youtube video url"
+                                    required>
+                            </div>
+                            <div id="addVideoPreview"></div>
+
+                            <script>
+                                $('#addVideo').on('input', function () {
+                                    var url = $(this).val();
+                                    var videoId = url.split('v=')[1];
+                                    var ampersandPosition = videoId.indexOf('&');
+                                    if (ampersandPosition != -1) {
+                                        videoId = videoId.substring(0, ampersandPosition);
+                                    }
+
+                                    $('#addVideoPreview').html('<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                                });
+                            </script>
+                        </div>
+
+                        <button id="submitProduct" type="button" class="btn px-5 btn-primary">
+                            Save
+                        </button>
+
+                        <script>
+                            $('#submitProduct').on('click', function (e) {
+                                e.preventDefault();
+
+                                var productData = {
+                                    name: $('#addName').val(),
+                                    subtitle: $('#addSubtitle').val(),
+                                    description: $('#addDescription').val(),
+                                    status: $('#addStatus').val(),
+                                    stock: $('#addStock').val(),
+                                    demoStock: $('#addDemoStock').val(),
+                                    price: $('#addPrice').val(),
+                                    recommendedPrice: $('#addRecommendedPrice').val(),
+                                    sku: $('#addSku').val(),
+                                    category: $('#addCategory').val(),
+                                    brand: $('#addBrand').val(),
+                                    thumbnail: $('#addThumbnail').prop('files')[0],
+                                    mainImage: $('#addMainImage').prop('files')[0],
+                                    productImages: addSelectedFiles,
+                                    video: $('#addVideo').val()
+                                };
+
+                                var formData = new FormData();
+                                for (var key in productData) {
+                                    if (key === 'productImages') {
+                                        for (var i = 0; i < productData[key].length; i++) {
+                                            formData.append(key + '[]', productData[key][i]);
+                                        }
+                                    } else {
+                                        formData.append(key, productData[key]);
+                                    }
+                                }
+
+                                $.ajax({
+                                    url: '/ControlPanel/Products/AddProduct',
+                                    type: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        if (response.success) {
+                                            clearAddProductForm();
+                                            alert("product toegevoegd");
+                                            $('#add').hide();
+                                            $('#main').show();
+                                            $('#table').bootstrapTable('refresh');
+                                        } else {
+                                            console.log(response.message);
+                                        }
+                                    }
+                                });
+
+                                function clearAddProductForm() {
+                                    $('#addName').val('');
+                                    $('#addSubtitle').val('');
+                                    $('#addDescription').val('');
+                                    $('#addStatus').val('null');
+                                    $('#addStock').val('');
+                                    $('#addDemoStock').val('');
+                                    $('#addPrice').val('');
+                                    $('#addRecommendedPrice').val('');
+                                    $('#addSku').val('');
+                                    $('#addCategory').val('null');
+                                    $('#addBrand').val('null');
+                                    $('#addVideo').val('');
+
+                                    $('#addThumbnail').val('');
+                                    $('#addMainImage').val('');
+
+                                    document.getElementById('addMainImagePreview').setAttribute('hidden', 'true');
+                                    $('#addMainImagePreview').empty()
+
+                                    document.getElementById('addThumbnailPreview').setAttribute('hidden', 'true');
+                                    $('#addThumbnailPreview').empty()
+
+                                    document.getElementById('addProductImagesPreview').setAttribute('hidden', 'true');
+                                    $('#addProductCarousel .carousel-inner').empty();
+
+                                    $('#addVideoPreview').html('');
+
+                                    addSelectedFiles = [];
+                                }
+                            });
+                        </script>
+                    </form>
                 </div>
             </div>
         </div>
@@ -455,378 +460,382 @@
             </div>
             <div class="card-body">
                 <div>
-                    <input type="hidden" id="editId">
-                    <div class="mb-3">
-                        <label for="editName">Naam</label>
-                        <div class="input-group">
-                            <input type="text" id="editName" class="form-control" placeholder="Naam">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editSubtitle">Subtitle</label>
-                        <div class="input-group">
-                            <input type="text" id="editSubtitle" class="form-control" placeholder="Subtitle">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editDescription">Beschrijving</label>
-                        <div class="input-group">
-                            <textarea type="text" id="editDescription" class="form-control"
-                                placeholder="Beschrijving"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editStatus">Status</label>
-                        <select id="editStatus" class="form-select">
-                            <option value="null" selected>Select Status</option>
-                            <option value="Active">Actief</option>
-                            <option value="Inactive">Inactief</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editStock">Stock</label>
-                        <div class="input-group">
-                            <input type="number" id="editStock" class="form-control" placeholder="Stock" step="1"
-                                onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editDemoStock">Demo stock</label>
-                        <div class="input-group">
-                            <input type="number" id="editDemoStock" class="form-control" placeholder="Demo stock"
-                                step="1" onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editPrice">Prijs</label>
-                        <div class="input-group">
-                            <input type="number" id="editPrice" class="form-control" placeholder="Prijs" step="0.01"
-                                onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editRecommendedPrice">Aanbevolen prijs</label>
-                        <div class="input-group">
-                            <input type="number" id="editRecommendedPrice" class="form-control"
-                                placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editSku">Sku</label>
-                        <div class="input-group">
-                            <input type="text" id="editSku" class="form-control" placeholder="Sku">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editCategory">Category</label>
-                        <select id="editCategory" class="form-select category">
-                            <option value="null" selected>Select Category</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editBrand">Brand</label>
-                        <select id="editBrand" class="form-select brand" required>
-                            <option value="" selected>Select Brand</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="file" id="editThumbnail" style="display: none;" accept="image/*">
-                        <button type="button" id="editThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
-                            image</button>
-                        <div id="editThumbnailPreview" hidden></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="file" id="editMainImage" style="display: none;" accept="image/*">
-                        <button type="button" id="editMainImageBtn" class="btn px-5 btn-primary w-100">Main
-                            image</button>
-                        <div id="editMainImagePreview" hidden></div>
-                    </div>
-
-                    <script>
-                        $(document).on('click', '#editThumbnailBtn', function (event) {
-                            $(event.target).siblings('#editThumbnail').click();
-                        });
-
-                        $('#editThumbnail').on('change', function () {
-                            var file = this.files[0];
-                            var reader = new FileReader();
-
-                            $('#editThumbnailPreview').removeAttr('hidden');
-
-                            reader.onload = function (e) {
-                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
-                                $('#editThumbnailPreview').empty().append(img);
-                            };
-
-                            reader.readAsDataURL(file);
-                        });
-
-                        $(document).on('click', '#editMainImageBtn', function (event) {
-                            $(event.target).siblings('#editMainImage').click();
-                        });
-
-                        $('#editMainImage').on('change', function () {
-                            var file = this.files[0];
-                            var reader = new FileReader();
-
-                            $('#editMainImagePreview').removeAttr('hidden');
-
-                            reader.onload = function (e) {
-                                var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
-                                $('#editMainImagePreview').empty().append(img);
-                            };
-
-                            reader.readAsDataURL(file);
-                        });
-                    </script>
-
-                    <div class="mb-3">
-                        <input type="file" id="editProductImages" style="display: none;" accept="image/*" multiple>
-                        <button type="button" class="btn px-5 btn-primary w-100 editUploadButton">Product
-                            images</button>
-                        <div id="editProductImagesPreview" hidden>
-                            <button id="editRemoveItemButton" type="button" class="btn px-5 btn-secondairy">
-                                X
-                            </button>
-                            <div id="editProductCarousel" style="height: 300px" class="carousel slide">
-                                <div class="carousel-inner" style="background-color: black">
-                                </div>
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#editProductCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" style="color: black;"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#editProductCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" style="color: black;"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                    <form class="was-validated">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label for="editName">Naam</label>
+                            <div class="input-group">
+                                <input type="text" id="editName" class="form-control" placeholder="Naam" required>
                             </div>
                         </div>
-                    </div>
 
-                    <script>
-                        $(document).on('click', '.editUploadButton', function (event) {
-                            $(event.target).siblings('#editProductImages').click();
-                        });
-
-                        var editSelectedFiles = [];
-
-                        function makeCarouselImage(src, carouselInner) {
-                            var img = $('<img>').attr('src', src).addClass('d-block carousel-image');
-                            var item = $('<div>').addClass('carousel-item').append(img);
-
-                            // Make the first item active
-                            if (carouselInner.children().length === 0) {
-                                item.addClass('active');
-                            }
-
-                            carouselInner.append(item);
-
-                            return item;
-                        }
-
-                        $('#editProductImages').on('change', function () {
-                            var files = this.files;
-                            editSelectedFiles = editSelectedFiles.concat(Array.from(files));
-                            var carouselInner = $('#editProductCarousel .carousel-inner');
-
-                            $('#editProductImagesPreview').removeAttr('hidden');
-                            // Clear the carousel
-                            carouselInner.empty();
-
-                            for (var i = 0; i < editSelectedFiles.length; i++) {
-                                if (editSelectedFiles[i].old) {
-                                    makeCarouselImage(editSelectedFiles[i].url, carouselInner);
-                                } else {
-                                    var file = editSelectedFiles[i];
-                                    var reader = new FileReader();
-
-                                    reader.onload = function (e) {
-                                        makeCarouselImage(e.target.result, carouselInner);
-                                    };
-
-                                    reader.readAsDataURL(file);
-                                }
-                            }
-                            $('#editProductImages').val('');
-                        });
-
-                        $('#editRemoveItemButton').on('click', function () {
-                            var activeCarouselItem = $('#editProductCarousel .carousel-item.active');
-                            activeCarouselItem.remove();
-                            var index = activeCarouselItem.index();
-
-
-                            editSelectedFiles.splice(index, 1);
-
-                            // If there are no more carousel items, hide the carousel
-                            if ($('#editProductCarousel .carousel-item').length == 0) {
-                                $('#editProductImagesPreview').attr('hidden', 'true');
-                            }
-                            // If there are still carousel items, make the first one active
-                            else {
-                                $('#editProductCarousel .carousel-item').first().addClass('active');
-                            }
-                        });
-                    </script>
-
-                    <div class="mb-3">
-                        <label for="editVideo">Youtube video url</label>
-                        <div class="input-group">
-                            <input type="text" id="editVideo" class="form-control" placeholder="Youtube video url">
+                        <div class="mb-3">
+                            <label for="editSubtitle">Subtitle</label>
+                            <div class="input-group">
+                                <input type="text" id="editSubtitle" class="form-control" placeholder="Subtitle"
+                                    required>
+                            </div>
                         </div>
-                        <div id="editVideoPreview"></div>
+
+                        <div class="mb-3">
+                            <label for="editDescription">Beschrijving</label>
+                            <div class="input-group">
+                                <textarea type="text" id="editDescription" class="form-control"
+                                    placeholder="Beschrijving" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editStatus">Status</label>
+                            <select id="editStatus" class="form-select" required>
+                                <option value="null" selected>Select Status</option>
+                                <option value="Active">Actief</option>
+                                <option value="Inactive">Inactief</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editStock">Stock</label>
+                            <div class="input-group">
+                                <input type="number" id="editStock" class="form-control" placeholder="Stock" step="1"
+                                    onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editDemoStock">Demo stock</label>
+                            <div class="input-group">
+                                <input type="number" id="editDemoStock" class="form-control" placeholder="Demo stock"
+                                    step="1" onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editPrice">Prijs</label>
+                            <div class="input-group">
+                                <input type="number" id="editPrice" class="form-control" placeholder="Prijs" step="0.01"
+                                    onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editRecommendedPrice">Aanbevolen prijs</label>
+                            <div class="input-group">
+                                <input type="number" id="editRecommendedPrice" class="form-control"
+                                    placeholder="Aanbevolen prijs" step="0.01" onkeydown="preventKeys(event)" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSku">Sku</label>
+                            <div class="input-group">
+                                <input type="text" id="editSku" class="form-control" placeholder="Sku" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCategory">Category</label>
+                            <select id="editCategory" class="form-select category" required>
+                                <option value="null" selected>Select Category</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editBrand">Brand</label>
+                            <select id="editBrand" class="form-select brand" required>
+                                <option value="" selected>Select Brand</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" id="editThumbnail" style="display: none;" accept="image/*">
+                            <button type="button" id="editThumbnailBtn" class="btn px-5 btn-primary w-100">Thumbnail
+                                image</button>
+                            <div id="editThumbnailPreview" hidden></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" id="editMainImage" style="display: none;" accept="image/*">
+                            <button type="button" id="editMainImageBtn" class="btn px-5 btn-primary w-100">Main
+                                image</button>
+                            <div id="editMainImagePreview" hidden></div>
+                        </div>
 
                         <script>
-                            $('#editVideo').on('input', function () {
-                                makeVideoPreview($(this).val(), $('#editVideoPreview'));
+                            $(document).on('click', '#editThumbnailBtn', function (event) {
+                                $(event.target).siblings('#editThumbnail').click();
                             });
 
-                            function makeVideoPreview(url, target) {
-                                var videoId = url.split('v=')[1];
-                                var ampersandPosition = videoId.indexOf('&');
-                                if (ampersandPosition != -1) {
-                                    videoId = videoId.substring(0, ampersandPosition);
+                            $('#editThumbnail').on('change', function () {
+                                var file = this.files[0];
+                                var reader = new FileReader();
+
+                                $('#editThumbnailPreview').removeAttr('hidden');
+
+                                reader.onload = function (e) {
+                                    var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                    $('#editThumbnailPreview').empty().append(img);
+                                };
+
+                                reader.readAsDataURL(file);
+                            });
+
+                            $(document).on('click', '#editMainImageBtn', function (event) {
+                                $(event.target).siblings('#editMainImage').click();
+                            });
+
+                            $('#editMainImage').on('change', function () {
+                                var file = this.files[0];
+                                var reader = new FileReader();
+
+                                $('#editMainImagePreview').removeAttr('hidden');
+
+                                reader.onload = function (e) {
+                                    var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
+                                    $('#editMainImagePreview').empty().append(img);
+                                };
+
+                                reader.readAsDataURL(file);
+                            });
+                        </script>
+
+                        <div class="mb-3">
+                            <input type="file" id="editProductImages" style="display: none;" accept="image/*" multiple>
+                            <button type="button" class="btn px-5 btn-primary w-100 editUploadButton">Product
+                                images</button>
+                            <div id="editProductImagesPreview" hidden>
+                                <button id="editRemoveItemButton" type="button" class="btn px-5 btn-secondairy">
+                                    X
+                                </button>
+                                <div id="editProductCarousel" style="height: 300px" class="carousel slide">
+                                    <div class="carousel-inner" style="background-color: black">
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#editProductCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" style="color: black;"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#editProductCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" style="color: black;"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            $(document).on('click', '.editUploadButton', function (event) {
+                                $(event.target).siblings('#editProductImages').click();
+                            });
+
+                            var editSelectedFiles = [];
+
+                            function makeCarouselImage(src, carouselInner) {
+                                var img = $('<img>').attr('src', src).addClass('d-block carousel-image');
+                                var item = $('<div>').addClass('carousel-item').append(img);
+
+                                // Make the first item active
+                                if (carouselInner.children().length === 0) {
+                                    item.addClass('active');
                                 }
 
-                                target.html('<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                                carouselInner.append(item);
+
+                                return item;
+                            }
+
+                            $('#editProductImages').on('change', function () {
+                                var files = this.files;
+                                editSelectedFiles = editSelectedFiles.concat(Array.from(files));
+                                var carouselInner = $('#editProductCarousel .carousel-inner');
+
+                                $('#editProductImagesPreview').removeAttr('hidden');
+                                // Clear the carousel
+                                carouselInner.empty();
+
+                                for (var i = 0; i < editSelectedFiles.length; i++) {
+                                    if (editSelectedFiles[i].old) {
+                                        makeCarouselImage(editSelectedFiles[i].url, carouselInner);
+                                    } else {
+                                        var file = editSelectedFiles[i];
+                                        var reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            makeCarouselImage(e.target.result, carouselInner);
+                                        };
+
+                                        reader.readAsDataURL(file);
+                                    }
+                                }
+                                $('#editProductImages').val('');
+                            });
+
+                            $('#editRemoveItemButton').on('click', function () {
+                                var activeCarouselItem = $('#editProductCarousel .carousel-item.active');
+                                activeCarouselItem.remove();
+                                var index = activeCarouselItem.index();
+
+
+                                editSelectedFiles.splice(index, 1);
+
+                                // If there are no more carousel items, hide the carousel
+                                if ($('#editProductCarousel .carousel-item').length == 0) {
+                                    $('#editProductImagesPreview').attr('hidden', 'true');
+                                }
+                                // If there are still carousel items, make the first one active
+                                else {
+                                    $('#editProductCarousel .carousel-item').first().addClass('active');
+                                }
+                            });
+                        </script>
+
+                        <div class="mb-3">
+                            <label for="editVideo">Youtube video url</label>
+                            <div class="input-group">
+                                <input type="text" id="editVideo" class="form-control" placeholder="Youtube video url"
+                                    required>
+                            </div>
+                            <div id="editVideoPreview"></div>
+
+                            <script>
+                                $('#editVideo').on('input', function () {
+                                    makeVideoPreview($(this).val(), $('#editVideoPreview'));
+                                });
+
+                                function makeVideoPreview(url, target) {
+                                    var videoId = url.split('v=')[1];
+                                    var ampersandPosition = videoId.indexOf('&');
+                                    if (ampersandPosition != -1) {
+                                        videoId = videoId.substring(0, ampersandPosition);
+                                    }
+
+                                    target.html('<iframe width="100%" height="315" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+                                }
+                            </script>
+                        </div>
+
+                        <button id="editSubmitProduct" type="button" class="btn px-5 btn-primary">
+                            Save
+                        </button>
+
+                        <script>
+                            $('#editSubmitProduct').on('click', function (e) {
+                                e.preventDefault();
+
+
+                                let newProductImages = [];
+                                let oldProductImages = [];
+
+                                editSelectedFiles.forEach(element => {
+                                    if (element.old) {
+                                        oldProductImages.push(element.url);
+                                    } else {
+                                        newProductImages.push(element);
+                                    }
+                                });
+
+                                let thumbnail;
+                                if ($('#editThumbnail').prop('files')[0] === undefined) {
+                                    thumbnail = $('#editThumbnailPreview img').attr('src');
+                                }
+
+                                let mainImage;
+                                if ($('#editMainImage').prop('files')[0] === undefined) {
+                                    mainImage = $('#editMainImagePreview img').attr('src');
+                                }
+
+
+                                var productData = {
+                                    id: $('#editId').val(),
+                                    name: $('#editName').val(),
+                                    subtitle: $('#editSubtitle').val(),
+                                    description: $('#editDescription').val(),
+                                    status: $('#editStatus').val(),
+                                    stock: $('#editStock').val(),
+                                    demoStock: $('#editDemoStock').val(),
+                                    price: $('#editPrice').val(),
+                                    recommendedPrice: $('#editRecommendedPrice').val(),
+                                    sku: $('#editSku').val(),
+                                    category: $('#editCategory').val(),
+                                    brand: $('#editBrand').val(),
+                                    oldThumbnail: thumbnail,
+                                    thumbnail: $('#editThumbnail').prop('files')[0],
+                                    oldMainImage: mainImage,
+                                    mainImage: $('#editMainImage').prop('files')[0],
+                                    editProductImages: newProductImages,
+                                    oldProductImages: oldProductImages,
+                                    video: $('#editVideo').val()
+                                };
+
+
+
+                                var formData = new FormData();
+                                for (var key in productData) {
+                                    if (key === 'editProductImages') {
+                                        for (var i = 0; i < productData[key].length; i++) {
+                                            formData.append(key + '[]', productData[key][i]);
+                                        }
+                                    } else {
+                                        formData.append(key, productData[key]);
+                                    }
+                                }
+
+                                $.ajax({
+                                    url: '/ControlPanel/Products/UpdateProduct',
+                                    type: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        if (response.success) {
+                                            clearEditProductForm();
+                                            alert("product aangepast");
+                                            $('#edit').hide();
+                                            $('#main').show();
+                                            $('#table').bootstrapTable('refresh');
+                                        } else {
+                                            console.log(response.message);
+                                        }
+                                    }
+                                });
+                            });
+
+                            function clearEditProductForm() {
+                                $('#editId').val('');
+                                $('#editName').val('');
+                                $('#editSubtitle').val('');
+                                $('#editDescription').val('');
+                                $('#editStatus').val('null');
+                                $('#editStock').val('');
+                                $('#editDemoStock').val('');
+                                $('#editPrice').val('');
+                                $('#editRecommendedPrice').val('');
+                                $('#editSku').val('');
+                                $('#editCategory').val('null');
+                                $('#editBrand').val('null');
+                                $('#editVideo').val('');
+
+                                $('#editThumbnail').val('');
+                                $('#editMainImage').val('');
+
+                                document.getElementById('editMainImagePreview').setAttribute('hidden', 'true');
+                                $('#editMainImagePreview').empty()
+
+                                document.getElementById('editThumbnailPreview').setAttribute('hidden', 'true');
+                                $('#editThumbnailPreview').empty()
+
+                                document.getElementById('editProductImagesPreview').setAttribute('hidden', 'true');
+                                $('#editProductCarousel .carousel-inner').empty();
+
+                                $('#editVideoPreview').html('');
+
+                                addSelectedFiles = [];
                             }
                         </script>
-                    </div>
-
-                    <button id="editSubmitProduct" type="button" class="btn px-5 btn-primary">
-                        Save
-                    </button>
-
-                    <script>
-                        $('#editSubmitProduct').on('click', function (e) {
-                            e.preventDefault();
-
-
-                            let newProductImages = [];
-                            let oldProductImages = [];
-
-                            editSelectedFiles.forEach(element => {
-                                if (element.old) {
-                                    oldProductImages.push(element.url);
-                                } else {
-                                    newProductImages.push(element);
-                                }
-                            });
-
-                            let thumbnail;
-                            if ($('#editThumbnail').prop('files')[0] === undefined) {
-                                thumbnail = $('#editThumbnailPreview img').attr('src');
-                            }
-
-                            let mainImage;
-                            if ($('#editMainImage').prop('files')[0] === undefined) {
-                                mainImage = $('#editMainImagePreview img').attr('src');
-                            }
-
-
-                            var productData = {
-                                id: $('#editId').val(),
-                                name: $('#editName').val(),
-                                subtitle: $('#editSubtitle').val(),
-                                description: $('#editDescription').val(),
-                                status: $('#editStatus').val(),
-                                stock: $('#editStock').val(),
-                                demoStock: $('#editDemoStock').val(),
-                                price: $('#editPrice').val(),
-                                recommendedPrice: $('#editRecommendedPrice').val(),
-                                sku: $('#editSku').val(),
-                                category: $('#editCategory').val(),
-                                brand: $('#editBrand').val(),
-                                oldThumbnail: thumbnail,
-                                thumbnail: $('#editThumbnail').prop('files')[0],
-                                oldMainImage: mainImage,
-                                mainImage: $('#editMainImage').prop('files')[0],
-                                editProductImages: newProductImages,
-                                oldProductImages: oldProductImages,
-                                video: $('#editVideo').val()
-                            };
-
-
-
-                            var formData = new FormData();
-                            for (var key in productData) {
-                                if (key === 'editProductImages') {
-                                    for (var i = 0; i < productData[key].length; i++) {
-                                        formData.append(key + '[]', productData[key][i]);
-                                    }
-                                } else {
-                                    formData.append(key, productData[key]);
-                                }
-                            }
-
-                            $.ajax({
-                                url: '/ControlPanel/Products/UpdateProduct',
-                                type: 'POST',
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function (response) {
-                                    if (response.success) {
-                                        clearEditProductForm();
-                                        alert("product aangepast");
-                                        $('#edit').hide();
-                                        $('#main').show();
-                                        $('#table').bootstrapTable('refresh');
-                                    } else {
-                                        console.log(response.message);
-                                    }
-                                }
-                            });
-                        });
-
-                        function clearEditProductForm() {
-                            $('#editId').val('');
-                            $('#editName').val('');
-                            $('#editSubtitle').val('');
-                            $('#editDescription').val('');
-                            $('#editStatus').val('null');
-                            $('#editStock').val('');
-                            $('#editDemoStock').val('');
-                            $('#editPrice').val('');
-                            $('#editRecommendedPrice').val('');
-                            $('#editSku').val('');
-                            $('#editCategory').val('null');
-                            $('#editBrand').val('null');
-                            $('#editVideo').val('');
-
-                            $('#editThumbnail').val('');
-                            $('#editMainImage').val('');
-
-                            document.getElementById('editMainImagePreview').setAttribute('hidden', 'true');
-                            $('#editMainImagePreview').empty()
-
-                            document.getElementById('editThumbnailPreview').setAttribute('hidden', 'true');
-                            $('#editThumbnailPreview').empty()
-
-                            document.getElementById('editProductImagesPreview').setAttribute('hidden', 'true');
-                            $('#editProductCarousel .carousel-inner').empty();
-
-                            $('#editVideoPreview').html('');
-
-                            addSelectedFiles = [];
-                        }
-                    </script>
+                    </form>
                 </div>
             </div>
         </div>

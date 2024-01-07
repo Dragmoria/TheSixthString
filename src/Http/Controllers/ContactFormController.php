@@ -27,7 +27,7 @@ class ContactFormController extends Controller
         ]);
 
         $userEmail = $_POST['email'];
-        $mail = new Mail($userEmail, "Contactformulier verzonden!", $mailtemplateContactForm, MailFrom::NOREPLY, mailerName: "no-reply@thesixthstring.store");
+        $mail = new Mail($userEmail, "Contactformulier verzonden!", $mailtemplateContactForm, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
 
         $mailtemplateContactFormStore = new MailTemplate(MAIL_TEMPLATES . 'ContactFormStore.php', [
@@ -37,7 +37,7 @@ class ContactFormController extends Controller
             'message' => $_POST['message']
         ]);
 
-        $mail = new Mail("info@thesixthstring.store", "Contactformulier ontvangen!", $mailtemplateContactFormStore, MailFrom::NOREPLY, mailerName: "no-reply@thesixthstring.store");
+        $mail = new Mail("info@thesixthstring.store", "Contactformulier ontvangen!", $mailtemplateContactFormStore, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
         $mail->send();
 
         redirect('/');
