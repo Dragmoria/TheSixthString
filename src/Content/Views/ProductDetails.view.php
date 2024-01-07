@@ -24,8 +24,8 @@ $reviewAverage = 0;
     }
 </style>
 
-<div class="container text-sixth-beige mb-3">
-    <div class="row">
+<div class="container text-sixth-beige">
+    <div class="row" style="margin-top: 5rem;">
         <div class="col-12 mt-3">
             <a class="text-sixth-beige" href="#" onclick="history.go(-1);">Terug naar productoverzicht</a>
         </div>

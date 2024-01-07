@@ -24,8 +24,8 @@ foreach ($categories as $category) {
     }
 </style>
 
-<div class="container">
-    <div class="row">
+<div class="container" style="min-height: 100vh;">
+    <div class="row" style="margin-top: 5rem;">
         <div class="col-12 mt-4 mb-5 text-center">
             <h1 id="page-title" class="text-sixth-beige"><?= $pageTitle ?></h1>
         </div>
