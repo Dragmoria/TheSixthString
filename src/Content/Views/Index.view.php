@@ -30,7 +30,7 @@
 </div>
 
 <!--- Product Card --->
-<div class="container-fluid g-0">
+<div class="container-fluid g-0 d-none d-lg-block">
     <div class="row g-0 px-5 d-flex justify-content-center align-items-center"
         style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; min-height:100vh;">
         <div class="row mt-5 d-flex justify-content-center align-items-center" style="height:10%;">
@@ -41,7 +41,7 @@
                 <h2>🞄
             </div>
             <div class="col-4 text-center">
-                <h2>Populaire producten</h2>
+                <h2><strong>Populaire producten</strong></h2>
             </div>
             <div class="col text-center">
                 <h2>🞄
@@ -64,6 +64,25 @@
         <div class="row mb-5 d-flex justify-content-center align-items-top" style="height:10%;">
             <div class="col">
                 <hr style="height:3px;border:none;color:var(--sixth-black);background-color:var(--sixth-black);" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- Product Card sm --->
+<div class="container-fluid g-0 d-lg-none">
+    <div class="row g-0 px-5 d-flex justify-content-center align-items-center"
+        style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; min-height:100vh;">
+        <div class="row mt-5 d-flex justify-content-center align-items-center" style="height:10%;">
+            <div class="col text-center">
+                <h2><strong>Populair product!</strong></h2>
+            </div>
+        </div>
+        <div class="row my-3 d-flex justify-content-center align-items-center">
+            <div class="col-8 mx-2">
+                <?php
+                echo component(\Http\Controllers\Components\ProductCardComponent::class, (array) $products[rand(0, 4)]);
+                ?>
             </div>
         </div>
     </div>
