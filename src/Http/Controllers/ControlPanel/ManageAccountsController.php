@@ -2,6 +2,9 @@
 
 namespace Http\Controllers\ControlPanel;
 
+use EmailTemplates\Mail;
+use EmailTemplates\MailFrom;
+use EmailTemplates\MailTemplate;
 use Lib\Enums\Gender;
 use Lib\Enums\Role;
 use Lib\MVCCore\Application;
@@ -98,52 +101,76 @@ class ManageAccountsController extends Controller
 
         $userService->updateUser($toUpdateUser);
 
-        $response = new TextResponse();
+        $response = new JsonResponse();
 
-        $response->setBody("User updated");
+        $response->setBody(["success" => true]);
         return $response;
     }
 
     public function addUser(): ?Response
     {
-        $userService = Application::resolve(UserService::class);
+        try {
+            $userService = Application::resolve(UserService::class);
 
-        $postBody = $this->currentRequest->postObject->body();
+            $postBody = $this->currentRequest->postObject->body();
 
-        $errors = $this->validateNewUser($postBody);
+            $errors = $this->validateNewUser($postBody);
 
-        if (count($errors) > 0) {
+            if (count($errors) > 0) {
+                $response = new JsonResponse();
+                $response->setBody($errors);
+                return $response;
+            }
+
+            $doesUserExist = $userService->getUserByEmail($postBody['newEmail']);
+
+            if ($doesUserExist !== null) {
+                $response = new JsonResponse();
+                $response->setBody(["field" => "newEmail", "message" => "Email is al in gebruik"]);
+                return $response;
+            }
+
+            $newUser = new UserModel();
+            $newUser->role = Role::Staff;
+            $newUser->emailAddress = $postBody['newEmail'];
+            $newUser->firstName = $postBody['newFirstName'];
+            $newUser->insertion = $postBody['newInsertion'];
+            $newUser->lastName = $postBody['newLastName'];
+            $newUser->dateOfBirth = new \DateTime($postBody['newDateOfBirth']);
+            $newUser->gender = Gender::fromString($postBody['newGender']);
+            $newUser->active = true;
+            $newUser->createdOn = new \DateTime();
+            $newUser->activationLink = "Activated";
+            $newUser->passwordHash = password_hash($this->randomString(22), PASSWORD_DEFAULT);
+
+            $createdUser = $userService->createUser($newUser);
+
+            $resetpasswordService = Application::resolve(ResetpasswordService::class);
+
+            $resetpasswordModel = new ResetpasswordModel();
+            $resetpasswordModel->user = $createdUser;
+            $resetpasswordModel->userId = $createdUser->id;
+            $resetpasswordModel->link = $this->randomString(32);
+            $resetpasswordModel->validUntil = new \DateTime('+1 day');
+
+            $resetpasswordService->newResetpassword($resetpasswordModel);
+
+            $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ResetPasswordTemplate.php', [
+                'gebruiker' => $newUser->firstName,
+                'token' => $resetpasswordModel->link
+            ]);
+
+            $mail = new Mail($newUser->emailAddress, "wachtwoord herstellen", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+            $mail->send();
+
             $response = new JsonResponse();
-            $response->setBody($errors);
+            $response->setBody(["success" => true]);
+            return $response;
+        } catch (\Exception $e) {
+            $response = new JsonResponse();
+            $response->setBody(["success" => false, "message" => $e->getMessage()]);
             return $response;
         }
-
-        $newUser = new UserModel();
-        $newUser->role = Role::Staff;
-        $newUser->emailAddress = $postBody['newEmail'];
-        $newUser->firstName = $postBody['newFirstName'];
-        $newUser->insertion = $postBody['newInsertion'];
-        $newUser->lastName = $postBody['newLastName'];
-        $newUser->dateOfBirth = new \DateTime($postBody['newDateOfBirth']);
-        $newUser->gender = Gender::fromString($postBody['newGender']);
-        $newUser->active = false;
-        $newUser->createdOn = new \DateTime();
-        $newUser->passwordHash = password_hash($this->randomString(22), PASSWORD_DEFAULT);
-
-        $createdUser = $userService->createUser($newUser);
-
-        $resetpasswordService = Application::resolve(ResetpasswordService::class);
-
-        $resetpasswordModel = new ResetpasswordModel();
-        $resetpasswordModel->user = $createdUser;
-        $resetpasswordModel->link = $this->randomString(32);
-        $resetpasswordModel->validUntil = new \DateTime('+1 day');
-
-        $resetpasswordService->newResetpassword($resetpasswordModel);
-
-        $response = new TextResponse();
-        $response->setBody("User created");
-        return $response;
     }
 
     public function resetPassword(): ?Response
@@ -156,13 +183,21 @@ class ManageAccountsController extends Controller
 
         $resetpasswordModel = new ResetpasswordModel();
         $resetpasswordModel->user = $user;
+        $resetpasswordModel->userId = $user->id;
         $resetpasswordModel->link = $this->randomString(32);
         $resetpasswordModel->validUntil = new \DateTime('+1 day');
 
         $resetpasswordService->newResetpassword($resetpasswordModel);
+        $mailtemplate = new MailTemplate(MAIL_TEMPLATES . 'ResetPasswordTemplate.php', [
+            'gebruiker' => $user->firstName,
+            'token' => $resetpasswordModel->link
+        ]);
 
-        $response = new TextResponse();
-        $response->setBody("Password reset");
+        $mail = new Mail($user->emailAddress, "wachtwoord herstellen", $mailtemplate, MailFrom::NOREPLY, "no-reply@thesixthstring.store");
+        $mail->send();
+
+        $response = new JsonResponse();
+        $response->setBody(["success" => true]);
         return $response;
     }
 

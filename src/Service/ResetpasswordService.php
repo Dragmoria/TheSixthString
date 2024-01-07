@@ -14,8 +14,8 @@ class ResetpasswordService extends BaseDatabaseService
         $query = 'INSERT INTO resetpassword (userId, link, validUntil) VALUES (?, ?, ?)';
         $params = [
             $resetpasswordModel->userId,
-            $resetpasswordModel->link, 
-            $resetpasswordModel->validUntil->format('Y-m-d H:i:s') 
+            $resetpasswordModel->link,
+            $resetpasswordModel->validUntil->format('Y-m-d H:i:s')
         ];
 
         $result = $this->executeQuery($query, $params);
@@ -45,13 +45,14 @@ class ResetpasswordService extends BaseDatabaseService
             array_push($models, ResetpasswordModel::convertToModel($entity));
         }
 
-        if (count($models) === 0) return null;
+        if (count($models) === 0)
+            return null;
 
         return $models;
     }
 
 
 
-    
+
 
 }

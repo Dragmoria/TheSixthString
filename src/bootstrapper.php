@@ -7,6 +7,8 @@ use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use Http\Controllers\Components\AcceptCookiesComponent;
+use Http\Controllers\ControlPanel\AppointmentsController;
+use Http\Controllers\ContactFormController;
 use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
 use Http\Controllers\ServiceController;
@@ -100,7 +102,8 @@ $router->post('/RetrievingOrderHistory', [AccountPageController::class, 'Retriev
 $router->post('/GetOrderOverview', [AccountPageController::class, 'GetOrderOverview']);
 $router->post('/LogOutPulse', [AccountPageController::class, 'LogOutPulse']);
 
-
+$router->get('/Contact', [ContactFormController::class, 'show']);
+$router->post('/ContactForm/Send', [ContactFormController::class, 'send']);
 
 $router->get('/Mail', [MailController::class, 'mail']);
 
@@ -117,6 +120,8 @@ $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
 $router->post('/Product/CreateReview', [ProductController::class, 'createReview']);
+$router->get('/Appointments/GetNotAvailableTimeSlots', [AppointmentsController::class, 'getNotAvailableTimeSlots']);
+$router->post('/Appointments/SetNewAppointment', [AppointmentsController::class, 'setNewAppointment'])->middleware(isLoggedIn::class);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/PersonalInformation', [ShoppingCartController::class, 'personalInformationView'])->middleware(isLoggedIn::class);

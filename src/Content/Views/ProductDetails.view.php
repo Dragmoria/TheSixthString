@@ -30,24 +30,23 @@ $reviewAverage = 0;
             <a class="text-sixth-beige" href="#" onclick="history.go(-1);">Terug naar productoverzicht</a>
         </div>
         <div class="col-12 mt-4 mb-5">
-            <h1><?= $product->name ?></h1>
+            <h1>
+                <?= $product->name ?>
+            </h1>
         </div>
         <div class="col-12 col-md-5">
             <div class="row">
                 <div id="media-container" class="col-12" data-type-shown="image">
                     <img id="main-product-image" class="rounded-4 img-fluid"
-                         src="<?= $product->media->mainImage->url ?? "" ?>"
-                         alt="main product image"/>
+                        src="<?= $product->media->mainImage->url ?? "" ?>" alt="main product image" />
                     <?php
                     if (($product->media->video->title ?? null) != null) {
                         $videoUrl = str_replace("/watch?v=", "/embed/", $product->media->video->url);
                         ?>
                         <iframe id="product-video" class="d-none w-100 rounded" width="560" height="315"
-                                src="<?= $videoUrl ?>"
-                                title="<?= $product->media->video->title ?>"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
+                            src="<?= $videoUrl ?>" title="<?= $product->media->video->title ?>" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
                         </iframe>
                         <?php
                     }
@@ -61,8 +60,8 @@ $reviewAverage = 0;
                                 $secondaryImage = $product->media->secondaryImages[$i];
                                 ?>
                                 <img class="product-thumbnail cursor-pointer rounded-4 <?= $i == 0 ? "mb-3" : "" ?>"
-                                     data-type="image" src="<?= $secondaryImage->url ?>"
-                                     alt="<?= $secondaryImage->title ?>" onclick="selectImage(this)"/>
+                                    data-type="image" src="<?= $secondaryImage->url ?>" alt="<?= $secondaryImage->title ?>"
+                                    onclick="selectImage(this)" />
                                 <?php
                             }
                             ?>
@@ -74,10 +73,11 @@ $reviewAverage = 0;
                     if (($product->media->video->title ?? null) != null) {
                         ?>
                         <svg id="product-video-thumbnail" class="cursor-pointer rounded-4 m-auto"
-                             onclick="toggleMediaVisibility(this)" data-type="video"
-                             xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 384 512">
+                            onclick="toggleMediaVisibility(this)" data-type="video" xmlns="http://www.w3.org/2000/svg"
+                            height="30" width="30" viewBox="0 0 384 512">
                             <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                            <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
+                            <path
+                                d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
                         </svg>
                         <?php
                     }
@@ -88,21 +88,32 @@ $reviewAverage = 0;
         <div class="col-12 col-md-7">
             <div class="row">
                 <div class="col-12">
-                    <h2><?= $product->brand->name ?? "Onbekend merk" ?></h2>
+                    <h2>
+                        <?= $product->brand->name ?? "Onbekend merk" ?>
+                    </h2>
                 </div>
                 <div class="col-12">
                     <a class="text-sixth-yellow" href="#product-reviews">Gemiddelde
-                        beoordeling: <?= $product->reviewAverage ?> / 5
-                        (<?= count($product->reviews) ?> beoordelingen)</a>
+                        beoordeling:
+                        <?= $product->reviewAverage ?> / 5
+                        (
+                        <?= count($product->reviews) ?> beoordelingen)
+                    </a>
                 </div>
                 <div class="col-12 mt-3">
                     <?= $product->subtitle ?>
                 </div>
                 <Div class="col-12 mt-2">
-                    <small>Artikelcode: <?= $product->sku ?></small>
+                    <small>Artikelcode:
+                        <?= $product->sku ?>
+                    </small>
                     <div class="col-12 mt-5">
-                        <span>Adviesprijs <?= formatPrice($product->recommendedUnitPrice) ?></span>
-                        <h1>Nu <?= formatPrice($product->unitPrice) ?></h1>
+                        <span>Adviesprijs
+                            <?= formatPrice($product->recommendedUnitPrice) ?>
+                        </span>
+                        <h1>Nu
+                            <?= formatPrice($product->unitPrice) ?>
+                        </h1>
                     </div>
                     <div class="col-12">
                         <?php
@@ -111,19 +122,22 @@ $reviewAverage = 0;
                             <form id="add-product-form" action="#">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="hidden" name="productId" value="<?= $product->id ?>"/>
+                                        <input type="hidden" name="productId" value="<?= $product->id ?>" />
                                         <select class="form-select sixth-select" name="quantity">
                                             <?php
                                             for ($i = 1; $i <= $product->amountInStock; $i++) {
                                                 ?>
-                                                <option value="<?= $i ?>"><?= $i ?></option>
+                                                <option value="<?= $i ?>">
+                                                    <?= $i ?>
+                                                </option>
                                                 <?php
                                             }
                                             ?>
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-primary sixth-button rounded-4" type="submit">Toevoegen aan winkelwagen
+                                        <button class="btn btn-primary sixth-button rounded-4" type="submit">Toevoegen aan
+                                            winkelwagen
                                         </button>
                                     </div>
                                 </div>
@@ -139,7 +153,9 @@ $reviewAverage = 0;
                     </div>
                     <div class="col-12 mt-5">
                         <strong>Productbeschrijving</strong>
-                        <p><?= $product->description ?></p>
+                        <p>
+                            <?= $product->description ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -152,7 +168,7 @@ $reviewAverage = 0;
                 if ($canWriteReview) {
                     ?>
                     <button class="btn btn-primary sixth-button rounded-4" data-bs-toggle="modal"
-                            data-bs-target="#add-review-modal">Schrijf een review
+                        data-bs-target="#add-review-modal">Schrijf een review
                     </button>
                     <?php
                 }
@@ -173,21 +189,26 @@ $reviewAverage = 0;
                                 <form id="review-form">
                                     <div class="mb-3">
                                         <label for="rating" class="form-label">Beoordeling (1 t/m 5)</label>
-                                        <input type="range" id="rating" name="rating" required class="form-range" min="1" max="5" />
+                                        <input type="range" id="rating" name="rating" required class="form-range" min="1"
+                                            max="5" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="title" class="form-label">Titel *</label>
-                                        <input type="text" id="title" name="title" required class="form-control bg-sixth-beige" maxlength="255" placeholder="Voer een titel in..." />
+                                        <input type="text" id="title" name="title" required
+                                            class="form-control bg-sixth-beige" maxlength="255"
+                                            placeholder="Voer een titel in..." />
                                     </div>
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Inhoud *</label>
-                                        <textarea id="content" name="content" required class="form-control bg-sixth-beige" placeholder="Schrijf een review..." rows="5"></textarea>
+                                        <textarea id="content" name="content" required class="form-control bg-sixth-beige"
+                                            placeholder="Schrijf een review..." rows="5"></textarea>
                                     </div>
                                 </form>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary sixth-button" onclick="createReview()">Verzenden</button>
+                                <button type="button" class="btn btn-primary sixth-button"
+                                    onclick="createReview()">Verzenden</button>
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Sluiten</button>
                             </div>
 
@@ -209,12 +230,20 @@ $reviewAverage = 0;
                     ?>
                     <div class="row">
                         <div class="col-12">
-                            <span>Score: <?= $review->rating ?> / 5</span>
-                            <br/>
-                            <span><strong><?= $review->title ?></strong></span>
-                            <br/>
-                            <span><i>Geschreven op: <?= $review->createdOn ?></i></span>
-                            <p><?= $review->content ?></p>
+                            <span>Score:
+                                <?= $review->rating ?> / 5
+                            </span>
+                            <br />
+                            <span><strong>
+                                    <?= $review->title ?>
+                                </strong></span>
+                            <br />
+                            <span><i>Geschreven op:
+                                    <?= $review->createdOn ?>
+                                </i></span>
+                            <p>
+                                <?= $review->content ?>
+                            </p>
                         </div>
                     </div>
                     <?php
@@ -228,11 +257,126 @@ $reviewAverage = 0;
             ?>
         </div>
         <div class="col-12 col-md-6">
-            <h2>Product uitproberen</h2>
-            <p>...</p>
+            <?php
+            if ($canPlanTryout) {
+                ?>
+                <h2>Product uitproberen</h2>
+                <button class="btn btn-primary sixth-button rounded-4" onclick="openPlanTryoutModal(event)">
+                    Plan een afspraak
+                </button>
+                <?php
+            }
+            ?>
         </div>
 
+        <div class="modal" id="planTryoutModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content bg-sixth-black">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Afspraak inplannen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="date" id="tryoutDateSelected" name="min-date" class="form-control"
+                            style="background-color: var(--sixth-beige)" data-np-intersection-state="observed">
+                        <div id="timeSlotPicker" class="mt-5 d-flex flex-wrap justify-content-between">
+                            <?php for ($i = 8; $i <= 21; $i++): ?>
+                                <button type="button" class="btn btn-outline-primary time-slot" disabled="true">
+                                    <?= str_pad($i, 2, '0', STR_PAD_LEFT) ?>:00
+                                </button>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="sendNewTryoutAppointment">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
+            var selectedTimeSlot; // Global variable for the selected time slot
+
+            $(document).ready(function () {
+                // Handle time slot button click
+                $('.time-slot').click(function () {
+                    // Remove 'selected' class from all buttons
+                    $('.time-slot').removeClass('btn-primary').addClass('btn-outline-primary');
+
+                    // Add 'selected' class to clicked button
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+
+                    // Set the global variable to the selected time slot
+                    selectedTimeSlot = $(this).text().trim();
+                });
+            });
+
+            function openPlanTryoutModal(event) {
+                event.preventDefault();
+
+                $('#planTryoutModal').modal('show');
+
+                var currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() + 1);
+                $('#tryoutDateSelected').attr('min', currentDate.toISOString().split('T')[0]);
+                $('#tryoutDateSelected').on('change', function (e) {
+                    datePickerChanged(e);
+                });
+            }
+
+            function datePickerChanged(event) {
+                var selectedDate = event.target.value;
+
+                $.ajax({
+                    url: '/Appointments/GetNotAvailableTimeSlots', // replace with your API endpoint
+                    method: 'GET',
+                    data: {
+                        productId: <?= $product->id ?>,
+                        date: selectedDate
+                    },
+                    success: function (response) {
+                        // Loop through all the time slot buttons
+                        $('.time-slot').each(function () {
+                            console.log(response);
+                            var timeSlot = $(this).text().trim();
+
+                            // If the time slot is not in the response, disable the button
+                            if (response.includes(timeSlot)) {
+                                $(this).prop('disabled', true);
+                                $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                            } else {
+                                $(this).prop('disabled', false);
+                            }
+                        });
+                    }
+                });
+            }
+
+            $(document).on('click', '#sendNewTryoutAppointment', function () {
+                // console.log(selectedTimeSlot);
+                var data = {
+                    selectedTimeSlot: selectedTimeSlot,
+                    productId: <?= $product->id ?>,
+                    date: $('#tryoutDateSelected').val()
+                }
+
+                $.ajax({
+                    url: '/Appointments/SetNewAppointment', // replace with your API endpoint
+                    method: 'POST',
+                    data: data,
+                    success: function (response) {
+                        alert('Afspraak gepland');
+                        $('#planTryoutModal').modal('hide');
+                        $('#tryoutDateSelected').val('');
+
+                        $('.time-slot').each(function () {
+                            $(this).prop('disabled', true);
+                            $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                        });
+                    }
+                });
+            });
+
             function selectImage(element) {
                 toggleMediaVisibility(element);
 
@@ -272,14 +416,14 @@ $reviewAverage = 0;
 
             function createReview() {
                 var formData = $('#review-form').serializeArray();
-                if(!document.getElementById('review-form').reportValidity()) {
+                if (!document.getElementById('review-form').reportValidity()) {
                     return;
                 }
 
                 formData.push({ name: "productId", value: <?= $product->id ?> });
 
-                $.post('/Product/CreateReview', formData, function(response) {
-                    if(response.success) {
+                $.post('/Product/CreateReview', formData, function (response) {
+                    if (response.success) {
                         window.location.reload();
                     } else {
                         var message = response.message;

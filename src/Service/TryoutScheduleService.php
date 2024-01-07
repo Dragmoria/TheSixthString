@@ -35,8 +35,39 @@ class TryoutScheduleService extends BaseDatabaseService
             array_push($models, $model);
         }
 
-        if (count($models) === 0) return null;
+        if (count($models) === 0)
+            return null;
 
         return $models;
+    }
+
+    public function getNotAvailableTimeSlots(int $productId, \DateTime $date): ?array
+    {
+        $query = 'SELECT * FROM tryoutschedule WHERE productId = ? AND startDate >= ?';
+        $params = [$productId, $date->format('Y-m-d')];
+
+        $result = $this->executeQuery($query, $params, TryoutSchedule::class);
+
+        $models = [];
+        foreach ($result as $entity) {
+            $model = TryoutScheduleModel::convertToModel($entity);
+
+            $models[] = $model->startDate->format('H:i');
+        }
+
+        if (count($models) === 0)
+            return null;
+
+        return $models;
+    }
+
+    public function setNewAppointment(int $productId, \DateTime $dateTime): bool
+    {
+        $query = 'INSERT INTO tryoutschedule (productId, startDate, endDate) VALUES (?, ?, ?)';
+        $params = [$productId, $dateTime->format('Y-m-d H:i:s'), $dateTime->modify('+1 hour')->format('Y-m-d H:i:s')];
+
+        $result = $this->executeQuery($query, $params);
+
+        return $result;
     }
 }
