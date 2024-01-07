@@ -15,6 +15,9 @@
                 </span>
             </div>
             <div class="col-12">
+                <strong>Score: <?= $product->reviewAverage ?? 0 ?> / 5</strong>
+            </div>
+            <div class="col-12">
                 <strong>Nu
                     <?= formatPrice($product->unitPrice) ?>
                 </strong>

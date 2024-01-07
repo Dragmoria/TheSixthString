@@ -167,6 +167,7 @@
 
         $.post("/ControlPanel/ManageBrands/UpdateBrand", data, function(response) {
             if (response === "Brand updated") {
+                alert("Brand aangepast");
                 $('#editBrandModal').modal('hide');
                 $('#table').bootstrapTable('refresh');
             }
@@ -184,6 +185,11 @@
 
         $.post("/ControlPanel/ManageBrands/AddBrand", data, function(response) {
             if (response === "Brand added") {
+                alert("Brand toegevoegd");
+                $('#addName').val("");
+                $('#addDescription').val("");
+                $('#addActive').val("inactive");
+
                 $('#addBrandModal').modal('hide');
                 $('#table').bootstrapTable('refresh');
             }

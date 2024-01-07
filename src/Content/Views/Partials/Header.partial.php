@@ -18,19 +18,17 @@ function buildCategoryMenu($category, int $index): void
         <a class="navbar-brand pt-0 mx-5" href="/">
             <img src="/images/logo-small.svg" alt="Sixth" width="60px">
         </a>
-        
+
         <!-- Search Bar -->
         <div class="dropdown">
             <div class="d-flex">
-                <input type="text" id="product-search-big" class="form-control w-auto bg-sixth-beige rounded-4"
-                    placeholder="Zoek een product" data-target-dropdown="suggested-results"
-                    onkeyup="searchSuggested(this)" />
-                <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                        class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
+                <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
+                       placeholder="Zoek een product" data-target-dropdown="suggested-results" onkeyup="searchSuggested(this)" />
+                <span class="input-group-text border-0 bg-transparent" data-search-input="product-search" onclick="executeSearch(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
             </div>
             </span>
             <ul id="suggested-results" class="dropdown-menu"></ul>
@@ -40,6 +38,9 @@ function buildCategoryMenu($category, int $index): void
         <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
             <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
             <li class="nav-item">
+                <a class="nav-link text-sixth-beige" href="/Product">Producten</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-sixth-beige" href="/Service">Service</a>
             </li>
             <li class="nav-item">
@@ -48,7 +49,7 @@ function buildCategoryMenu($category, int $index): void
             <?php
             if (currentRole() !== null && currentRole()->hasRightsOf(Lib\Enums\Role::Analyst)) {
                 echo '<li class="nav-item">';
-                echo '<a class="nav-link text-sixth-beige" href="/ControlPanel">Control panel</a>';
+                echo '<a class="nav-link text-sixth-beige" href="/ControlPanel/Statistics">Control panel</a>';
                 echo '</li>';
             }
             ?>
@@ -63,8 +64,7 @@ function buildCategoryMenu($category, int $index): void
                             aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="/Account">Account pagina</a>
                             <? if (isset($_SESSION['user'])) {
-                                echo '
-              <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById(\'logoutForm\').submit();">Uitloggen</a>';
+                                echo '<a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById(\'logoutForm\').submit();">Uitloggen</a>';
                             } else {
                                 echo '<a class="dropdown-item" href="/Login">Inloggen</a>';
                             }
@@ -98,7 +98,7 @@ function buildCategoryMenu($category, int $index): void
 
 <!-- Navbar Mobile -->
 <nav class="navbar navbar-expand-lg nav-sm navbar-dark bg-dark sticky-top flex-column py-0 d-lg-none"
-     style="background-color:var(--sixth-brown) !important;">
+    style="background-color:var(--sixth-brown) !important;">
     <div class="container-fluid px-0 pt-3">
         <!-- Logo and Search Bar on the left -->
         <a class="navbar-brand pt-0 mx-3" href="/">
@@ -124,7 +124,10 @@ function buildCategoryMenu($category, int $index): void
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto justify-content-center" style="font-weight: 500;">
                 <?php echo component(\Http\Controllers\Components\CategoryMenuComponent::class); ?>
-                <li class="nav-item">`
+                <li class="nav-item">
+                    <a class="nav-link text-sixth-beige" href="/Product">Producten</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/Service" style="color: var(--sixth-beige)">Service</a>
                 </li>
                 <li class="nav-item">
@@ -139,18 +142,16 @@ function buildCategoryMenu($category, int $index): void
         <div class="input-group">
             <div class="dropdown w-100">
                 <div class="d-flex w-100">
-                    <input type="text" id="product-search-small" class="form-control bg-sixth-beige rounded-4"
-                        placeholder="Zoek een product" data-target-dropdown="suggested-results-sm"
-                        onkeyup="searchSuggested(this)" />
-                    <span class="input-group-text border-0 bg-transparent" onclick="executeSearch()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                            class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </span>
-                </div>
-                </span>
+                    <input type="text" id="product-search-sm" class="form-control w-auto bg-sixth-beige rounded-4"
+                           placeholder="Zoek een product" data-target-dropdown="suggested-results-sm" onkeyup="searchSuggested(this)" />
+                    <span class="input-group-text border-0 bg-transparent" data-search-input="product-search-sm" onclick="executeSearch(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+               </span>
+                        </div>
+               
                 <ul id="suggested-results-sm" class="dropdown-menu"></ul>
             </div>
         </div>
@@ -200,7 +201,8 @@ function buildCategoryMenu($category, int $index): void
         $('.dropdown-menu').removeClass('show');
     });
 
-    function executeSearch() {
-        window.location.href = '/Product?search=' + $('#product-search').val();
+    function executeSearch(element) {
+        var searchInput = $(element).data('search-input');
+        window.location.href = '/Product?search=' + $('#' + searchInput).val();
     }
 </script>

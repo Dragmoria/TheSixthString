@@ -26,7 +26,7 @@ class OrderItemModel
     {
         if ($entity->isEmptyObject()) return null;
 
-        $model = new OrderitemModel();
+        $model = new OrderItemModel();
 
         $model->id = $entity->id;
         $model->orderId = $entity->orderId;

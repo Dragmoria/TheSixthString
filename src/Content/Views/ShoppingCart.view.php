@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 mt-3" id="cart-content">
+        <div class="col-12 mt-3 mb-3" id="cart-content">
             <?php
             if (is_null($data)) {
                 ?>

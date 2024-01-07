@@ -5,8 +5,9 @@ function buildCategoryList($category, int $depth): void {
 
     echo '<li class="m-0" style="padding-left: calc(3px + 0.5rem * ' . $depth . ');"><a class="text-decoration-none text-sixth-beige" href="/Category/' . $category->id . '">' . $category->name . '</a></li>';
 
+    ++$depth;
     foreach ($category->children as $childCategory) {
-        buildCategoryList($childCategory, ++$depth);
+        buildCategoryList($childCategory, $depth);
     }
 }
 ?>

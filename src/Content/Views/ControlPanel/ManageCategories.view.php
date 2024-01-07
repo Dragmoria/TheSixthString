@@ -247,6 +247,13 @@
             contentType: false,
             success: function(response) {
                 if (response === "Category added") {
+                    alert("Categorie toegevoegd");
+                    $('#addName').val("");
+                    $('#addDescription').val("");
+                    $('#addActive').val("inactive");
+                    $('#addParentCategory').val("none");
+                    $('#addImage').empty();
+
                     $('#addCategoryModal').modal('hide');
                     $('#table').bootstrapTable('refresh');
                 }
@@ -291,6 +298,7 @@
             contentType: false,
             success: function(response) {
                 if (response === "Category updated") {
+                    alert("Categorie aangepast");
                     $('#editCategoryModal').modal('hide');
                     $('#table').bootstrapTable('refresh');
                 }
