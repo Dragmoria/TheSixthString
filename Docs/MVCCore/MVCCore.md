@@ -96,7 +96,6 @@ De package die we hebben bestaat uit een aantal onderdelen. Ik zal deze onderdel
     6.13 [isAjax](#isajax)
 
     6.14 [isJson](#isjson)
-
 7. [Response](#response)
 8. [Controller](#controller)
 9. [Middleware](#middleware)
