@@ -209,7 +209,6 @@
                                 var carouselInner = $('#addProductCarousel .carousel-inner');
 
                                 $('#addProductImagesPreview').removeAttr('hidden');
-                                // Clear the carousel
                                 carouselInner.empty();
 
                                 for (var i = 0; i < addSelectedFiles.length; i++) {
@@ -220,7 +219,6 @@
                                         var img = $('<img>').attr('src', e.target.result).addClass('d-block carousel-image');
                                         var item = $('<div>').addClass('carousel-item').append(img);
 
-                                        // Make the first item active
                                         if (carouselInner.children().length === 0) {
                                             item.addClass('active');
                                         }
@@ -241,11 +239,9 @@
 
                                 addSelectedFiles.splice(index, 1);
 
-                                // If there are no more carousel items, hide the carousel
                                 if ($('#addProductCarousel .carousel-item').length == 0) {
                                     $('#addProductImagesPreview').attr('hidden', 'true');
                                 }
-                                // If there are still carousel items, make the first one active
                                 else {
                                     $('#addProductCarousel .carousel-item').first().addClass('active');
                                 }
@@ -637,7 +633,6 @@
                                 var img = $('<img>').attr('src', src).addClass('d-block carousel-image');
                                 var item = $('<div>').addClass('carousel-item').append(img);
 
-                                // Make the first item active
                                 if (carouselInner.children().length === 0) {
                                     item.addClass('active');
                                 }
@@ -653,7 +648,6 @@
                                 var carouselInner = $('#editProductCarousel .carousel-inner');
 
                                 $('#editProductImagesPreview').removeAttr('hidden');
-                                // Clear the carousel
                                 carouselInner.empty();
 
                                 for (var i = 0; i < editSelectedFiles.length; i++) {
@@ -681,11 +675,9 @@
 
                                 editSelectedFiles.splice(index, 1);
 
-                                // If there are no more carousel items, hide the carousel
                                 if ($('#editProductCarousel .carousel-item').length == 0) {
                                     $('#editProductImagesPreview').attr('hidden', 'true');
                                 }
-                                // If there are still carousel items, make the first one active
                                 else {
                                     $('#editProductCarousel .carousel-item').first().addClass('active');
                                 }
@@ -996,7 +988,7 @@
                 var brandSelects = $('.brand');
 
                 $.each(brandSelects, function (index, select) {
-                    var brandSelect = $(select); // Convert the DOM element to a jQuery object
+                    var brandSelect = $(select);
 
                     $.each(brands, function (index, brand) {
                         brandSelect.append('<option value="' + brand.id + '">' + brand.name + '</option>');
@@ -1015,7 +1007,7 @@
                 var categorySelects = $('.category');
 
                 $.each(categorySelects, function (index, select) {
-                    var categorySelect = $(select); // Convert the DOM element to a jQuery object
+                    var categorySelect = $(select);
 
                     $.each(categories, function (index, category) {
                         categorySelect.append('<option value="' + category.id + '">' + category.name + '</option>');

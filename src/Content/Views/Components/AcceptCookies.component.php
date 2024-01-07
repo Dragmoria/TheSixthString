@@ -27,7 +27,8 @@
             zonder uw instellingen te wijzigen, gaan we ervan uit dat u alle cookies op de website ontvangt.</p>
         <div class="col-12 text-center">
             <button class="col-2 rounded-pill"
-                style="background-color:var(--sixth-yellow); border-color:var(--sixth-yellow)" id="acceptCookies">Accepteren</button>
+                style="background-color:var(--sixth-yellow); border-color:var(--sixth-yellow)"
+                id="acceptCookies">Accepteren</button>
         </div>
     </div>
 </div>
@@ -37,10 +38,8 @@
         var modal = document.getElementById('cookieModal');
         var acceptButton = document.getElementById('acceptCookies');
 
-        // Show the modal
         modal.style.display = "block";
 
-        // When the user clicks on the "Accept" button, close the modal
         acceptButton.onclick = function () {
             modal.style.display = "none";
             $.ajax({
