@@ -4,9 +4,12 @@
         <div class="col"></div>
         <div class="col d-flex flex-column justify-content-center align-items-center text-center">
             <img src="/images/logo-big.svg" alt="Your Logo" style="max-width:50%;">
-            <button type="button" class="btn btn-primary btn-lg mt-5 px-5 rounded-pill"
-                style="background-color: var(--sixth-beige); border-color: var(--sixth-beige); color: var(--sixth-brown); font-weight: 700 !important;">Nieuw
-                assortiment!</button>
+            <a href="/Product">
+                <button type="button" class="btn btn-primary btn-lg mt-5 px-5 rounded-pill"
+                    style="background-color: var(--sixth-beige); border-color: var(--sixth-beige); color: var(--sixth-brown); font-weight: 700 !important;">Nieuw
+                    assortiment!
+                </button>
+            </a>
         </div>
     </div>
 </div>
@@ -16,26 +19,53 @@
     <div class="row g-0 header-custom" style="height: calc(100vh - 140px);">
         <div class="col d-flex flex-column justify-content-center align-items-center text-center">
             <img src="/images/logo-big.svg" alt="Your Logo" style="max-width:50%;">
-            <button type="button" class="btn btn-primary btn-lg mt-5 px-5 rounded-pill"
-                style="background-color: var(--sixth-beige); border-color: var(--sixth-beige); color: var(--sixth-brown); font-weight: 700 !important;">Nieuw
-                assortiment!</button>
+            <a href="/Product">
+                <button type="button" class="btn btn-primary btn-lg mt-5 px-5 rounded-pill"
+                    style="background-color: var(--sixth-beige); border-color: var(--sixth-beige); color: var(--sixth-brown); font-weight: 700 !important;">Nieuw
+                    assortiment!
+                </button>
+            </a>
         </div>
     </div>
 </div>
 
 <!--- Product Card --->
 <div class="container-fluid g-0">
-    <div class="row g-0 d-flex justify-content-center align-items-center"
-        style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; height:100vh;">
-        <?php foreach ($products as $product) { ?>
-        <div class="col-2 mx-2">
+    <div class="row g-0 px-5 d-flex justify-content-center align-items-center"
+        style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; min-height:100vh;">
+        <div class="row mt-5 d-flex justify-content-center align-items-center" style="height:10%;">
+            <div class="col-3">
+                <hr style="height:2px;border:none;color:var(--sixth-black);background-color:var(--sixth-black);" />
+            </div>
+            <div class="col text-center">
+                <h2>🞄
+            </div>
+            <div class="col-4 text-center">
+                <h2>Populaire producten</h2>
+            </div>
+            <div class="col text-center">
+                <h2>🞄
+            </div>
+            <div class="col-3">
+                <hr style="height:2px;border:none;color:var(--sixth-black);background-color:var(--sixth-black);" />
+            </div>
+        </div>
+        <div class="row my-3 d-flex justify-content-center align-items-center">
+            <?php foreach ($products as $product) { ?>
+            <div class="col-2 mx-2">
+                <?php
+                echo component(\Http\Controllers\Components\ProductCardComponent::class, (array) $product);
+                ?>
+            </div>
             <?php
-            echo component(\Http\Controllers\Components\ProductCardComponent::class, (array) $product);
+            }
             ?>
         </div>
-        <?php
-        }
-        ?>
+        <div class="row mb-5 d-flex justify-content-center align-items-top" style="height:10%;">
+            <div class="col">
+                <hr style="height:3px;border:none;color:var(--sixth-black);background-color:var(--sixth-black);" />
+            </div>
+        </div>
     </div>
 </div>
 
