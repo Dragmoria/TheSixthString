@@ -23,12 +23,15 @@ function buildCategoryMenu($category, int $index): void
         <div class="dropdown">
             <div class="d-flex">
                 <input type="text" id="product-search" class="form-control w-auto bg-sixth-beige rounded-4"
-                       placeholder="Zoek een product" data-target-dropdown="suggested-results" onkeyup="searchSuggested(this)" />
-                <span class="input-group-text border-0 bg-transparent" data-search-input="product-search" onclick="executeSearch(this)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                     class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
+                    placeholder="Zoek een product" data-target-dropdown="suggested-results"
+                    onkeyup="searchSuggested(this)" />
+                <span class="input-group-text border-0 bg-transparent" data-search-input="product-search"
+                    onclick="executeSearch(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
             </div>
             </span>
             <ul id="suggested-results" class="dropdown-menu"></ul>
@@ -84,14 +87,22 @@ function buildCategoryMenu($category, int $index): void
 
     <!-- KPI Bar -->
     <div class="container-fluid kpi-bar align-items-center justify-content-center">
-        <img src="/images/kpi-sending.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Gratis verzending vanaf € 100,-</p>
-        <img src="/images/kpi-time.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Voor 23:00 besteld, morgen in huis!</p>
-        <img src="/images/kpi-warranty.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">30 dagen “niet-goed-geld-terug” garantie</p>
-        <img src="/images/kpi-service.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">3 jaar garantie van Sixth</p>
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="/images/kpi-sending.png" alt="Sending" style="height: 12px">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Gratis verzending vanaf € 100,-</p>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="/images/kpi-time.png" alt="Sending" style="height: 12px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Voor 23:00 besteld, morgen in huis!</p>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="/images/kpi-warranty.png" alt="Sending" style="height: 12px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">30 dagen “niet-goed-geld-terug” garantie</p>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="/images/kpi-service.png" alt="Sending" style="height: 12px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">3 jaar garantie van Sixth</p>
+        </div>
     </div>
 
 </nav>
@@ -105,10 +116,11 @@ function buildCategoryMenu($category, int $index): void
             <img src="/images/logo-small.svg" alt="Your Logo">
         </a>
         <div class="d-flex ms-auto">
-            <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2"
-                style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;">
+            <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center me-2"
+                style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;"
+                href="/Account">
                 <img src="/images/account-icon.png" alt="Account" width="17" height="17">
-            </button>
+            </a>
             <a class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
                 style="background-color: var(--sixth-yellow);border-color: var(--sixth-yellow); width: 40px; height: 40px;"
                 href="/ShoppingCart">
@@ -143,30 +155,41 @@ function buildCategoryMenu($category, int $index): void
             <div class="dropdown w-100">
                 <div class="d-flex w-100">
                     <input type="text" id="product-search-sm" class="form-control bg-sixth-beige rounded-4"
-                           placeholder="Zoek een product" data-target-dropdown="suggested-results-sm" onkeyup="searchSuggested(this)" />
-                    <span class="input-group-text border-0 bg-transparent" data-search-input="product-search-sm" onclick="executeSearch(this)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                     class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-               </span>
-                        </div>
-               
+                        placeholder="Zoek een product" data-target-dropdown="suggested-results-sm"
+                        onkeyup="searchSuggested(this)" />
+                    <span class="input-group-text border-0 bg-transparent" data-search-input="product-search-sm"
+                        onclick="executeSearch(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                            class="bi bi-search text-sixth-beige cursor-pointer" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </span>
+                </div>
+
                 <ul id="suggested-results-sm" class="dropdown-menu"></ul>
             </div>
         </div>
     </div>
 
     <!-- KPI Bar -->
-    <div class="container-fluid kpi-bar align-items-center justify-content-center">
-        <img src="/images/kpi-sending.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Gratis verzending vanaf € 100,-</p>
-        <img src="/images/kpi-time.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">Voor 23:00 besteld, morgen in huis!</p>
-        <img src="/images/kpi-warranty.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">30 dagen “niet-goed-geld-terug” garantie</p>
-        <img src="/images/kpi-service.png" alt="Sending" style="height: 70%;">
-        <p class="m-0 ps-1 pe-4" style="font-size: 0.5rem;">3 jaar garantie van Sixth</p>
+    <div class="container-fluid kpi-bar-mobile align-items-center justify-content-center">
+        <div class="align-items-center justify-content-center kpi-content ">
+            <img src="/images/kpi-sending.png" alt="Sending" style="height: 15px">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.6rem;">Gratis verzending vanaf € 100,-</p>
+        </div>
+        <div class="align-items-center justify-content-center kpi-content ">
+            <img src="/images/kpi-time.png" alt="Sending" style="height: 15px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.6rem;">Voor 23:00 besteld, morgen in huis!</p>
+        </div>
+        <div class="align-items-center justify-content-center kpi-content ">
+            <img src="/images/kpi-warranty.png" alt="Sending" style="height: 15px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.6rem;">30 dagen “niet-goed-geld-terug” garantie</p>
+        </div>
+        <div class="align-items-center justify-content-center kpi-content ">
+            <img src="/images/kpi-service.png" alt="Sending" style="height: 15px;">
+            <p class="m-0 ps-1 pe-4" style="font-size: 0.6rem;">3 jaar garantie van Sixth</p>
+        </div>
     </div>
 
 </nav>
@@ -205,4 +228,47 @@ function buildCategoryMenu($category, int $index): void
         var searchInput = $(element).data('search-input');
         window.location.href = '/Product?search=' + $('#' + searchInput).val();
     }
+</script>
+
+<style>
+    .kpi-content {
+        display: none;
+        opacity: 0;
+        animation: fadeInOut 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeInOut {
+
+        0%,
+        100% {
+            opacity: 0;
+        }
+
+        25%,
+        75% {
+            opacity: 1;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const kpiContents = document.querySelectorAll('.kpi-content');
+        let currentIndex = 0;
+
+        function showContent() {
+            kpiContents.forEach((content, index) => {
+                if (index === currentIndex) {
+                    content.style.display = 'flex';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+
+            currentIndex = (currentIndex + 1) % kpiContents.length;
+        }
+
+        showContent(); // Initial call to display the first content
+        setInterval(showContent, 3000);
+    });
 </script>
