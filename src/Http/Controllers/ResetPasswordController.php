@@ -38,14 +38,14 @@ class ResetPasswordController extends Controller
                 return $Response;
             } else {
                 $user = $user->firstName;
-                $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
+                $Response->setBody(view(VIEWS_PATH . 'ResetPassword.view.php', ['succes' => $user, 'link' => $urlData["dynamiclink"]])->withLayout(VIEWS_PATH . 'Layouts/Main.layout.php'));
                 return $Response;
             }
         }
     }
 
 
-    public function changePasswords(): ?Response
+    public function changePasswords($urlData): ?Response
     {   
         $postBody = $this->currentRequest->getPostObject()->body();
 
@@ -66,8 +66,8 @@ class ResetPasswordController extends Controller
 
 
             $resetPasswordService = Application::resolve(ResetpasswordService::class);
-            $Resetpassword = $resetPasswordService->getResetpasswordByLink($_SESSION["user"]["link"]);
-
+            $Resetpassword = $resetPasswordService->getResetpasswordByLink($urlData["dynamiclink"]);
+            
             $userservice = Application::resolve(UserService::class);
             $user = $userservice->getUserById($Resetpassword[0]->userId);
             if (isset($user)){
@@ -88,5 +88,5 @@ class ResetPasswordController extends Controller
         }
 
     }
-
+ 
 }

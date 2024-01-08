@@ -17,4 +17,4 @@ class RandomLinkService
 
         return $randomString;
     }
-}
+} 

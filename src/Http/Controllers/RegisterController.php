@@ -19,7 +19,7 @@ use Service\ActivateService;
 use Service\UserService;
 use Service\AddressService;
 use Service\RandomLinkService;
-
+ 
 class RegisterController extends Controller
 {
     public function register(): ?Response
