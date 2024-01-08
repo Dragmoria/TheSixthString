@@ -142,7 +142,7 @@ function buildCategoryMenu($category, int $index): void
         <div class="input-group">
             <div class="dropdown w-100">
                 <div class="d-flex w-100">
-                    <input type="text" id="product-search-sm" class="form-control w-auto bg-sixth-beige rounded-4"
+                    <input type="text" id="product-search-sm" class="form-control bg-sixth-beige rounded-4"
                            placeholder="Zoek een product" data-target-dropdown="suggested-results-sm" onkeyup="searchSuggested(this)" />
                     <span class="input-group-text border-0 bg-transparent" data-search-input="product-search-sm" onclick="executeSearch(this)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
