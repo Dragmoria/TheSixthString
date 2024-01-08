@@ -2,11 +2,9 @@
 
 use Http\Controllers\AcceptCookiesController;
 use Http\Controllers\CategoryController;
-use Http\Controllers\HomeController;
 use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
-use Http\Controllers\Components\AcceptCookiesComponent;
 use Http\Controllers\ControlPanel\AppointmentsController;
 use Http\Controllers\ContactFormController;
 use Http\Controllers\ForgotPasswordController;
@@ -148,5 +146,11 @@ if (!isset($_SESSION["sessionUserGuid"])) {
     $_SESSION["sessionUserGuid"] = getGUID();
 }
 
-// Run the application.
-Application::run();
+try {
+    checkDatabaseStatus();
+    // Run the application.
+    Application::run();
+} catch (Exception $e) {
+    echo view(VIEWS_PATH . 'StatusViews/500.view.php')->render();
+    echo "<script>console.error('PHP Exception: " . addslashes($e->getMessage()) . "');</script>";
+}

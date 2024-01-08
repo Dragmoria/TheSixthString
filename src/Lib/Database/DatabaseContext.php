@@ -28,4 +28,9 @@ class DatabaseContext
     {
         return new \mysqli($this->_servername, $this->_username, $this->_password, $this->_database, $this->_port);
     }
+
+    public function checkStatus(): void
+    {
+        $_ = @new \mysqli($this->_servername, $this->_username, $this->_password, $this->_database, $this->_port);
+    }
 }

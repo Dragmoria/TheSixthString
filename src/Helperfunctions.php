@@ -1,5 +1,6 @@
 <?php
 
+use Lib\Database\DatabaseContext;
 use Lib\Enums\Role;
 
 /**
@@ -31,7 +32,7 @@ function dump($value): void
 
 function cast($className, array $objectArray)
 {
-    $object = (object)$objectArray;
+    $object = (object) $objectArray;
 
     if (!class_exists($className))
         throw new InvalidArgumentException(sprintf('Inexistant class %s.', $className));
@@ -52,25 +53,33 @@ function currentRole(): ?Role
     if (isset($_SESSION["user"]["role"])) {
         return $_SESSION["user"]["role"];
     }
- 
+
     return null;
 }
 
-function formatPrice(float $price): string  {
+function formatPrice(float $price): string
+{
     return "€" . number_format($price, 2, ",", ".");
 }
 
-function getGUID(){
-    if (function_exists('com_create_guid')){
+function getGUID()
+{
+    if (function_exists('com_create_guid')) {
         return trim(com_create_guid(), '{}');
-    }else{
+    } else {
         $charid = strtoupper(md5(uniqid(rand(), true)));
-        $hyphen = chr(45);// "-"
-        $uuid = substr($charid, 0, 8).$hyphen
-            .substr($charid, 8, 4).$hyphen
-            .substr($charid,12, 4).$hyphen
-            .substr($charid,16, 4).$hyphen
-            .substr($charid,20,12);
+        $hyphen = chr(45); // "-"
+        $uuid = substr($charid, 0, 8) . $hyphen
+            . substr($charid, 8, 4) . $hyphen
+            . substr($charid, 12, 4) . $hyphen
+            . substr($charid, 16, 4) . $hyphen
+            . substr($charid, 20, 12);
         return $uuid;
     }
+}
+
+function checkDatabaseStatus()
+{
+    $_ = new DatabaseContext();
+    $_->checkStatus();
 }
