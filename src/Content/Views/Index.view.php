@@ -72,7 +72,7 @@
 <!--- Product Card sm --->
 <div class="container-fluid g-0 d-lg-none">
     <div class="row g-0 px-5 d-flex justify-content-center align-items-center"
-        style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin; min-height:100vh;">
+        style="background-color: var(--sixth-beige); border-bottom-right-radius: 25vmin;">
         <div class="row mt-5 d-flex justify-content-center align-items-center" style="height:10%;">
             <div class="col text-center">
                 <h2><strong>Populair product!</strong></h2>

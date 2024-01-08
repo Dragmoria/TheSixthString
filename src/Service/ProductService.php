@@ -35,7 +35,7 @@ class ProductService extends BaseDatabaseService {
 
     public function getProducts(CustomerProductFilterModel $model): array
     {
-        $query = "select id, name, recommendedUnitPrice, unitPrice, media from product where active = ?";
+        $query = "select id, name, amountInStock, recommendedUnitPrice, unitPrice, media from product where active = ?";
         $params = [1];
 
         $this->buildFilteredQuery($query, $params, $model);

@@ -28,4 +28,4 @@ class IndexController extends Controller
 
         return $response;
     }
-}
+} 
