@@ -1,10 +1,10 @@
 let timer = 600000;
-let userinputCheck = "";
+let HeartbeatCheck = 1;
 $(document).on('mousemove click', handleUserActivity);
 
 function handleUserActivity() {
-    if (userinputCheck === '') {
-        userinputCheck = "Movement Detected"
+    if (HeartbeatCheck <= 1) {
+        HeartbeatCheck = 2
     }
 }
 
@@ -13,8 +13,7 @@ setInterval(function () {
     timer -= 60000;
 
     if (timer <= 0) {
-        if (userinputCheck === '') {
-            console.log('heartbeat')
+        if (HeartbeatCheck > 1) {
             $.ajax({
                 url: '/LogOutPulse',
                 method: 'POST',
@@ -23,10 +22,10 @@ setInterval(function () {
                     window.location.href = "/Login";
                 }
             });
-            userinputCheck = "";
+            HeartbeatCheck = 1;
             timer = 600000;
         } else {
-            userinputCheck = "";
+            HeartbeatCheck = 1;
             timer = 600000;
         }
     }
