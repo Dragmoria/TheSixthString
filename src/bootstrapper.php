@@ -91,7 +91,7 @@ $router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRando
 $router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPassword']);
 
 $router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
-$router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
+$router->post('/UpdatePassword/{dynamicLink}', [ResetPasswordController::class, 'changePasswords']);
 
 $router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
 $router->post('/Account', [AccountPageController::class, 'Logout']);
