@@ -12,8 +12,6 @@ use Http\Controllers\ControlPanel\OrderManagementController;
 use Http\Middlewares\SilentAuthentication;
 use Lib\Enums\Role;
 
-// TODO: ERROR PAGES FOR USED HTTPSTATUSCODES
-
 // Accounts
 $router->get('/ControlPanel/Accounts', [ManageAccountsController::class, 'show'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);
 $router->get('/ControlPanel/Accounts/GetUsersTableData', [ManageAccountsController::class, 'getUsersTableData'])->middleware(SilentAuthentication::class, ["role" => Role::Admin]);

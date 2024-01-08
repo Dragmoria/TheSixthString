@@ -20,7 +20,7 @@ class ProductService extends BaseDatabaseService {
 
     public function getProductsFrontpage(): array
     {
-        $query = "select * from product order by abs(recommendedUnitPrice - unitPrice) desc limit 5";
+        $query = "select * from product where amountInStock > 1 order by abs(recommendedUnitPrice - unitPrice) desc limit 5";
         $params = [];
 
         $entities = $this->executeQuery($query, $params, Product::class);

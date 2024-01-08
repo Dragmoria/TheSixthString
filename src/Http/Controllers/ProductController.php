@@ -61,6 +61,7 @@ class ProductController extends Controller
         $canWriteReview = false;
         if (isset($_SESSION["user"])) {
             $canWriteReview = $this->canWriteReview((int) $data["id"]);
+            $canPlanTryout = true;
         }
 
         $response->setBody(
@@ -68,7 +69,8 @@ class ProductController extends Controller
                 VIEWS_PATH . 'ProductDetails.view.php',
                 [
                     "product" => $productDetails,
-                    "canWriteReview" => $canWriteReview
+                    "canWriteReview" => $canWriteReview,
+                    "canPlanTryout" => $canPlanTryout ?? false
                 ]
             )->withLayout(MAIN_LAYOUT)
         );

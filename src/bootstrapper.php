@@ -7,6 +7,7 @@ use Http\Controllers\LoginController;
 use Http\Controllers\RegisterController;
 use Http\Controllers\AccountPageController;
 use Http\Controllers\Components\AcceptCookiesComponent;
+use Http\Controllers\ControlPanel\AppointmentsController;
 use Http\Controllers\ContactFormController;
 use Http\Controllers\ForgotPasswordController;
 use Http\Controllers\IndexController;
@@ -24,6 +25,7 @@ use Http\Controllers\ShoppingCartController;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Lib\MVCCore\Routers\HTTPStatusCodes;
 use Service\ActivateService;
 use Service\AddressService;
 use Service\BrandService;
@@ -69,7 +71,9 @@ $container->registerClass(PaymentService::class)->asSingleton();
 $container->registerClass(VisitedProductService::class)->asSingleton();
 
 $router = Application::getRouter();
-//$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
+$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, view(VIEWS_PATH . 'StatusViews/404.view.php')->withLayout(MAIN_LAYOUT));
+$router->registerStatusView(HTTPStatusCodes::UNAUTHORIZED, view(VIEWS_PATH . 'StatusViews/401.view.php')->withLayout(MAIN_LAYOUT));
+$router->registerStatusView(HTTPStatusCodes::FORBIDDEN, view(VIEWS_PATH . 'StatusViews/403.view.php')->withLayout(MAIN_LAYOUT));
 
 // Add routes below here.
 
@@ -119,6 +123,8 @@ $router->get('/Product', [ProductController::class, 'index']);
 $router->get('/Product/{id}', [ProductController::class, 'details']);
 $router->post('/Product/GetSuggestedProducts', [ProductController::class, 'getSuggestedProducts']);
 $router->post('/Product/CreateReview', [ProductController::class, 'createReview']);
+$router->get('/Appointments/GetNotAvailableTimeSlots', [AppointmentsController::class, 'getNotAvailableTimeSlots']);
+$router->post('/Appointments/SetNewAppointment', [AppointmentsController::class, 'setNewAppointment'])->middleware(isLoggedIn::class);
 
 $router->get('/ShoppingCart', [ShoppingCartController::class, 'index']);
 $router->get('/ShoppingCart/PersonalInformation', [ShoppingCartController::class, 'personalInformationView'])->middleware(isLoggedIn::class);

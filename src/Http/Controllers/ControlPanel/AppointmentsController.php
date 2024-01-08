@@ -47,4 +47,42 @@ class AppointmentsController extends Controller
 
         return $response;
     }
+
+    public function getNotAvailableTimeSlots(): ?Response
+    {
+        $params = $this->currentRequest->urlQueryParams();
+
+        $date = \DateTime::createFromFormat('Y-m-d', $params["date"]);
+
+        $tryoutScheduleService = Application::resolve(TryoutScheduleService::class);
+
+        $notAvailableTimeSlots = $tryoutScheduleService->getNotAvailableTimeSlots($params["productId"], $date);
+
+        if ($notAvailableTimeSlots === null)
+            $notAvailableTimeSlots = [];
+
+        $response = new JsonResponse();
+
+        $response->setBody($notAvailableTimeSlots);
+
+        return $response;
+    }
+
+    public function setNewAppointment(): ?Response
+    {
+        $postBody = $this->currentRequest->postObject->body();
+
+        $dateTime = \DateTime::createFromFormat('Y-m-d H:i', $postBody["date"] . ' ' . $postBody["selectedTimeSlot"]);
+        $productId = (int) $postBody["productId"];
+
+        $tryoutScheduleService = Application::resolve(TryoutScheduleService::class);
+
+        $tryoutScheduleService->setNewAppointment($productId, $dateTime);
+
+        $response = new JsonResponse();
+
+        $response->setBody(["success" => true]);
+
+        return $response;
+    }
 }
