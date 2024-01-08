@@ -26,7 +26,7 @@ class AddressModel
     public bool $active = false;
     public int $type = AddressType::Shipping->value;
 
-
+ 
 
 
 

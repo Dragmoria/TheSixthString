@@ -34,10 +34,11 @@ $(document).ready(function () {
         if ($("#ResetPasswordForm")[0].checkValidity()) {
 
             $.ajax({
-                url: "/UpdatePassword",
+                url: "/UpdatePassword/" + link,
                 type: "POST",
                 data: $("#ResetPasswordForm").serialize(),
                 success: function (response) {
+                    console.log(response);
                     $("#SuccesForm").show();
                     $("#ResetPasswordForm").hide();
                 },
