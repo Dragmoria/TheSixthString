@@ -128,6 +128,9 @@ $displayForm1 = empty($error);
 
 
 <script src="/Js/ShowHidePassword.js"></script>
+<script>
+    var link = "<?php echo $link; ?>";
+</script>
 <script src="/Js/ResetPassword.js"></script>
 
 

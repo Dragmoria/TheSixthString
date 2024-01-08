@@ -25,6 +25,7 @@ use Http\Controllers\ShoppingCartController;
 use Lib\EnvUtility\EnvHandler;
 use Lib\MVCCore\Application;
 use Lib\MVCCore\Containers\Container;
+use Lib\MVCCore\Routers\HTTPStatusCodes;
 use Service\ActivateService;
 use Service\AddressService;
 use Service\BrandService;
@@ -70,7 +71,9 @@ $container->registerClass(PaymentService::class)->asSingleton();
 $container->registerClass(VisitedProductService::class)->asSingleton();
 
 $router = Application::getRouter();
-//$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, VIEWS_PATH . '/Errors/404.php');
+$router->registerStatusView(HTTPStatusCodes::NOT_FOUND, view(VIEWS_PATH . 'StatusViews/404.view.php')->withLayout(MAIN_LAYOUT));
+$router->registerStatusView(HTTPStatusCodes::UNAUTHORIZED, view(VIEWS_PATH . 'StatusViews/401.view.php')->withLayout(MAIN_LAYOUT));
+$router->registerStatusView(HTTPStatusCodes::FORBIDDEN, view(VIEWS_PATH . 'StatusViews/403.view.php')->withLayout(MAIN_LAYOUT));
 
 // Add routes below here.
 
@@ -88,7 +91,7 @@ $router->post('/CreateRandomURL', [ForgotPasswordController::class, 'CreateRando
 $router->get('/ForgotPassword', [ForgotPasswordController::class, 'ForgotPassword']);
 
 $router->get('/ResetPassword/{dynamicLink}', [ResetPasswordController::class, 'ResetPassword']);
-$router->post('/UpdatePassword', [ResetPasswordController::class, 'changePasswords']);
+$router->post('/UpdatePassword/{dynamicLink}', [ResetPasswordController::class, 'changePasswords']);
 
 $router->get('/Account', [AccountPageController::class, 'AccountPage'])->Middleware(isLoggedIn::class);
 $router->post('/Account', [AccountPageController::class, 'Logout']);

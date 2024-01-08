@@ -13,7 +13,7 @@ class SidebarComponent implements Component
     {
         $reviewService = Application::resolve(ReviewService::class);
 
-        $amountToBeReviewed = ""; //$reviewService->amountToBeReviewed();
+        $amountToBeReviewed = "";
 
 
         $currentRole = currentRole();
