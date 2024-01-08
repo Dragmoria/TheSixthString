@@ -108,7 +108,7 @@ $displayForm1 = empty($error);
 
 
     <form id="SuccesForm" style="display: none">
-        <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+        <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 5rem;">
             <div class="row text-center">
                 <h1 style=color:#EFE3C4>Gelukt!</h1>
                 <div class="col-12">

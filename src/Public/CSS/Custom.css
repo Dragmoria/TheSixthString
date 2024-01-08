@@ -30,6 +30,11 @@ body {
   color: var(--sixth-yellow) !important;
 }
 
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem #ffc10730;
+}
+
 .nav-button {
   background-color: var(--sixth-yellow) !important;
   border-color: var(--sixth-yellow) !important;
@@ -61,6 +66,12 @@ body {
 .kpi-bar {
   background-color: var(--sixth-yellow);
   min-height: 15px;
+  height: auto;
+}
+
+.kpi-bar-mobile {
+  background-color: var(--sixth-yellow);
+  min-height: 20px;
   height: auto;
 }
 

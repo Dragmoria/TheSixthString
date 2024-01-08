@@ -16,7 +16,7 @@
 
 <!--- The Fold sm --->
 <div class="container-fluid g-0 d-lg-none">
-    <div class="row g-0 header-custom" style="height: calc(100vh - 140px);">
+    <div class="row g-0 header-custom" style="height: calc(100vh - 145px);">
         <div class="col d-flex flex-column justify-content-center align-items-center text-center">
             <img src="/images/logo-big.svg" alt="Your Logo" style="max-width:50%;">
             <a href="/Product">
