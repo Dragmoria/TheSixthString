@@ -2,7 +2,7 @@
 ?>
 
 <div class="container">
-    <div class="row">
+    <div class="row" style="padding-top:5rem; min-height:100vh;" >
         <div clas="col-12 mt-3 mb-3" id="cart-content">
             <div class="row">
                 <div class="col-12 col-md-8">
