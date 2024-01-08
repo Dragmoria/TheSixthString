@@ -61,7 +61,7 @@ $displayForm1 = empty($error);
 <div id="ResetPasswordContainer" class="container-fluid col-12 d-flex mb-5 mt-4 justify-content-center vh-100">
     <form style="display: <?php echo $displayForm1 ? 'block' : 'none'; ?>" id="ResetPasswordForm" method="POST"
         action="/Login" onsubmit="handleFormSubmission(event)">
-        <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 0px;">
+        <div id="accountCard" class="card bg-card-custom d-inline-block" style="position: relative; margin-top: 5rem;">
             <div class="card-body text-center">
                 <h1 style=color:#EFE3C4>Welkom <? echo $user ?></h1>
                 <div class="mt-3 row justify-content-center">
