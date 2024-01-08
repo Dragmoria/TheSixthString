@@ -120,7 +120,7 @@ class ShoppingCartController extends Controller {
         $shoppingCart = Application::resolve(ShoppingCartService::class)->getShoppingCartByUser($_SESSION["user"]["id"], "");
 
         $couponService = Application::resolve(CouponService::class);
-        $couponUsed = $couponService->getCouponByCode($_SESSION["couponApplied"]);
+        $couponUsed = $couponService->getCouponByCode(!empty($_SESSION["couponApplied"]) ? $_SESSION["couponApplied"] : null);
         if(!$couponService->verifyCoupon($couponUsed)) $couponUsed = null;
 
         $response = new JsonResponse();
